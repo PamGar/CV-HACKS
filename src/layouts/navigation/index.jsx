@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import '../../styles/normalize.css';
 import Logo from '../../assets/images/logo_white.png';
 import Profile from '../../assets/images/profile.jpg';
+import CVicon from '../../assets/icons/CV.svg';
+import InterIcon from '../../assets/icons/Interview.svg';
 
 const GridBase = styled.div`
   display: grid;
@@ -62,15 +64,44 @@ const LogoContainer = styled.div`
   }
 `;
 
-const MenuIcons = styled.div``;
+const IconsBox = styled.div`
+  text-align: center;
+  color: #fff;
+
+  div {
+    font-size: 12px;
+  }
+`;
+
+const IconButton = styled.button`
+  width: 60px;
+  height: 60px;
+  border-radius: 5px;
+  background-color: #54cd59;
+  background-color: ${(props) => props.bgcolor};
+  margin-top: 30px;
+  margin-bottom: 10px;
+  border: none;
+  cursor: pointer;
+`;
 
 const ProfileBox = styled.div`
   text-align: center;
   margin-bottom: 20px;
 
+  div {
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+
   img {
     border-radius: 50%;
-    width: 70%;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
   }
 
   a {
@@ -106,10 +137,25 @@ const index = () => {
         <LogoContainer>
           <img src={Logo} alt="" />
         </LogoContainer>
-        <MenuIcons>Icons</MenuIcons>
+        <IconsBox>
+          <div>
+            <IconButton bgcolor="#E83E8C">
+              <img src={CVicon} alt="" />
+            </IconButton>
+            Curriculum
+          </div>
+          <div>
+            <IconButton bgcolor="#59F97E">
+              <img src={InterIcon} alt="" />
+            </IconButton>
+            Interviews
+          </div>
+        </IconsBox>
         <div className="grow"></div>
         <ProfileBox>
-          <img src={Profile} alt="" />
+          <div>
+            <img src={Profile} alt="" />
+          </div>
           <a href="">Logout</a>
         </ProfileBox>
       </Nav>
