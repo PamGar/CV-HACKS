@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import '../../styles/normalize.css';
 import Logo from '../../assets/images/logo_white.png';
 import Profile from '../../assets/images/profile.jpg';
-import CVicon from '../../assets/icons/CV.svg';
-import InterIcon from '../../assets/icons/Interview.svg';
+import IconsBox from './userMenu';
 
 const GridBase = styled.div`
   display: grid;
@@ -46,7 +45,16 @@ const Nav = styled.nav`
   }
 
   @media (max-width: 1099px) {
-    height: 70px;
+    height: 100px;
+    padding-left: 20px;
+    box-sizing: border-box;
+    padding-right: 20px;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .grow {
+      display: none;
+    }
   }
 
   @media (max-width: 820px) {
@@ -55,45 +63,29 @@ const Nav = styled.nav`
 `;
 
 const LogoContainer = styled.div`
-  width: 100%;
+  width: 70px;
+  height: 70px;
   text-align: center;
   margin-top: 20px;
 
   img {
-    width: 70%;
+    width: 100%;
   }
-`;
 
-const IconsBox = styled.div`
-  text-align: center;
-  color: #fff;
-
-  div {
-    font-size: 12px;
+  @media (max-width: 1099px) {
+    margin-top: 10px;
   }
-`;
-
-const IconButton = styled.button`
-  width: 60px;
-  height: 60px;
-  border-radius: 5px;
-  background-color: #54cd59;
-  background-color: ${(props) => props.bgcolor};
-  margin-top: 30px;
-  margin-bottom: 10px;
-  border: none;
-  cursor: pointer;
 `;
 
 const ProfileBox = styled.div`
   text-align: center;
   margin-bottom: 20px;
+  position: relative;
 
-  div {
+  .imageProfile {
     border-radius: 50%;
     width: 70px;
     height: 70px;
-    margin-bottom: 10px;
     cursor: pointer;
   }
 
@@ -106,8 +98,29 @@ const ProfileBox = styled.div`
 
   a {
     font-weight: 700;
-    color: #891010;
+    color: #ff6161;
     text-decoration: none;
+  }
+
+  @media (max-width: 1099px) {
+    margin-bottom: 0;
+  }
+`;
+
+const MenuOptions = styled.div`
+  width: 200px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 5px 5px 5px grey;
+  position: absolute;
+  right: -210px;
+  bottom: 50%;
+  transform: translateY(50%);
+  padding: 10px 0;
+
+  @media (max-width: 1099px) {
+    right: 0;
+    bottom: -40%;
   }
 `;
 
@@ -130,33 +143,26 @@ const Tasks = styled.div`
   }
 `;
 
-const index = () => {
+const Index = () => {
+  const [openMenu, setOpenMenu] = useState(false);
+
   return (
     <GridBase>
       <Nav>
         <LogoContainer>
           <img src={Logo} alt="" />
         </LogoContainer>
-        <IconsBox>
-          <div>
-            <IconButton bgcolor="#E83E8C">
-              <img src={CVicon} alt="" />
-            </IconButton>
-            Curriculum
-          </div>
-          <div>
-            <IconButton bgcolor="#59F97E">
-              <img src={InterIcon} alt="" />
-            </IconButton>
-            Interviews
-          </div>
-        </IconsBox>
+        <IconsBox />
         <div className="grow"></div>
         <ProfileBox>
-          <div>
+          <div className="imageProfile" onClick={() => setOpenMenu(!openMenu)}>
             <img src={Profile} alt="" />
           </div>
-          <a href="">Logout</a>
+          {openMenu && (
+            <MenuOptions>
+              <a href="">Logout</a>
+            </MenuOptions>
+          )}
         </ProfileBox>
       </Nav>
       <Main>Main</Main>
@@ -165,4 +171,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;
