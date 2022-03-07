@@ -1,7 +1,11 @@
 import { useState } from 'react';
-import Button from '../../components/Buttons/Button';
 import styled from 'styled-components';
+import axios from 'axios';
+import LoadingButton from '../../components/Buttons/LoadingButton';
 import hackademyLogo from '../../assets/hackademyLogo.png';
+import Modal from '../../components/Modal';
+import LoginModal from '../LoginModal';
+import AlertMessage from '../../components/AlertMessage';
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -13,7 +17,7 @@ const Wrapper = styled.div`
 const Container = styled.div`
   background-color: #ffffff;
   border-radius: 5px;
-  padding: clamp(30px, 8vw, 100px);
+  padding: clamp(20px, 7vw, 100px);
 
   hr {
     margin: 16px 0;
@@ -36,20 +40,6 @@ const LoginForm = styled.form`
   }
 `;
 
-const AuthTokenDurationInfo = styled.div`
-  text-align: center;
-  color: #00529b;
-  background-color: #bde5f8;
-  padding: 9px;
-  width: 100%;
-  border-radius: 5px;
-`;
-
-const ErrorMessage = styled.p`
-  display: ${(props) => (props.error ? 'block' : 'none')};
-  color: #d8000c;
-`;
-
 const Input = styled.input`
   width: 100%;
   padding: 10px;
@@ -66,21 +56,21 @@ const Input = styled.input`
     outline: none;
     border: ${(props) =>
       props.error ? 'border: 1px solid #d8000c' : '1px solid #00b7b8cc'};
-    box-shadow: ${(props) =>
-      props.error ? '0 0 4px #ff8686' : '0 0 4px #00b7b8cc'};
   }
 `;
 const Login = () => {
-  const [user, setUser] = useState({ email: '', userType: '' });
+  const [user, setUser] = useState({ email: '', role: 5 });
   const [inputError, setInputError] = useState({
     disabledButton: true,
-    showErrorMessage: false,
+    hideErrorMessage: true,
     showInputError: false,
+    loadingButton: false,
   });
+  const [openLoginModal, setOpenLoginModal] = useState(false);
 
   const emailRegexValidation = /\S+@\S+\.\S+/;
 
-  const handleOnChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
 
     setUser((prev) => ({ ...prev, [name]: value }));
@@ -88,7 +78,7 @@ const Login = () => {
     emailRegexValidation.test(value)
       ? setInputError({
           disabledButton: false,
-          showErrorMessage: false,
+          hideErrorMessage: true,
           showInputError: false,
         })
       : setInputError((prev) => ({
@@ -98,30 +88,56 @@ const Login = () => {
         }));
   };
 
-  const handleOnBlur = (e) => {
+  const handleBlur = (e) => {
     const value = e.target.value;
     emailRegexValidation.test(value)
       ? setInputError({
           disabledButton: false,
-          showErrorMessage: false,
+          hideErrorMessage: true,
           showInputError: false,
         })
       : setInputError((prev) => ({
           ...prev,
-          showErrorMessage: true,
+          hideErrorMessage: false,
           disabledButton: true,
         }));
   };
 
-  const handleOnSubmit = (e) => {
-    console.log(user);
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setInputError((prev) => ({
+      ...prev,
+      disabledButton: true,
+      loadingButton: true,
+    }));
+
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/user/`,
+        user
+      );
+      setInputError((prev) => ({
+        ...prev,
+        disabledButton: false,
+        loadingButton: false,
+      }));
+      setOpenLoginModal(true);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+      setInputError((prev) => ({
+        ...prev,
+        disabledButton: false,
+        loadingButton: false,
+      }));
+    }
   };
 
   return (
     <Wrapper>
       <Container>
-        <LoginForm onSubmit={handleOnSubmit}>
+        <LoginForm onSubmit={handleSubmit}>
           <img src={hackademyLogo} />
           <label>
             Para iniciar sesión ingrese su correo y recibirá un codigo de
@@ -133,23 +149,34 @@ const Login = () => {
             placeholder='Email'
             value={user.email}
             name='email'
-            onChange={handleOnChange}
-            onBlur={handleOnBlur}
+            onChange={handleChange}
+            onBlur={handleBlur}
             error={inputError.showInputError}
             autoFocus
           />
-          <ErrorMessage error={inputError.showErrorMessage}>
+          <AlertMessage error fullWidth hide={inputError.hideErrorMessage}>
             Ingrese un correo válido
-          </ErrorMessage>
-          <Button type='submit' fullWidth disabled={inputError.disabledButton}>
-            ENVIAR
-          </Button>
+          </AlertMessage>
+          <LoadingButton
+            type='submit'
+            fullWidth
+            loading={inputError.loadingButton}
+            disabled={inputError.disabledButton}
+          >
+            OBTERNER CÓDIGO DE ACCESO
+          </LoadingButton>
         </LoginForm>
-        <hr />
-        <AuthTokenDurationInfo>
-          El código de acceso solo es válido por 15 minutos
-        </AuthTokenDurationInfo>
       </Container>
+      <Modal
+        isOpen={openLoginModal}
+        element={
+          <LoginModal
+            closeModal={setOpenLoginModal}
+            isOpen={openLoginModal}
+            userEmail={user.email}
+          />
+        }
+      />
     </Wrapper>
   );
 };
