@@ -61,7 +61,7 @@ const Input = styled.input`
 const Login = () => {
   const [user, setUser] = useState({ email: '', role: 5 });
   const [inputError, setInputError] = useState({
-    disabledButton: true,
+    disabledButton: false,
     hideErrorMessage: true,
     showInputError: false,
     loadingButton: false,
@@ -73,7 +73,13 @@ const Login = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setUser((prev) => ({ ...prev, [name]: value }));
+    setUser({ [name]: value, role: 5 });
+
+    if (value.endsWith('@hackademy.lat'))
+      setUser((prev) => ({ ...prev, role: 2 }));
+
+    if (value.endsWith('@hackademy.mx'))
+      setUser((prev) => ({ ...prev, role: 4 }));
 
     emailRegexValidation.test(value)
       ? setInputError({
@@ -123,7 +129,6 @@ const Login = () => {
         loadingButton: false,
       }));
       setOpenLoginModal(true);
-      console.log(data);
     } catch (err) {
       console.log(err);
       setInputError((prev) => ({
