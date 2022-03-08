@@ -6,7 +6,7 @@ const Button = styled.button`
   background-color: ${(props) => (props.disabled ? '#8888884d' : '#00b7b8')};
   color: ${(props) => (props.disabled ? '#888888' : 'white')};
   border-radius: 5px;
-  width: ${(props) => (props.fullWidth ? '100%' : 'auto')};
+  width: ${(props) => (props.fullWidth ? '100%' : 'max-content')};
   box-shadow: 0 1px 4px #888888;
   font-size: 0.875rem;
   position: relative;
@@ -69,7 +69,6 @@ to{
 `;
 
 const Spinner = styled.div`
-  display: ${(props) => (props.loading ? 'block' : 'none')};
   border-top: 2px solid #888888;
   border-left: 2px solid #888888;
   border-right: 2px solid transparent;
@@ -84,7 +83,7 @@ const LoadingButton = ({ children, disabled, loading, fullWidth }) => {
   return (
     <Button disabled={disabled} fullWidth={fullWidth}>
       {children}
-      <Spinner loading={loading} />
+      {loading && <Spinner />}
     </Button>
   );
 };
