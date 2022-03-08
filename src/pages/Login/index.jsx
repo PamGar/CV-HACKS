@@ -58,7 +58,7 @@ const Input = styled.input`
       props.error ? 'border: 1px solid #d8000c' : '1px solid #00b7b8cc'};
   }
 `;
-const Login = () => {
+const Login = ({ company }) => {
   const [user, setUser] = useState({ email: '', role: 5 });
   const [inputError, setInputError] = useState({
     disabledButton: false,
@@ -80,6 +80,8 @@ const Login = () => {
 
     if (value.endsWith('@hackademy.mx'))
       setUser((prev) => ({ ...prev, role: 4 }));
+
+    if (company) setUser((prev) => ({ ...prev, role: 3 }));
 
     emailRegexValidation.test(value)
       ? setInputError({
@@ -168,7 +170,7 @@ const Login = () => {
             loading={inputError.loadingButton}
             disabled={inputError.disabledButton}
           >
-            OBTERNER CÓDIGO DE ACCESO
+            OBTENER CÓDIGO DE ACCESO
           </LoadingButton>
         </LoginForm>
       </Container>
