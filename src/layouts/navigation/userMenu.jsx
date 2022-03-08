@@ -1,37 +1,80 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
+import { keyframes } from 'styled-components';
 import CVicon from '../../assets/icons/CV.svg';
 import InterIcon from '../../assets/icons/Interview.svg';
+
+const jelloAnim = keyframes`
+0% {
+  transform: scale3d(1, 1, 1);
+}
+
+30% {
+  transform: scale3d(1.25, 0.75, 1);
+}
+
+40% {
+  transform: scale3d(0.75, 1.25, 1);
+}
+
+50% {
+  transform: scale3d(1.15, 0.85, 1);
+}
+
+65% {
+  transform: scale3d(0.95, 1.05, 1);
+}
+
+75% {
+  transform: scale3d(1.05, 0.95, 1);
+}
+
+100% {
+  transform: scale3d(1, 1, 1);
+}
+`;
 
 const IconsBox = styled.div`
   text-align: center;
   color: #fff;
 
   div {
-    font-size: 12px;
+    font-size: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   @media (max-width: 1099px) {
     display: flex;
 
     div {
-      display: flex;
-      flex-direction: column;
       margin: 0 20px;
-      align-items: center;
     }
   }
 `;
 
+const Button = styled.div`
+  .hover {
+    animation: ${jelloAnim} 0.5s ease 0s 1 normal forwards;
+  }
+`;
+
 const IconButton = styled.button`
-  width: 60px;
-  height: 60px;
+  width: 40px;
+  height: 40px;
   border-radius: 5px;
   background-color: ${(props) => props.bgcolor};
   margin-top: 30px;
   margin-bottom: 10px;
   border: none;
   cursor: pointer;
+  padding: 5px;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
 
   @media (max-width: 1099px) {
     margin-top: 0;
@@ -39,23 +82,29 @@ const IconButton = styled.button`
   }
 `;
 
-const userMenu = () => {
+const UserMenu = () => {
+  const addAnim = (e) => {
+    e.target.classList.add('hover');
+
+    setTimeout(() => e.target.classList.remove('hover'), 600);
+  };
+
   return (
     <IconsBox>
-      <div>
+      <Button onMouseOver={addAnim}>
         <IconButton bgcolor="#E83E8C">
           <img src={CVicon} alt="" />
         </IconButton>
         Curriculum
-      </div>
-      <div>
+      </Button>
+      <Button onMouseOver={addAnim}>
         <IconButton bgcolor="#59F97E">
           <img src={InterIcon} alt="" />
         </IconButton>
         Interviews
-      </div>
+      </Button>
     </IconsBox>
   );
 };
 
-export default userMenu;
+export default UserMenu;

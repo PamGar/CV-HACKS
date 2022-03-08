@@ -9,16 +9,16 @@ const GridBase = styled.div`
   display: grid;
   width: 100%;
   max-width: 100%;
-  grid-template-columns: 100px max(600px) auto;
+  grid-template-columns: 80px 1fr 1fr;
   grid-template-areas: 'navigation main tasks';
 
   @media (max-width: 1440px) {
-    grid-template-columns: 100px max(500px) auto;
+    grid-template-columns: 80px 1fr 1fr;
   }
 
   @media (max-width: 1099px) {
     grid-template-areas: 'navigation navigation' 'main tasks';
-    grid-template-columns: max(500px) 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   @media (max-width: 820px) {
@@ -45,7 +45,7 @@ const Nav = styled.nav`
   }
 
   @media (max-width: 1099px) {
-    height: 100px;
+    height: 70px;
     padding-left: 20px;
     box-sizing: border-box;
     padding-right: 20px;
@@ -63,8 +63,8 @@ const Nav = styled.nav`
 `;
 
 const LogoContainer = styled.div`
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
   text-align: center;
   margin-top: 20px;
 
@@ -84,8 +84,8 @@ const ProfileBox = styled.div`
 
   .imageProfile {
     border-radius: 50%;
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     cursor: pointer;
   }
 
@@ -97,9 +97,14 @@ const ProfileBox = styled.div`
   }
 
   a {
-    font-weight: 700;
-    color: #ff6161;
     text-decoration: none;
+    color: #343434;
+    font-size: 12px;
+  }
+
+  .logoutButton {
+    color: #ff6161;
+    font-weight: 700;
   }
 
   @media (max-width: 1099px) {
@@ -110,17 +115,17 @@ const ProfileBox = styled.div`
 const MenuOptions = styled.div`
   width: 200px;
   background-color: #fff;
-  border-radius: 5px;
+  border-radius: 3px;
   box-shadow: 5px 5px 5px grey;
   position: absolute;
   right: -210px;
-  bottom: 50%;
-  transform: translateY(50%);
+  bottom: 0;
   padding: 10px 0;
 
   @media (max-width: 1099px) {
     right: 0;
-    bottom: -40%;
+    top: 85px;
+    bottom: unset;
   }
 `;
 
@@ -143,7 +148,7 @@ const Tasks = styled.div`
   }
 `;
 
-const Index = () => {
+const Index = (props) => {
   const [openMenu, setOpenMenu] = useState(false);
 
   return (
@@ -160,13 +165,19 @@ const Index = () => {
           </div>
           {openMenu && (
             <MenuOptions>
-              <a href="">Logout</a>
+              <h2>Nombre del usuario</h2>
+              <hr />
+              <a href="https:/">Settings</a>
+              <hr />
+              <a className="logoutButton" href="https:/">
+                Logout
+              </a>
             </MenuOptions>
           )}
         </ProfileBox>
       </Nav>
-      <Main>Main</Main>
-      <Tasks>Tasks</Tasks>
+      <Main>{props.main}</Main>
+      <Tasks>{props.right}</Tasks>
     </GridBase>
   );
 };

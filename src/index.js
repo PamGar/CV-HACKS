@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './layouts/navigation';
+import App from './pages/cv_preview';
 
 ReactDOM.render(
   <React.StrictMode>
