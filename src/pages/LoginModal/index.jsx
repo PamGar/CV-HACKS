@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import AlertMessage from '../../components/AlertMessage';
 import LoadingButton from '../../components/Buttons/LoadingButton';
 
@@ -75,6 +76,7 @@ const LoginModal = ({ closeModal, isOpen, userEmail }) => {
   const ModalWrapperRef = useRef();
   const AccessTokenFormRef = useRef();
   const navigate = useNavigate();
+  const { t } = useTranslation('login');
 
   const addClassList = (ref, className) => ref.current.classList.add(className);
   const removeClassList = (ref, className) =>
@@ -111,10 +113,10 @@ const LoginModal = ({ closeModal, isOpen, userEmail }) => {
       localStorage.setItem('authToken', data.token);
       navigate('/dashboard');
     } catch (err) {
-      if (err.response.status === 500)
-        setResponseErrorMessage('Ha sucedido un error en el servidor');
-      if (err.response.status === 400)
-        setResponseErrorMessage(err.response.data.message);
+      err.response.status === 400
+        ? setResponseErrorMessage(t('invalid_login_code'))
+        : setResponseErrorMessage(t('error_500'));
+
       setInputError({
         hideErrorMessage: false,
         loadingButton: false,
@@ -142,13 +144,11 @@ const LoginModal = ({ closeModal, isOpen, userEmail }) => {
   return (
     <ModalWrapper isOpen={isOpen} ref={ModalWrapperRef}>
       <AccessTokenForm ref={AccessTokenFormRef} onSubmit={handleSubmit}>
-        <h2>Iniciar sesión</h2>
+        <h2>{t('login')}</h2>
         <p>
-          Revise su correo electronico, enviamos un código a :{' '}
-          <strong>{userEmail}</strong>
+          {t('we_have_sent_you_a_email')} <strong>{userEmail}</strong>
         </p>
         <input
-          placeholder='Código de acceso'
           onChange={handleChange}
           value={user.accessToken}
           name='password'
@@ -163,12 +163,10 @@ const LoginModal = ({ closeModal, isOpen, userEmail }) => {
           disabled={inputError.disabledButton}
           loading={inputError.loadingButton}
         >
-          ingresar
+          {t('login')}
         </LoadingButton>
         <hr />
-        <AlertMessage info>
-          El código de acceso solo es válido por 15 minutos
-        </AlertMessage>
+        <AlertMessage info>{t('login_code_duration_info')}</AlertMessage>
       </AccessTokenForm>
     </ModalWrapper>
   );

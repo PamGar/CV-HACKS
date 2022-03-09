@@ -1,0 +1,10 @@
+{
+  "login": "Login",
+  "login_instructions_label": "Enter your email and you will recieve a login code",
+  "email_error": "Enter a valid email",
+  "submit_email": "Get login code",
+  "we_have_sent_you_a_email": "Check your email. We have sent you a login code to:",
+  "login_code_duration_info": "The login code is valid for the next 15 minutes",
+  "invalid_login_code": "The login code is invalid or expired. Try requesting a new login code",
+  "error_500": "Opss, something went wrong"
+}

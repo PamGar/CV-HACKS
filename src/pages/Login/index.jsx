@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { useTranslation } from 'react-i18next';
 import LoadingButton from '../../components/Buttons/LoadingButton';
 import hackademyLogo from '../../assets/hackademyLogo.png';
 import Modal from '../../components/Modal';
@@ -61,14 +62,16 @@ const Input = styled.input`
 const Login = ({ company }) => {
   const [user, setUser] = useState({ email: '', role: 5 });
   const [inputError, setInputError] = useState({
-    disabledButton: false,
+    disabledButton: true,
     hideErrorMessage: true,
     showInputError: false,
     loadingButton: false,
+    hideError500: true,
   });
   const [openLoginModal, setOpenLoginModal] = useState(false);
 
   const emailRegexValidation = /\S+@\S+\.\S+/;
+  const { t } = useTranslation('login');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -88,6 +91,7 @@ const Login = ({ company }) => {
           disabledButton: false,
           hideErrorMessage: true,
           showInputError: false,
+          hideError500: true,
         })
       : setInputError((prev) => ({
           ...prev,
@@ -103,6 +107,7 @@ const Login = ({ company }) => {
           disabledButton: false,
           hideErrorMessage: true,
           showInputError: false,
+          hideError500: true,
         })
       : setInputError((prev) => ({
           ...prev,
@@ -118,11 +123,12 @@ const Login = ({ company }) => {
       ...prev,
       disabledButton: true,
       loadingButton: true,
+      hideError500: true,
     }));
 
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/user/`,
+        `${process.env.REACT_APP_BASE_URL}/user`,
         user
       );
       setInputError((prev) => ({
@@ -137,6 +143,7 @@ const Login = ({ company }) => {
         ...prev,
         disabledButton: false,
         loadingButton: false,
+        hideError500: false,
       }));
     }
   };
@@ -146,10 +153,7 @@ const Login = ({ company }) => {
       <Container>
         <LoginForm onSubmit={handleSubmit}>
           <img src={hackademyLogo} />
-          <label>
-            Para iniciar sesión ingrese su correo y recibirá un codigo de
-            acceso.
-          </label>
+          <label>{t('login_instructions_label')}</label>
           <Input
             type='email'
             required
@@ -162,7 +166,10 @@ const Login = ({ company }) => {
             autoFocus
           />
           <AlertMessage error fullWidth hide={inputError.hideErrorMessage}>
-            Ingrese un correo válido
+            {t('email_error')}
+          </AlertMessage>
+          <AlertMessage error fullWidth hide={inputError.hideError500}>
+            {t('error_500')}
           </AlertMessage>
           <LoadingButton
             type='submit'
@@ -170,7 +177,7 @@ const Login = ({ company }) => {
             loading={inputError.loadingButton}
             disabled={inputError.disabledButton}
           >
-            OBTENER CÓDIGO DE ACCESO
+            {t('submit_email')}
           </LoadingButton>
         </LoginForm>
       </Container>
