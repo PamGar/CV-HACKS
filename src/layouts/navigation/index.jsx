@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import '../../styles/normalize.css';
 import Logo from '../../assets/images/logo_white.png';
 import Profile from '../../assets/images/profile.jpg';
 import IconsBox from './userMenu';
@@ -155,21 +154,21 @@ const Index = (props) => {
     <GridBase>
       <Nav>
         <LogoContainer>
-          <img src={Logo} alt="" />
+          <img src={Logo} alt='' />
         </LogoContainer>
         <IconsBox />
-        <div className="grow"></div>
+        <div className='grow'></div>
         <ProfileBox>
-          <div className="imageProfile" onClick={() => setOpenMenu(!openMenu)}>
-            <img src={Profile} alt="" />
+          <div className='imageProfile' onClick={() => setOpenMenu(!openMenu)}>
+            <img src={Profile} alt='' />
           </div>
           {openMenu && (
             <MenuOptions>
               <h2>Nombre del usuario</h2>
               <hr />
-              <a href="https:/">Settings</a>
+              <a href='https:/'>Settings</a>
               <hr />
-              <a className="logoutButton" href="https:/">
+              <a className='logoutButton' href='https:/'>
                 Logout
               </a>
             </MenuOptions>
