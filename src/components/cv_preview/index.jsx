@@ -31,6 +31,8 @@ const CV_preview = () => {
       setWidth(widthRef.current.clientWidth);
     };
 
+    console.log(widthRef.current.clientHeight);
+
     window.addEventListener('resize', myWidth);
   });
 
@@ -56,7 +58,7 @@ const CV_preview = () => {
   return (
     <>
       <Page>
-        <div ref={widthRef} style={{ fontSize: width / 8 }}>
+        <div ref={widthRef}>
           <h1 style={sizeH1}>Hello</h1>
           <h2 style={sizeH2}>Hello</h2>
           <h3 style={sizeH3}>Hello</h3>
