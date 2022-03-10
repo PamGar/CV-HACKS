@@ -32,6 +32,16 @@ const LoginForm = styled.form`
   align-items: center;
   gap: 16px;
 
+  .platform {
+    font-weight: 700;
+    color: #c0d12e;
+  }
+
+  span {
+    font-weight: 700;
+    color: #595393;
+  }
+
   img {
     width: 137px;
     height: 137px;
@@ -154,6 +164,9 @@ const Login = ({ company }) => {
       <Container>
         <LoginForm onSubmit={handleSubmit}>
           <img src={hackademyLogo} />
+          <p className="platform">
+            CV <span>Platform</span>
+          </p>
           <label>{t('login_instructions_label')}</label>
           <Input
             type="email"
