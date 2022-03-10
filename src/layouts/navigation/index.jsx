@@ -98,7 +98,6 @@ const ProfileBox = styled.div`
   a {
     text-decoration: none;
     color: #343434;
-    font-size: 12px;
   }
 
   .logoutButton {
@@ -115,11 +114,26 @@ const MenuOptions = styled.div`
   width: 200px;
   background-color: #fff;
   border-radius: 3px;
-  box-shadow: 5px 5px 5px grey;
+  box-shadow: 5px 5px 15px grey;
   position: absolute;
   right: -210px;
   bottom: 0;
-  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+
+  p {
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  * {
+    padding: 10px;
+    border-bottom: solid 1px #80808030;
+  }
+
+  hr {
+    padding: 0;
+  }
 
   @media (max-width: 1099px) {
     right: 0;
@@ -154,21 +168,21 @@ const Index = (props) => {
     <GridBase>
       <Nav>
         <LogoContainer>
-          <img src={Logo} alt='' />
+          <img src={Logo} alt="" />
         </LogoContainer>
         <IconsBox />
-        <div className='grow'></div>
+        <div className="grow"></div>
         <ProfileBox>
-          <div className='imageProfile' onClick={() => setOpenMenu(!openMenu)}>
-            <img src={Profile} alt='' />
+          <div className="imageProfile" onClick={() => setOpenMenu(!openMenu)}>
+            <img src={Profile} alt="" />
           </div>
           {openMenu && (
             <MenuOptions>
-              <h2>Nombre del usuario</h2>
+              <p>Nombre del usuario</p>
               <hr />
-              <a href='https:/'>Settings</a>
+              <a href="https:/">Settings</a>
               <hr />
-              <a className='logoutButton' href='https:/'>
+              <a className="logoutButton" href="https:/">
                 Logout
               </a>
             </MenuOptions>

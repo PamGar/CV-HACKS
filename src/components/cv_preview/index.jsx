@@ -21,6 +21,16 @@ const Page = styled.div`
   }
 `;
 
+const ButtonBox = styled.div`
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+
+  button {
+    margin: 0 30px;
+  }
+`;
+
 const CV_preview = () => {
   const widthRef = useRef();
   const printRef = useRef();
@@ -49,7 +59,7 @@ const CV_preview = () => {
       setWidth(widthRef.current.clientWidth);
     };
 
-    console.log(widthRef.current.clientHeight);
+    /* console.log(widthRef.current.clientHeight); */
 
     window.addEventListener('resize', myWidth);
   });
@@ -83,9 +93,12 @@ const CV_preview = () => {
           <p style={sizeP}>Alexis Salcedo</p>
         </div>
       </Page>
-      <Button type="button" onClick={handleDownloadPdf}>
-        Download as PDF
-      </Button>
+      <ButtonBox>
+        <Button type="button">Editar CV</Button>
+        <Button type="button" onClick={handleDownloadPdf}>
+          Download as PDF
+        </Button>
+      </ButtonBox>
     </>
   );
 };
