@@ -1,5 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
+import Button from '../Buttons/LoadingButton';
 
 const Page = styled.div`
   width: 100%;
@@ -20,7 +23,22 @@ const Page = styled.div`
 
 const CV_preview = () => {
   const widthRef = useRef();
+  const printRef = useRef();
   const [width, setWidth] = useState(0);
+
+  const handleDownloadPdf = async () => {
+    const element = printRef.current;
+    const canvas = await html2canvas(element);
+    const data = canvas.toDataURL('image/png');
+
+    const pdf = new jsPDF();
+    const imgProperties = pdf.getImageProperties(data);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+
+    pdf.addImage(data, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save('print.pdf');
+  };
 
   useEffect(() => {
     setWidth(widthRef.current.clientWidth);
@@ -57,7 +75,7 @@ const CV_preview = () => {
 
   return (
     <>
-      <Page>
+      <Page ref={printRef}>
         <div ref={widthRef}>
           <h1 style={sizeH1}>Hello</h1>
           <h2 style={sizeH2}>Hello</h2>
@@ -65,6 +83,9 @@ const CV_preview = () => {
           <p style={sizeP}>Alexis Salcedo</p>
         </div>
       </Page>
+      <Button type="button" onClick={handleDownloadPdf}>
+        Download as PDF
+      </Button>
     </>
   );
 };

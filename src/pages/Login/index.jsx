@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
@@ -155,11 +156,11 @@ const Login = ({ company }) => {
           <img src={hackademyLogo} />
           <label>{t('login_instructions_label')}</label>
           <Input
-            type='email'
+            type="email"
             required
-            placeholder='Email'
+            placeholder="Email"
             value={user.email}
-            name='email'
+            name="email"
             onChange={handleChange}
             onBlur={handleBlur}
             error={inputError.showInputError}
@@ -172,7 +173,7 @@ const Login = ({ company }) => {
             {t('error_500')}
           </AlertMessage>
           <LoadingButton
-            type='submit'
+            type="submit"
             fullWidth
             loading={inputError.loadingButton}
             disabled={inputError.disabledButton}

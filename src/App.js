@@ -11,11 +11,11 @@ const App = () => {
       <GlobalStyles />
       <Routes>
         <Route element={<PublicRoute isAuth={false} />}>
-          <Route path='/login' element={<Login />} />
-          <Route path='/login/company' element={<Login company />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/login/company" element={<Login company />} />
         </Route>
-        <Route element={<PrivateRoute isAuth={false} />}>
-          <Route path='/dashboard' element={<CV_preview />} />
+        <Route element={<PrivateRoute isAuth={true} />}>
+          <Route path="/dashboard" element={<CV_preview />} />
         </Route>
       </Routes>
     </Router>
