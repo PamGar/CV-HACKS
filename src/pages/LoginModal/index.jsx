@@ -64,7 +64,7 @@ const AccessTokenForm = styled.form`
   }
 `;
 
-const LoginModal = ({ closeModal, isOpen, userEmail }) => {
+const LoginModal = ({ closeModal, isOpen, userEmail, setIsAuthenticated }) => {
   const [user, setUser] = useState({ email: userEmail, password: '' });
   const [inputError, setInputError] = useState({
     disabledButton: true,
@@ -111,6 +111,8 @@ const LoginModal = ({ closeModal, isOpen, userEmail }) => {
       }));
       closeModal(false);
       localStorage.setItem('authToken', data.token);
+      localStorage.setItem('role', data.user.role);
+      setIsAuthenticated({ isAuth: true, role: data.user.role });
       navigate('/dashboard');
     } catch (err) {
       err.response.status === 400

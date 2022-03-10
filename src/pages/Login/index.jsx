@@ -59,7 +59,7 @@ const Input = styled.input`
       props.error ? 'border: 1px solid #d8000c' : '1px solid #00b7b8cc'};
   }
 `;
-const Login = ({ company }) => {
+const Login = ({ company, setIsAuthenticated }) => {
   const [user, setUser] = useState({ email: '', role: 5 });
   const [inputError, setInputError] = useState({
     disabledButton: true,
@@ -188,6 +188,7 @@ const Login = ({ company }) => {
             closeModal={setOpenLoginModal}
             isOpen={openLoginModal}
             userEmail={user.email}
+            setIsAuthenticated={setIsAuthenticated}
           />
         }
       />
