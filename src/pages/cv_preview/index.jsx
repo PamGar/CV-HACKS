@@ -27,6 +27,10 @@ const HelpCont = styled.button`
     position: relative;
     bottom: -10px;
   }
+
+  @media (max-width: 820px) {
+    display: none;
+  }
 `;
 
 const CV_preview = () => {
