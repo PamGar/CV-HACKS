@@ -37,7 +37,7 @@ const TasksBox = styled.div`
 const TasksList = () => {
   return (
     <TasksBox>
-      <h1>Cambios recomendados</h1>
+      <h1>Correcciones recomendadas</h1>
       <ul>
         <li>
           Etiam commodo, eros placerat feugiat ullamcorper, dolor eros placerat

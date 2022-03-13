@@ -36,13 +36,13 @@ const jelloAnim = keyframes`
 
 const IconsBox = styled.div`
   text-align: center;
-  color: #fff;
 
   div {
     font-size: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: #fff;
   }
 
   @media (max-width: 1099px) {

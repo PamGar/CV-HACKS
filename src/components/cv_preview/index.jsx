@@ -10,14 +10,123 @@ const Page = styled.div`
   padding: 20px;
   display: flex;
   justify-content: center;
+  aspect-ratio: 3 / 4;
 
-  div {
+  .page_container {
     width: 100%;
-    max-width: 600px;
-    aspect-ratio: 3/4;
+  }
+
+  .page {
+    width: 640px;
+    aspect-ratio: 3 / 4;
+    transform-origin: top left;
     box-shadow: 5px 5px 10px grey;
     padding: 20px;
     box-sizing: border-box;
+    text-align: center;
+  }
+
+  h1 {
+    position: relative;
+  }
+
+  h1:after {
+    content: '';
+    width: 80%;
+    height: 20px;
+    background-color: #ade8e8;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 5px;
+    z-index: -1;
+  }
+
+  .header_sub {
+    display: flex;
+    justify-content: center;
+
+    p {
+      margin: 0 10px;
+    }
+  }
+
+  .section1 {
+    display: flex;
+
+    div {
+      width: 50%;
+
+      p {
+        text-align: left;
+      }
+    }
+
+    .section_study {
+      div {
+        width: 100%;
+        margin: 10px 0;
+      }
+    }
+  }
+
+  h2 {
+    text-decoration: underline;
+  }
+
+  div {
+    margin: 5px;
+  }
+`;
+
+const Experience = styled.div`
+  .box_experience {
+    display: flex;
+    text-align: left;
+
+    .date_experience {
+      width: 20%;
+    }
+
+    .info_experience {
+      width: 80%;
+    }
+
+    span {
+      font-weight: 700;
+    }
+
+    ul {
+      padding-left: 15px;
+    }
+  }
+`;
+
+const Skills = styled.div`
+  .skills_box {
+    display: flex;
+
+    div {
+      width: 50%;
+    }
+
+    li {
+      list-style: none;
+    }
+  }
+`;
+
+const CourseLang = styled.div`
+  .skills_box {
+    display: flex;
+
+    div {
+      width: 50%;
+    }
+
+    li {
+      list-style: none;
+    }
   }
 `;
 
@@ -31,7 +140,7 @@ const ButtonBox = styled.div`
   }
 `;
 
-const CV_preview = () => {
+const CV_preview = ({ editButton }) => {
   const widthRef = useRef();
   const printRef = useRef();
   const [width, setWidth] = useState(0);
@@ -51,50 +160,144 @@ const CV_preview = () => {
   };
 
   useEffect(() => {
-    setWidth(widthRef.current.clientWidth);
+    setWidth(printRef.current.clientWidth);
   }, []);
 
   useEffect(() => {
     const myWidth = () => {
-      setWidth(widthRef.current.clientWidth);
+      setWidth(printRef.current.clientWidth);
     };
 
-    /* console.log(widthRef.current.clientHeight); */
+    console.log(printRef.current.clientWidth);
 
     window.addEventListener('resize', myWidth);
   });
 
-  const sizeH1 = {
-    fontSize: width / 18,
-    fontWeight: 'bold',
-  };
-
-  const sizeH2 = {
-    fontSize: width / 24,
-    fontWeight: 'bold',
-  };
-
-  const sizeH3 = {
-    fontSize: width / 36,
-    fontWeight: 'bold',
-  };
-
-  const sizeP = {
-    fontSize: width / 48,
-  };
-
   return (
     <>
-      <Page ref={printRef}>
-        <div ref={widthRef}>
-          <h1 style={sizeH1}>Hello</h1>
-          <h2 style={sizeH2}>Hello</h2>
-          <h3 style={sizeH3}>Hello</h3>
-          <p style={sizeP}>Alexis Salcedo</p>
+      <Page ref={widthRef}>
+        <div className="page_container" ref={printRef}>
+          <div className="page" style={{ transform: `scale(${width / 640})` }}>
+            <div className="header">
+              <h1>Alexis Salcedo</h1>
+              <p>Desarrolador Frontend</p>
+              <div className="header_sub">
+                <p>0415-589-2615</p>
+                <p>alestark@gmail.com</p>
+                <p>@alisark71</p>
+                <p>Chicago</p>
+              </div>
+            </div>
+            <div className="section1">
+              <div>
+                <h2>Sobre mi</h2>
+                <p>
+                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  Praesentium unde error porro nam vel beatae assumenda omnis
+                  animi quaerat! Earum dolores voluptatum doloribus. Autem?
+                </p>
+              </div>
+              <div className="section_study">
+                <h2>Estudios</h2>
+                <div>
+                  <p>2013 - 2017 | Universidad de Valencia</p>
+                  <p>Lic. en artes multimedia</p>
+                </div>
+                <div>
+                  <p>2013 - 2017 | Universidad de Valencia</p>
+                  <p>Lic. en artes multimedia</p>
+                </div>
+              </div>
+            </div>
+            <Experience>
+              <h2>Experiencia</h2>
+              <div className="box_experience">
+                <div className="date_experience">1987 - 1990</div>
+                <div className="info_experience">
+                  <span>Lorem ipsum dolor sit amet.</span>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  </p>
+                  <ul>
+                    <li>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </li>
+                    <li>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </li>
+                    <li>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div className="box_experience">
+                <div className="date_experience">1987 - 1990</div>
+                <div className="info_experience">
+                  <span>Lorem ipsum dolor sit amet.</span>
+                  <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                  </p>
+                  <ul>
+                    <li>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </li>
+                    <li>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </li>
+                    <li>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </Experience>
+            <Skills>
+              <div className="skills_box">
+                <div>
+                  <h2>Skills</h2>
+                  <ul>
+                    <li>Diseño grafico</li>
+                    <li>Ilustracion</li>
+                    <li>Fotografia</li>
+                  </ul>
+                </div>
+                <div>
+                  <h2>Soft skills</h2>
+                  <ul>
+                    <li>Composicion</li>
+                    <li>Videografia</li>
+                    <li>Graficos dinamicos</li>
+                  </ul>
+                </div>
+              </div>
+            </Skills>
+            <CourseLang>
+              <div className="skills_box">
+                <div>
+                  <h2>Courses</h2>
+                  <ul>
+                    <li>UX/UI design</li>
+                    <li>Scrum master</li>
+                  </ul>
+                </div>
+                <div>
+                  <h2>Languages</h2>
+                  <ul>
+                    <li>Ingles</li>
+                    <li>Frances</li>
+                    <li>Chino mandarin</li>
+                  </ul>
+                </div>
+              </div>
+            </CourseLang>
+          </div>
         </div>
       </Page>
       <ButtonBox>
-        <Button type="button">Editar CV</Button>
+        <Button type="button" onClick={editButton}>
+          Editar CV
+        </Button>
         <Button type="button" onClick={handleDownloadPdf}>
           Download as PDF
         </Button>

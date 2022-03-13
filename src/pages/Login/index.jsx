@@ -24,6 +24,14 @@ const Container = styled.div`
   hr {
     margin: 16px 0;
   }
+
+  @media (max-width: 820px) {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const LoginForm = styled.form`

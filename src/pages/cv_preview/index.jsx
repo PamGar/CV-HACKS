@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Layout from '../../layouts/navigation/index';
 import CV from '../../components/cv_preview';
+import EditCV from '../../components/cv_edit';
 import Tasks from '../../components/tasks_list';
+import TasksTodo from '../../components/tasks_todo';
 import Hacky from '../../assets/images/Hacky.png';
 import styled from 'styled-components';
+import Modal from '../../components/Modal';
+import FirstTime from '../../components/Modal/first_time_user';
 
 const HelpCont = styled.button`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 20px;
   overflow: hidden;
@@ -34,9 +38,34 @@ const HelpCont = styled.button`
 `;
 
 const CV_preview = () => {
+  const [user, setUser] = useState({
+    name: 'case',
+  });
+  const [openLoginModal, setOpenLoginModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+
+  const handleEdit = () => {
+    setIsEdit(!isEdit);
+  };
+
   return (
     <>
-      <Layout main={<CV />} right={<Tasks />} />
+      {user.name === '' ? (
+        <Modal
+          isOpen={true}
+          element={<FirstTime closeModal={setOpenLoginModal} isOpen={true} />}
+        />
+      ) : null}
+
+      {isEdit ? (
+        <Layout
+          main={<EditCV editButton={handleEdit} />}
+          right={<TasksTodo />}
+        />
+      ) : (
+        <Layout main={<CV editButton={handleEdit} />} right={<Tasks />} />
+      )}
+
       <HelpCont>
         <p>¿Ayuda necesitas?</p>
         <img src={Hacky} alt="" />
