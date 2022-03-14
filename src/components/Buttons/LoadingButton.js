@@ -15,6 +15,12 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   text-transform: uppercase;
+  position: ${(props) => props.position};
+  top: ${(props) => props.top};
+  bottom: ${(props) => props.bottom};
+  right: ${(props) => props.right};
+  left: ${(props) => props.left};
+  margin: ${(props) => props.margin};
 
   &::after {
     content: '';
@@ -79,9 +85,31 @@ const Spinner = styled.div`
   animation: ${spin} 1s linear infinite;
 `;
 
-const LoadingButton = ({ children, disabled, loading, fullWidth, onClick }) => {
+const LoadingButton = ({
+  children,
+  disabled,
+  loading,
+  fullWidth,
+  onClick,
+  position,
+  top,
+  bottom,
+  right,
+  left,
+  margin,
+}) => {
   return (
-    <Button disabled={disabled} fullWidth={fullWidth} onClick={onClick}>
+    <Button
+      disabled={disabled}
+      fullWidth={fullWidth}
+      onClick={onClick}
+      position={position}
+      top={top}
+      bottom={bottom}
+      right={right}
+      left={left}
+      margin={margin}
+    >
       {children}
       {loading && <Spinner />}
     </Button>
