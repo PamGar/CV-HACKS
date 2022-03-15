@@ -168,8 +168,6 @@ const CV_preview = ({ editButton }) => {
       setWidth(printRef.current.clientWidth);
     };
 
-    console.log(printRef.current.clientWidth);
-
     window.addEventListener('resize', myWidth);
   });
 
