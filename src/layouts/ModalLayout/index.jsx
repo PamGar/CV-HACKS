@@ -9,15 +9,14 @@ import styled from 'styled-components';
 
 export const ModalWrapper = styled.div`
   position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100vw;
-  height: 100vh;
-  opacity: 1;
+  inset: 0px;
+  display: grid;
+  place-items: center;
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   background-color: rgb(0, 0, 0, 0.5);
   z-index: 100;
+  opacity: 1;
+  overflow-y: auto;
 
   &[class~='fadeOut'] {
     opacity: 0;
