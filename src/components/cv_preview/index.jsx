@@ -20,7 +20,7 @@ const Page = styled.div`
     width: 640px;
     aspect-ratio: 3 / 4;
     transform-origin: top left;
-    box-shadow: 5px 5px 10px grey;
+    box-shadow: 0px 10px 40px -20px grey;
     padding: 20px;
     box-sizing: border-box;
     text-align: center;
