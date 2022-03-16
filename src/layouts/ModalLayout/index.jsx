@@ -27,14 +27,20 @@ export const ModalWrapper = styled.div`
   }
 `;
 
-const ModalLayout = ({ children, onClick }) => {
+const ModalLayout = ({ children, onClick, hideScrollBar }) => {
   const ModalWrapperRef = useRef();
   const addClassList = (ref, className) => ref.current.classList.add(className);
   const removeClassList = (ref, className) =>
     ref.current.classList.remove(className);
 
+  const scrollBar = (show) => {
+    if (!show) return;
+    document.body.style.marginRight = '17px';
+  };
+
   useLayoutEffect(() => {
     document.body.style.overflow = 'hidden';
+    scrollBar(hideScrollBar);
     addClassList(ModalWrapperRef, 'fadeIn');
     return () => {
       document.body.removeAttribute('style');
