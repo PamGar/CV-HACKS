@@ -39,9 +39,9 @@ const HelpCont = styled.button`
 
 const CV_preview = () => {
   const [user, setUser] = useState({
-    name: 'case',
+    name: '',
   });
-  const [openLoginModal, setOpenLoginModal] = useState(false);
+  const [openLoginModal, setOpenLoginModal] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
 
   const handleEdit = () => {
@@ -52,8 +52,14 @@ const CV_preview = () => {
     <>
       {user.name === '' ? (
         <Modal
-          isOpen={true}
-          element={<FirstTime closeModal={setOpenLoginModal} isOpen={true} />}
+          isOpen={openLoginModal}
+          element={
+            <FirstTime
+              closeModal={() => {
+                setOpenLoginModal(!openLoginModal);
+              }}
+            />
+          }
         />
       ) : null}
 

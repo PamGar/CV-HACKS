@@ -20,8 +20,8 @@ const TasksBox = styled.div`
   li::after {
     content: '';
     background-color: #6610f2;
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     border-radius: 50%;
     position: absolute;
     left: -25px;
@@ -37,7 +37,7 @@ const TasksBox = styled.div`
 const TasksList = () => {
   return (
     <TasksBox>
-      <h1>Correcciones recomendadas</h1>
+      <h2>Correcciones recomendadas</h2>
       <ul>
         <li>
           Etiam commodo, eros placerat feugiat ullamcorper, dolor eros placerat
