@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 const Button = styled.button`
   padding: 10px 16px;
   border: none;
-  background-color: ${(props) => (props.disabled ? '#8888884d' : '#00b7b8')};
+  background-color: ${(props) => (props.disabled ? '#c7c7c7' : '#00b7b8')};
   color: ${(props) => (props.disabled ? '#888888' : 'white')};
   border-radius: 5px;
   width: ${(props) => (props.fullWidth ? '100%' : 'max-content')};
@@ -15,12 +15,6 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   text-transform: uppercase;
-  position: ${(props) => props.position};
-  top: ${(props) => props.top};
-  bottom: ${(props) => props.bottom};
-  right: ${(props) => props.right};
-  left: ${(props) => props.left};
-  margin: ${(props) => props.margin};
 
   &::after {
     content: '';
@@ -57,7 +51,7 @@ const Button = styled.button`
   }
 
   &:hover {
-    background-color: ${(props) => (props.disabled ? '#8888884d' : '#00acad')};
+    background-color: ${(props) => (props.disabled ? '#c7c7c7' : '#00acad')};
   }
 
   &:active {
@@ -99,17 +93,7 @@ const LoadingButton = ({
   margin,
 }) => {
   return (
-    <Button
-      disabled={disabled}
-      fullWidth={fullWidth}
-      onClick={onClick}
-      position={position}
-      top={top}
-      bottom={bottom}
-      right={right}
-      left={left}
-      margin={margin}
-    >
+    <Button disabled={disabled} fullWidth={fullWidth} onClick={onClick}>
       {children}
       {loading && <Spinner />}
     </Button>
