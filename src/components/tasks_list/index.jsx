@@ -32,6 +32,16 @@ const TasksBox = styled.div`
   ul li::marker {
     color: transparent;
   }
+
+  @media (max-width: 820px) {
+    h2 {
+      font-size: 20px;
+    }
+
+    li {
+      font-size: 12px;
+    }
+  }
 `;
 
 const TasksList = () => {

@@ -8,6 +8,10 @@ import Hacky from '../../assets/images/Hacky.png';
 import styled from 'styled-components';
 import Modal from '../../components/Modal';
 import FirstTime from '../../components/Modal/first_time_user';
+import TasksModal from '../../components/Modal/tasksModal';
+
+import TasksButton from '../../assets/icons/task-list.svg';
+import HelpButton from '../../assets/icons/bulb.svg';
 
 const HelpCont = styled.button`
   position: fixed;
@@ -37,19 +41,68 @@ const HelpCont = styled.button`
   }
 `;
 
+const FloatBox = styled.div`
+  display: none;
+  @media (max-width: 820px) {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      margin: 20px;
+      border-radius: 50%;
+      box-shadow: 0 0 35px -5px #1e1b44;
+      font-weight: 700;
+
+      img {
+        width: 50%;
+      }
+    }
+
+    .tasks {
+      background-color: #e7d8ff;
+    }
+    .help {
+      background-color: #fbffd6;
+    }
+  }
+`;
+
 const CV_preview = () => {
   const [user, setUser] = useState({
     name: '',
   });
   const [openLoginModal, setOpenLoginModal] = useState(true);
+  const [openTasksModal, setOpenTasksModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
   const handleEdit = () => {
     setIsEdit(!isEdit);
   };
 
+  const handleTasks = () => {
+    setOpenTasksModal(!openTasksModal);
+  };
+
   return (
     <>
+      <Modal
+        isOpen={openTasksModal}
+        element={
+          <TasksModal
+            closeModal={() => {
+              setOpenTasksModal(!openTasksModal);
+            }}
+            isEdit={isEdit}
+          />
+        }
+      />
       {user.name === '' ? (
         <Modal
           isOpen={openLoginModal}
@@ -76,6 +129,14 @@ const CV_preview = () => {
         <p>¿Ayuda necesitas?</p>
         <img src={Hacky} alt="" />
       </HelpCont>
+      <FloatBox>
+        <button className="tasks" onClick={handleTasks}>
+          <img src={TasksButton} alt="" />
+        </button>
+        <button className="help">
+          <img src={HelpButton} alt="" />
+        </button>
+      </FloatBox>
     </>
   );
 };

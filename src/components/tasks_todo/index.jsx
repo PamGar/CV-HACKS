@@ -5,6 +5,16 @@ const TasksBox = styled.div`
   padding: 20px;
   text-align: center;
   font-weight: 300;
+
+  @media (max-width: 820px) {
+    h2 {
+      font-size: 20px;
+    }
+
+    label {
+      font-size: 12px;
+    }
+  }
 `;
 
 const Task = styled.section`

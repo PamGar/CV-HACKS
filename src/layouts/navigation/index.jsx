@@ -98,7 +98,7 @@ const ProfileBox = styled.div`
   }
 
   .logoutButton {
-    color: #ff6161;
+    color: #ff2525;
     font-weight: 700;
   }
 
@@ -133,8 +133,8 @@ const MenuOptions = styled.div`
   }
 
   @media (max-width: 1099px) {
-    right: 0;
-    top: 85px;
+    right: -10px;
+    top: 70px;
     bottom: unset;
   }
 `;

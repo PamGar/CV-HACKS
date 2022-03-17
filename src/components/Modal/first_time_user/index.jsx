@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from '../../Buttons/LoadingButton';
 
 const FirstTimeModal = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;

@@ -62,6 +62,7 @@ const Button = styled.div`
 `;
 
 const IconButton = styled.button`
+  position: relative;
   width: 40px;
   height: 40px;
   border-radius: 5px;
@@ -84,6 +85,22 @@ const IconButton = styled.button`
   }
 `;
 
+const Notification = styled.div`
+  background-color: #ff6666;
+  color: #fff;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  border-radius: 50%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const UserMenu = () => {
   const addAnim = (e) => {
     e.target.classList.add('hover');
@@ -101,6 +118,7 @@ const UserMenu = () => {
       </Button>
       <Button onMouseOver={addAnim}>
         <IconButton bgcolor="#59F97E">
+          <Notification>3</Notification>
           <img src={InterIcon} alt="" />
         </IconButton>
         Entrevistas
