@@ -79,19 +79,7 @@ const Spinner = styled.div`
   animation: ${spin} 1s linear infinite;
 `;
 
-const LoadingButton = ({
-  children,
-  disabled,
-  loading,
-  fullWidth,
-  onClick,
-  position,
-  top,
-  bottom,
-  right,
-  left,
-  margin,
-}) => {
+const LoadingButton = ({ children, disabled, loading, fullWidth, onClick }) => {
   return (
     <Button disabled={disabled} fullWidth={fullWidth} onClick={onClick}>
       {children}

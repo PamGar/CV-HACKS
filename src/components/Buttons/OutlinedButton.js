@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const Button = styled.button`
-  background-color: transparent;
+  background-color: ${(props) => props.bgColor || 'transparent'};
   border: 1px solid #00b7b8;
   color: #00b7b8;
   border-radius: 5px;
@@ -12,9 +12,9 @@ const Button = styled.button`
   font-size: 0.875rem;
 `;
 
-const OutlinedButton = ({ children, onClick, fullWidth }) => {
+const OutlinedButton = ({ children, onClick, fullWidth, bgColor }) => {
   return (
-    <Button onClick={onClick} fullWidth={fullWidth}>
+    <Button onClick={onClick} fullWidth={fullWidth} bgColor={bgColor}>
       {children}
     </Button>
   );
