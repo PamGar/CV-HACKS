@@ -273,14 +273,14 @@ const CV_preview = ({ editButton }) => {
             <CourseLang>
               <div className="skills_box">
                 <div>
-                  <h2>Courses</h2>
+                  <h2>Cursos</h2>
                   <ul>
                     <li>UX/UI design</li>
                     <li>Scrum master</li>
                   </ul>
                 </div>
                 <div>
-                  <h2>Languages</h2>
+                  <h2>Lenguajes</h2>
                   <ul>
                     <li>Ingles</li>
                     <li>Frances</li>
@@ -294,10 +294,10 @@ const CV_preview = ({ editButton }) => {
       </Page>
       <ButtonBox>
         <Button type="button" onClick={editButton}>
-          Editar CV
+          Editar
         </Button>
         <Button type="button" onClick={handleDownloadPdf}>
-          Download as PDF
+          Descargar
         </Button>
       </ButtonBox>
     </>

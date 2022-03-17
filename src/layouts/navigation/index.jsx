@@ -8,7 +8,7 @@ const GridBase = styled.div`
   display: grid;
   width: 100%;
   max-width: 1440px;
-  grid-template-columns: 80px 1fr 1fr;
+  grid-template-columns: 100px 1fr 1fr;
   grid-template-areas: 'navigation main tasks';
 
   @media (max-width: 1099px) {
@@ -34,6 +34,7 @@ const Nav = styled.nav`
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 5px 5px 15px grey;
 
   .grow {
     flex-grow: 1;

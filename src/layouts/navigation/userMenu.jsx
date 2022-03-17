@@ -38,7 +38,8 @@ const IconsBox = styled.div`
   text-align: center;
 
   div {
-    font-size: 10px;
+    font-size: 12px;
+    font-weight: 500;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -64,21 +65,22 @@ const IconButton = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 5px;
-  background-color: ${(props) => props.bgcolor};
+  /* background-color: ${(props) => props.bgcolor}; */
+  background-color: transparent;
   margin-top: 30px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   border: none;
   cursor: pointer;
   padding: 5px;
 
   img {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
   }
 
   @media (max-width: 1099px) {
     margin-top: 0;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
   }
 `;
 
@@ -95,13 +97,13 @@ const UserMenu = () => {
         <IconButton bgcolor="#E83E8C">
           <img src={CVicon} alt="" />
         </IconButton>
-        Curriculum
+        CV
       </Button>
       <Button onMouseOver={addAnim}>
         <IconButton bgcolor="#59F97E">
           <img src={InterIcon} alt="" />
         </IconButton>
-        Interviews
+        Entrevistas
       </Button>
     </IconsBox>
   );
