@@ -5,7 +5,7 @@ const Message = styled.div`
     props.error
       ? '#D8000C'
       : props.success
-      ? '#4F8A10'
+      ? '#62b30b'
       : props.warning
       ? '#9F6000'
       : props.info
@@ -15,7 +15,7 @@ const Message = styled.div`
     props.error
       ? '#FFD2D2'
       : props.success
-      ? '#DFF2BF'
+      ? '#d3eea5'
       : props.warning
       ? '#FEEFB3'
       : props.info
@@ -26,6 +26,7 @@ const Message = styled.div`
   padding: 9px;
   border-radius: 5px;
   text-align: center;
+  text-transform: uppercase;
 `;
 
 const AlertMessage = ({
