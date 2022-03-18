@@ -48,14 +48,11 @@ const IconsBox = styled.div`
 
   @media (max-width: 1099px) {
     display: flex;
-
-    div {
-      margin: 0 20px;
-    }
   }
 `;
 
 const Button = styled.div`
+  margin: 0 20px;
   .hover {
     animation: ${jelloAnim} 0.5s ease 0s 1 normal forwards;
   }

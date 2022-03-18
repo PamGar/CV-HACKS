@@ -7,9 +7,9 @@ export const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
     vertical-align: baseline;
     font-family: 'Poppins', sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     border: 0px;
-    font-weight: 300;
+    font-weight: 500;
     color: #3c3c3c;
 }
 

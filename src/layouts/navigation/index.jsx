@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import Logo from '../../assets/images/logo_white.png';
 import Profile from '../../assets/images/profile.jpg';
@@ -97,9 +97,14 @@ const ProfileBox = styled.div`
     color: #343434;
   }
 
-  .logoutButton {
-    color: #ff2525;
-    font-weight: 700;
+  .menu_hide {
+    transition: 0.2s;
+    transform-origin: top right;
+    transform: scale(0);
+  }
+
+  .unhide {
+    transform: scale(1);
   }
 
   @media (max-width: 1099px) {
@@ -108,33 +113,42 @@ const ProfileBox = styled.div`
 `;
 
 const MenuOptions = styled.div`
-  width: 200px;
   background-color: #fff;
   border-radius: 3px;
-  box-shadow: 5px 5px 15px grey;
+  box-shadow: 5px 5px 35px grey;
   position: absolute;
   right: -210px;
   bottom: 0;
-  display: flex;
-  flex-direction: column;
+  text-align: left;
+  padding: 20px;
+  width: 200px;
 
-  p {
-    font-weight: 700;
-    font-size: 14px;
+  .menu_user {
+    padding-bottom: 10px;
+
+    a {
+      font-size: 10px;
+      font-weight: 700;
+    }
   }
 
-  * {
-    padding: 10px;
-    border-bottom: solid 1px #80808030;
+  .menu_options {
+    padding: 10px 0;
+    border-top: solid 1px #ededed;
+    border-bottom: solid 1px #ededed;
   }
 
-  hr {
-    padding: 0;
+  .menu_out {
+    padding-top: 10px;
+
+    a {
+      color: #ff3535;
+    }
   }
 
   @media (max-width: 1099px) {
     right: -10px;
-    top: 70px;
+    top: 20px;
     bottom: unset;
   }
 `;
@@ -161,6 +175,12 @@ const Tasks = styled.div`
 
 const Index = (props) => {
   const [openMenu, setOpenMenu] = useState(false);
+  const refMenu = useRef();
+
+  const handleMenu = () => {
+    setOpenMenu(!openMenu);
+    refMenu.current.classList.toggle('unhide');
+  };
 
   return (
     <GridBase>
@@ -171,20 +191,29 @@ const Index = (props) => {
         <IconsBox />
         <div className="grow"></div>
         <ProfileBox>
-          <div className="imageProfile" onClick={() => setOpenMenu(!openMenu)}>
+          <div className="imageProfile" onClick={handleMenu}>
             <img src={Profile} alt="" />
           </div>
-          {openMenu && (
-            <MenuOptions>
-              <p>Nombre del usuario</p>
-              <hr />
-              <a href="https:/">Settings</a>
-              <hr />
-              <a className="logoutButton" href="https:/">
-                Logout
-              </a>
-            </MenuOptions>
-          )}
+          <div className="menu_hide" ref={refMenu}>
+            {openMenu && (
+              <MenuOptions>
+                <div className="menu_user">
+                  <a href="">
+                    <p>Alexis Salcedo</p>
+                    Ver perfil
+                  </a>
+                </div>
+                <div className="menu_options">
+                  <a href="https:/">Settings</a>
+                </div>
+                <div className="menu_out">
+                  <a className="logoutButton" href="https:/">
+                    Logout
+                  </a>
+                </div>
+              </MenuOptions>
+            )}
+          </div>
         </ProfileBox>
       </Nav>
       <Main>{props.main}</Main>

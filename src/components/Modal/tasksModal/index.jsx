@@ -7,7 +7,7 @@ import Close from '../../../assets/icons/close.svg';
 const TasksModal = styled.div`
   padding-top: 20px;
   font-size: 10px;
-  position: absolute;
+  position: fixed;
   top: calc(50% + 35px);
   left: 50%;
   transform: translate(-50%, -50%);
@@ -15,7 +15,7 @@ const TasksModal = styled.div`
   background-color: #fff;
   box-shadow: 0 0 20px grey;
   border-radius: 5px;
-  max-height: 70vh;
+  max-height: calc(95vh - 70px);
   overflow: scroll;
 
   button {
