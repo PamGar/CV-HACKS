@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import Modal from '../../components/Modal';
 import FirstTime from '../../components/Modal/first_time_user';
 import TasksModal from '../../components/Modal/tasksModal';
-
+import axios from 'axios';
 import TasksButton from '../../assets/icons/task-list.svg';
 import HelpButton from '../../assets/icons/bulb.svg';
 

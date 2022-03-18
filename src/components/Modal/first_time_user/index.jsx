@@ -25,7 +25,9 @@ const FirstTimeModal = styled.div`
     border-radius: 3px;
     text-align: center;
     max-width: 600px;
+    max-height: calc(100vh - 70px);
     border-top: solid 30px #00b7b8;
+    overflow: auto;
 
     & > p {
       font-weight: 500;
@@ -47,6 +49,19 @@ const FirstTimeModal = styled.div`
         padding-left: 0;
         padding-bottom: 0;
       }
+    }
+  }
+
+  fieldset {
+    margin-top: 20px;
+  }
+
+  .multiBox {
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      width: 45%;
     }
   }
 
@@ -135,6 +150,12 @@ const FirstTimeModal = styled.div`
     color: #00b7b8;
     cursor: not-allowed;
   }
+
+  @media (max-width: 820px) {
+    .box {
+      padding: 20px;
+    }
+  }
 `;
 
 const ButtonBox = styled.div`
@@ -174,21 +195,39 @@ const FirstTime = ({ closeModal, isOpen }) => {
           algunos datos basicos para empezar
         </p>
         <form action="">
-          <p>
-            <label for="name">
-              <span>Nombre</span>
-              <strong>
-                <abbr title="required">*</abbr>
-              </strong>
-            </label>
-            <Input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="Escribe tu nombre y apellido"
-              autoComplete="off"
-            />
-          </p>
+          <h3>Datos personales</h3>
+          <div className="multiBox">
+            <p>
+              <label for="name">
+                <span>Nombre</span>
+                <strong>
+                  <abbr title="required">*</abbr>
+                </strong>
+              </label>
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Escribe tu nombre"
+                autoComplete="off"
+              />
+            </p>
+            <p>
+              <label for="surname">
+                <span>Apellido</span>
+                <strong>
+                  <abbr title="required">*</abbr>
+                </strong>
+              </label>
+              <Input
+                type="text"
+                id="surname"
+                name="surname"
+                placeholder="Escribe tu apellido"
+                autoComplete="off"
+              />
+            </p>
+          </div>
           <p>
             <label for="dev_area">
               <span>Area</span>
@@ -201,18 +240,137 @@ const FirstTime = ({ closeModal, isOpen }) => {
               autoComplete="off"
             />
           </p>
-          <p>
-            <label for="country">
-              <span>Pais</span>
-            </label>
-            <Input
-              type="text"
-              id="country"
-              name="country"
-              placeholder="Escribe el pais donde te encuentras"
-              autoComplete="off"
-            />
-          </p>
+          <fieldset>
+            <h3>Direccion</h3>
+            <div className="multiBox">
+              <p>
+                <label for="name">
+                  <span>Pais</span>
+                  <strong>
+                    <abbr title="required">*</abbr>
+                  </strong>
+                </label>
+                <Input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Escribe el pais donde te encuentras"
+                  autoComplete="off"
+                />
+              </p>
+              <p>
+                <label for="surname">
+                  <span>Estado</span>
+                  <strong>
+                    <abbr title="required">*</abbr>
+                  </strong>
+                </label>
+                <Input
+                  type="text"
+                  id="surname"
+                  name="surname"
+                  placeholder="Escribe el estado"
+                  autoComplete="off"
+                />
+              </p>
+            </div>
+            <div className="multiBox">
+              <p>
+                <label for="name">
+                  <span>Ciudad</span>
+                  <strong>
+                    <abbr title="required">*</abbr>
+                  </strong>
+                </label>
+                <Input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Escribe la ciudad"
+                  autoComplete="off"
+                />
+              </p>
+              <p>
+                <label for="surname">
+                  <span>Barrio</span>
+                  <strong>
+                    <abbr title="required">*</abbr>
+                  </strong>
+                </label>
+                <Input
+                  type="text"
+                  id="surname"
+                  name="surname"
+                  placeholder="Escribe el barrio / urbanizacion / etc"
+                  autoComplete="off"
+                />
+              </p>
+            </div>
+            <div className="multiBox">
+              <p>
+                <label for="name">
+                  <span>Calle</span>
+                  <strong>
+                    <abbr title="required">*</abbr>
+                  </strong>
+                </label>
+                <Input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Escribe la calle / avenida"
+                  autoComplete="off"
+                />
+              </p>
+              <p>
+                <label for="surname">
+                  <span>Codigo postal</span>
+                  <strong>
+                    <abbr title="required">*</abbr>
+                  </strong>
+                </label>
+                <Input
+                  type="text"
+                  id="surname"
+                  name="surname"
+                  placeholder="Escribe el codigo postal"
+                  autoComplete="off"
+                />
+              </p>
+            </div>
+            <div className="multiBox">
+              <p>
+                <label for="name">
+                  <span>Nº edificio</span>
+                  <strong>
+                    <abbr title="required">*</abbr>
+                  </strong>
+                </label>
+                <Input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Escribe el numero de tu edificio"
+                  autoComplete="off"
+                />
+              </p>
+              <p>
+                <label for="surname">
+                  <span>Nº casa o apto</span>
+                  <strong>
+                    <abbr title="required">*</abbr>
+                  </strong>
+                </label>
+                <Input
+                  type="text"
+                  id="surname"
+                  name="surname"
+                  placeholder="Escribe el numero de la casa / apartamento"
+                  autoComplete="off"
+                />
+              </p>
+            </div>
+          </fieldset>
           <section>
             <Input type="checkbox" id="checkbox" name="checkbox" />
             <label for="checkbox form-control">
