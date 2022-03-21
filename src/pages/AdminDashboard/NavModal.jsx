@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useEffect, useRef } from 'react';
-import NavDescriptionNav from '../../components/NavDescriptionCard';
+import NavDescriptionCard from '../../components/NavDescriptionCard';
 import ModalLayout from '../../layouts/ModalLayout';
 import Modal from '../../components/Modal';
 import styled from 'styled-components';
@@ -7,13 +7,14 @@ import styled from 'styled-components';
 const Box = styled.div`
   width: 90vw;
   max-width: 900px;
-  background-color: white;
   padding: clamp(10px, 5%, 30px);
   border-radius: 3px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
   gap: 30px;
   margin: 10px 0;
+  background-color: rgb(238, 238, 255);
+  padding: 25px 15px;
 `;
 
 const NavModal = ({ openModal, setOpenModal, setShowMainContent }) => {
@@ -26,95 +27,42 @@ const NavModal = ({ openModal, setOpenModal, setShowMainContent }) => {
           hideScrollBar
         >
           <Box>
-            <NavDescriptionNav
-              description='una descripción simple'
+            <NavDescriptionCard
+              description='Escribe algun comentario sobre el CV seleccionado'
               icon='icono'
               onClick={() => {
-                // setShowMainContent('comments');
                 setTimeout(() => setShowMainContent('comments'), 250);
-                console.log('clicked');
               }}
             >
               Escribir comentarios
-            </NavDescriptionNav>
-            <NavDescriptionNav
-              description='una descripción simple'
+            </NavDescriptionCard>
+            <NavDescriptionCard
+              description='Agrega información al CV seleccionado'
               icon='icono'
+              onClick={() => {
+                setTimeout(() => setShowMainContent('edit'), 250);
+              }}
             >
               Editar CV
-            </NavDescriptionNav>
-            <NavDescriptionNav
-              description='una descripción simple'
+            </NavDescriptionCard>
+            <NavDescriptionCard
+              description='Marca como contratado y por cúal empresa'
               icon='icono'
+              onClick={() => {
+                setTimeout(() => setShowMainContent('status'), 250);
+              }}
             >
               Estatus
-            </NavDescriptionNav>
-            <NavDescriptionNav
-              description='una descripción simple'
+            </NavDescriptionCard>
+            <NavDescriptionCard
+              description='Compartir CVs a las empresas'
               icon='icono'
+              onClick={() => {
+                setTimeout(() => setShowMainContent('share'), 250);
+              }}
             >
               Compartir
-            </NavDescriptionNav>
-            <NavDescriptionNav
-              description='una descripción simple'
-              icon='icono'
-            >
-              Compartir
-            </NavDescriptionNav>
-            <NavDescriptionNav
-              description='una descripción simple'
-              icon='icono'
-            >
-              Compartir
-            </NavDescriptionNav>
-            <NavDescriptionNav
-              description='una descripción simple'
-              icon='icono'
-            >
-              Compartir
-            </NavDescriptionNav>
-            <NavDescriptionNav
-              description='una descripción simple'
-              icon='icono'
-            >
-              Compartir
-            </NavDescriptionNav>
-            <NavDescriptionNav
-              description='una descripción simple'
-              icon='icono'
-            >
-              Compartir
-            </NavDescriptionNav>
-            <NavDescriptionNav
-              description='una descripción simple'
-              icon='icono'
-            >
-              Compartir
-            </NavDescriptionNav>
-            <NavDescriptionNav
-              description='una descripción simple'
-              icon='icono'
-            >
-              Compartir
-            </NavDescriptionNav>
-            <NavDescriptionNav
-              description='una descripción simple'
-              icon='icono'
-            >
-              Compartir
-            </NavDescriptionNav>
-            <NavDescriptionNav
-              description='una descripción simple'
-              icon='icono'
-            >
-              Compartir
-            </NavDescriptionNav>
-            <NavDescriptionNav
-              description='una descripción simple'
-              icon='icono'
-            >
-              Compartir
-            </NavDescriptionNav>
+            </NavDescriptionCard>
           </Box>
         </ModalLayout>
       }
