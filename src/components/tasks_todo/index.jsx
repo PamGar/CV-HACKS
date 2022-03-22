@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const TasksBox = styled.div`
   padding: 20px;
   text-align: center;
   font-weight: 300;
+
+  .tasks_0 {
+    padding: 20px 0;
+    color: #d1d3d3;
+  }
 
   @media (max-width: 820px) {
     h2 {
@@ -123,68 +128,123 @@ const Input = styled.input`
 `;
 
 const TasksTodo = () => {
+  const [tasks, setTasks] = useState({
+    comments: [
+      {
+        id: 1,
+        comment:
+          'Uno Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
+        state: true,
+      },
+      {
+        id: 2,
+        comment:
+          'Dos Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
+        state: true,
+      },
+      {
+        id: 3,
+        comment:
+          'Tres Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
+        state: false,
+      },
+      {
+        id: 4,
+        comment:
+          'Cuatro Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
+        state: true,
+      },
+      {
+        id: 5,
+        comment:
+          'Cinco Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
+        state: false,
+      },
+      {
+        id: 6,
+        comment:
+          'Seis Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
+        state: true,
+      },
+    ],
+  });
+
+  const toggleDone = (id) => {
+    // loop over the todos list and find the provided id.
+    let updatedList = tasks.comments.map((item) => {
+      if (item.id === id) {
+        return { ...item, state: !item.state }; //gets everything that was already in item, and updates "done"
+      }
+      return item; // else return unmodified item
+    });
+
+    setTasks({ comments: updatedList }); // set state to new object with updated list
+  };
+
+  const tasksDone = tasks.comments.filter((item) => item.state === true).length;
+  const tasksUndone = tasks.comments.filter(
+    (item) => item.state === false
+  ).length;
+
   return (
     <>
       <TasksBox>
         <h2>Correcciones recomendadas</h2>
-        <Task>
-          <Input type="checkbox" id="checkbox" name="checkbox" />
-          <label for="checkbox form-control">
-            Etiam commodo, eros placerat feugiat ullamcorper, dolor eros
-            placerat tellus, in ornare ligula magna dignissim felis. Phasellus
-            convallis fringilla ex, ac vulputate lacus.
-          </label>
-        </Task>
-        <Task>
-          <Input type="checkbox" id="checkbox" name="checkbox" />
-          <label for="checkbox form-control">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit, Lorem ipsum
-            dolor sit amet consectetur adipisicing elit.
-          </label>
-        </Task>
-        <Task>
-          <Input type="checkbox" id="checkbox" name="checkbox" />
-          <label for="checkbox form-control">
-            Etiam commodo, eros placerat feugiat ullamcorper, dolor eros
-            placerat tellus.
-          </label>
-        </Task>
-        <Task>
-          <Input type="checkbox" id="checkbox" name="checkbox" />
-          <label for="checkbox form-control">
-            Placerat feugiat ullamcorper, dolor eros placerat tellus, in ornare
-            ligula magna dignissim felis. Phasellus convallis.
-          </label>
-        </Task>
+
+        {tasksDone !== 0 ? (
+          tasks.comments.map((currentValue) => {
+            if (currentValue.state) {
+              return (
+                <Task>
+                  <Input
+                    type="checkbox"
+                    id="checkbox"
+                    name="checkbox"
+                    onChange={() => toggleDone(currentValue.id)}
+                  />
+                  <label for="checkbox form-control">
+                    {currentValue.comment}
+                  </label>
+                </Task>
+              );
+            } else {
+              return null;
+            }
+          })
+        ) : (
+          <p>No tienes correcciones pendientes</p>
+        )}
       </TasksBox>
       <TasksBox>
         <h2>Correcciones completadas</h2>
-        <Task>
-          <Input
-            type="checkbox"
-            id="checkbox"
-            name="checkbox"
-            disabled
-            checked
-          />
-          <label className="form-control--disabled" for="checkbox form-control">
-            Etiam commodo, eros placerat feugiat ullamcorper, dolor eros
-            placerat tellus.
-          </label>
-        </Task>
-        <Task>
-          <Input
-            type="checkbox"
-            id="checkbox"
-            name="checkbox"
-            disabled
-            checked
-          />
-          <label className="form-control--disabled" for="checkbox form-control">
-            Placerat feugiat ullamcorper, dolor eros placerat tellus, in ornare
-            ligula magna dignissim felis. Phasellus convallis.
-          </label>
-        </Task>
+
+        {tasksUndone !== 0 ? (
+          tasks.comments.map((currentValue) => {
+            if (!currentValue.state) {
+              return (
+                <Task>
+                  <Input
+                    type="checkbox"
+                    id="checkbox"
+                    name="checkbox"
+                    onChange={() => toggleDone(currentValue.id)}
+                    checked
+                  />
+                  <label
+                    className="form-control--disabled"
+                    for="checkbox form-control"
+                  >
+                    {currentValue.comment}
+                  </label>
+                </Task>
+              );
+            } else {
+              return null;
+            }
+          })
+        ) : (
+          <p className="tasks_0">Aun no has completado ninguna correccion</p>
+        )}
       </TasksBox>
     </>
   );

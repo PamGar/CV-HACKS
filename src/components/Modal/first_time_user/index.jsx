@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import Button from '../../Buttons/LoadingButton';
 
 const FirstTimeModal = styled.div`
@@ -105,7 +106,7 @@ const FirstTimeModal = styled.div`
     -webkit-appearance: none;
     /* Remove most all native input styles */
     appearance: none;
-    /* For iOS < 15 */
+    /* for iOS < 15 */
     background-color: #fff;
     /* Not removed via appearance */
     margin: 0;
@@ -159,12 +160,33 @@ const FirstTimeModal = styled.div`
 `;
 
 const ButtonBox = styled.div`
-  padding: 20px;
+  padding: 20px 0;
   display: flex;
   justify-content: center;
 
-  button {
-    margin: 0 30px;
+  input {
+    background-color: #00b7b8;
+    color: #fff;
+    padding: 10px 16px;
+    width: 100%;
+    border-radius: 5px;
+
+    &:hover::after {
+      opacity: ${(props) => (props.disabled ? 0 : 1)};
+    }
+
+    &:active::before {
+      opacity: 1;
+    }
+
+    &:hover {
+      background-color: ${(props) =>
+        props.disabled ? '#8888884d' : '#00acad'};
+    }
+
+    &:active {
+      background-color: #00a2a3;
+    }
   }
 `;
 
@@ -187,6 +209,71 @@ const Input = styled.input`
 `;
 
 const FirstTime = ({ closeModal, isOpen }) => {
+  const [user, setUser] = useState({});
+  const myToken = window.localStorage.getItem('token');
+
+  /*Captar cambios al escribir en el formulario*/
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    const names = name.split('/');
+
+    if (names.length > 1) {
+      setUser({
+        ...user,
+        [names[0]]: {
+          ...user[names[0]],
+          [names[1]]: value,
+        },
+      });
+    } else {
+      setUser({
+        ...user,
+        [name]: value,
+      });
+    }
+  };
+
+  /*Captar cambios al marcar el checkbox*/
+  const handleCheck = (event) => {
+    const names = event.target.name.split('/');
+    const checked = event.target.checked;
+
+    console.log(checked);
+
+    setUser({
+      ...user,
+      [names[0]]: {
+        ...user[names[0]],
+        [names[1]]: checked,
+      },
+    });
+  };
+
+  /*Manejar el envio del formulario*/
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const postData = async () => {
+      try {
+        const { data } = await axios.put(
+          `${process.env.REACT_APP_BASE_URL}/user/profile/`,
+          user,
+          {
+            headers: {
+              Authorization: `Token 9a3e569c51fb0e74e3e6f99a780e2e53bb7c5221`,
+            },
+          }
+        );
+        console.log(data);
+        closeModal();
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+
+    postData();
+  };
+
   return (
     <FirstTimeModal isOpen={isOpen}>
       <div className="box">
@@ -198,7 +285,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
           <h3>Datos personales</h3>
           <div className="multiBox">
             <p>
-              <label for="name">
+              <label htmlFor="user/name">
                 <span>Nombre</span>
                 <strong>
                   <abbr title="required">*</abbr>
@@ -207,13 +294,15 @@ const FirstTime = ({ closeModal, isOpen }) => {
               <Input
                 type="text"
                 id="name"
-                name="name"
+                name="user/name"
                 placeholder="Escribe tu nombre"
                 autoComplete="off"
+                onChange={handleChange}
+                required
               />
             </p>
             <p>
-              <label for="surname">
+              <label htmlFor="user/paternal_surname">
                 <span>Apellido</span>
                 <strong>
                   <abbr title="required">*</abbr>
@@ -222,29 +311,32 @@ const FirstTime = ({ closeModal, isOpen }) => {
               <Input
                 type="text"
                 id="surname"
-                name="surname"
+                name="user/paternal_surname"
                 placeholder="Escribe tu apellido"
                 autoComplete="off"
+                onChange={handleChange}
+                required
               />
             </p>
           </div>
           <p>
-            <label for="dev_area">
+            <label htmlFor="user/dev_area">
               <span>Area</span>
             </label>
             <Input
               type="text"
               id="dev_area"
-              name="dev_area"
+              name="user/dev_area"
               placeholder="Escribe tu area (Frontend, backend, mobile, etc)"
               autoComplete="off"
+              // onChange={handleChange}
             />
           </p>
           <fieldset>
             <h3>Direccion</h3>
             <div className="multiBox">
               <p>
-                <label for="name">
+                <label htmlFor="address/country">
                   <span>Pais</span>
                   <strong>
                     <abbr title="required">*</abbr>
@@ -252,14 +344,16 @@ const FirstTime = ({ closeModal, isOpen }) => {
                 </label>
                 <Input
                   type="text"
-                  id="name"
-                  name="name"
+                  id="country"
+                  name="address/country"
                   placeholder="Escribe el pais donde te encuentras"
                   autoComplete="off"
+                  onChange={handleChange}
+                  required
                 />
               </p>
               <p>
-                <label for="surname">
+                <label htmlFor="address/state">
                   <span>Estado</span>
                   <strong>
                     <abbr title="required">*</abbr>
@@ -267,16 +361,18 @@ const FirstTime = ({ closeModal, isOpen }) => {
                 </label>
                 <Input
                   type="text"
-                  id="surname"
-                  name="surname"
+                  id="state"
+                  name="address/state"
                   placeholder="Escribe el estado"
                   autoComplete="off"
+                  onChange={handleChange}
+                  required
                 />
               </p>
             </div>
             <div className="multiBox">
               <p>
-                <label for="name">
+                <label htmlFor="address/town">
                   <span>Ciudad</span>
                   <strong>
                     <abbr title="required">*</abbr>
@@ -284,14 +380,16 @@ const FirstTime = ({ closeModal, isOpen }) => {
                 </label>
                 <Input
                   type="text"
-                  id="name"
-                  name="name"
+                  id="town"
+                  name="address/town"
                   placeholder="Escribe la ciudad"
                   autoComplete="off"
+                  onChange={handleChange}
+                  required
                 />
               </p>
               <p>
-                <label for="surname">
+                <label htmlFor="address/suburb">
                   <span>Barrio</span>
                   <strong>
                     <abbr title="required">*</abbr>
@@ -299,16 +397,18 @@ const FirstTime = ({ closeModal, isOpen }) => {
                 </label>
                 <Input
                   type="text"
-                  id="surname"
-                  name="surname"
+                  id="suburb"
+                  name="address/suburb"
                   placeholder="Escribe el barrio / urbanizacion / etc"
                   autoComplete="off"
+                  onChange={handleChange}
+                  required
                 />
               </p>
             </div>
             <div className="multiBox">
               <p>
-                <label for="name">
+                <label htmlFor="address/street">
                   <span>Calle</span>
                   <strong>
                     <abbr title="required">*</abbr>
@@ -316,14 +416,16 @@ const FirstTime = ({ closeModal, isOpen }) => {
                 </label>
                 <Input
                   type="text"
-                  id="name"
-                  name="name"
+                  id="street"
+                  name="address/street"
                   placeholder="Escribe la calle / avenida"
                   autoComplete="off"
+                  onChange={handleChange}
+                  required
                 />
               </p>
               <p>
-                <label for="surname">
+                <label htmlFor="address/zip_code">
                   <span>Codigo postal</span>
                   <strong>
                     <abbr title="required">*</abbr>
@@ -331,16 +433,18 @@ const FirstTime = ({ closeModal, isOpen }) => {
                 </label>
                 <Input
                   type="text"
-                  id="surname"
-                  name="surname"
+                  id="zip_code"
+                  name="address/zip_code"
                   placeholder="Escribe el codigo postal"
                   autoComplete="off"
+                  onChange={handleChange}
+                  required
                 />
               </p>
             </div>
             <div className="multiBox">
               <p>
-                <label for="name">
+                <label htmlFor="address/num_ext">
                   <span>Nº edificio</span>
                   <strong>
                     <abbr title="required">*</abbr>
@@ -348,14 +452,16 @@ const FirstTime = ({ closeModal, isOpen }) => {
                 </label>
                 <Input
                   type="text"
-                  id="name"
-                  name="name"
+                  id="num_ext"
+                  name="address/num_ext"
                   placeholder="Escribe el numero de tu edificio"
                   autoComplete="off"
+                  onChange={handleChange}
+                  required
                 />
               </p>
               <p>
-                <label for="surname">
+                <label htmlFor="address/num_int">
                   <span>Nº casa o apto</span>
                   <strong>
                     <abbr title="required">*</abbr>
@@ -363,26 +469,34 @@ const FirstTime = ({ closeModal, isOpen }) => {
                 </label>
                 <Input
                   type="text"
-                  id="surname"
-                  name="surname"
+                  id="num_int"
+                  name="address/num_int"
                   placeholder="Escribe el numero de la casa / apartamento"
                   autoComplete="off"
+                  onChange={handleChange}
+                  required
                 />
               </p>
             </div>
           </fieldset>
           <section>
-            <Input type="checkbox" id="checkbox" name="checkbox" />
-            <label for="checkbox form-control">
+            <Input
+              type="checkbox"
+              id="subscribed"
+              name="user/subscribed"
+              onChange={handleCheck}
+            />
+            <label htmlFor="user/subscribed form-control">
               Deseo recibir ofertas de empleo basadas en los datos de mi CV.
             </label>
           </section>
+          <ButtonBox>
+            <input type="submit" value="Enviar" />
+            {/* <Button type="submit" onClick={handleSubmit}>
+              Enviar
+            </Button> */}
+          </ButtonBox>
         </form>
-        <ButtonBox>
-          <Button type="button" onClick={closeModal}>
-            Enviar
-          </Button>
-        </ButtonBox>
       </div>
     </FirstTimeModal>
   );

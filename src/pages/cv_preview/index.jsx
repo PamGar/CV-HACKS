@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Layout from '../../layouts/navigation/index';
 import CV from '../../components/cv_preview';
 import EditCV from '../../components/cv_edit';
@@ -24,7 +24,7 @@ const HelpCont = styled.button`
   cursor: pointer;
 
   p {
-    background-color: #00b7b852;
+    background-color: #99e2e3;
     padding: 10px 0;
     border-radius: 5px;
     font-weight: 700;
@@ -76,11 +76,40 @@ const FloatBox = styled.div`
 
 const CV_preview = () => {
   const [user, setUser] = useState({
+    id: null,
+    address: {
+      id: null,
+      street: '',
+      num_int: null,
+      num_ext: null,
+      suburb: '',
+      town: '',
+      state: '',
+      country: '',
+      zip_code: '',
+    },
+    role: {
+      id: null,
+      name: '',
+      description: '',
+    },
+    about_me: null,
     name: '',
+    paternal_surname: '',
+    mothers_maiden_name: null,
+    birthdate: null,
+    email: '',
+    phone: '',
+    image: '',
+    gender: null,
+    subscribed: null,
   });
+  const [firstData, setFirstData] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useState(true);
   const [openTasksModal, setOpenTasksModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+
+  /* console.log(user); */
 
   const handleEdit = () => {
     setIsEdit(!isEdit);
@@ -89,6 +118,30 @@ const CV_preview = () => {
   const handleTasks = () => {
     setOpenTasksModal(!openTasksModal);
   };
+
+  /* const myToken = window.localStorage.getItem('token'); */
+
+  const getUserData = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/user/6`,
+        {
+          headers: {
+            /* authorization: `Token ${myToken}`, */
+            authorization: `Token ef86a37ba3c734970179e34b4a72b928418df264`,
+          },
+        }
+      );
+      setUser(data);
+      data.name === null ? setFirstData(true) : setFirstData(false);
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
+  useEffect(() => {
+    getUserData();
+  });
 
   return (
     <>
@@ -103,7 +156,7 @@ const CV_preview = () => {
           />
         }
       />
-      {user.name === '' ? (
+      {firstData && (
         <Modal
           isOpen={openLoginModal}
           element={
@@ -114,7 +167,7 @@ const CV_preview = () => {
             />
           }
         />
-      ) : null}
+      )}
 
       {isEdit ? (
         <Layout
