@@ -1,4 +1,3 @@
-import React, { useLayoutEffect, useEffect, useRef } from 'react';
 import NavDescriptionCard from '../../components/NavDescriptionCard';
 import ModalLayout from '../../layouts/ModalLayout';
 import Modal from '../../components/Modal';
@@ -14,7 +13,6 @@ const Box = styled.div`
   gap: 30px;
   margin: 10px 0;
   background-color: rgb(238, 238, 255);
-  padding: 25px 15px;
 `;
 
 const NavModal = ({ openModal, setOpenModal, setShowMainContent }) => {
