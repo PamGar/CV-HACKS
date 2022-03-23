@@ -1,16 +1,12 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import PrivateRoute, {
-  PrivateRouteAdmin,
-  PrivateRoutePadawan,
-  PrivateRouteCompany,
-  PrivateRouteExternal,
-} from './components/PrivateRoute';
+import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
 import { GlobalStyles } from './styles/GlobalStyles';
 import Login from './pages/Login';
 import CV_preview from './pages/cv_preview';
 import AdminDashboard from './pages/AdminDashboard';
+import Layout from './layouts/navigation';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState({
@@ -29,14 +25,17 @@ const App = () => {
           <Route path='/login/company' element={<Login company />} />
         </Route>
         <Route element={<PrivateRoute isAuth={isAuthenticated.isAuth} />}>
-          <Route element={<PrivateRoutePadawan role={isAuthenticated.role} />}>
-            <Route path='/dashboard' element={<CV_preview />} />
-          </Route>
-          <Route element={<PrivateRouteCompany />}></Route>
-          <Route element={<PrivateRouteExternal />}></Route>
-          <Route element={<PrivateRouteAdmin role={isAuthenticated.role} />}>
-            <Route path='/dashboard/admin' element={<AdminDashboard />} />
-          </Route>
+          <Route
+            path='/dashboard'
+            element={
+              isAuthenticated.role == 5 ? null : isAuthenticated.role == 4 ? (
+                <CV_preview />
+              ) : isAuthenticated.role == 3 ? (
+                <AdminDashboard />
+              ) : isAuthenticated.role == 2 ? null : isAuthenticated.role ===
+                1 ? null : null
+            }
+          />
         </Route>
       </Routes>
     </Router>
@@ -44,3 +43,7 @@ const App = () => {
 };
 
 export default App;
+
+const Test = () => {
+  return <Layout main={<div>test</div>} right={<div>cv</div>} />;
+};
