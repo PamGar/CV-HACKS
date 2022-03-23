@@ -3,7 +3,7 @@ import styled, { keyframes } from 'styled-components';
 const Button = styled.button`
   padding: 10px 16px;
   border: none;
-  background-color: ${(props) => (props.disabled ? '#8888884d' : '#00b7b8')};
+  background-color: ${(props) => (props.disabled ? '#c7c7c7' : '#00b7b8')};
   color: ${(props) => (props.disabled ? '#888888' : 'white')};
   border-radius: 5px;
   width: ${(props) => (props.fullWidth ? '100%' : 'max-content')};
@@ -51,7 +51,7 @@ const Button = styled.button`
   }
 
   &:hover {
-    background-color: ${(props) => (props.disabled ? '#8888884d' : '#00acad')};
+    background-color: ${(props) => (props.disabled ? '#c7c7c7' : '#00acad')};
   }
 
   &:active {
@@ -76,6 +76,7 @@ const Spinner = styled.div`
   width: 15px;
   height: 15px;
   margin-left: 5px;
+  margin-top: 2px;
   animation: ${spin} 1s linear infinite;
 `;
 
