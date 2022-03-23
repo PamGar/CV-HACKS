@@ -7,7 +7,6 @@ import IconsBox from './userMenu';
 const GridBase = styled.div`
   display: grid;
   width: 100%;
-  overflow: hidden;
   max-width: 1440px;
   grid-template-columns: 100px 1fr 1fr;
   grid-template-areas: 'navigation main tasks';

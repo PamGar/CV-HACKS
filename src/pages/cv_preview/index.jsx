@@ -55,7 +55,7 @@ const FloatBox = styled.div`
       align-items: center;
       width: 50px;
       height: 50px;
-      margin: 20px;
+      margin: 30px 20px;
       border-radius: 50%;
       box-shadow: 0 0 35px -5px #000000b3;
       font-weight: 700;
@@ -77,6 +77,7 @@ const FloatBox = styled.div`
 const SidebarTasks = styled.div`
   position: fixed;
   width: 95%;
+  max-width: 600px;
   bottom: 0;
   left: -100%;
   z-index: 999;
@@ -88,8 +89,9 @@ const SidebarTasks = styled.div`
   transition-timing-function: cubic-bezier(0.87, 0, 0.13, 1);
 
   .wrapper {
-    overflow: scroll;
-    height: calc(100vh - 70px);
+    overflow: auto;
+    /* height: calc(100vh - 70px); */
+    height: 100vh;
   }
 
   button {
@@ -246,7 +248,7 @@ const CV_preview = () => {
         <Layout main={<CV editButton={handleEdit} />} right={<Tasks />} />
       )}
 
-      <HelpCont>
+      <HelpCont onClick={handleSidebarHelp}>
         <p>¿Ayuda necesitas?</p>
         <img src={Hacky} alt="" />
       </HelpCont>
