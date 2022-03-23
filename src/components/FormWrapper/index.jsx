@@ -36,14 +36,7 @@ const FormWrapper = ({
 }) => {
   return (
     <Wrapper>
-      <Form
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log('clicked');
-        }}
-      >
-        {children}
-      </Form>
+      <Form>{children}</Form>
       <ButtonsContainer>
         <OutlinedButton
           type='submit'

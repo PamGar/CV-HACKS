@@ -76,6 +76,7 @@ const Spinner = styled.div`
   width: 15px;
   height: 15px;
   margin-left: 5px;
+  margin-top: 2px;
   animation: ${spin} 1s linear infinite;
 `;
 
