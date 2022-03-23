@@ -8,12 +8,12 @@ const TasksBox = styled.div`
 
   ul {
     text-align: left;
-    padding: 10px 30px;
+    padding: 10px 0 10px 30px;
   }
 
   li {
     position: relative;
-    padding-left: 20px;
+    padding-left: 10px;
     margin: 20px 0;
   }
 

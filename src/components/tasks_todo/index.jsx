@@ -8,7 +8,7 @@ const TasksBox = styled.div`
 
   .tasks_0 {
     padding: 20px 0;
-    color: #d1d3d3;
+    color: #999999;
   }
 
   @media (max-width: 820px) {
@@ -212,7 +212,7 @@ const TasksTodo = () => {
             }
           })
         ) : (
-          <p>No tienes correcciones pendientes</p>
+          <p className="tasks_0">No tienes correcciones pendientes</p>
         )}
       </TasksBox>
       <TasksBox>

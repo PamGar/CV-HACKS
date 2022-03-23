@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Layout from '../../layouts/navigation/index';
 import CV from '../../components/cv_preview';
 import EditCV from '../../components/cv_edit';
@@ -8,10 +8,10 @@ import Hacky from '../../assets/images/Hacky.png';
 import styled from 'styled-components';
 import Modal from '../../components/Modal';
 import FirstTime from '../../components/Modal/first_time_user';
-import TasksModal from '../../components/Modal/tasksModal';
 import axios from 'axios';
 import TasksButton from '../../assets/icons/task-list.svg';
 import HelpButton from '../../assets/icons/bulb.svg';
+import Close from '../../assets/icons/close.svg';
 
 const HelpCont = styled.button`
   position: fixed;
@@ -57,7 +57,7 @@ const FloatBox = styled.div`
       height: 50px;
       margin: 20px;
       border-radius: 50%;
-      box-shadow: 0 0 35px -5px #1e1b44;
+      box-shadow: 0 0 35px -5px #000000b3;
       font-weight: 700;
 
       img {
@@ -72,6 +72,45 @@ const FloatBox = styled.div`
       background-color: #fbffd6;
     }
   }
+`;
+
+const SidebarTasks = styled.div`
+  position: fixed;
+  width: 95%;
+  bottom: 0;
+  left: -100%;
+  z-index: 999;
+  background-color: #fff;
+  border-radius: 0 5px 5px 0;
+  box-shadow: 5px 0px 15px grey;
+  transform: translateY(0);
+  transition: 0.5s;
+  transition-timing-function: cubic-bezier(0.87, 0, 0.13, 1);
+
+  .wrapper {
+    overflow: scroll;
+    height: calc(100vh - 70px);
+  }
+
+  button {
+    background-color: transparent;
+    height: 30px;
+    width: 30px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    box-shadow: 0 0 15px grey;
+    border-radius: 50%;
+
+    img {
+      width: 100%;
+    }
+  }
+`;
+
+const SidebarHelp = styled(SidebarTasks)`
+  text-align: center;
 `;
 
 const CV_preview = () => {
@@ -106,8 +145,9 @@ const CV_preview = () => {
   });
   const [firstData, setFirstData] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useState(true);
-  const [openTasksModal, setOpenTasksModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState(-100);
+  const [sidebarHelpWidth, setSidebarHelpWidth] = useState(-100);
 
   /* console.log(user); */
 
@@ -115,8 +155,20 @@ const CV_preview = () => {
     setIsEdit(!isEdit);
   };
 
-  const handleTasks = () => {
-    setOpenTasksModal(!openTasksModal);
+  const handleSidebarTask = () => {
+    if (sidebarWidth === 0) {
+      setSidebarWidth(-100);
+    } else {
+      setSidebarWidth(0);
+    }
+  };
+
+  const handleSidebarHelp = () => {
+    if (sidebarHelpWidth === 0) {
+      setSidebarHelpWidth(-100);
+    } else {
+      setSidebarHelpWidth(0);
+    }
   };
 
   /* const myToken = window.localStorage.getItem('token'); */
@@ -141,11 +193,11 @@ const CV_preview = () => {
 
   useEffect(() => {
     getUserData();
-  });
+  }, []);
 
   return (
     <>
-      <Modal
+      {/* <Modal
         isOpen={openTasksModal}
         element={
           <TasksModal
@@ -155,7 +207,23 @@ const CV_preview = () => {
             isEdit={isEdit}
           />
         }
-      />
+      /> */}
+      <SidebarTasks style={{ left: `${sidebarWidth}%` }}>
+        <button onClick={handleSidebarTask}>
+          <img src={Close} alt="" />
+        </button>
+        <div className="wrapper">{isEdit ? <TasksTodo /> : <Tasks />}</div>
+      </SidebarTasks>
+      <SidebarHelp style={{ left: `${sidebarHelpWidth}%` }}>
+        <button onClick={handleSidebarHelp}>
+          <img src={Close} alt="" />
+        </button>
+        <div className="wrapper">
+          <h1>Help me</h1>
+        </div>
+      </SidebarHelp>
+
+      {/* Modal para datos por primera vez */}
       {firstData && (
         <Modal
           isOpen={openLoginModal}
@@ -183,10 +251,10 @@ const CV_preview = () => {
         <img src={Hacky} alt="" />
       </HelpCont>
       <FloatBox>
-        <button className="tasks" onClick={handleTasks}>
+        <button className="tasks" onClick={handleSidebarTask}>
           <img src={TasksButton} alt="" />
         </button>
-        <button className="help">
+        <button className="help" onClick={handleSidebarHelp}>
           <img src={HelpButton} alt="" />
         </button>
       </FloatBox>
