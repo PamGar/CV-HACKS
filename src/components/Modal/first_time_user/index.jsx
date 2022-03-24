@@ -477,7 +477,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
                   type="text"
                   id="num_ext"
                   name="address/num_ext"
-                  placeholder="Escribe el numero de tu edificio"
+                  placeholder="Si no aplica escribe 0"
                   autoComplete="off"
                   onChange={handleChange}
                   required
@@ -494,7 +494,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
                   type="text"
                   id="num_int"
                   name="address/num_int"
-                  placeholder="Escribe el numero de la casa / apartamento"
+                  placeholder="Si no aplica escribe 0"
                   autoComplete="off"
                   onChange={handleChange}
                   required
