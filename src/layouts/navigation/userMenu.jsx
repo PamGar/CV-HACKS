@@ -36,50 +36,66 @@ const jelloAnim = keyframes`
 
 const IconsBox = styled.div`
   text-align: center;
-  color: #fff;
 
   div {
-    font-size: 10px;
+    font-size: 12px;
+    font-weight: 500;
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: #fff;
   }
 
   @media (max-width: 1099px) {
     display: flex;
-
-    div {
-      margin: 0 20px;
-    }
   }
 `;
 
 const Button = styled.div`
+  margin: 0 20px;
   .hover {
     animation: ${jelloAnim} 0.5s ease 0s 1 normal forwards;
   }
 `;
 
 const IconButton = styled.button`
+  position: relative;
   width: 40px;
   height: 40px;
   border-radius: 5px;
-  background-color: ${(props) => props.bgcolor};
+  /* background-color: ${(props) => props.bgcolor}; */
+  background-color: transparent;
   margin-top: 30px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   border: none;
   cursor: pointer;
   padding: 5px;
 
   img {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
   }
 
   @media (max-width: 1099px) {
     margin-top: 0;
-    margin-bottom: 5px;
+    margin-bottom: 0px;
   }
+`;
+
+const Notification = styled.div`
+  background-color: #ff6666;
+  color: #fff;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  border-radius: 50%;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const UserMenu = () => {
@@ -95,13 +111,14 @@ const UserMenu = () => {
         <IconButton bgcolor="#E83E8C">
           <img src={CVicon} alt="" />
         </IconButton>
-        Curriculum
+        CV
       </Button>
       <Button onMouseOver={addAnim}>
         <IconButton bgcolor="#59F97E">
+          <Notification>3</Notification>
           <img src={InterIcon} alt="" />
         </IconButton>
-        Interviews
+        Entrevistas
       </Button>
     </IconsBox>
   );

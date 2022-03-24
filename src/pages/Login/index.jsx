@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
@@ -23,6 +24,14 @@ const Container = styled.div`
   hr {
     margin: 16px 0;
   }
+
+  @media (max-width: 820px) {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const LoginForm = styled.form`
@@ -30,6 +39,16 @@ const LoginForm = styled.form`
   flex-direction: column;
   align-items: center;
   gap: 16px;
+
+  .platform {
+    font-weight: 700;
+    color: #c0d12e;
+  }
+
+  span {
+    font-weight: 700;
+    color: #595393;
+  }
 
   img {
     width: 137px;
@@ -153,13 +172,16 @@ const Login = ({ company, setIsAuthenticated }) => {
       <Container>
         <LoginForm onSubmit={handleSubmit}>
           <img src={hackademyLogo} />
+          <p className="platform">
+            CV <span>Platform</span>
+          </p>
           <label>{t('login_instructions_label')}</label>
           <Input
-            type='email'
+            type="email"
             required
-            placeholder='Email'
+            placeholder="Email"
             value={user.email}
-            name='email'
+            name="email"
             onChange={handleChange}
             onBlur={handleBlur}
             error={inputError.showInputError}
@@ -172,7 +194,7 @@ const Login = ({ company, setIsAuthenticated }) => {
             {t('error_500')}
           </AlertMessage>
           <LoadingButton
-            type='submit'
+            type="submit"
             fullWidth
             loading={inputError.loadingButton}
             disabled={inputError.disabledButton}
