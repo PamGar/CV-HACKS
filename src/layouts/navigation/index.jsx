@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Logo from '../../assets/images/logo_white.png';
 import Profile from '../../assets/images/profile.jpg';
 import IconsBox from './userMenu';
+import { useNavigate } from 'react-router-dom';
 
 const GridBase = styled.div`
   display: grid;
@@ -104,6 +105,7 @@ const ProfileBox = styled.div`
   .logoutButton {
     color: #ff6161;
     font-weight: 700;
+    cursor: pointer;
   }
 
   @media (max-width: 1099px) {
@@ -149,6 +151,14 @@ const Tasks = styled.div`
 
 const Index = (props) => {
   const [openMenu, setOpenMenu] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    navigate('/');
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('role');
+  };
 
   return (
     <GridBase>
@@ -168,7 +178,7 @@ const Index = (props) => {
               <hr />
               <a href='https:/'>Settings</a>
               <hr />
-              <a className='logoutButton' href='https:/'>
+              <a className='logoutButton' onClick={handleLogout}>
                 Logout
               </a>
             </MenuOptions>
