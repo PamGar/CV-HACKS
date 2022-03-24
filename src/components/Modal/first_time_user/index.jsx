@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import Button from '../../Buttons/LoadingButton';
 
 const FirstTimeModal = styled.div`
   position: fixed;
@@ -209,8 +208,10 @@ const Input = styled.input`
 `;
 
 const FirstTime = ({ closeModal, isOpen }) => {
-  const [user, setUser] = useState({});
-  const myToken = window.localStorage.getItem('token');
+  const [user, setUser] = useState({
+    address_update: false,
+  });
+  const myToken = window.localStorage.getItem('authToken');
 
   /*Captar cambios al escribir en el formulario*/
   const handleChange = (event) => {
@@ -238,8 +239,6 @@ const FirstTime = ({ closeModal, isOpen }) => {
     const names = event.target.name.split('/');
     const checked = event.target.checked;
 
-    console.log(checked);
-
     setUser({
       ...user,
       [names[0]]: {
@@ -260,7 +259,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
           user,
           {
             headers: {
-              Authorization: `Token 9a3e569c51fb0e74e3e6f99a780e2e53bb7c5221`,
+              Authorization: `Token ${myToken}`,
             },
           }
         );
@@ -274,6 +273,30 @@ const FirstTime = ({ closeModal, isOpen }) => {
     postData();
   };
 
+  useEffect(() => {
+    const myToken = window.localStorage.getItem('authToken');
+
+    const postCV = async () => {
+      try {
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/cv/`,
+          {
+            description: 'Mi primer CV',
+          },
+          {
+            headers: {
+              Authorization: `Token ${myToken}`,
+            },
+          }
+        );
+        console.log(data);
+      } catch (error) {
+        console.log('error', error);
+      }
+    };
+    postCV();
+  }, []);
+
   return (
     <FirstTimeModal isOpen={isOpen}>
       <div className="box">
@@ -281,7 +304,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
           Parece que aun no te has presentado, que tal si nos proporcionas
           algunos datos basicos para empezar
         </p>
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <h3>Datos personales</h3>
           <div className="multiBox">
             <p>
@@ -492,9 +515,6 @@ const FirstTime = ({ closeModal, isOpen }) => {
           </section>
           <ButtonBox>
             <input type="submit" value="Enviar" />
-            {/* <Button type="submit" onClick={handleSubmit}>
-              Enviar
-            </Button> */}
           </ButtonBox>
         </form>
       </div>

@@ -28,7 +28,9 @@ const App = () => {
           <Route
             path="/dashboard"
             element={
-              isAuthenticated.role == 5 ? null : isAuthenticated.role == 4 ? (
+              isAuthenticated.role == 5 ? (
+                <CV_preview />
+              ) : isAuthenticated.role == 4 ? (
                 <CV_preview />
               ) : isAuthenticated.role == 3 ? (
                 <AdminDashboard />

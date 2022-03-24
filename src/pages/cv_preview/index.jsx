@@ -145,13 +145,20 @@ const CV_preview = () => {
     gender: null,
     subscribed: null,
   });
+  const [cvData, setCvData] = useState({
+    id: null,
+    created_date: '',
+    description: '',
+    status: '',
+    url_public: null,
+    url_private: null,
+    area: null,
+  });
   const [firstData, setFirstData] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
   const [sidebarWidth, setSidebarWidth] = useState(-100);
   const [sidebarHelpWidth, setSidebarHelpWidth] = useState(-100);
-
-  /* console.log(user); */
 
   const handleEdit = () => {
     setIsEdit(!isEdit);
@@ -173,16 +180,16 @@ const CV_preview = () => {
     }
   };
 
-  /* const myToken = window.localStorage.getItem('token'); */
+  const myId = window.localStorage.getItem('id');
+  const myToken = window.localStorage.getItem('authToken');
 
   const getUserData = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/user/6`,
+        `${process.env.REACT_APP_BASE_URL}/user/${myId}`,
         {
           headers: {
-            /* authorization: `Token ${myToken}`, */
-            authorization: `Token ef86a37ba3c734970179e34b4a72b928418df264`,
+            Authorization: `Token ${myToken}`,
           },
         }
       );
@@ -193,8 +200,26 @@ const CV_preview = () => {
     }
   };
 
+  const getCV = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/cv/`,
+        {
+          headers: {
+            Authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      console.log('cv', data);
+      setCvData(data);
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
   useEffect(() => {
     getUserData();
+    getCV();
   }, []);
 
   return (
@@ -241,11 +266,14 @@ const CV_preview = () => {
 
       {isEdit ? (
         <Layout
-          main={<EditCV editButton={handleEdit} />}
+          main={<EditCV cvId={cvData.id} editButton={handleEdit} />}
           right={<TasksTodo />}
         />
       ) : (
-        <Layout main={<CV editButton={handleEdit} />} right={<Tasks />} />
+        <Layout
+          main={<CV cvId={cvData.id} editButton={handleEdit} />}
+          right={<Tasks />}
+        />
       )}
 
       <HelpCont onClick={handleSidebarHelp}>
