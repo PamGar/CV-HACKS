@@ -223,6 +223,12 @@ const EditCV = ({ editButton, cvId }) => {
           },
         }
       );
+      setLanguage({
+        title: '',
+        subtitle: '',
+        level: '',
+        type: 'Language',
+      });
       getLanguagesList();
     } catch (error) {
       console.error('error', error);
@@ -260,6 +266,7 @@ const EditCV = ({ editButton, cvId }) => {
         }
       );
       setLanguage(data);
+      setEditLanguage(true);
     } catch (error) {
       console.error('error', error);
     }
@@ -271,17 +278,39 @@ const EditCV = ({ editButton, cvId }) => {
     try {
       const { data } = await axios.put(
         `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formskills/${cvId}/${id}`,
-        language,
+        {
+          title: language.title,
+          subtitle: language.subtitle,
+          level: language.level,
+        },
         {
           headers: {
             authorization: `Token ${myToken}`,
           },
         }
       );
+      setEditLanguage(false);
+      setLanguage({
+        title: '',
+        subtitle: '',
+        level: '',
+        type: 'Language',
+      });
       getLanguagesList();
     } catch (error) {
       console.error('error', error);
     }
+  };
+
+  const cancelUpdate = (event) => {
+    event.preventDefault();
+    setEditLanguage(false);
+    setLanguage({
+      title: '',
+      subtitle: '',
+      level: '',
+      type: 'Language',
+    });
   };
 
   const getLanguagesList = async () => {
@@ -315,7 +344,7 @@ const EditCV = ({ editButton, cvId }) => {
   return (
     <>
       <Form>
-        {/* <AccordeonBox>
+        <AccordeonBox>
           <div className="acordeon ">
             <div className="header hide" ref={getRef}>
               Informacion personal
@@ -663,7 +692,7 @@ const EditCV = ({ editButton, cvId }) => {
               </ButtonBox>
             </div>
           </div>
-        </AccordeonBox> */}
+        </AccordeonBox>
         <AccordeonBox>
           <div className="acordeon">
             <div className="header hide" ref={getRef}>
@@ -728,7 +757,11 @@ const EditCV = ({ editButton, cvId }) => {
                 })
               )}
               <div className="separador"></div>
-              <h3>Agregar nuevo idioma</h3>
+              {editLanguage ? (
+                <h3>Actualizar idioma</h3>
+              ) : (
+                <h3>Agregar nuevo idioma</h3>
+              )}
               <p>
                 <label htmlFor="title">Title</label>
                 <input
@@ -766,9 +799,23 @@ const EditCV = ({ editButton, cvId }) => {
                 />
               </p>
               <ButtonBox>
-                <Button type="button" onClick={addLanguage}>
-                  Agregar +
-                </Button>
+                {editLanguage ? (
+                  <>
+                    <Button type="button" onClick={cancelUpdate}>
+                      Cancelar
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={(event) => updateLanguage(event, language.id)}
+                    >
+                      Actualizar
+                    </Button>
+                  </>
+                ) : (
+                  <Button type="button" onClick={addLanguage}>
+                    Agregar +
+                  </Button>
+                )}
               </ButtonBox>
             </div>
           </div>
@@ -776,9 +823,8 @@ const EditCV = ({ editButton, cvId }) => {
       </Form>
       <ButtonBox>
         <Button type="button" onClick={editButton}>
-          Cancelar
+          Volver
         </Button>
-        <Button type="button">Guardar</Button>
       </ButtonBox>
     </>
   );
