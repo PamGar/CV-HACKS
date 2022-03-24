@@ -194,9 +194,10 @@ const CV_preview = () => {
         }
       );
       setUser(data);
+      console.log(data);
       data.name === null ? setFirstData(true) : setFirstData(false);
     } catch (error) {
-      console.error('error', error);
+      console.error('error', error.message);
     }
   };
 
@@ -210,10 +211,10 @@ const CV_preview = () => {
           },
         }
       );
-      console.log('cv', data);
+      console.log('cv');
       setCvData(data);
     } catch (error) {
-      console.error('error', error);
+      console.error('error', error.message);
     }
   };
 

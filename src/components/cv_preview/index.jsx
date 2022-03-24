@@ -14,13 +14,13 @@ const Page = styled.div`
 
   .page_container {
     width: 100%;
+    box-shadow: 0px 10px 40px -20px grey;
   }
 
   .page {
     width: 640px;
     aspect-ratio: 3 / 4;
     transform-origin: top left;
-    box-shadow: 0px 10px 40px -20px grey;
     padding: 20px;
     box-sizing: border-box;
     text-align: center;
@@ -160,12 +160,12 @@ const CV_preview = ({ editButton }) => {
   };
 
   useEffect(() => {
-    setWidth(printRef.current.clientWidth);
+    setWidth(widthRef.current.clientWidth);
   }, []);
 
   useEffect(() => {
     const myWidth = () => {
-      setWidth(printRef.current.clientWidth);
+      setWidth(widthRef.current.clientWidth);
     };
 
     window.addEventListener('resize', myWidth);
@@ -173,9 +173,13 @@ const CV_preview = ({ editButton }) => {
 
   return (
     <>
-      <Page ref={widthRef}>
-        <div className="page_container" ref={printRef}>
-          <div className="page" style={{ transform: `scale(${width / 640})` }}>
+      <Page>
+        <div className="page_container" ref={widthRef}>
+          <div
+            className="page"
+            ref={printRef}
+            style={{ transform: `scale(${width / 640})` }}
+          >
             <div className="header">
               <h1>Alexis Salcedo</h1>
               <p>Desarrolador Frontend</p>

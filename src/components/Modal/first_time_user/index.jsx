@@ -413,7 +413,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
               </p>
               <p>
                 <label htmlFor="address/suburb">
-                  <span>Barrio</span>
+                  <span>Colonia / Barrio</span>
                   <strong>
                     <abbr title="required">*</abbr>
                   </strong>
@@ -422,7 +422,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
                   type="text"
                   id="suburb"
                   name="address/suburb"
-                  placeholder="Escribe el barrio / urbanizacion / etc"
+                  placeholder="Escribe el barrio / Colonia / etc"
                   autoComplete="off"
                   onChange={handleChange}
                   required

@@ -159,7 +159,7 @@ const AccordeonBox = styled.div`
   .separador {
     height: 2px;
     background-color: #bed028;
-    margin: 10px 0;
+    margin-bottom: 10px;
   }
 `;
 
@@ -627,7 +627,7 @@ const EditCV = ({ editButton, cvId }) => {
                   />
                 </p>
                 <p>
-                  <label htmlFor="">Año finalizacion</label>
+                  <label htmlFor="dateEndJob">Año finalizacion</label>
                   <input
                     type="date"
                     id="dateEndJob"
