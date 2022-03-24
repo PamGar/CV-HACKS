@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import { keyframes } from 'styled-components';
 import CVicon from '../../assets/icons/CV.svg';
 import InterIcon from '../../assets/icons/Interview.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane, faBuilding } from '@fortawesome/free-regular-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const jelloAnim = keyframes`
 0% {
@@ -55,6 +58,7 @@ const IconsBox = styled.div`
 `;
 
 const Button = styled.div`
+  cursor: pointer;
   .hover {
     animation: ${jelloAnim} 0.5s ease 0s 1 normal forwards;
   }
@@ -70,6 +74,9 @@ const IconButton = styled.button`
   border: none;
   cursor: pointer;
   padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   img {
     width: 20px;
@@ -80,6 +87,12 @@ const IconButton = styled.button`
     margin-top: 0;
     margin-bottom: 5px;
   }
+
+  .fontAwesomeIcon {
+    height: 20px;
+    width: 20px;
+    color: white;
+  }
 `;
 
 const UserMenu = () => {
@@ -88,21 +101,42 @@ const UserMenu = () => {
 
     setTimeout(() => e.target.classList.remove('hover'), 600);
   };
+  const navigate = useNavigate();
+
+  const role = localStorage.getItem('role');
 
   return (
     <IconsBox>
       <Button onMouseOver={addAnim}>
-        <IconButton bgcolor="#E83E8C">
-          <img src={CVicon} alt="" />
+        <IconButton bgcolor='#E83E8C'>
+          <img src={CVicon} alt='' />
         </IconButton>
         Curriculum
       </Button>
-      <Button onMouseOver={addAnim}>
-        <IconButton bgcolor="#59F97E">
-          <img src={InterIcon} alt="" />
-        </IconButton>
-        Interviews
-      </Button>
+      {role != 5 && (
+        <Button onMouseOver={addAnim}>
+          <IconButton bgcolor='#59F97E'>
+            <img src={InterIcon} alt='' />
+          </IconButton>
+          Interviews
+        </Button>
+      )}
+      {role == 3 && (
+        <Button onClick={() => navigate('/share-resume')}>
+          <IconButton bgcolor='#197a81'>
+            <FontAwesomeIcon icon={faPaperPlane} className='fontAwesomeIcon' />
+          </IconButton>
+          Share CVs
+        </Button>
+      )}
+      {role == 3 && (
+        <Button onClick={() => navigate('/register-company')}>
+          <IconButton bgcolor='#197a81'>
+            <FontAwesomeIcon icon={faBuilding} className='fontAwesomeIcon' />
+          </IconButton>
+          Dar de alta
+        </Button>
+      )}
     </IconsBox>
   );
 };
