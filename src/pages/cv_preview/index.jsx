@@ -78,8 +78,8 @@ const SidebarTasks = styled.div`
   position: fixed;
   width: 95%;
   max-width: 600px;
-  bottom: 0;
   top: 0;
+  bottom: 0;
   left: -100%;
   z-index: 999;
   background-color: #fff;
@@ -91,6 +91,7 @@ const SidebarTasks = styled.div`
 
   .wrapper {
     overflow: auto;
+    height: 100%;
   }
 
   button {
