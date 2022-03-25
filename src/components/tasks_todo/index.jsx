@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const TasksBox = styled.div`
   padding: 20px;
   text-align: center;
-  width: 80%;
+  max-width: 600px;
   font-weight: 300;
   margin-left: auto;
   margin-right: auto;
@@ -47,6 +47,7 @@ const Task = styled.section`
       margin-left: 20px;
       padding-top: 10px;
       font-size: 12px;
+      text-align: center;
     }
   }
 
@@ -111,7 +112,7 @@ const Task = styled.section`
     transition: 120ms transform ease-in-out;
     box-shadow: inset 1em 1em #00b7b8;
     /* Windows High Contrast Mode */
-    background-color: CanvasText;
+    background-color: #00b7b8;
   }
 
   input[type='checkbox']:checked::before {

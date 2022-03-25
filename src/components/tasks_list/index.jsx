@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const TasksBox = styled.div`
   padding: 20px;
   text-align: center;
-  width: 80%;
+  max-width: 600px;
   font-weight: 300;
   margin-left: auto;
   margin-right: auto;
