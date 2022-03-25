@@ -70,10 +70,6 @@ const Page = styled.div`
     }
   }
 
-  h2 {
-    text-decoration: underline;
-  }
-
   div {
     margin: 5px;
   }

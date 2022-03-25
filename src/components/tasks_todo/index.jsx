@@ -4,7 +4,10 @@ import styled from 'styled-components';
 const TasksBox = styled.div`
   padding: 20px;
   text-align: center;
+  width: 80%;
   font-weight: 300;
+  margin-left: auto;
+  margin-right: auto;
 
   .tasks_0 {
     padding: 20px 0;
@@ -23,14 +26,33 @@ const TasksBox = styled.div`
 `;
 
 const Task = styled.section`
-  display: flex;
-  align-items: center;
-  padding: 20px 0;
   text-align: left;
+  align-items: center;
+  padding: 10px;
+  margin: 20px 0;
+  border-radius: 10px;
+  border: solid 1px #99e2e3;
+  box-shadow: 0px 10px 40px -20px grey;
+
+  .task {
+    display: flex;
+  }
+
+  .taskInfo {
+    display: flex;
+    justify-content: end;
+
+    p {
+      color: #c3c3c3;
+      margin-left: 20px;
+      padding-top: 10px;
+      font-size: 12px;
+    }
+  }
 
   label {
     width: unset;
-    margin-left: 20px;
+    margin-left: 10px;
   }
   input {
     width: unset;
@@ -67,24 +89,23 @@ const Task = styled.section`
     background-color: #fff;
     /* Not removed via appearance */
     margin: 0;
-
     font: inherit;
     color: currentColor;
     width: 25px;
     height: 25px;
     border: 0.15em solid #00b7b8;
-    border-radius: 0.15em;
+    border-radius: 50%;
     transform: translateY(-0.075em);
-
     display: grid;
     place-content: center;
+    flex: 0 0 25px;
   }
 
   input[type='checkbox']::before {
     content: '';
-    width: 20px;
-    height: 20px;
-    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    width: 15px;
+    height: 15px;
+    clip-path: circle(50% at 50% 50%);
     transform: scale(0);
     transform-origin: bottom left;
     transition: 120ms transform ease-in-out;
@@ -166,6 +187,24 @@ const TasksTodo = () => {
           'Seis Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
         state: true,
       },
+      {
+        id: 7,
+        comment:
+          'Seis Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
+        state: true,
+      },
+      {
+        id: 8,
+        comment:
+          'Seis Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
+        state: true,
+      },
+      {
+        id: 9,
+        comment:
+          'Seis Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
+        state: true,
+      },
     ],
   });
 
@@ -196,15 +235,22 @@ const TasksTodo = () => {
             if (currentValue.state) {
               return (
                 <Task>
-                  <Input
-                    type="checkbox"
-                    id="checkbox"
-                    name="checkbox"
-                    onChange={() => toggleDone(currentValue.id)}
-                  />
-                  <label for="checkbox form-control">
-                    {currentValue.comment}
-                  </label>
+                  <div className="task">
+                    <Input
+                      type="checkbox"
+                      id="checkbox"
+                      name={`task${currentValue.id}`}
+                      onChange={() => toggleDone(currentValue.id)}
+                    />
+                    <label for={`task${currentValue.id} form-control`}>
+                      {currentValue.comment}
+                    </label>
+                  </div>
+                  <div className="taskInfo">
+                    <p>Sonia Gastelum</p>
+                    <p>Estudios</p>
+                    <p>Hace 3 dias</p>
+                  </div>
                 </Task>
               );
             } else {
@@ -223,19 +269,26 @@ const TasksTodo = () => {
             if (!currentValue.state) {
               return (
                 <Task>
-                  <Input
-                    type="checkbox"
-                    id="checkbox"
-                    name="checkbox"
-                    onChange={() => toggleDone(currentValue.id)}
-                    checked
-                  />
-                  <label
-                    className="form-control--disabled"
-                    for="checkbox form-control"
-                  >
-                    {currentValue.comment}
-                  </label>
+                  <div className="task">
+                    <Input
+                      type="checkbox"
+                      id="checkbox"
+                      name="checkbox"
+                      onChange={() => toggleDone(currentValue.id)}
+                      checked
+                    />
+                    <label
+                      className="form-control--disabled"
+                      for="checkbox form-control"
+                    >
+                      {currentValue.comment}
+                    </label>
+                  </div>
+                  <div className="taskInfo">
+                    <p>Sonia Gastelum</p>
+                    <p>Estudios</p>
+                    <p>Hace 3 dias</p>
+                  </div>
                 </Task>
               );
             } else {

@@ -155,8 +155,13 @@ const MenuOptions = styled.div`
 
 const Main = styled.div`
   width: 100%;
-  overflow: hidden;
+  overflow-y: scroll;
+  height: 100vh;
   grid-area: main / main / main / main;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @media (max-width: 820px) {
     width: 100vw;
@@ -164,9 +169,13 @@ const Main = styled.div`
 `;
 
 const Tasks = styled.div`
-  position: sticky;
-  height: 100vh;
   grid-area: tasks / tasks / tasks / tasks;
+  overflow-y: scroll;
+  height: 100vh;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 
   @media (max-width: 820px) {
     display: none;
