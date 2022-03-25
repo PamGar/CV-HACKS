@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../layouts/navigation/index';
 import CV from '../../components/cv_preview';
 import EditCV from '../../components/cv_edit';
@@ -154,6 +155,7 @@ const CV_preview = () => {
     url_private: null,
     area: null,
   });
+  const navigate = useNavigate();
   const [firstData, setFirstData] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
@@ -197,7 +199,16 @@ const CV_preview = () => {
       console.log(data);
       data.name === null ? setFirstData(true) : setFirstData(false);
     } catch (error) {
-      console.error('error', error.message);
+      const invalidToken = error.response.data.message;
+      console.error('errorUser', error.response.data.message);
+      if (invalidToken === 'Token invalido') {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('id');
+        localStorage.removeItem('role');
+        navigate('/dashboard');
+      } else {
+        return;
+      }
     }
   };
 
@@ -214,7 +225,7 @@ const CV_preview = () => {
       console.log('cv');
       setCvData(data);
     } catch (error) {
-      console.error('error', error.message);
+      console.error('errorData', error.message);
     }
   };
 

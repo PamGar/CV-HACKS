@@ -89,6 +89,7 @@ const AccordeonBox = styled.div`
     padding: 20px;
     color: black;
     transition-duration: 0.5s;
+    cursor: auto;
   }
 
   .tasks_0 {
