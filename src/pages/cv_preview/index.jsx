@@ -205,7 +205,7 @@ const CV_preview = () => {
         localStorage.removeItem('authToken');
         localStorage.removeItem('id');
         localStorage.removeItem('role');
-        navigate('/dashboard');
+        navigate('/');
       } else {
         return;
       }

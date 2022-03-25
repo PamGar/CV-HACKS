@@ -19,7 +19,7 @@ const App = () => {
       <Routes>
         <Route element={<PublicRoute isAuth={isAuthenticated.isAuth} />}>
           <Route
-            path="/login"
+            path="/"
             element={<Login setIsAuthenticated={setIsAuthenticated} />}
           />
           <Route path="/login/company" element={<Login company />} />
