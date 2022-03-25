@@ -1,9 +1,8 @@
 import axios from 'axios';
-import { useEffect, useState, useLayoutEffect } from 'react';
+import { useState, useLayoutEffect } from 'react';
 import styled from 'styled-components';
 import Modal from '../../components/Modal';
 import LoadingButton from '../../components/Buttons/LoadingButton';
-import SkeletonLoading from '../../components/SkeletonLoading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleLeft } from '@fortawesome/free-regular-svg-icons';
 
@@ -69,55 +68,42 @@ const EditCommentModal = ({
   commentList,
   setCommentList,
 }) => {
-  const [editedComment, setEditedComment] = useState({
-    comment: '',
-    description: '',
-  });
-  const [loading, setLoading] = useState(true);
   const [commentToBeChanged, setCommentToBeChanged] = useState(
     commentList.find((comment) => comment.id === commentID)
   );
-  const token = localStorage.getItem('authToken');
-
+  const [loading, setLoading] = useState(false);
+  const [disabledButton, setDisabledButton] = useState(true);
+  const comment = commentList.find((comment) => comment.id === commentID);
   const commentPosition = commentList.findIndex(
     (comment) => comment.id === commentID
   );
 
+  const token = localStorage.getItem('authToken');
+
   const handleChangeTextarea = (e) => {
-    setEditedComment((prev) => ({
-      ...prev,
-      comment: e.target.value,
-    }));
     setCommentToBeChanged((prev) => ({ ...prev, comment: e.target.value }));
+    comment.comment === e.target.value
+      ? setDisabledButton(true)
+      : setDisabledButton(false);
   };
 
   const handleChangeSelect = (e) => {
-    setEditedComment((prev) => ({ ...prev, description: e.target.value }));
     setCommentToBeChanged((prev) => ({ ...prev, description: e.target.value }));
-  };
-
-  const getComment = async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/1/${commentID}`,
-        { headers: { authorization: `Token ${token}` } }
-      );
-      setEditedComment({
-        comment: data[0].comment,
-        description: data[0].description,
-      });
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-    }
+    comment.description === e.target.value
+      ? setDisabledButton(true)
+      : setDisabledButton(false);
   };
 
   const editComment = async () => {
+    setLoading(true);
+    setDisabledButton(true);
     try {
       const { data } = await axios.put(
         `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/1/${commentID}`,
-        editedComment,
+        {
+          comment: commentToBeChanged.comment,
+          description: commentToBeChanged.description,
+        },
         { headers: { authorization: `Token ${token}` } }
       );
       //actuliza el array del component CVlist.jsx
@@ -129,10 +115,6 @@ const EditCommentModal = ({
       console.log(err);
     }
   };
-
-  useEffect(() => {
-    getComment();
-  }, []);
 
   useLayoutEffect(() => {
     document.body.style.marginRight = '17px';
@@ -150,32 +132,25 @@ const EditCommentModal = ({
           </IconWrapper>
           <Container>
             <h1>Editar correción</h1>
-            {loading ? (
-              <>
-                <SkeletonLoading width={'100%'} height={'56px'} />
-                <SkeletonLoading width={'100%'} height={'37px'} />
-              </>
-            ) : (
-              <>
-                <textarea
-                  value={editedComment.comment}
-                  autoFocus
-                  onChange={handleChangeTextarea}
-                />
-                <select
-                  onChange={handleChangeSelect}
-                  value={editedComment.description}
-                >
-                  <option value='Informacion Personal'>
-                    Informacion Personal
-                  </option>
-                  <option value='Estudios'>Estudios</option>
-                  <option value='Experiencia'>Experiencia</option>
-                  <option value='Cursos'>Cursos</option>
-                </select>
-              </>
-            )}
-            <LoadingButton fullWidth onClick={editComment}>
+            <textarea
+              value={commentToBeChanged.comment}
+              onChange={handleChangeTextarea}
+            />
+            <select
+              onChange={handleChangeSelect}
+              value={commentToBeChanged.description}
+            >
+              <option value='Informacion Personal'>Informacion Personal</option>
+              <option value='Estudios'>Estudios</option>
+              <option value='Experiencia'>Experiencia</option>
+              <option value='Cursos'>Cursos</option>
+            </select>
+            <LoadingButton
+              fullWidth
+              onClick={editComment}
+              disabled={disabledButton}
+              loading={loading}
+            >
               editar comentario
             </LoadingButton>
           </Container>
