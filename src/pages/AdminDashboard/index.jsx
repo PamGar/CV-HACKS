@@ -4,7 +4,6 @@ import Layout from '../../layouts/navigation';
 import CVlist from './CVlist';
 import AddCommentCV from './AddCommentCV';
 import ShareCV from './ShareCV';
-import StatusCV from './StatusCV';
 import EditCV from './EditCV';
 const Stickyp = styled.p`
   border: 1px solid blue;
@@ -27,8 +26,6 @@ const AdminDashboard = () => {
           <AddCommentCV setShowMainContent={setShowMainContent} />
         ) : showMainContent === 'edit' ? (
           <EditCV setShowMainContent={setShowMainContent} />
-        ) : showMainContent === 'status' ? (
-          <StatusCV setShowMainContent={setShowMainContent} />
         ) : showMainContent === 'share' ? (
           <ShareCV setShowMainContent={setShowMainContent} />
         ) : null
