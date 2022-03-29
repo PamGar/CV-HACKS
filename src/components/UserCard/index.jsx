@@ -1,6 +1,8 @@
-import { useRef } from 'react';
-import styled from 'styled-components';
+import { useEffect, useRef, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import AlertMessage from '../../components/AlertMessage';
+import LoadingButton from '../Buttons/LoadingButton';
+import ConfirmChangeStatusModal from '../../pages/AdminDashboard/ConfirmChangeStatusModal';
 
 const UserCardContainer = styled.div`
   padding: 10px;
@@ -32,6 +34,58 @@ const Area = styled.p`
   color: ${(props) => (props.isSelected ? 'white' : '#171717')};
 `;
 
+const ShowTooltipContainer = styled.div`
+  border-radius: 3px;
+  transition: box-shadow 250ms ease;
+  width: 100%;
+  position: relative;
+  display: inline-block;
+  :hover {
+    box-shadow: 0px 3px 1px -1px rgb(0 0 0 / 20%),
+      0px 2px 4px 0px rgb(0 0 0 / 14%), 0px 1px 7px 0px rgb(0 0 0 / 12%);
+  }
+`;
+
+const fadeIn = keyframes`
+from{opacity :0}
+to{opacity:1}
+`;
+const fadeOut = keyframes`
+from{opacity :1}
+to{opacity:0}
+`;
+
+const TooltipContainer = styled.div`
+  position: absolute;
+  left: auto;
+  right: calc(100%);
+  top: 50%;
+  transform: translateX(0) translateY(-50%);
+  width: clamp(150px, 25vw, 200px);
+  display: ${(props) => (props.showTooltip ? 'block' : 'none')};
+  background-color: #f7f7f7;
+  border-radius: 3px;
+
+  box-shadow: 0px 3px 1px -1px rgb(0 0 0 / 20%),
+    0px 2px 4px 0px rgb(0 0 0 / 14%), 0px 1px 7px 0px rgb(0 0 0 / 12%);
+  padding: 15px;
+
+  &[class~='fadeIn'] {
+    animation: ${fadeIn} 250ms;
+  }
+  &[class~='fadeOut'] {
+    animation: ${fadeOut} 250ms;
+  }
+`;
+
+const ToolTip = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+`;
 const UserCard = ({
   name,
   area,
@@ -41,24 +95,74 @@ const UserCard = ({
   id,
   setDiasableButton,
   setUserCardRef,
+  data,
+  setData,
 }) => {
   const UserCardContainerRef = useRef();
+  const TooltipContainerRef = useRef();
+  const [showTooltip, setShowTooltip] = useState(null);
+  const [openChangeStatusModal, setOpenChangeStatusModal] = useState(false);
+
   return (
-    <UserCardContainer
-      onClick={() => {
-        setIsSelected(id);
-        setDiasableButton(false);
-        setUserCardRef(UserCardContainerRef);
-      }}
-      isSelected={isSelected === id}
-      ref={UserCardContainerRef}
-    >
-      <Name isSelected={isSelected === id}>{name}</Name>
-      <Area isSelected={isSelected === id}>{area}</Area>
-      <AlertMessage success={isHired} info={!isHired} fullWidth>
-        {isHired ? 'contratado' : 'Looking for a job'}
-      </AlertMessage>
-    </UserCardContainer>
+    <>
+      <UserCardContainer
+        onClick={() => {
+          setIsSelected(id);
+          setDiasableButton(false);
+          setUserCardRef(UserCardContainerRef);
+        }}
+        isSelected={isSelected === id}
+        ref={UserCardContainerRef}
+      >
+        <Name isSelected={isSelected === id}>{name}</Name>
+        <Area isSelected={isSelected === id}>{area}</Area>
+        <ShowTooltipContainer
+          onMouseLeave={() => {
+            TooltipContainerRef.current.classList.replace('fadeIn', 'fadeOut');
+            setTimeout(() => setShowTooltip(null), 230);
+          }}
+          onClick={() => {
+            TooltipContainerRef.current.classList.add('fadeIn');
+            setShowTooltip(id);
+          }}
+          onMouseEnter={() => {
+            TooltipContainerRef.current.classList.add('fadeIn');
+            setShowTooltip(id);
+          }}
+          onMouseMove={() =>
+            TooltipContainerRef.current.classList.add('fadeIn')
+          }
+        >
+          <AlertMessage success={isHired} info={!isHired} fullWidth>
+            {isHired ? 'contratado' : 'Looking for a job'}
+          </AlertMessage>
+          <TooltipContainer
+            showTooltip={showTooltip === id}
+            ref={TooltipContainerRef}
+          >
+            <ToolTip>
+              <h3>Cambiar Status:</h3>
+              <LoadingButton
+                fullWidth
+                onClick={() => setOpenChangeStatusModal(true)}
+              >
+                {isHired ? 'Looking for a job' : 'contratado'}
+              </LoadingButton>
+            </ToolTip>
+          </TooltipContainer>
+        </ShowTooltipContainer>
+      </UserCardContainer>
+      {openChangeStatusModal && (
+        <ConfirmChangeStatusModal
+          openChangeStatusModal={openChangeStatusModal}
+          setOpenChangeStatusModal={setOpenChangeStatusModal}
+          isHired={isHired}
+          data={data}
+          isSelected={isSelected}
+          setData={setData}
+        />
+      )}
+    </>
   );
 };
 
