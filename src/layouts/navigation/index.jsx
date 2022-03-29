@@ -197,7 +197,7 @@ const Index = (props) => {
         <LogoContainer>
           <img src={Logo} alt="" />
         </LogoContainer>
-        <IconsBox />
+        <div>{props.menu}</div>
         <div className="grow"></div>
         <ProfileBox>
           <div className="imageProfile" onClick={handleMenu}>
@@ -208,7 +208,7 @@ const Index = (props) => {
               <MenuOptions>
                 <div className="menu_user">
                   <a href="">
-                    <p>Alexis Salcedo</p>
+                    <p>{props.name}</p>
                     Ver perfil
                   </a>
                 </div>

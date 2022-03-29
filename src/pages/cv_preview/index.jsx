@@ -13,6 +13,7 @@ import axios from 'axios';
 import TasksButton from '../../assets/icons/task-list.svg';
 import HelpButton from '../../assets/icons/bulb.svg';
 import Close from '../../assets/icons/close.svg';
+import UserMenu from '../../layouts/navigation/userMenu';
 
 const HelpCont = styled.button`
   position: fixed;
@@ -276,17 +277,18 @@ const CV_preview = () => {
         />
       )}
 
-      {isEdit ? (
-        <Layout
-          main={<EditCV cvId={cvData.id} editButton={handleEdit} />}
-          right={<TasksTodo />}
-        />
-      ) : (
-        <Layout
-          main={<CV cvId={cvData.id} editButton={handleEdit} />}
-          right={<Tasks />}
-        />
-      )}
+      <Layout
+        main={
+          isEdit ? (
+            <EditCV cvId={cvData.id} editButton={handleEdit} />
+          ) : (
+            <CV cvId={cvData.id} editButton={handleEdit} />
+          )
+        }
+        right={isEdit ? <TasksTodo /> : <Tasks />}
+        menu={<UserMenu />}
+        name={`${user.name} ${user.paternal_surname}`}
+      />
 
       <HelpCont onClick={handleSidebarHelp}>
         <p>¿Ayuda necesitas?</p>
