@@ -61,14 +61,7 @@ const TooltipContainer = styled.div`
   right: calc(100%);
   top: 50%;
   transform: translateX(0) translateY(-50%);
-  width: clamp(150px, 25vw, 200px);
   display: ${(props) => (props.showTooltip ? 'block' : 'none')};
-  background-color: #f7f7f7;
-  border-radius: 3px;
-
-  box-shadow: 0px 3px 1px -1px rgb(0 0 0 / 20%),
-    0px 2px 4px 0px rgb(0 0 0 / 14%), 0px 1px 7px 0px rgb(0 0 0 / 12%);
-  padding: 15px;
 
   &[class~='fadeIn'] {
     animation: ${fadeIn} 250ms;
@@ -85,6 +78,15 @@ const ToolTip = styled.div`
   gap: 10px;
   width: 100%;
   height: 100%;
+
+  width: clamp(150px, 25vw, 200px);
+  background-color: #f7f7f7;
+  border-radius: 3px;
+
+  box-shadow: 0px 3px 1px -1px rgb(0 0 0 / 20%),
+    0px 2px 4px 0px rgb(0 0 0 / 14%), 0px 1px 7px 0px rgb(0 0 0 / 12%);
+  padding: 15px;
+  margin-right: 20px;
 `;
 const UserCard = ({
   name,
