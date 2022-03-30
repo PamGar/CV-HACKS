@@ -9,7 +9,7 @@ import {
   faPenToSquare,
 } from '@fortawesome/free-regular-svg-icons';
 import { ModalWrapper } from '../../layouts/ModalLayout';
-import AlertMessage from '../../components/AlertMessage';
+import { toast } from 'react-toastify';
 
 const Container = styled.div`
   background-color: rgb(238, 238, 255);
@@ -77,7 +77,6 @@ const EditCommentModal = ({
   );
   const [loading, setLoading] = useState(false);
   const [disabledButton, setDisabledButton] = useState(true);
-  const [showError, setShowError] = useState(false);
   const comment = commentList.find((comment) => comment.id === commentID);
   const commentPosition = commentList.findIndex(
     (comment) => comment.id === commentID
@@ -117,12 +116,13 @@ const EditCommentModal = ({
       arrCopy[commentPosition] = commentToBeChanged;
       setCommentList([...arrCopy]);
       ModalWrapperRef.current.classList.add('fadeOut');
+      toast.success('Correción editada');
       setTimeout(() => setOpenEditCommentModal(false), 250);
     } catch (err) {
       console.log(err);
-      setShowError(true);
       setLoading(false);
       setDisabledButton(false);
+      toast.error('No se ha podido editar la correción');
     }
   };
 
@@ -174,11 +174,6 @@ const EditCommentModal = ({
             >
               editar corrección
             </LoadingButton>
-            {showError && (
-              <AlertMessage error fullWidth>
-                opps ha ocurrido un error, no se pudo actualizar la correción
-              </AlertMessage>
-            )}
           </Container>
         </ModalWrapper>
       }

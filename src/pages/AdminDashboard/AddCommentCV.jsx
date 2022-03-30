@@ -7,6 +7,7 @@ import EditCommentModal from './EditCommentModal';
 import ConfirmDeleteComentModal from './ConfirmDeleteComentModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { toast } from 'react-toastify';
 
 const Textarea = styled.textarea`
   box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
@@ -83,20 +84,31 @@ const AddCommentCV = ({ setShowMainContent }) => {
   const [commentSelectedID, setCommentSelectedID] = useState(0);
   const [openConfirmDeleteComentModal, setOpenConfirmDeleteComentModal] =
     useState(false);
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     setComment((prev) => ({ ...prev, comment: e.target.value }));
   };
   const token = localStorage.getItem('authToken');
 
   const WriteAComment = async () => {
+    setLoading(true);
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/1`,
         comment,
         { headers: { authorization: `Token ${token}` } }
       );
+      console.log(data);
+      toast.success('¡Correción creada!');
+      setCommentList((prev) => [...prev, data]);
+      setComment({
+        comment: '',
+        description: 'Informacion Personal',
+      });
+      setLoading(false);
     } catch (err) {
-      console.log(err);
+      toast.error('No se a podido agregar la correción');
+      setLoading(false);
     }
   };
   const getListOfComments = async () => {
@@ -106,6 +118,7 @@ const AddCommentCV = ({ setShowMainContent }) => {
         { headers: { authorization: `Token ${token}` } }
       );
       setCommentList([...data]);
+      console.log(data);
     } catch (err) {
       console.log(err);
     }
@@ -114,12 +127,14 @@ const AddCommentCV = ({ setShowMainContent }) => {
   useEffect(() => {
     getListOfComments();
   }, []);
+
   return (
     <>
       <FormWrapper
         onClick={WriteAComment}
         setShowMainContent={setShowMainContent}
-        disableButton={!comment.comment}
+        disableButton={!comment.comment || loading}
+        loading={loading}
       >
         <h2>Agregar correción</h2>
         <Textarea
@@ -139,15 +154,6 @@ const AddCommentCV = ({ setShowMainContent }) => {
           <option value='Experiencia'>Experiencia</option>
           <option value='Cursos'>Cursos</option>
         </Select>
-        <h3>Preview</h3>
-        <CommentContainer>
-          <AreaContainer>
-            <p>Area:</p>
-            <p>{comment.description}</p>
-          </AreaContainer>
-          <p>Correción:</p>
-          {comment.comment && <p className='comment'>{comment.comment}</p>}
-        </CommentContainer>
         <h3>Lista de comentarios</h3>
         {commentList.map(({ comment, id, description }) => (
           <CommentContainer key={id}>

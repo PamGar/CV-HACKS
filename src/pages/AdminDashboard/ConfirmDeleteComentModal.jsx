@@ -5,9 +5,9 @@ import LoadingButton from '../../components/Buttons/LoadingButton';
 import OutlinedButton from '../../components/Buttons/OutlinedButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import AlertMessage from '../../components/AlertMessage';
 import { ModalWrapper } from '../../layouts/ModalLayout';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Container = styled.div`
   background-color: rgb(238, 238, 255);
@@ -41,10 +41,11 @@ const ConfirmDeleteComentModal = ({
   commentID,
   setCommentList,
 }) => {
-  const [showError, setShowError] = useState(false);
+  const [loading, setLoading] = useState(false);
   const ModalWrapperRef = useRef();
 
   const handleDelete = async () => {
+    setLoading(true);
     try {
       const { data } = await axios.delete(
         `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/1/${commentID}`,
@@ -54,6 +55,7 @@ const ConfirmDeleteComentModal = ({
           },
         }
       );
+      toast.success('Correción eliminada');
       ModalWrapperRef.current.classList.add('fadeOut');
       setCommentList((prev) =>
         prev.filter((comment) => comment.id !== commentID)
@@ -61,7 +63,8 @@ const ConfirmDeleteComentModal = ({
       setTimeout(() => setOpenConfirmDeleteComentModal(false), 250);
     } catch (err) {
       console.log(err);
-      setShowError(true);
+      toast.error('No se ha podido eliminar la Correción.');
+      setLoading(false);
     }
   };
 
@@ -98,15 +101,15 @@ const ConfirmDeleteComentModal = ({
               >
                 cancelar
               </OutlinedButton>
-              <LoadingButton fullWidth onClick={handleDelete}>
+              <LoadingButton
+                fullWidth
+                onClick={handleDelete}
+                disabled={loading}
+                loading={loading}
+              >
                 eliminar
               </LoadingButton>
             </ButtonContainer>
-            {showError && (
-              <AlertMessage error fullWidth>
-                opps ha ocurrido un error, no se pudo eliminar la correción
-              </AlertMessage>
-            )}
           </Container>
         </ModalWrapper>
       }
