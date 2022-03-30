@@ -44,15 +44,6 @@ const NavModal = ({ openModal, setOpenModal, setShowMainContent }) => {
               Editar CV
             </NavDescriptionCard>
             <NavDescriptionCard
-              description='Marca como contratado y por cúal empresa'
-              icon='icono'
-              onClick={() => {
-                setTimeout(() => setShowMainContent('status'), 250);
-              }}
-            >
-              Estatus
-            </NavDescriptionCard>
-            <NavDescriptionCard
               description='Compartir CVs a las empresas'
               icon='icono'
               onClick={() => {

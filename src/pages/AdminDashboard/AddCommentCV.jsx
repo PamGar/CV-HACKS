@@ -4,8 +4,10 @@ import FormWrapper from '../../components/FormWrapper';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import EditCommentModal from './EditCommentModal';
+import ConfirmDeleteComentModal from './ConfirmDeleteComentModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { toast } from 'react-toastify';
 
 const Textarea = styled.textarea`
   box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
@@ -56,19 +58,23 @@ const Select = styled.select`
   border-radius: 3px;
 `;
 
-const IconButton = styled.button`
+const IconContainer = styled.div`
   display: flex;
   justify-content: flex-end;
+  gap: 20px;
+`;
+
+const IconButton = styled.button`
   cursor: pointer;
   background-color: transparent;
 
-  .editComment {
+  .icon {
     height: 20px;
     width: 20px;
   }
 `;
 
-const AddCommentCV = ({ setShowMainContent }) => {
+const AddCommentCV = ({ setShowMainContent, userSelectedId }) => {
   const [comment, setComment] = useState({
     comment: '',
     description: 'Informacion Personal',
@@ -76,29 +82,43 @@ const AddCommentCV = ({ setShowMainContent }) => {
   const [commentList, setCommentList] = useState([]);
   const [openEditCommentModal, setOpenEditCommentModal] = useState(false);
   const [commentSelectedID, setCommentSelectedID] = useState(0);
+  const [openConfirmDeleteComentModal, setOpenConfirmDeleteComentModal] =
+    useState(false);
+  const [loading, setLoading] = useState(false);
   const handleChange = (e) => {
     setComment((prev) => ({ ...prev, comment: e.target.value }));
   };
   const token = localStorage.getItem('authToken');
 
   const WriteAComment = async () => {
+    setLoading(true);
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/1`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${userSelectedId}`,
         comment,
         { headers: { authorization: `Token ${token}` } }
       );
+      console.log(data);
+      toast.success('¡Correción agregada!');
+      setCommentList((prev) => [...prev, data]);
+      setComment({
+        comment: '',
+        description: 'Informacion Personal',
+      });
+      setLoading(false);
     } catch (err) {
-      console.log(err);
+      toast.error('No se a podido agregar la correción');
+      setLoading(false);
     }
   };
   const getListOfComments = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/1`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${userSelectedId}`,
         { headers: { authorization: `Token ${token}` } }
       );
       setCommentList([...data]);
+      console.log(data);
     } catch (err) {
       console.log(err);
     }
@@ -107,12 +127,14 @@ const AddCommentCV = ({ setShowMainContent }) => {
   useEffect(() => {
     getListOfComments();
   }, []);
+
   return (
     <>
       <FormWrapper
         onClick={WriteAComment}
         setShowMainContent={setShowMainContent}
-        disableButton={!comment.comment}
+        disableButton={!comment.comment || loading}
+        loading={loading}
       >
         <h2>Agregar correción</h2>
         <Textarea
@@ -132,27 +154,29 @@ const AddCommentCV = ({ setShowMainContent }) => {
           <option value='Experiencia'>Experiencia</option>
           <option value='Cursos'>Cursos</option>
         </Select>
-        <h3>Preview</h3>
-        <CommentContainer>
-          <AreaContainer>
-            <p>Area:</p>
-            <p>{comment.description}</p>
-          </AreaContainer>
-          <p>Correción:</p>
-          {comment.comment && <p className='comment'>{comment.comment}</p>}
-        </CommentContainer>
         <h3>Lista de comentarios</h3>
         {commentList.map(({ comment, id, description }) => (
           <CommentContainer key={id}>
-            <IconButton
-              onClick={(e) => {
-                e.preventDefault();
-                setOpenEditCommentModal(true);
-                setCommentSelectedID(id);
-              }}
-            >
-              <FontAwesomeIcon icon={faPenToSquare} className='editComment' />
-            </IconButton>
+            <IconContainer>
+              <IconButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpenEditCommentModal(true);
+                  setCommentSelectedID(id);
+                }}
+              >
+                <FontAwesomeIcon icon={faPenToSquare} className='icon' />
+              </IconButton>
+              <IconButton
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpenConfirmDeleteComentModal(true);
+                  setCommentSelectedID(id);
+                }}
+              >
+                <FontAwesomeIcon icon={faTrashCan} className='icon' />
+              </IconButton>
+            </IconContainer>
             <AreaContainer>
               <p>Area:</p>
               <p>{description}</p>
@@ -179,6 +203,16 @@ const AddCommentCV = ({ setShowMainContent }) => {
           commentID={commentSelectedID}
           commentList={commentList}
           setCommentList={setCommentList}
+          userSelectedId={userSelectedId}
+        />
+      )}
+      {openConfirmDeleteComentModal && (
+        <ConfirmDeleteComentModal
+          openConfirmDeleteComentModal={openConfirmDeleteComentModal}
+          setOpenConfirmDeleteComentModal={setOpenConfirmDeleteComentModal}
+          commentID={commentSelectedID}
+          setCommentList={setCommentList}
+          userSelectedId={userSelectedId}
         />
       )}
     </>

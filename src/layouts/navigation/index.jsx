@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Logo from '../../assets/images/logo_white.png';
 import Profile from '../../assets/images/profile.jpg';
 import IconsBox from './userMenu';
+import { useNavigate } from 'react-router-dom';
 
 const GridBase = styled.div`
   display: grid;
@@ -97,6 +98,11 @@ const ProfileBox = styled.div`
     color: #343434;
   }
 
+  .logoutButton {
+    color: #ff6161;
+    font-weight: 700;
+    cursor: pointer;
+    
   .menu_hide {
     transition: 0.2s;
     transform-origin: top right;
@@ -175,6 +181,15 @@ const Tasks = styled.div`
 
 const Index = (props) => {
   const [openMenu, setOpenMenu] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+    navigate('/');
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('role');
+  };
+
   const refMenu = useRef();
 
   const handleMenu = () => {
@@ -214,6 +229,17 @@ const Index = (props) => {
               </MenuOptions>
             )}
           </div>
+          {openMenu && (
+            <MenuOptions>
+              <h2>Nombre del usuario</h2>
+              <hr />
+              <a href='https:/'>Settings</a>
+              <hr />
+              <a className='logoutButton' onClick={handleLogout}>
+                Logout
+              </a>
+            </MenuOptions>
+          )}
         </ProfileBox>
       </Nav>
       <Main>{props.main}</Main>

@@ -112,7 +112,7 @@ const LoginModal = ({ closeModal, isOpen, userEmail, setIsAuthenticated }) => {
       closeModal(false);
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('role', data.user.role.id);
-      setIsAuthenticated({ isAuth: true, role: data.user.role });
+      setIsAuthenticated({ isAuth: true, role: data.user.role.id });
       navigate('/dashboard');
     } catch (err) {
       err.response.status === 400
