@@ -7,6 +7,7 @@ import OutlinedButton from '../../components/Buttons/OutlinedButton';
 import AlertMessage from '../../components/AlertMessage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-regular-svg-icons';
+import { toast } from 'react-toastify';
 
 const Container = styled.div`
   background-color: rgb(238, 238, 255);
@@ -47,25 +48,31 @@ const ConfirmChangeStatusModal = ({
   setOpenChangeStatusModal,
   isHired,
   data,
-  isSelected,
+  idUserSelected,
   setData,
 }) => {
+  const [loading, setLoading] = useState(false);
   const ModalWrapperRef = useRef();
-  const selectedUserStatus = data.find((user) => user.id === isSelected);
+  const selectedUserStatus = data.find((user) => user.id === idUserSelected);
   const selectedUserStatusPosition = data.findIndex(
-    (user) => user.id === isSelected
+    (user) => user.id === idUserSelected
   );
 
   const handleChangeStatus = async () => {
+    setLoading(true);
     selectedUserStatus.isHired = !isHired;
     try {
+      toast.success('Se ha cambiado el estatus');
       ModalWrapperRef.current.classList.add('fadeOut');
       const arrCopy = [...data];
       arrCopy[selectedUserStatusPosition] = selectedUserStatus;
       console.log(arrCopy);
       setTimeout(() => setData([...arrCopy]), 250);
       setTimeout(() => setOpenChangeStatusModal(false), 250);
-    } catch (err) {}
+    } catch (err) {
+      toast.error('No se pudo cambiar el estatus');
+      setLoading(false);
+    }
   };
 
   useLayoutEffect(() => {
@@ -116,7 +123,12 @@ const ConfirmChangeStatusModal = ({
               >
                 cancelar
               </OutlinedButton>
-              <LoadingButton fullWidth onClick={handleChangeStatus}>
+              <LoadingButton
+                fullWidth
+                onClick={handleChangeStatus}
+                loading={loading}
+                disabled={loading}
+              >
                 confirmar
               </LoadingButton>
             </ButtonContainer>
