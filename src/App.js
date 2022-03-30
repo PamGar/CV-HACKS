@@ -7,6 +7,8 @@ import Login from './pages/Login';
 import CV_preview from './pages/cv_preview';
 import AdminDashboard from './pages/AdminDashboard';
 import Layout from './layouts/navigation';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState({
@@ -15,6 +17,17 @@ const App = () => {
   });
   return (
     <Router>
+      <ToastContainer
+        position='top-right'
+        autoClose={3000}
+        hideProgressBar
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <GlobalStyles />
       <Routes>
         <Route element={<PublicRoute isAuth={isAuthenticated.isAuth} />}>
@@ -28,7 +41,9 @@ const App = () => {
           <Route
             path='/dashboard'
             element={
-              isAuthenticated.role == 5 ? null : isAuthenticated.role == 4 ? (
+              isAuthenticated.role == 5 ? (
+                <AdminDashboard />
+              ) : isAuthenticated.role == 4 ? (
                 <CV_preview />
               ) : isAuthenticated.role == 3 ? (
                 <AdminDashboard />
@@ -43,7 +58,3 @@ const App = () => {
 };
 
 export default App;
-
-const Test = () => {
-  return <Layout main={<div>test</div>} right={<div>cv</div>} />;
-};
