@@ -1,71 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import UserCard from '../../components/UserCard';
 import LoadingButton from '../../components/Buttons/LoadingButton';
 import NavModal from './NavModal';
 import styled from 'styled-components';
-
-const accordionData = [
-  {
-    name: 'Carlos Eduardo Botero Viloria',
-    area: 'frontend',
-    isHired: false,
-    id: 1,
-  },
-  {
-    name: 'jose',
-    area: 'backend',
-    isHired: false,
-    id: 2,
-  },
-  {
-    name: 'eduardo',
-    area: 'ux/ui',
-    isHired: true,
-    id: 3,
-  },
-  {
-    name: 'eduardo',
-    area: 'tester',
-    isHired: true,
-    id: 4,
-  },
-  {
-    name: 'guille',
-    area: 'fronted',
-    isHired: true,
-    id: 5,
-  },
-  {
-    name: 'eduardo',
-    area: 'ux/ui',
-    isHired: true,
-    id: 6,
-  },
-  {
-    name: 'pepe',
-    area: 'devops',
-    isHired: true,
-    id: 7,
-  },
-  {
-    name: 'eduardo',
-    area: 'ux/ui',
-    isHired: true,
-    id: 8,
-  },
-  {
-    name: 'elpepe',
-    area: 'backend',
-    isHired: true,
-    id: 9,
-  },
-  {
-    name: 'eduardo',
-    area: 'ux/ui',
-    isHired: true,
-    id: 10,
-  },
-];
+import axios from 'axios';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -98,27 +36,56 @@ const SearchUserInput = styled.input`
   padding: 10px;
 `;
 
-const CVlist = ({ openModal, setOpenModal, setShowMainContent }) => {
-  const [isSelected, setIsSelected] = useState('');
+const CVlist = ({
+  openModal,
+  setOpenModal,
+  setShowMainContent,
+  userSelectedId,
+  setUserSelectedId,
+}) => {
+  const [data, setData] = useState([]);
   const [diasableButton, setDiasableButton] = useState(true);
   const [userCardRef, setUserCardRef] = useState({});
+
+  const getCVlist = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-all?page_number=1&page_size=1`,
+        {
+          headers: {
+            authorization: `Token ${localStorage.getItem('authToken')}`,
+          },
+        }
+      );
+      setData([...data.data]);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getCVlist();
+  }, []);
 
   return (
     <Wrapper>
       <InfinityScrollContainer>
         <h1>Listado de CVs</h1>
         <SearchUserInput type='text' placeholder='buscar usuario' />
-        {accordionData.map(({ name, area, isHired, id }) => (
+        {data.map(({ name, area, isHired, id }) => (
           <UserCard
             name={name}
             area={area}
             isHired={isHired}
-            isSelected={isSelected}
-            setIsSelected={setIsSelected}
+            userSelectedId={userSelectedId}
+            setUserSelectedId={setUserSelectedId}
             setDiasableButton={setDiasableButton}
             setUserCardRef={setUserCardRef}
             id={id}
             key={id}
+            data={data}
+            setData={setData}
           />
         ))}
         <NavModal
