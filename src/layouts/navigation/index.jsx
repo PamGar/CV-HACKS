@@ -102,7 +102,8 @@ const ProfileBox = styled.div`
     color: #ff6161;
     font-weight: 700;
     cursor: pointer;
-    
+  }
+
   .menu_hide {
     transition: 0.2s;
     transform-origin: top right;
@@ -201,45 +202,38 @@ const Index = (props) => {
     <GridBase>
       <Nav>
         <LogoContainer>
-          <img src={Logo} alt="" />
+          <img src={Logo} alt='' />
         </LogoContainer>
         <IconsBox />
-        <div className="grow"></div>
+        <div className='grow'></div>
         <ProfileBox>
-          <div className="imageProfile" onClick={handleMenu}>
-            <img src={Profile} alt="" />
+          <div className='imageProfile' onClick={handleMenu}>
+            <img src={Profile} alt='' />
           </div>
-          <div className="menu_hide" ref={refMenu}>
+          <div className='menu_hide' ref={refMenu}>
             {openMenu && (
               <MenuOptions>
-                <div className="menu_user">
-                  <a href="">
+                <div className='menu_user'>
+                  <a href=''>
                     <p>Alexis Salcedo</p>
                     Ver perfil
                   </a>
                 </div>
-                <div className="menu_options">
-                  <a href="https:/">Settings</a>
+                <div className='menu_options'>
+                  <a href='https:/'>Settings</a>
                 </div>
-                <div className="menu_out">
-                  <a className="logoutButton" href="https:/">
+                <div className='menu_out'>
+                  <a
+                    className='logoutButton'
+                    href='https:/'
+                    onClick={handleLogout}
+                  >
                     Logout
                   </a>
                 </div>
               </MenuOptions>
             )}
           </div>
-          {openMenu && (
-            <MenuOptions>
-              <h2>Nombre del usuario</h2>
-              <hr />
-              <a href='https:/'>Settings</a>
-              <hr />
-              <a className='logoutButton' onClick={handleLogout}>
-                Logout
-              </a>
-            </MenuOptions>
-          )}
         </ProfileBox>
       </Nav>
       <Main>{props.main}</Main>
