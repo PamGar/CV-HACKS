@@ -71,6 +71,7 @@ const EditCommentModal = ({
   commentID,
   commentList,
   setCommentList,
+  userSelectedId,
 }) => {
   const [commentToBeChanged, setCommentToBeChanged] = useState(
     commentList.find((comment) => comment.id === commentID)
@@ -104,7 +105,7 @@ const EditCommentModal = ({
     setDisabledButton(true);
     try {
       const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/1/${commentID}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${userSelectedId}/${commentID}`,
         {
           comment: commentToBeChanged.comment,
           description: commentToBeChanged.description,

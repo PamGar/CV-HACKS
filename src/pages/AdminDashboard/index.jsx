@@ -13,6 +13,7 @@ const Stickyp = styled.p`
 const AdminDashboard = () => {
   const [openModal, setOpenModal] = useState(false);
   const [showMainContent, setShowMainContent] = useState('CVlist');
+  const [userSelectedId, setUserSelectedId] = useState(null);
   return (
     <Layout
       main={
@@ -21,13 +22,24 @@ const AdminDashboard = () => {
             openModal={openModal}
             setOpenModal={setOpenModal}
             setShowMainContent={setShowMainContent}
+            userSelectedId={userSelectedId}
+            setUserSelectedId={setUserSelectedId}
           />
         ) : showMainContent === 'comments' ? (
-          <AddCommentCV setShowMainContent={setShowMainContent} />
+          <AddCommentCV
+            setShowMainContent={setShowMainContent}
+            userSelectedId={userSelectedId}
+          />
         ) : showMainContent === 'edit' ? (
-          <EditCV setShowMainContent={setShowMainContent} />
+          <EditCV
+            setShowMainContent={setShowMainContent}
+            userSelectedId={userSelectedId}
+          />
         ) : showMainContent === 'share' ? (
-          <ShareCV setShowMainContent={setShowMainContent} />
+          <ShareCV
+            setShowMainContent={setShowMainContent}
+            userSelectedId={userSelectedId}
+          />
         ) : null
       }
       right={

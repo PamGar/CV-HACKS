@@ -48,14 +48,14 @@ const ConfirmChangeStatusModal = ({
   setOpenChangeStatusModal,
   isHired,
   data,
-  idUserSelected,
+  userSelectedId,
   setData,
 }) => {
   const [loading, setLoading] = useState(false);
   const ModalWrapperRef = useRef();
-  const selectedUserStatus = data.find((user) => user.id === idUserSelected);
+  const selectedUserStatus = data.find((user) => user.id === userSelectedId);
   const selectedUserStatusPosition = data.findIndex(
-    (user) => user.id === idUserSelected
+    (user) => user.id === userSelectedId
   );
 
   const handleChangeStatus = async () => {

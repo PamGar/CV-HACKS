@@ -40,6 +40,7 @@ const ConfirmDeleteComentModal = ({
   setOpenConfirmDeleteComentModal,
   commentID,
   setCommentList,
+  userSelectedId,
 }) => {
   const [loading, setLoading] = useState(false);
   const ModalWrapperRef = useRef();
@@ -48,7 +49,7 @@ const ConfirmDeleteComentModal = ({
     setLoading(true);
     try {
       const { data } = await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/1/${commentID}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${userSelectedId}/${commentID}`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,

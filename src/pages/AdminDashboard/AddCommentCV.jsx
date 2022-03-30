@@ -74,7 +74,7 @@ const IconButton = styled.button`
   }
 `;
 
-const AddCommentCV = ({ setShowMainContent }) => {
+const AddCommentCV = ({ setShowMainContent, userSelectedId }) => {
   const [comment, setComment] = useState({
     comment: '',
     description: 'Informacion Personal',
@@ -94,12 +94,12 @@ const AddCommentCV = ({ setShowMainContent }) => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/1`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${userSelectedId}`,
         comment,
         { headers: { authorization: `Token ${token}` } }
       );
       console.log(data);
-      toast.success('¡Correción creada!');
+      toast.success('¡Correción agregada!');
       setCommentList((prev) => [...prev, data]);
       setComment({
         comment: '',
@@ -114,7 +114,7 @@ const AddCommentCV = ({ setShowMainContent }) => {
   const getListOfComments = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/1`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${userSelectedId}`,
         { headers: { authorization: `Token ${token}` } }
       );
       setCommentList([...data]);
@@ -203,6 +203,7 @@ const AddCommentCV = ({ setShowMainContent }) => {
           commentID={commentSelectedID}
           commentList={commentList}
           setCommentList={setCommentList}
+          userSelectedId={userSelectedId}
         />
       )}
       {openConfirmDeleteComentModal && (
@@ -211,6 +212,7 @@ const AddCommentCV = ({ setShowMainContent }) => {
           setOpenConfirmDeleteComentModal={setOpenConfirmDeleteComentModal}
           commentID={commentSelectedID}
           setCommentList={setCommentList}
+          userSelectedId={userSelectedId}
         />
       )}
     </>

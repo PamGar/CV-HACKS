@@ -92,8 +92,8 @@ const UserCard = ({
   name,
   area,
   isHired,
-  isSelected,
-  setIsSelected,
+  userSelectedId,
+  setUserSelectedId,
   id,
   setDiasableButton,
   setUserCardRef,
@@ -105,32 +105,31 @@ const UserCard = ({
   const [showTooltip, setShowTooltip] = useState(null);
   const [openChangeStatusModal, setOpenChangeStatusModal] = useState(false);
 
+  const handleTooltipTransition = () => {
+    TooltipContainerRef.current.classList.add('fadeIn');
+    setShowTooltip(id);
+  };
+
   return (
     <>
       <UserCardContainer
         onClick={() => {
-          setIsSelected(id);
+          setUserSelectedId(id);
           setDiasableButton(false);
           setUserCardRef(UserCardContainerRef);
         }}
-        isSelected={isSelected === id}
+        isSelected={userSelectedId === id}
         ref={UserCardContainerRef}
       >
-        <Name isSelected={isSelected === id}>{name}</Name>
-        <Area isSelected={isSelected === id}>{area}</Area>
+        <Name isSelected={userSelectedId === id}>{name}</Name>
+        <Area isSelected={userSelectedId === id}>{area}</Area>
         <ShowTooltipContainer
           onMouseLeave={() => {
             TooltipContainerRef.current.classList.replace('fadeIn', 'fadeOut');
             setTimeout(() => setShowTooltip(null), 230);
           }}
-          onClick={() => {
-            TooltipContainerRef.current.classList.add('fadeIn');
-            setShowTooltip(id);
-          }}
-          onMouseEnter={() => {
-            TooltipContainerRef.current.classList.add('fadeIn');
-            setShowTooltip(id);
-          }}
+          onClick={handleTooltipTransition}
+          onMouseEnter={handleTooltipTransition}
           onMouseMove={() =>
             TooltipContainerRef.current.classList.add('fadeIn')
           }
@@ -160,7 +159,7 @@ const UserCard = ({
           setOpenChangeStatusModal={setOpenChangeStatusModal}
           isHired={isHired}
           data={data}
-          isSelected={isSelected}
+          userSelectedId={userSelectedId}
           setData={setData}
         />
       )}
