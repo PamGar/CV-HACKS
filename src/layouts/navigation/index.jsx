@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import Logo from '../../assets/images/logo_white.png';
 import Profile from '../../assets/images/profile.jpg';
@@ -8,13 +8,9 @@ import { useNavigate } from 'react-router-dom';
 const GridBase = styled.div`
   display: grid;
   width: 100%;
-  max-width: 100%;
-  grid-template-columns: 80px 1fr 1fr;
+  max-width: 1440px;
+  grid-template-columns: 100px 1fr 1fr;
   grid-template-areas: 'navigation main tasks';
-
-  @media (max-width: 1440px) {
-    grid-template-columns: 80px 1fr 1fr;
-  }
 
   @media (max-width: 1099px) {
     grid-template-areas: 'navigation navigation' 'main tasks';
@@ -39,6 +35,7 @@ const Nav = styled.nav`
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 5px 5px 15px grey;
 
   .grow {
     flex-grow: 1;
@@ -99,13 +96,21 @@ const ProfileBox = styled.div`
   a {
     text-decoration: none;
     color: #343434;
-    font-size: 12px;
   }
 
   .logoutButton {
     color: #ff6161;
     font-weight: 700;
     cursor: pointer;
+    
+  .menu_hide {
+    transition: 0.2s;
+    transform-origin: top right;
+    transform: scale(0);
+  }
+
+  .unhide {
+    transform: scale(1);
   }
 
   @media (max-width: 1099px) {
@@ -114,24 +119,49 @@ const ProfileBox = styled.div`
 `;
 
 const MenuOptions = styled.div`
-  width: 200px;
   background-color: #fff;
   border-radius: 3px;
-  box-shadow: 5px 5px 5px grey;
+  box-shadow: 5px 5px 35px grey;
   position: absolute;
   right: -210px;
   bottom: 0;
-  padding: 10px 0;
+  text-align: left;
+  padding: 20px;
+  width: 200px;
+
+  .menu_user {
+    padding-bottom: 10px;
+
+    a {
+      font-size: 10px;
+      font-weight: 700;
+    }
+  }
+
+  .menu_options {
+    padding: 10px 0;
+    border-top: solid 1px #ededed;
+    border-bottom: solid 1px #ededed;
+  }
+
+  .menu_out {
+    padding-top: 10px;
+
+    a {
+      color: #ff3535;
+    }
+  }
 
   @media (max-width: 1099px) {
-    right: 0;
-    top: 85px;
+    right: -10px;
+    top: 20px;
     bottom: unset;
   }
 `;
 
 const Main = styled.div`
   width: 100%;
+  overflow: hidden;
   grid-area: main / main / main / main;
 
   @media (max-width: 820px) {
@@ -160,17 +190,44 @@ const Index = (props) => {
     localStorage.removeItem('role');
   };
 
+  const refMenu = useRef();
+
+  const handleMenu = () => {
+    setOpenMenu(!openMenu);
+    refMenu.current.classList.toggle('unhide');
+  };
+
   return (
     <GridBase>
       <Nav>
         <LogoContainer>
-          <img src={Logo} alt='' />
+          <img src={Logo} alt="" />
         </LogoContainer>
         <IconsBox />
-        <div className='grow'></div>
+        <div className="grow"></div>
         <ProfileBox>
-          <div className='imageProfile' onClick={() => setOpenMenu(!openMenu)}>
-            <img src={Profile} alt='' />
+          <div className="imageProfile" onClick={handleMenu}>
+            <img src={Profile} alt="" />
+          </div>
+          <div className="menu_hide" ref={refMenu}>
+            {openMenu && (
+              <MenuOptions>
+                <div className="menu_user">
+                  <a href="">
+                    <p>Alexis Salcedo</p>
+                    Ver perfil
+                  </a>
+                </div>
+                <div className="menu_options">
+                  <a href="https:/">Settings</a>
+                </div>
+                <div className="menu_out">
+                  <a className="logoutButton" href="https:/">
+                    Logout
+                  </a>
+                </div>
+              </MenuOptions>
+            )}
           </div>
           {openMenu && (
             <MenuOptions>

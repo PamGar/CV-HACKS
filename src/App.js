@@ -32,14 +32,14 @@ const App = () => {
       <Routes>
         <Route element={<PublicRoute isAuth={isAuthenticated.isAuth} />}>
           <Route
-            path='/login'
+            path="/login"
             element={<Login setIsAuthenticated={setIsAuthenticated} />}
           />
-          <Route path='/login/company' element={<Login company />} />
+          <Route path="/login/company" element={<Login company />} />
         </Route>
         <Route element={<PrivateRoute isAuth={isAuthenticated.isAuth} />}>
           <Route
-            path='/dashboard'
+            path="/dashboard"
             element={
               isAuthenticated.role == 5 ? (
                 <AdminDashboard />
