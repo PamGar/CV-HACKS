@@ -33,6 +33,7 @@ const FormWrapper = ({
   onClick,
   setShowMainContent,
   disableButton,
+  loading,
 }) => {
   return (
     <Wrapper>
@@ -51,6 +52,7 @@ const FormWrapper = ({
           onClick={onClick}
           type='submit'
           disabled={disableButton}
+          loading={loading}
         >
           enviar
         </LoadingButton>
