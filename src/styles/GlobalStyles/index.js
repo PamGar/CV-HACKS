@@ -10,6 +10,9 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 13px;
     border: 0px;
     font-weight: 500;
+}
+
+h1,h2,h3,h4,h5,h6,p,span,strong,em,blockquote,code,pre,ul,li,ol,dl,dt,mark,ins,del,sup,sub,small,i,b{
     color: #3c3c3c;
 }
 

@@ -67,7 +67,6 @@ const IconButton = styled.button`
   width: 40px;
   height: 40px;
   border-radius: 5px;
-  /* background-color: ${(props) => props.bgcolor}; */
   background-color: transparent;
   margin-top: 30px;
   margin-bottom: 5px;
@@ -89,8 +88,8 @@ const IconButton = styled.button`
   }
 
   .fontAwesomeIcon {
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
     color: white;
   }
 `;
@@ -138,8 +137,8 @@ const UserMenu = () => {
         </Button>
       )}
       {role == 3 && (
-        <Button onClick={() => navigate('/share-resume')}>
-          <IconButton bgcolor='#197a81'>
+        <Button onClick={() => navigate('/share-resume')} onMouseOver={addAnim}>
+          <IconButton>
             <FontAwesomeIcon icon={faPaperPlane} className='fontAwesomeIcon' />
           </IconButton>
           Share CVs
@@ -147,16 +146,20 @@ const UserMenu = () => {
       )}
       {role == 3 && (
         <Button onClick={() => navigate('/register-company')}>
-          <IconButton bgcolor='#197a81'>
-            <FontAwesomeIcon icon={faBuilding} className='fontAwesomeIcon' />
+          <IconButton>
+            <FontAwesomeIcon
+              icon={faBuilding}
+              className='fontAwesomeIcon'
+              onMouseOver={addAnim}
+            />
           </IconButton>
           Dar de alta
         </Button>
       )}
       <Button onMouseOver={addAnim}>
-        <IconButton bgcolor="#59F97E">
+        <IconButton bgcolor='#59F97E'>
           <Notification>3</Notification>
-          <img src={InterIcon} alt="" />
+          <img src={InterIcon} alt='' />
         </IconButton>
         Entrevistas
       </Button>
