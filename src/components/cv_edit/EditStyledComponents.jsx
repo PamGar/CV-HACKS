@@ -7,7 +7,7 @@ export const AccordeonBox = styled.div`
     border-radius: 15px;
     overflow: hidden;
     margin: 20px;
-    box-shadow: 0px 10px 40px -20px grey;
+    box-shadow: 0px 10px 15px grey;
   }
 
   .header {

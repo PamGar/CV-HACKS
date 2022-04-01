@@ -59,7 +59,7 @@ const FloatBox = styled.div`
       height: 50px;
       margin: 30px 20px;
       border-radius: 50%;
-      box-shadow: 0 0 35px -5px #000000b3;
+      box-shadow: 0 0 15px #00000036;
       font-weight: 700;
 
       img {
@@ -68,10 +68,10 @@ const FloatBox = styled.div`
     }
 
     .tasks {
-      background-color: #e7d8ff;
+      background-color: #fff;
     }
     .help {
-      background-color: #fbffd6;
+      background-color: #fff;
     }
   }
 `;
