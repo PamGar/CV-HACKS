@@ -442,7 +442,7 @@ const ProjectsEdit = (props) => {
                 name="description"
                 rows="5"
                 value={item.data.description}
-                placeholder="Escribe tus tareas en el cargo"
+                placeholder="Escribe una breve descripción del proyecto"
                 autoComplete="off"
                 onChange={handleDataChange}
               ></textarea>

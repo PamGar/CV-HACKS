@@ -241,7 +241,10 @@ const CertificationsEdit = (props) => {
               <h3>Agregar nuevo certificado</h3>
             )}
             <p>
-              <label htmlFor="name">Nombre del certificado</label>
+              <label htmlFor="name">
+                Nombre del certificado
+                <span className="fieldRecomendation">Requerido</span>
+              </label>
               <input
                 ref={firstInputRef}
                 type="text"
@@ -251,24 +254,32 @@ const CertificationsEdit = (props) => {
                 placeholder="Escribe el nombre de la certificacion"
                 autoComplete="off"
                 onChange={handleChange}
+                required
               />
             </p>
             <p>
-              <label htmlFor="company">Institucion que lo expide</label>
+              <label htmlFor="company">
+                Institucion que lo expide
+                <span className="fieldRecomendation">Requerido</span>
+              </label>
               <input
                 type="text"
                 id="company"
                 name="company"
                 value={item.company}
-                placeholder="Escribe el nombre del empleador"
+                placeholder="Escribe el nombre de la quien entrega el certificado"
                 autoComplete="off"
                 onChange={handleChange}
+                required
               />
             </p>
             <div className="twoColumns">
               <div>
                 <p>
-                  <label htmlFor="expedition_date">Fecha de expedición</label>
+                  <label htmlFor="expedition_date">
+                    Fecha de expedición
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
                   <input
                     type="date"
                     id="expedition_date"
@@ -276,12 +287,16 @@ const CertificationsEdit = (props) => {
                     value={item.expedition_date}
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   />
                 </p>
               </div>
               <div>
                 <p>
-                  <label htmlFor="expiry_date">Fecha de expiración</label>
+                  <label htmlFor="expiry_date">
+                    Fecha de expiración
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
                   <input
                     type="date"
                     id="expiry_date"
@@ -289,6 +304,7 @@ const CertificationsEdit = (props) => {
                     value={item.expiry_date}
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   />
                 </p>
                 <div className="check_data">
@@ -305,7 +321,10 @@ const CertificationsEdit = (props) => {
               </div>
             </div>
             <p>
-              <label htmlFor="credential_id">ID de la credencial</label>
+              <label htmlFor="credential_id">
+                ID de la credencial
+                <span className="fieldRecomendation">Requerido</span>
+              </label>
               <input
                 type="text"
                 name="credential_id"
@@ -313,10 +332,14 @@ const CertificationsEdit = (props) => {
                 placeholder="Escribe tus tareas en el cargo"
                 autoComplete="off"
                 onChange={handleChange}
+                required
               />
             </p>
             <p>
-              <label htmlFor="credential_url">URL de la credencial</label>
+              <label htmlFor="credential_url">
+                URL de la credencial
+                <span className="fieldRecomendation">Requerido</span>
+              </label>
               <input
                 type="text"
                 name="credential_url"
@@ -324,6 +347,7 @@ const CertificationsEdit = (props) => {
                 placeholder="Escribe tus tareas en el cargo"
                 autoComplete="off"
                 onChange={handleChange}
+                required
               />
             </p>
             <p>

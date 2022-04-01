@@ -339,7 +339,7 @@ const CoursesEdit = (props) => {
                 type="text"
                 name="title"
                 value={item.data.title}
-                placeholder="Escribe el nombre de la organización"
+                placeholder="Escribe el nombre del curso realizado"
                 autoComplete="off"
                 onChange={handleDataChange}
               />
@@ -354,7 +354,7 @@ const CoursesEdit = (props) => {
                 id="company"
                 name="subtitle"
                 value={item.data.subtitle}
-                placeholder="Escribe el nombre del empleador"
+                placeholder="Escribe el nombre de la institucion o plataforma"
                 autoComplete="off"
                 onChange={handleDataChange}
               />
@@ -370,7 +370,7 @@ const CoursesEdit = (props) => {
                     name="town"
                     value={item.address.town}
                     autoComplete="off"
-                    placeholder="Escribe la ciudad en la que vives"
+                    placeholder="Escribe la ciudad donde realizaste el curso"
                     onChange={handleAddressChange}
                     required
                   />
@@ -386,7 +386,7 @@ const CoursesEdit = (props) => {
                     name="country"
                     value={item.address.country}
                     autoComplete="off"
-                    placeholder="Escribe el pais en el que vives"
+                    placeholder="Escribe el pais donde realizaste el curso"
                     onChange={handleAddressChange}
                     required
                   />
@@ -444,7 +444,7 @@ const CoursesEdit = (props) => {
                 name="description"
                 rows="5"
                 value={item.data.description}
-                placeholder="Escribe una breve descripcion de la organización"
+                placeholder="Escribe una breve descripcion del curso realizado"
                 autoComplete="off"
                 onChange={handleDataChange}
               ></textarea>

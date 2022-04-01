@@ -351,7 +351,7 @@ const OrganisationEdit = (props) => {
                 id="company"
                 name="subtitle"
                 value={item.data.subtitle}
-                placeholder="Escribe el nombre del empleador"
+                placeholder="Escribe tu posicion dentro de la organización"
                 autoComplete="off"
                 onChange={handleDataChange}
               />
@@ -367,7 +367,7 @@ const OrganisationEdit = (props) => {
                     name="town"
                     value={item.address.town}
                     autoComplete="off"
-                    placeholder="Escribe la ciudad en la que vives"
+                    placeholder="Escribe la ciudad donde se ubica la organizacion"
                     onChange={handleAddressChange}
                     required
                   />
@@ -383,7 +383,7 @@ const OrganisationEdit = (props) => {
                     name="country"
                     value={item.address.country}
                     autoComplete="off"
-                    placeholder="Escribe el pais en el que vives"
+                    placeholder="Escribe el pais donde se ubica la organizacion"
                     onChange={handleAddressChange}
                     required
                   />

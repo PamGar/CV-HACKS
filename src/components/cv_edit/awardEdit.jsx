@@ -248,7 +248,7 @@ const AwardEdit = (props) => {
                 id="subtitle"
                 name="subtitle"
                 value={item.subtitle}
-                placeholder="Escribe el nombre del empleador"
+                placeholder="Escribe el nombre de quien lo entrega"
                 autoComplete="off"
                 onChange={handleChange}
               />

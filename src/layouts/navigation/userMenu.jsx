@@ -111,7 +111,7 @@ const UserMenu = () => {
         <IconButton bgcolor="#E83E8C">
           <img src={CVicon} alt="" />
         </IconButton>
-        CV
+        MyCV
       </Button>
       <Button onMouseOver={addAnim}>
         <IconButton bgcolor="#59F97E">

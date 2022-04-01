@@ -5,13 +5,16 @@ import styled from 'styled-components';
 
 const TasksBox = styled.div`
   padding: 20px;
-  padding-bottom: 0;
+  margin: 30px;
   text-align: center;
   width: 90%;
   max-width: 600px;
   font-weight: 300;
   margin-left: auto;
   margin-right: auto;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 10px 15px grey;
 
   .hide + div {
     display: none;
@@ -61,6 +64,9 @@ const TasksBox = styled.div`
   }
 
   @media (max-width: 820px) {
+    box-shadow: unset;
+    margin: 0;
+
     h2 {
       font-size: 20px;
     }
@@ -123,7 +129,6 @@ const Task = styled.section`
 
   .form-control--disabled {
     color: grey;
-    cursor: not-allowed;
     text-decoration: line-through;
     filter: opacity(0.3);
   }
@@ -147,6 +152,7 @@ const Task = styled.section`
     display: grid;
     place-content: center;
     flex: 0 0 25px;
+    cursor: pointer;
   }
 
   input[type='checkbox']::before {

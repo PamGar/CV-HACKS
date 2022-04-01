@@ -347,7 +347,7 @@ const JobEdit = (props) => {
                 type="text"
                 name="role"
                 value={item.data.role}
-                placeholder="Escribe el nombre de la organización"
+                placeholder="Escribe el nombre que tenias dentro de la empresa"
                 autoComplete="off"
                 onChange={handleDataChange}
               />
@@ -378,7 +378,7 @@ const JobEdit = (props) => {
                     name="town"
                     value={item.address.town}
                     autoComplete="off"
-                    placeholder="Escribe la ciudad en la que vives"
+                    placeholder="Escribe la ciudad donde esta la empresa"
                     onChange={handleAddressChange}
                     required
                   />
@@ -394,7 +394,7 @@ const JobEdit = (props) => {
                     name="country"
                     value={item.address.country}
                     autoComplete="off"
-                    placeholder="Escribe el pais en el que vives"
+                    placeholder="Escribe el pais donde esta la empresa"
                     onChange={handleAddressChange}
                     required
                   />

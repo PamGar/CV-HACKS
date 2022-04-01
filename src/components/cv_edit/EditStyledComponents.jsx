@@ -13,7 +13,7 @@ export const AccordeonBox = styled.div`
   .header {
     background: linear-gradient(40deg, #00b7b8, #595295);
     color: #fff;
-    padding: 20px;
+    padding: 25px;
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -128,6 +128,7 @@ export const AccordeonBox = styled.div`
   .editBox {
     display: flex;
     justify-content: end;
+    margin-top: 10px;
 
     button {
       margin-left: 20px;
@@ -276,7 +277,8 @@ export const AccordeonBox = styled.div`
   .separador {
     height: 2px;
     background-color: #bed028;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    margin-top: 10px;
   }
 
   .redList {

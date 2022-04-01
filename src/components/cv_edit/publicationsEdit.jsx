@@ -238,7 +238,7 @@ const PublicationsEdit = (props) => {
               <h3>Agregar nueva publicación</h3>
             )}
             <p>
-              <label htmlFor="title">¿Como se llama la publicación?</label>
+              <label htmlFor="title">Nombre de la publicación</label>
               <input
                 type="text"
                 id="title"
@@ -262,7 +262,7 @@ const PublicationsEdit = (props) => {
               />
             </p>
             <p>
-              <label htmlFor="date">¿En que fecha se publico?</label>
+              <label htmlFor="date">Fecha de publicación</label>
               <input
                 type="date"
                 id="date"
@@ -280,7 +280,7 @@ const PublicationsEdit = (props) => {
                 name="description"
                 rows="5"
                 value={item.description}
-                placeholder="Escribe tus tareas en el cargo"
+                placeholder="Escribe una breve descripcion de la publicación"
                 autoComplete="off"
                 onChange={handleChange}
               ></textarea>

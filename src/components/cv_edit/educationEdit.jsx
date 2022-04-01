@@ -327,7 +327,7 @@ const EducationEdit = (props) => {
             )}
             <p>
               <label htmlFor="title">
-                Nombre de la organización
+                Titulo obtenido
                 <span className="fieldRecomendation">Requerido</span>
               </label>
               <input
@@ -335,7 +335,7 @@ const EducationEdit = (props) => {
                 type="text"
                 name="major"
                 value={item.data.major}
-                placeholder="Escribe el nombre de la organización"
+                placeholder="Escribe el titulo obtenido"
                 autoComplete="off"
                 onChange={handleDataChange}
                 required
@@ -351,7 +351,7 @@ const EducationEdit = (props) => {
                 id="company"
                 name="degree"
                 value={item.data.degree}
-                placeholder="Escribe el nombre del empleador"
+                placeholder="Preparatoria / Universidad / Institucion"
                 autoComplete="off"
                 onChange={handleDataChange}
               />
@@ -367,7 +367,7 @@ const EducationEdit = (props) => {
                     name="town"
                     value={item.address.town}
                     autoComplete="off"
-                    placeholder="Escribe la ciudad en la que vives"
+                    placeholder="Escribe la ciudad de la institucion"
                     onChange={handleAddressChange}
                     required
                   />
@@ -383,7 +383,7 @@ const EducationEdit = (props) => {
                     name="country"
                     value={item.address.country}
                     autoComplete="off"
-                    placeholder="Escribe el pais en el que vives"
+                    placeholder="Escribe el pais de la institucion"
                     onChange={handleAddressChange}
                     required
                   />
@@ -443,7 +443,7 @@ const EducationEdit = (props) => {
                 rows="5"
                 name="descripcion"
                 value={item.data.description}
-                placeholder="Escribe una breve descripcion de la organización"
+                placeholder="Escribe una breve descripcion del titulo obtenido"
                 autoComplete="off"
                 onChange={handleDataChange}
                 required

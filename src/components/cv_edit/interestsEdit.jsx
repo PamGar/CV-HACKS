@@ -237,7 +237,7 @@ const InterestEdit = (props) => {
                 type="text"
                 name="title"
                 value={item.title}
-                placeholder="Escribe el nombre de la skill"
+                placeholder="Escribe el nombre de tu interes"
                 autoComplete="off"
                 onChange={handleChange}
               />
