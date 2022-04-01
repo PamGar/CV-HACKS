@@ -253,7 +253,7 @@ const CV_preview = () => {
         <button onClick={handleSidebarTask}>
           <img src={Close} alt="" />
         </button>
-        <div className="wrapper">{isEdit ? <TasksTodo /> : <Tasks />}</div>
+        <div className="wrapper">{<TasksTodo />}</div>
       </SidebarTasks>
       <SidebarHelp style={{ left: `${sidebarHelpWidth}%` }}>
         <button onClick={handleSidebarHelp}>
