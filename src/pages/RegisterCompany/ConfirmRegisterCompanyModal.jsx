@@ -3,7 +3,7 @@ import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import ModalLayout from '../../components/Modal/ModalLayout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane } from '@fortawesome/free-regular-svg-icons';
+import { faBuilding } from '@fortawesome/free-regular-svg-icons';
 import LoadingButton from '../../components/Buttons/LoadingButton';
 import OutlinedButton from '../../components/Buttons/OutlinedButton';
 import { toast } from 'react-toastify';
@@ -70,12 +70,12 @@ const ConfirmRegisterCompanyModal = ({
       isOpen={openModal}
       element={
         <ModalLayout ref={ModalLayoutRef}>
-          <FontAwesomeIconStyled icon={faPaperPlane} />
+          <FontAwesomeIconStyled icon={faBuilding} />
           <h1>Dar de alta</h1>
           <p>Los siguientes correos serán agregados:</p>
           <EmailsContainer>
             {emailList.map((email) => (
-              <p>{email}</p>
+              <p key={email}>{email}</p>
             ))}
           </EmailsContainer>
           <ButtonContainer>
