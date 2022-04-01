@@ -142,7 +142,7 @@ const LanguagesEdit = (props) => {
   const getLanguagesList = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formskills/${props.cvId}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formskills/${props.cvId}?type=Language`,
         {
           headers: {
             authorization: `Token ${myToken}`,
@@ -233,7 +233,9 @@ const LanguagesEdit = (props) => {
               <h3>Agregar nuevo idioma</h3>
             )}
             <p>
-              <label htmlFor="title">Title</label>
+              <label htmlFor="title">
+                Title<span className="fieldRecomendation">Requerido</span>
+              </label>
               <input
                 type="text"
                 id="title"
@@ -245,7 +247,10 @@ const LanguagesEdit = (props) => {
               />
             </p>
             <p>
-              <label htmlFor="subtitle">Subtitle</label>
+              <label htmlFor="subtitle">
+                Certificación
+                <span className="fieldRecomendation">Opcional</span>
+              </label>
               <input
                 type="text"
                 id="subtitle"
@@ -257,7 +262,9 @@ const LanguagesEdit = (props) => {
               />
             </p>
             <p>
-              <label htmlFor="level">Nivel</label>
+              <label htmlFor="level">
+                Nivel<span className="fieldRecomendation">Opcional</span>
+              </label>
               <input
                 type="level"
                 id="level"

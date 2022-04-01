@@ -13,6 +13,10 @@ export const GlobalStyles = createGlobalStyle`
     color: #3c3c3c;
 }
 
+body {
+    background-color: #f3f4f6;
+}
+
 h1 {
     font-size: 31.475px;
 }

@@ -15,6 +15,7 @@ const Page = styled.div`
   .page_container {
     width: 100%;
     box-shadow: 0px 10px 40px -20px grey;
+    background-color: #fff;
   }
 
   .page {

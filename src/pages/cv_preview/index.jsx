@@ -285,7 +285,7 @@ const CV_preview = () => {
             <CV cvId={cvData.id} editButton={handleEdit} />
           )
         }
-        right={isEdit ? <TasksTodo /> : <Tasks />}
+        right={<TasksTodo />} /* {isEdit ? <TasksTodo /> : <Tasks />} */
         menu={<UserMenu />}
         name={`${user.name} ${user.paternal_surname}`}
       />

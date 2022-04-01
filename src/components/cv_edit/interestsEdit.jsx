@@ -11,17 +11,18 @@ import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox } from './EditStyledComponents';
 
-const CertificationsEdit = (props) => {
+const InterestEdit = (props) => {
+  const URL = `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formskills/${props.cvId}`;
   const [hide, setHide] = useState(false);
   const [editItems, setEditItems] = useState(false);
   const [item, setItem] = useState({
-    name: '',
-    company: '',
-    expedition_date: '',
-    expiry_date: null,
-    credential_id: null,
-    credential_url: '',
+    id: null,
+    type: 'Interest',
+    title: '',
+    subtitle: '',
+    level: '0',
   });
+
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
@@ -42,14 +43,12 @@ const CertificationsEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
+      const { data } = await axios.get(`${URL}?type=Interest`, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
+      console.log(data);
       setItemsList(data);
     } catch (error) {
       console.error('error', error);
@@ -57,25 +56,18 @@ const CertificationsEdit = (props) => {
   };
 
   const addItem = async (e) => {
-    console.log('hi');
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}`,
-        item,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
+      const { data } = await axios.post(URL, item, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
       setItem({
-        name: '',
-        company: '',
-        expedition_date: '',
-        expiry_date: null,
-        credential_id: null,
-        credential_url: '',
+        type: 'Interest',
+        title: '',
+        subtitle: '',
+        level: '0',
       });
       getItemsList();
     } catch (error) {
@@ -87,14 +79,11 @@ const CertificationsEdit = (props) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}/${id}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
+      const { data } = await axios.delete(`${URL}/${id}`, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
       getItemsList();
     } catch (error) {
       console.error('error', error);
@@ -105,15 +94,18 @@ const CertificationsEdit = (props) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}/${id}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      setItem(data);
+      const { data } = await axios.get(`${URL}/${id}`, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
+      setItem({
+        id: data.id,
+        type: 'Interest',
+        title: data.title,
+        subtitle: data.subtitle,
+        level: '0',
+      });
       setEditItems(true);
       firstInputRef.current.focus();
     } catch (error) {
@@ -126,8 +118,11 @@ const CertificationsEdit = (props) => {
 
     try {
       const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}/${id}`,
-        item,
+        `${URL}/${id}`,
+        {
+          title: item.title,
+          subtitle: item.subtitle,
+        },
         {
           headers: {
             authorization: `Token ${myToken}`,
@@ -136,12 +131,10 @@ const CertificationsEdit = (props) => {
       );
       setEditItems(false);
       setItem({
-        name: '',
-        company: '',
-        expedition_date: '',
-        expiry_date: null,
-        credential_id: null,
-        credential_url: '',
+        type: 'Interest',
+        title: '',
+        subtitle: '',
+        level: '0',
       });
       getItemsList();
     } catch (error) {
@@ -153,12 +146,10 @@ const CertificationsEdit = (props) => {
     event.preventDefault();
     setEditItems(false);
     setItem({
-      name: '',
-      company: '',
-      expedition_date: '',
-      expiry_date: null,
-      credential_id: null,
-      credential_url: '',
+      type: 'Interest',
+      title: '',
+      subtitle: '',
+      level: '0',
     });
   };
 
@@ -175,7 +166,7 @@ const CertificationsEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Certificados
+            Intereses
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>
@@ -183,19 +174,16 @@ const CertificationsEdit = (props) => {
           <div className="body">
             {itemsList.length === 0 ? (
               <p className="tasks_0">
-                Aun no tienes ningun certificado guardado
+                Aun no tienes ningun interes / hobby guardado
               </p>
             ) : (
               itemsList.map((item) => {
                 return (
                   <div className="body_box" key={item.id}>
                     <p>
-                      <span>{item.name}</span> {item.company}
+                      <span>{item.title}</span>
                     </p>
-                    <p>
-                      {item.expedition_date} | {item.expiry_date}
-                    </p>
-                    <a href="http://">{item.credential_url}</a>
+                    <p>{item.subtitle}</p>
                     <div className="editBox">
                       <button onClick={(event) => getLanguage(event, item.id)}>
                         <FontAwesomeIcon
@@ -236,96 +224,40 @@ const CertificationsEdit = (props) => {
             )}
             <div className="separador"></div>
             {editItems ? (
-              <h3>Actualizar certificado</h3>
+              <h3>Actualizar interes</h3>
             ) : (
-              <h3>Agregar nuevo certificado</h3>
+              <h3>Agregar nuevo interes</h3>
             )}
             <p>
-              <label htmlFor="name">Nombre del certificado</label>
+              <label htmlFor="title">
+                Nombre del interes
+                <span className="fieldRecomendation">Requerido</span>
+              </label>
               <input
                 ref={firstInputRef}
                 type="text"
-                id="name"
-                name="name"
-                value={item.name}
-                placeholder="Escribe el nombre de la certificacion"
+                name="title"
+                value={item.title}
+                placeholder="Escribe el nombre de la skill"
                 autoComplete="off"
                 onChange={handleChange}
               />
             </p>
             <p>
-              <label htmlFor="company">Institucion que lo expide</label>
-              <input
+              <label htmlFor="subtitle">
+                Descripcion
+                <span className="fieldRecomendation">Opcional</span>
+              </label>
+              <textarea
                 type="text"
-                id="company"
-                name="company"
-                value={item.company}
-                placeholder="Escribe el nombre del empleador"
+                name="subtitle"
+                value={item.subtitle}
+                placeholder="Escribe una breve descripcion de tu interes"
                 autoComplete="off"
                 onChange={handleChange}
-              />
+              ></textarea>
             </p>
-            <div className="twoColumns">
-              <div>
-                <p>
-                  <label htmlFor="expedition_date">Fecha de expedición</label>
-                  <input
-                    type="date"
-                    id="expedition_date"
-                    name="expedition_date"
-                    value={item.expedition_date}
-                    autoComplete="off"
-                    onChange={handleChange}
-                  />
-                </p>
-              </div>
-              <div>
-                <p>
-                  <label htmlFor="expiry_date">Fecha de expiración</label>
-                  <input
-                    type="date"
-                    id="expiry_date"
-                    name="expiry_date"
-                    value={item.expiry_date}
-                    autoComplete="off"
-                    onChange={handleChange}
-                  />
-                </p>
-                <div className="check_data">
-                  <input
-                    type="checkbox"
-                    id="expiry_date"
-                    name="expiry_date"
-                    value={item.expiry_date}
-                    autoComplete="off"
-                    onChange={handleChange}
-                  />
-                  <label htmlFor="expiry_date">Presente (Actualidad)</label>
-                </div>
-              </div>
-            </div>
-            <p>
-              <label htmlFor="credential_id">ID de la credencial</label>
-              <input
-                type="text"
-                name="credential_id"
-                value={item.credential_id}
-                placeholder="Escribe tus tareas en el cargo"
-                autoComplete="off"
-                onChange={handleChange}
-              />
-            </p>
-            <p>
-              <label htmlFor="credential_url">URL de la credencial</label>
-              <input
-                type="text"
-                name="credential_url"
-                value={item.credential_url}
-                placeholder="Escribe tus tareas en el cargo"
-                autoComplete="off"
-                onChange={handleChange}
-              />
-            </p>
+
             <ButtonBox>
               {editItems ? (
                 <>
@@ -352,4 +284,4 @@ const CertificationsEdit = (props) => {
   );
 };
 
-export default CertificationsEdit;
+export default InterestEdit;

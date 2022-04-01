@@ -12,7 +12,7 @@ import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox } from './EditStyledComponents';
 
 const AwardEdit = (props) => {
-  const URLroute = 'admin-cv-formworks';
+  const URL = `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formworks/${props.cvId}`;
   const [hide, setHide] = useState(false);
   const [editItems, setEditItems] = useState(false);
   const [item, setItem] = useState({
@@ -41,14 +41,11 @@ const AwardEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/${URLroute}/${props.cvId}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
+      const { data } = await axios.get(URL, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
       setItemsList(data);
     } catch (error) {
       console.error('error', error);
@@ -59,15 +56,11 @@ const AwardEdit = (props) => {
     console.log('hi');
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/cv/${URLroute}/${props.cvId}`,
-        item,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
+      const { data } = await axios.post(URL, item, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
       setItem({
         type: 'Award',
         title: '',
@@ -85,14 +78,11 @@ const AwardEdit = (props) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/cv/${URLroute}/${props.cvId}/${id}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
+      const { data } = await axios.delete(`${URL}/${id}`, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
       getItemsList();
     } catch (error) {
       console.error('error', error);
@@ -103,14 +93,11 @@ const AwardEdit = (props) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/${URLroute}/${props.cvId}/${id}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
+      const { data } = await axios.get(`${URL}/${id}`, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
       setItem(data);
       setEditItems(true);
     } catch (error) {
@@ -123,7 +110,7 @@ const AwardEdit = (props) => {
 
     try {
       const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/cv/${URLroute}/${props.cvId}/${id}`,
+        `${URL}/${id}`,
         {
           title: item.title,
           subtitle: item.subtitle,
@@ -237,7 +224,10 @@ const AwardEdit = (props) => {
               <h3>Agregar nuevo premio</h3>
             )}
             <p>
-              <label htmlFor="title">Nombre del premio</label>
+              <label htmlFor="title">
+                Nombre del premio
+                <span className="fieldRecomendation">Requerido</span>
+              </label>
               <input
                 type="text"
                 id="title"
@@ -249,7 +239,10 @@ const AwardEdit = (props) => {
               />
             </p>
             <p>
-              <label htmlFor="subtitle">Institucion que lo entrega</label>
+              <label htmlFor="subtitle">
+                Institucion que lo entrega
+                <span className="fieldRecomendation">Requerido</span>
+              </label>
               <input
                 type="text"
                 id="subtitle"
@@ -261,7 +254,10 @@ const AwardEdit = (props) => {
               />
             </p>
             <p>
-              <label htmlFor="date">Fecha de expedición</label>
+              <label htmlFor="date">
+                Fecha de expedición
+                <span className="fieldRecomendation">Opcional</span>
+              </label>
               <input
                 type="date"
                 id="date"
@@ -272,7 +268,9 @@ const AwardEdit = (props) => {
               />
             </p>
             <p>
-              <label htmlFor="description">Descripción</label>
+              <label htmlFor="description">
+                Descripción<span className="fieldRecomendation">Opcional</span>
+              </label>
               <input
                 type="text"
                 id="description"

@@ -11,17 +11,33 @@ import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox } from './EditStyledComponents';
 
-const CertificationsEdit = (props) => {
+const OrganisationEdit = (props) => {
+  const URL = `${process.env.REACT_APP_BASE_URL}/cv/formnormals/${props.cvId}`;
   const [hide, setHide] = useState(false);
   const [editItems, setEditItems] = useState(false);
   const [item, setItem] = useState({
-    name: '',
-    company: '',
-    expedition_date: '',
-    expiry_date: null,
-    credential_id: null,
-    credential_url: '',
+    data: {
+      type: 'Organisation',
+      title: '',
+      subtitle: '',
+      start_date: '',
+      end_date: '',
+    },
+    address: {
+      street: '0',
+      num_int: 0,
+      num_ext: 0,
+      suburb: '0',
+      town: '',
+      state: '0',
+      country: '',
+      zip_code: '0',
+    },
+    address_update: false,
   });
+
+  console.log(item);
+
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
@@ -42,14 +58,11 @@ const CertificationsEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
+      const { data } = await axios.get(URL, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
       setItemsList(data);
     } catch (error) {
       console.error('error', error);
@@ -60,22 +73,30 @@ const CertificationsEdit = (props) => {
     console.log('hi');
     e.preventDefault();
     try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}`,
-        item,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
+      const { data } = await axios.post(URL, item, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
       setItem({
-        name: '',
-        company: '',
-        expedition_date: '',
-        expiry_date: null,
-        credential_id: null,
-        credential_url: '',
+        data: {
+          type: 'Organisation',
+          title: '',
+          subtitle: '',
+          start_date: '',
+          end_date: '',
+        },
+        address: {
+          street: '0',
+          num_int: 0,
+          num_ext: 0,
+          suburb: '0',
+          town: '0',
+          state: '0',
+          country: '0',
+          zip_code: '0',
+        },
+        address_update: false,
       });
       getItemsList();
     } catch (error) {
@@ -87,14 +108,11 @@ const CertificationsEdit = (props) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}/${id}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
+      const { data } = await axios.delete(`${URL}/${id}`, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
       getItemsList();
     } catch (error) {
       console.error('error', error);
@@ -105,15 +123,31 @@ const CertificationsEdit = (props) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}/${id}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      setItem(data);
+      const { data } = await axios.get(`${URL}/${id}`, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
+      setItem({
+        data: {
+          type: 'Organisation',
+          title: data.title,
+          subtitle: data.subtitle,
+          start_date: data.start_date,
+          end_date: data.end_date,
+        },
+        address: {
+          street: '0',
+          num_int: 0,
+          num_ext: 0,
+          suburb: '0',
+          town: data.town,
+          state: data.state,
+          country: '0',
+          zip_code: '0',
+        },
+        address_update: false,
+      });
       setEditItems(true);
       firstInputRef.current.focus();
     } catch (error) {
@@ -125,15 +159,11 @@ const CertificationsEdit = (props) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}/${id}`,
-        item,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
+      const { data } = await axios.put(`${URL}/${id}`, item, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
       setEditItems(false);
       setItem({
         name: '',
@@ -162,6 +192,32 @@ const CertificationsEdit = (props) => {
     });
   };
 
+  /*Captar cambios al escribir en el formulario*/
+  const handleAddressChange = (event) => {
+    const { name, value } = event.target;
+
+    setItem({
+      ...item,
+      address: {
+        ...item.address,
+        [name]: value,
+      },
+    });
+  };
+
+  /*Captar cambios al escribir en el formulario*/
+  const handleDataChange = (event) => {
+    const { name, value } = event.target;
+
+    setItem({
+      ...item,
+      data: {
+        ...item.data,
+        [name]: value,
+      },
+    });
+  };
+
   useEffect(() => {
     getItemsList();
   }, []);
@@ -175,7 +231,7 @@ const CertificationsEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Certificados
+            Organización
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>
@@ -183,19 +239,20 @@ const CertificationsEdit = (props) => {
           <div className="body">
             {itemsList.length === 0 ? (
               <p className="tasks_0">
-                Aun no tienes ningun certificado guardado
+                Aun no tienes ninguna organización guardado
               </p>
             ) : (
               itemsList.map((item) => {
+                console.log(item);
                 return (
                   <div className="body_box" key={item.id}>
                     <p>
-                      <span>{item.name}</span> {item.company}
+                      <span>{item.title}</span>
                     </p>
+                    <p>{item.subtitle}</p>
                     <p>
-                      {item.expedition_date} | {item.expiry_date}
+                      {item.start_date} | {item.end_date}
                     </p>
-                    <a href="http://">{item.credential_url}</a>
                     <div className="editBox">
                       <button onClick={(event) => getLanguage(event, item.id)}>
                         <FontAwesomeIcon
@@ -236,95 +293,128 @@ const CertificationsEdit = (props) => {
             )}
             <div className="separador"></div>
             {editItems ? (
-              <h3>Actualizar certificado</h3>
+              <h3>Actualizar organización</h3>
             ) : (
-              <h3>Agregar nuevo certificado</h3>
+              <h3>Agregar nuevo organización</h3>
             )}
             <p>
-              <label htmlFor="name">Nombre del certificado</label>
+              <label htmlFor="title">
+                Nombre de la organización
+                <span className="fieldRecomendation">Requerido</span>
+              </label>
               <input
                 ref={firstInputRef}
                 type="text"
-                id="name"
-                name="name"
-                value={item.name}
-                placeholder="Escribe el nombre de la certificacion"
+                name="title"
+                value={item.data.title}
+                placeholder="Escribe el nombre de la organización"
                 autoComplete="off"
-                onChange={handleChange}
+                onChange={handleDataChange}
               />
             </p>
             <p>
-              <label htmlFor="company">Institucion que lo expide</label>
+              <label htmlFor="subtitle">
+                Posición dentro de la organización
+                <span className="fieldRecomendation">Requerido</span>
+              </label>
               <input
                 type="text"
                 id="company"
-                name="company"
-                value={item.company}
+                name="subtitle"
+                value={item.data.subtitle}
                 placeholder="Escribe el nombre del empleador"
                 autoComplete="off"
-                onChange={handleChange}
+                onChange={handleDataChange}
               />
             </p>
             <div className="twoColumns">
               <div>
                 <p>
-                  <label htmlFor="expedition_date">Fecha de expedición</label>
+                  <label htmlFor="city">
+                    Ciudad<span className="fieldRecomendation">Requerido</span>
+                  </label>
                   <input
-                    type="date"
-                    id="expedition_date"
-                    name="expedition_date"
-                    value={item.expedition_date}
+                    type="text"
+                    name="town"
+                    value={item.address.town}
                     autoComplete="off"
-                    onChange={handleChange}
+                    placeholder="Escribe la ciudad en la que vives"
+                    onChange={handleAddressChange}
+                    required
                   />
                 </p>
               </div>
               <div>
                 <p>
-                  <label htmlFor="expiry_date">Fecha de expiración</label>
+                  <label htmlFor="country">
+                    Pais<span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="country"
+                    value={item.address.country}
+                    autoComplete="off"
+                    placeholder="Escribe el pais en el que vives"
+                    onChange={handleAddressChange}
+                    required
+                  />
+                </p>
+              </div>
+            </div>
+            <div className="twoColumns">
+              <div>
+                <p>
+                  <label htmlFor="expedition_date">
+                    Fecha de inicio
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
                   <input
                     type="date"
-                    id="expiry_date"
-                    name="expiry_date"
-                    value={item.expiry_date}
+                    name="start_date"
+                    value={item.data.start_date}
                     autoComplete="off"
-                    onChange={handleChange}
+                    onChange={handleDataChange}
+                  />
+                </p>
+              </div>
+              <div>
+                <p>
+                  <label htmlFor="expiry_date">
+                    Fecha de culminación
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    type="date"
+                    name="end_date"
+                    value={item.data.end_date}
+                    autoComplete="off"
+                    onChange={handleDataChange}
                   />
                 </p>
                 <div className="check_data">
                   <input
                     type="checkbox"
-                    id="expiry_date"
                     name="expiry_date"
-                    value={item.expiry_date}
+                    value={item.data.end_date}
                     autoComplete="off"
-                    onChange={handleChange}
+                    onChange={handleDataChange}
                   />
                   <label htmlFor="expiry_date">Presente (Actualidad)</label>
                 </div>
               </div>
             </div>
             <p>
-              <label htmlFor="credential_id">ID de la credencial</label>
-              <input
+              <label htmlFor="credential_id">
+                Descripción<span className="fieldRecomendation">Opcional</span>
+              </label>
+              <textarea
                 type="text"
                 name="credential_id"
                 value={item.credential_id}
-                placeholder="Escribe tus tareas en el cargo"
+                placeholder="Escribe una breve descripcion de la organización"
                 autoComplete="off"
-                onChange={handleChange}
-              />
-            </p>
-            <p>
-              <label htmlFor="credential_url">URL de la credencial</label>
-              <input
-                type="text"
-                name="credential_url"
-                value={item.credential_url}
-                placeholder="Escribe tus tareas en el cargo"
-                autoComplete="off"
-                onChange={handleChange}
-              />
+                onChange={handleDataChange}
+              ></textarea>
             </p>
             <ButtonBox>
               {editItems ? (
@@ -352,4 +442,4 @@ const CertificationsEdit = (props) => {
   );
 };
 
-export default CertificationsEdit;
+export default OrganisationEdit;

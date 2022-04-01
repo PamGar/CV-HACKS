@@ -4,19 +4,22 @@ export const AccordeonBox = styled.div`
   cursor: pointer;
 
   .acordeon {
-    border-radius: 5px;
+    border-radius: 15px;
     overflow: hidden;
     margin: 20px;
     box-shadow: 0px 10px 40px -20px grey;
   }
 
   .header {
-    background-color: #99e2e3;
+    background: linear-gradient(40deg, #00b7b8, #595295);
+    color: #fff;
     padding: 20px;
     font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    font-size: 16px;
+    letter-spacing: 2px;
 
     .openClose {
       width: 25px;
@@ -41,9 +44,76 @@ export const AccordeonBox = styled.div`
     cursor: auto;
   }
 
+  .addPicture {
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+
+    p {
+      width: -webkit-fill-available;
+      max-width: fit-content;
+    }
+
+    input {
+      opacity: 0;
+      width: 0.1px;
+      height: 0.1px;
+      position: absolute;
+    }
+
+    label {
+      margin: 0 0 0 10px;
+      display: block;
+      position: relative;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(40deg, #00b7b8, #99e2e3);
+      box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 24px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: transform 0.2s ease-out;
+      flex: 0 0 50px;
+
+      &:active {
+        background: #007474;
+        box-shadow: 0 0 2px rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    span {
+      margin-left: 0px;
+    }
+
+    .fileName {
+      margin-left: 10px;
+      color: #c3c3c3;
+
+      button {
+        background: none;
+        color: #ff6666;
+        font-size: 11px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .fieldRecomendation {
+    font-size: 11px;
+    color: #c3c3c3;
+    margin-left: 5px;
+  }
+
   .tasks_0 {
     padding-bottom: 20px;
     color: #999999;
+    margin-top: 0;
   }
 
   .body_box {
@@ -97,12 +167,107 @@ export const AccordeonBox = styled.div`
     transform: rotate(0deg);
   }
 
-  .date {
+  .twoColumns {
     display: flex;
     justify-content: space-between;
 
-    p {
-      width: 45%;
+    & > div {
+      width: 48%;
+
+      .check_data {
+        display: flex;
+        align-items: center;
+        margin-top: 10px;
+
+        input[type='checkbox'] {
+          /* Add if not using autoprefixer */
+          -webkit-appearance: none;
+          /* Remove most all native input styles */
+          appearance: none;
+          /* For iOS < 15 */
+          background-color: #fff;
+          /* Not removed via appearance */
+          margin: 0;
+          font: inherit;
+          color: currentColor;
+          width: 25px;
+          height: 25px;
+          border: 0.15em solid #00b7b8;
+          border-radius: 10px;
+          transform: translateY(-0.075em);
+          display: grid;
+          place-content: center;
+          flex: 0 0 25px;
+          padding: 0;
+        }
+
+        input[type='checkbox']::before {
+          content: '';
+          width: 15px;
+          height: 15px;
+          clip-path: polygon(
+            21% 78%,
+            0% 42%,
+            42% 70%,
+            100% 8%,
+            66% 75%,
+            40% 95%
+          );
+          transform: scale(0);
+          transform-origin: bottom left;
+          transition: 120ms transform ease-in-out;
+          box-shadow: inset 1em 1em #00b7b8;
+          /* Windows High Contrast Mode */
+          background-color: #00b7b8;
+        }
+
+        input[type='checkbox']:checked::before {
+          transform: scale(1);
+        }
+
+        input[type='checkbox']:focus {
+          outline: max(2px, 0.15em) solid #00b7b8;
+          outline-offset: max(2px, 0.15em);
+        }
+
+        label {
+          margin: 0 0 0 5px;
+        }
+      }
+    }
+  }
+
+  .twoColumns__redes {
+    select {
+      padding: 10px;
+      background: #ededed;
+      border-radius: 10px;
+      margin-right: 10px;
+    }
+
+    input {
+      width: 100%;
+    }
+
+    .addIcon {
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      color: #57d737;
+      background: none;
+    }
+  }
+
+  textarea {
+    border-radius: 10px;
+    padding: 15px 10px;
+    background-color: #ededed;
+    resize: none;
+
+    &:focus {
+      outline: none !important;
+      border-color: #63b2b3;
+      box-shadow: 0 0 10px #63b2b3;
     }
   }
 
@@ -110,6 +275,23 @@ export const AccordeonBox = styled.div`
     height: 2px;
     background-color: #bed028;
     margin-bottom: 10px;
+  }
+
+  .redList {
+    margin: 10px 0;
+
+    .redItem {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px;
+    }
+
+    a {
+      text-decoration: none;
+      font-weight: 700;
+      color: #00b7b8;
+    }
   }
 `;
 

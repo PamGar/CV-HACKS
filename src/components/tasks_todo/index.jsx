@@ -4,14 +4,29 @@ import styled from 'styled-components';
 const TasksBox = styled.div`
   padding: 20px;
   text-align: center;
+  width: 80%;
   max-width: 600px;
   font-weight: 300;
   margin-left: auto;
   margin-right: auto;
 
+  h2 {
+    background: linear-gradient(40deg, #00b7b8, #595295);
+    padding: 20px;
+    box-shadow: 0px 10px 40px -20px grey;
+    border-radius: 15px;
+    font-size: 16px;
+    color: #fff;
+    letter-spacing: 2px;
+  }
+
   .tasks_0 {
     padding: 20px 0;
     color: #999999;
+  }
+
+  @media (max-width: 1099px) {
+    width: 100%;
   }
 
   @media (max-width: 820px) {
@@ -32,6 +47,7 @@ const Task = styled.section`
   margin: 20px 0;
   border-radius: 10px;
   border: solid 1px #99e2e3;
+  background-color: #fff;
   box-shadow: 0px 10px 40px -20px grey;
 
   .task {
@@ -235,7 +251,7 @@ const TasksTodo = () => {
           tasks.comments.map((currentValue) => {
             if (currentValue.state) {
               return (
-                <Task>
+                <Task key={currentValue.id}>
                   <div className="task">
                     <Input
                       type="checkbox"
@@ -269,7 +285,7 @@ const TasksTodo = () => {
           tasks.comments.map((currentValue) => {
             if (!currentValue.state) {
               return (
-                <Task>
+                <Task key={currentValue.id}>
                   <div className="task">
                     <Input
                       type="checkbox"
