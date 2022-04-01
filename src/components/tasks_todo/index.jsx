@@ -1,23 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import styled from 'styled-components';
 
 const TasksBox = styled.div`
   padding: 20px;
+  padding-bottom: 0;
   text-align: center;
-  width: 80%;
+  width: 90%;
   max-width: 600px;
   font-weight: 300;
   margin-left: auto;
   margin-right: auto;
 
-  h2 {
+  .hide + div {
+    display: none;
+  }
+
+  .tasksTitle {
     background: linear-gradient(40deg, #00b7b8, #595295);
     padding: 20px;
     box-shadow: 0px 10px 40px -20px grey;
     border-radius: 15px;
-    font-size: 16px;
-    color: #fff;
     letter-spacing: 2px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+
+    h2 {
+      font-size: 16px;
+      color: #fff;
+    }
+
+    button {
+      background: transparent;
+      position: unset;
+      box-shadow: unset;
+
+      svg {
+        font-size: 18px;
+      }
+
+      .editBox_hide path {
+        color: #ffb6b6;
+      }
+
+      .editBox_unhide path {
+        color: #99e2e3;
+      }
+    }
   }
 
   .tasks_0 {
@@ -166,19 +197,20 @@ const Input = styled.input`
 `;
 
 const TasksTodo = () => {
+  const [hideTasks, setHideTasks] = useState(false);
   const [tasks, setTasks] = useState({
     comments: [
       {
         id: 1,
         comment:
           'Uno Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: true,
+        state: false,
       },
       {
         id: 2,
         comment:
           'Dos Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: true,
+        state: false,
       },
       {
         id: 3,
@@ -196,25 +228,25 @@ const TasksTodo = () => {
         id: 5,
         comment:
           'Cinco Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: false,
+        state: true,
       },
       {
         id: 6,
         comment:
           'Seis Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: true,
+        state: false,
       },
       {
         id: 7,
         comment:
           'Seis Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: true,
+        state: false,
       },
       {
         id: 8,
         comment:
           'Seis Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: true,
+        state: false,
       },
       {
         id: 9,
@@ -224,6 +256,14 @@ const TasksTodo = () => {
       },
     ],
   });
+
+  const hideTasksRef = useRef(null);
+
+  const hideTasksHandle = (e) => {
+    e.preventDefault();
+    setHideTasks(!hideTasks);
+    hideTasksRef.current.classList.toggle('hide');
+  };
 
   const toggleDone = (id) => {
     // loop over the todos list and find the provided id.
@@ -245,7 +285,9 @@ const TasksTodo = () => {
   return (
     <>
       <TasksBox>
-        <h2>Correcciones recomendadas</h2>
+        <div className="tasksTitle">
+          <h2>Correcciones recomendadas</h2>
+        </div>
 
         {tasksDone !== 0 ? (
           tasks.comments.map((currentValue) => {
@@ -279,42 +321,52 @@ const TasksTodo = () => {
         )}
       </TasksBox>
       <TasksBox>
-        <h2>Correcciones completadas</h2>
-
-        {tasksUndone !== 0 ? (
-          tasks.comments.map((currentValue) => {
-            if (!currentValue.state) {
-              return (
-                <Task key={currentValue.id}>
-                  <div className="task">
-                    <Input
-                      type="checkbox"
-                      id="checkbox"
-                      name="checkbox"
-                      onChange={() => toggleDone(currentValue.id)}
-                      checked
-                    />
-                    <label
-                      className="form-control--disabled"
-                      for="checkbox form-control"
-                    >
-                      {currentValue.comment}
-                    </label>
-                  </div>
-                  <div className="taskInfo">
-                    <p>Sonia Gastelum</p>
-                    <p>Estudios</p>
-                    <p>Hace 3 dias</p>
-                  </div>
-                </Task>
-              );
-            } else {
-              return null;
-            }
-          })
-        ) : (
-          <p className="tasks_0">Aun no has completado ninguna correccion</p>
-        )}
+        <div className="tasksTitle hide" ref={hideTasksRef}>
+          <h2>Correcciones completadas</h2>
+          <button onClick={hideTasksHandle}>
+            {hideTasks ? (
+              <FontAwesomeIcon icon={faEyeSlash} className="editBox_hide" />
+            ) : (
+              <FontAwesomeIcon icon={faEye} className="editBox_unhide" />
+            )}
+          </button>
+        </div>
+        <div>
+          {tasksUndone !== 0 ? (
+            tasks.comments.map((currentValue) => {
+              if (!currentValue.state) {
+                return (
+                  <Task key={currentValue.id}>
+                    <div className="task">
+                      <Input
+                        type="checkbox"
+                        id="checkbox"
+                        name="checkbox"
+                        onChange={() => toggleDone(currentValue.id)}
+                        checked
+                      />
+                      <label
+                        className="form-control--disabled"
+                        for="checkbox form-control"
+                      >
+                        {currentValue.comment}
+                      </label>
+                    </div>
+                    <div className="taskInfo">
+                      <p>Sonia Gastelum</p>
+                      <p>Estudios</p>
+                      <p>Hace 3 dias</p>
+                    </div>
+                  </Task>
+                );
+              } else {
+                return null;
+              }
+            })
+          ) : (
+            <p className="tasks_0">Aun no has completado ninguna correccion</p>
+          )}
+        </div>
       </TasksBox>
     </>
   );

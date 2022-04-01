@@ -450,6 +450,7 @@ const JobEdit = (props) => {
               <textarea
                 type="text"
                 name="description"
+                rows="5"
                 value={item.data.description}
                 placeholder="Escribe una breve descripcion de la organización"
                 autoComplete="off"

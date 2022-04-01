@@ -436,15 +436,16 @@ const ProjectsEdit = (props) => {
               <label htmlFor="description">
                 Descripción<span className="fieldRecomendation">Requerido</span>
               </label>
-              <input
+              <textarea
                 type="text"
                 id="description"
                 name="description"
+                rows="5"
                 value={item.data.description}
                 placeholder="Escribe tus tareas en el cargo"
                 autoComplete="off"
                 onChange={handleDataChange}
-              />
+              ></textarea>
             </p>
             <ButtonBox>
               {editItems ? (

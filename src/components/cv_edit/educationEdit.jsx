@@ -440,6 +440,7 @@ const EducationEdit = (props) => {
               </label>
               <textarea
                 type="text"
+                rows="5"
                 name="descripcion"
                 value={item.data.description}
                 placeholder="Escribe una breve descripcion de la organización"

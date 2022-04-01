@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTrashCan,
   faPenToSquare,
@@ -325,6 +325,21 @@ const CertificationsEdit = (props) => {
                 autoComplete="off"
                 onChange={handleChange}
               />
+            </p>
+            <p>
+              <label htmlFor="description">
+                Descripción<span className="fieldRecomendation">Opcional</span>
+              </label>
+              <textarea
+                type="text"
+                id="description"
+                name="description"
+                rows="5"
+                value={item.description}
+                placeholder="Escribe una breve descripcion"
+                autoComplete="off"
+                onChange={handleChange}
+              ></textarea>
             </p>
             <ButtonBox>
               {editItems ? (

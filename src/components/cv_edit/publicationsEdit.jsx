@@ -274,15 +274,16 @@ const PublicationsEdit = (props) => {
             </p>
             <p>
               <label htmlFor="description">Descripción</label>
-              <input
+              <textarea
                 type="text"
                 id="description"
                 name="description"
+                rows="5"
                 value={item.description}
                 placeholder="Escribe tus tareas en el cargo"
                 autoComplete="off"
                 onChange={handleChange}
-              />
+              ></textarea>
             </p>
             <ButtonBox>
               {editItems ? (

@@ -153,7 +153,7 @@ const CV_preview = ({ editButton, dataLoaded }) => {
     const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
 
     pdf.addImage(data, 'PNG', 0, 0, pdfWidth, pdfHeight);
-    pdf.save('print.pdf');
+    pdf.save('MyCV.pdf');
   };
 
   useEffect(() => {

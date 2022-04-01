@@ -439,6 +439,7 @@ const OrganisationEdit = (props) => {
               <textarea
                 type="text"
                 name="credential_id"
+                rows="5"
                 value={item.credential_id}
                 placeholder="Escribe una breve descripcion de la organización"
                 autoComplete="off"

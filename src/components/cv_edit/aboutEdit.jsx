@@ -195,7 +195,7 @@ const AboutEdit = (props) => {
           <div className="body">
             <div className="addPicture">
               <p>
-                Foto de perfil
+                Carga una foto para tu CV
                 <hr />
                 <span className="fieldRecomendation">Recomendado</span>
               </p>
@@ -226,7 +226,8 @@ const AboutEdit = (props) => {
             </div>
             <p>
               <label htmlFor="name">
-                Nombre<span className="fieldRecomendation">Requerido</span>
+                Nombre
+                <span className="fieldRecomendation">Requerido</span>
               </label>
               <input
                 type="text"
@@ -241,7 +242,8 @@ const AboutEdit = (props) => {
             </p>
             <p>
               <label htmlFor="surname">
-                Apellido<span className="fieldRecomendation">Requerido</span>
+                Apellido
+                <span className="fieldRecomendation">Requerido</span>
               </label>
               <input
                 type="text"
@@ -258,7 +260,8 @@ const AboutEdit = (props) => {
               <div>
                 <p>
                   <label htmlFor="city">
-                    Ciudad<span className="fieldRecomendation">Requerido</span>
+                    Ciudad en la que vives
+                    <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <input
                     type="text"
@@ -275,7 +278,8 @@ const AboutEdit = (props) => {
               <div>
                 <p>
                   <label htmlFor="country">
-                    Pais<span className="fieldRecomendation">Requerido</span>
+                    Pais en el que vives
+                    <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <input
                     type="text"
@@ -292,7 +296,8 @@ const AboutEdit = (props) => {
             </div>
             <p>
               <label htmlFor="country">
-                Acerca de ti<span className="fieldRecomendation">Opcional</span>
+                Escribe un poco acerca de ti
+                <span className="fieldRecomendation">Opcional</span>
               </label>
               <textarea
                 rows="5"
@@ -306,7 +311,8 @@ const AboutEdit = (props) => {
             </p>
             <p>
               <label htmlFor="softskills">
-                Soft skills<span className="fieldRecomendation">Requerido</span>
+                Nombra algunas de tus softskills
+                <span className="fieldRecomendation">Requerido</span>
               </label>
               <input
                 type="text"
@@ -314,14 +320,14 @@ const AboutEdit = (props) => {
                 name="softskills"
                 value={item.expiry_date}
                 autoComplete="off"
-                placeholder="Escribe separadas por coma algunas de tus softskills"
+                placeholder="Por ejemplo: empatia, puntualidad"
                 onChange={handleChange}
                 required
               />
             </p>
             <p>
               <label htmlFor="technologies">
-                Tecnologias y herramientas que usas
+                Tecnologias y herramientas que mas usas
                 <span className="fieldRecomendation">Requerido</span>
               </label>
               <input
@@ -330,14 +336,15 @@ const AboutEdit = (props) => {
                 name="technologies"
                 value={item.expiry_date}
                 autoComplete="off"
-                placeholder="Escribelas separadas por coma"
+                placeholder="Por ejemplo: python, react, git"
                 onChange={handleChange}
                 required
               />
             </p>
             <p>
               <label htmlFor="mail">
-                Correo<span className="fieldRecomendation">Requerido</span>
+                Correo electronico
+                <span className="fieldRecomendation">Requerido</span>
               </label>
               <input
                 type="text"
@@ -352,7 +359,7 @@ const AboutEdit = (props) => {
             </p>
             <p>
               <label htmlFor="phone">
-                Numero de telefono
+                Telefono
                 <span className="fieldRecomendation">Requerido</span>
               </label>
               <input
@@ -361,14 +368,14 @@ const AboutEdit = (props) => {
                 name="phone"
                 value={item.expiry_date}
                 autoComplete="off"
-                placeholder="Escribelas tu numero de telefono"
+                placeholder="Escribe tu numero de telefono"
                 onChange={handleChange}
                 required
               />
             </p>
             <p>
               <label htmlFor="redes">
-                Redes Sociales
+                Redes sociales
                 <span className="fieldRecomendation">Recomendado</span>
               </label>
               <div className="twoColumns twoColumns__redes">
@@ -383,7 +390,7 @@ const AboutEdit = (props) => {
                   name="urlRed"
                   value={item.expiry_date}
                   autoComplete="off"
-                  placeholder="Escribelas la URL de tu perfil"
+                  placeholder="Escribe la URL de tu perfil"
                   onChange={handleChange}
                 />
                 <button className="addIcon">+</button>

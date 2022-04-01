@@ -6,7 +6,7 @@ export const AccordeonBox = styled.div`
   .acordeon {
     border-radius: 15px;
     overflow: hidden;
-    margin: 20px;
+    margin: 30px 20px;
     box-shadow: 0px 10px 15px grey;
   }
 
@@ -51,6 +51,8 @@ export const AccordeonBox = styled.div`
     p {
       width: -webkit-fill-available;
       max-width: fit-content;
+      font-size: 14px;
+      font-weight: 700;
     }
 
     input {

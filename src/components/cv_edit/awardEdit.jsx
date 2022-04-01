@@ -271,15 +271,16 @@ const AwardEdit = (props) => {
               <label htmlFor="description">
                 Descripción<span className="fieldRecomendation">Opcional</span>
               </label>
-              <input
+              <textarea
                 type="text"
                 id="description"
                 name="description"
+                rows="5"
                 value={item.description}
-                placeholder="Escribe tus tareas en el cargo"
+                placeholder="Escribe una breve descripcion"
                 autoComplete="off"
                 onChange={handleChange}
-              />
+              ></textarea>
             </p>
             <ButtonBox>
               {editItems ? (

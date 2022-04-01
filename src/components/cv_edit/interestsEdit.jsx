@@ -251,6 +251,7 @@ const InterestEdit = (props) => {
                 type="text"
                 name="subtitle"
                 value={item.subtitle}
+                rows="5"
                 placeholder="Escribe una breve descripcion de tu interes"
                 autoComplete="off"
                 onChange={handleChange}

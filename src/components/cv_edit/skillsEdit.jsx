@@ -248,6 +248,7 @@ const SkillsEdit = (props) => {
               <textarea
                 type="text"
                 name="subtitle"
+                rows="5"
                 value={item.subtitle}
                 placeholder="Escribe una breve descripcion de la skill"
                 autoComplete="off"
