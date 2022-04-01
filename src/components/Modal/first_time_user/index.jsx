@@ -263,10 +263,9 @@ const FirstTime = ({ closeModal, isOpen }) => {
             },
           }
         );
-        console.log(data);
         closeModal();
       } catch (error) {
-        console.log('error', error);
+        console.error('error', error);
       }
     };
 
@@ -289,9 +288,8 @@ const FirstTime = ({ closeModal, isOpen }) => {
             },
           }
         );
-        console.log(data);
       } catch (error) {
-        console.log('error', error);
+        console.error('error', error);
       }
     };
     postCV();

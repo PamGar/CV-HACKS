@@ -16,10 +16,10 @@ const PublicationsEdit = (props) => {
   const [hide, setHide] = useState(false);
   const [editItems, setEditItems] = useState(false);
   const [item, setItem] = useState({
-    type: 'Award',
+    type: 'Publication',
     title: '',
     subtitle: '',
-    date: null,
+    date: '',
     description: '',
   });
   const toggleAccordeonRef = useRef();
@@ -42,7 +42,7 @@ const PublicationsEdit = (props) => {
   const getItemsList = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/${URLroute}/${props.cvId}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/${URLroute}/${props.cvId}?type=Publication`,
         {
           headers: {
             authorization: `Token ${myToken}`,
@@ -56,7 +56,6 @@ const PublicationsEdit = (props) => {
   };
 
   const addItem = async (e) => {
-    console.log('hi');
     e.preventDefault();
     try {
       const { data } = await axios.post(
@@ -69,10 +68,10 @@ const PublicationsEdit = (props) => {
         }
       );
       setItem({
-        type: 'Award',
+        type: 'Publication',
         title: '',
         subtitle: '',
-        date: null,
+        date: '',
         description: '',
       });
       getItemsList();
@@ -138,10 +137,10 @@ const PublicationsEdit = (props) => {
       );
       setEditItems(false);
       setItem({
-        type: 'Award',
+        type: 'Publication',
         title: '',
         subtitle: '',
-        date: null,
+        date: '',
         description: '',
       });
       getItemsList();
@@ -154,10 +153,10 @@ const PublicationsEdit = (props) => {
     event.preventDefault();
     setEditItems(false);
     setItem({
-      type: 'Award',
+      type: 'Publication',
       title: '',
       subtitle: '',
-      date: null,
+      date: '',
       description: '',
     });
   };
@@ -239,7 +238,7 @@ const PublicationsEdit = (props) => {
               <h3>Agregar nueva publicación</h3>
             )}
             <p>
-              <label htmlFor="title">Titulo de la publicación</label>
+              <label htmlFor="title">¿Como se llama la publicación?</label>
               <input
                 type="text"
                 id="title"
@@ -251,7 +250,7 @@ const PublicationsEdit = (props) => {
               />
             </p>
             <p>
-              <label htmlFor="subtitle">Subtitulo</label>
+              <label htmlFor="subtitle">¿Donde se publico?</label>
               <input
                 type="text"
                 id="subtitle"
@@ -263,7 +262,7 @@ const PublicationsEdit = (props) => {
               />
             </p>
             <p>
-              <label htmlFor="date">Fecha de expedición</label>
+              <label htmlFor="date">¿En que fecha se publico?</label>
               <input
                 type="date"
                 id="date"

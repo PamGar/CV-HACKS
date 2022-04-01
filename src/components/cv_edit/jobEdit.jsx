@@ -11,18 +11,20 @@ import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox } from './EditStyledComponents';
 
-const OrganisationEdit = (props) => {
-  const URL = `${process.env.REACT_APP_BASE_URL}/cv/formnormals/${props.cvId}`;
+const JobEdit = (props) => {
+  const URL = `${process.env.REACT_APP_BASE_URL}/cv/experience/${props.cvId}`;
   const [hide, setHide] = useState(false);
   const [editItems, setEditItems] = useState(false);
   const [itemsList, setItemsList] = useState([]);
   const [item, setItem] = useState({
     data: {
-      type: 'Organisation',
-      title: '',
-      subtitle: '',
+      role: '',
+      job_type: '0',
+      company_name: '',
+      area: '0',
       start_date: '',
       end_date: '',
+      description: '',
     },
     address: {
       street: '0',
@@ -48,12 +50,12 @@ const OrganisationEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?type=Organisation`, {
+      const { data } = await axios.get(`${URL}?page_size=2&page_number=1`, {
         headers: {
           authorization: `Token ${myToken}`,
         },
       });
-      setItemsList(data);
+      setItemsList(data.data);
     } catch (error) {
       console.error('error', error);
     }
@@ -69,23 +71,26 @@ const OrganisationEdit = (props) => {
       });
       setItem({
         data: {
-          type: 'Organisation',
-          title: '',
-          subtitle: '',
+          role: '',
+          job_type: '0',
+          company_name: '',
+          area: '0',
           start_date: '',
           end_date: '',
+          description: '',
         },
         address: {
           street: '0',
           num_int: 0,
           num_ext: 0,
           suburb: '0',
-          town: '0',
+          town: '',
           state: '0',
-          country: '0',
+          country: '',
           zip_code: '0',
         },
         address_update: false,
+        id: '',
       });
       getItemsList();
     } catch (error) {
@@ -119,11 +124,13 @@ const OrganisationEdit = (props) => {
       });
       setItem({
         data: {
-          type: 'Organisation',
-          title: data.title,
-          subtitle: data.subtitle,
+          role: data.role,
+          job_type: data.job_type,
+          company_name: data.company_name,
+          area: data.area,
           start_date: data.start_date,
-          end_date: data.end_date,
+          end_date: data.start_date,
+          description: data.description,
         },
         address: {
           street: '0',
@@ -157,11 +164,13 @@ const OrganisationEdit = (props) => {
       setEditItems(false);
       setItem({
         data: {
-          type: 'Organisation',
-          title: '',
-          subtitle: '',
+          role: '',
+          job_type: '0',
+          company_name: '',
+          area: '0',
           start_date: '',
           end_date: '',
+          description: '',
         },
         address: {
           street: '0',
@@ -187,11 +196,13 @@ const OrganisationEdit = (props) => {
     setEditItems(false);
     setItem({
       data: {
-        type: 'Organisation',
-        title: '',
-        subtitle: '',
+        role: '',
+        job_type: '0',
+        company_name: '',
+        area: '0',
         start_date: '',
         end_date: '',
+        description: '',
       },
       address: {
         street: '0',
@@ -263,7 +274,7 @@ const OrganisationEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Organización
+            Experiencia laboral
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>
@@ -271,16 +282,16 @@ const OrganisationEdit = (props) => {
           <div className="body">
             {itemsList.length === 0 ? (
               <p className="tasks_0">
-                Aun no tienes ninguna organización guardado
+                Aun no tienes ninguna experiencia guardada
               </p>
             ) : (
               itemsList.map((item) => {
                 return (
                   <div className="body_box" key={item.id}>
                     <p>
-                      <span>{item.title}</span>
+                      <span>{item.role}</span>
                     </p>
-                    <p>{item.subtitle}</p>
+                    <p>{item.company_name}</p>
                     <p>
                       {item.start_date} | {item.end_date}
                     </p>
@@ -322,20 +333,20 @@ const OrganisationEdit = (props) => {
             )}
             <div className="separador"></div>
             {editItems ? (
-              <h3>Actualizar organización</h3>
+              <h3>Actualizar experiencia</h3>
             ) : (
-              <h3>Agregar nuevo organización</h3>
+              <h3>Agregar nueva experiencia</h3>
             )}
             <p>
               <label htmlFor="title">
-                Nombre de la organización
+                Cargo
                 <span className="fieldRecomendation">Requerido</span>
               </label>
               <input
                 ref={firstInputRef}
                 type="text"
-                name="title"
-                value={item.data.title}
+                name="role"
+                value={item.data.role}
                 placeholder="Escribe el nombre de la organización"
                 autoComplete="off"
                 onChange={handleDataChange}
@@ -343,14 +354,14 @@ const OrganisationEdit = (props) => {
             </p>
             <p>
               <label htmlFor="subtitle">
-                Posición dentro de la organización
+                Empleador
                 <span className="fieldRecomendation">Requerido</span>
               </label>
               <input
                 type="text"
                 id="company"
-                name="subtitle"
-                value={item.data.subtitle}
+                name="company_name"
+                value={item.data.company_name}
                 placeholder="Escribe el nombre del empleador"
                 autoComplete="off"
                 onChange={handleDataChange}
@@ -433,13 +444,13 @@ const OrganisationEdit = (props) => {
               </div>
             </div>
             <p>
-              <label htmlFor="credential_id">
+              <label htmlFor="description">
                 Descripción<span className="fieldRecomendation">Opcional</span>
               </label>
               <textarea
                 type="text"
-                name="credential_id"
-                value={item.credential_id}
+                name="description"
+                value={item.data.description}
                 placeholder="Escribe una breve descripcion de la organización"
                 autoComplete="off"
                 onChange={handleDataChange}
@@ -471,4 +482,4 @@ const OrganisationEdit = (props) => {
   );
 };
 
-export default OrganisationEdit;
+export default JobEdit;

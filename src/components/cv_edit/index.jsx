@@ -11,6 +11,10 @@ import AboutEdit from './aboutEdit';
 import OrganisationEdit from './organisationEdit';
 import SkillsEdit from './skillsEdit';
 import InterestEdit from './interestsEdit';
+import EducationEdit from './educationEdit';
+import CoursesEdit from './courseEdit';
+import JobEdit from './jobEdit';
+import ProjectsEdit from './projectsEdit';
 
 const Form = styled.form`
   width: 80%;
@@ -28,7 +32,7 @@ const Form = styled.form`
   }
 
   label {
-    font-weight: 500;
+    font-weight: 700;
     margin: 10px 0 5px 10px;
   }
 
@@ -54,16 +58,6 @@ const Form = styled.form`
 `;
 
 const EditCV = ({ editButton, cvId }) => {
-  /* const itemsEls = useRef([]);
-  const getRef = (element) => itemsEls.current.push(element);
-  useEffect(() => {
-    itemsEls.current.forEach((key) =>
-      key.addEventListener('click', () => {
-        key.classList.toggle('hide');
-      })
-    );
-  }, []); */
-
   return (
     <>
       <Form>
@@ -73,8 +67,12 @@ const EditCV = ({ editButton, cvId }) => {
         <SkillsEdit cvId={cvId} />
         <LanguagesEdit cvId={cvId} />
         <InterestEdit cvId={cvId} />
-        {/* <CertificationsEdit cvId={cvId} />
-        <PublicationsEdit cvId={cvId} /> */}
+        <EducationEdit cvId={cvId} />
+        <CoursesEdit cvId={cvId} />
+        <CertificationsEdit cvId={cvId} />
+        <JobEdit cvId={cvId} />
+        <ProjectsEdit cvId={cvId} />
+        <PublicationsEdit cvId={cvId} />
       </Form>
       <ButtonBox>
         <Button type="button" onClick={editButton}>

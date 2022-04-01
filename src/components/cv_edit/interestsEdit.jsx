@@ -48,7 +48,6 @@ const InterestEdit = (props) => {
           authorization: `Token ${myToken}`,
         },
       });
-      console.log(data);
       setItemsList(data);
     } catch (error) {
       console.error('error', error);

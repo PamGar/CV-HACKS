@@ -137,7 +137,7 @@ const ButtonBox = styled.div`
   }
 `;
 
-const CV_preview = ({ editButton }) => {
+const CV_preview = ({ editButton, dataLoaded }) => {
   const widthRef = useRef();
   const printRef = useRef();
   const [width, setWidth] = useState(0);
@@ -294,10 +294,10 @@ const CV_preview = ({ editButton }) => {
         </div>
       </Page>
       <ButtonBox>
-        <Button type="button" onClick={editButton}>
+        <Button type="button" onClick={editButton} disabled={dataLoaded}>
           Editar
         </Button>
-        <Button type="button" onClick={handleDownloadPdf}>
+        <Button type="button" onClick={handleDownloadPdf} disabled={dataLoaded}>
           Descargar
         </Button>
       </ButtonBox>

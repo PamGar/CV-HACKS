@@ -18,7 +18,6 @@ export const AccordeonBox = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 16px;
     letter-spacing: 2px;
 
     .openClose {
@@ -106,7 +105,7 @@ export const AccordeonBox = styled.div`
 
   .fieldRecomendation {
     font-size: 11px;
-    color: #c3c3c3;
+    color: #9b9b9b;
     margin-left: 5px;
   }
 
@@ -232,6 +231,7 @@ export const AccordeonBox = styled.div`
 
         label {
           margin: 0 0 0 5px;
+          font-weight: 500;
         }
       }
     }

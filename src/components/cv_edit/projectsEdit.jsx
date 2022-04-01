@@ -11,36 +11,45 @@ import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox } from './EditStyledComponents';
 
-const OrganisationEdit = (props) => {
+const ProjectsEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/formnormals/${props.cvId}`;
   const [hide, setHide] = useState(false);
   const [editItems, setEditItems] = useState(false);
-  const [itemsList, setItemsList] = useState([]);
+  const [editedItem, setEditedItem] = useState({});
   const [item, setItem] = useState({
     data: {
-      type: 'Organisation',
+      type: 'Project',
       title: '',
       subtitle: '',
       start_date: '',
       end_date: '',
+      description: '',
     },
     address: {
       street: '0',
       num_int: 0,
       num_ext: 0,
       suburb: '0',
-      town: '',
+      town: '0',
       state: '0',
-      country: '',
+      country: '0',
       zip_code: '0',
     },
     address_update: false,
     id: '',
   });
-  const [editedItem, setEditedItem] = useState({});
   const toggleAccordeonRef = useRef();
-  const firstInputRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
+
+  const [itemsList, setItemsList] = useState([]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setItem({
+      ...item,
+      [name]: value,
+    });
+  };
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
@@ -48,7 +57,7 @@ const OrganisationEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?type=Organisation`, {
+      const { data } = await axios.get(`${URL}?type=Project`, {
         headers: {
           authorization: `Token ${myToken}`,
         },
@@ -60,6 +69,7 @@ const OrganisationEdit = (props) => {
   };
 
   const addItem = async (e) => {
+    console.log('hi');
     e.preventDefault();
     try {
       const { data } = await axios.post(URL, item, {
@@ -69,11 +79,12 @@ const OrganisationEdit = (props) => {
       });
       setItem({
         data: {
-          type: 'Organisation',
+          type: 'Project',
           title: '',
           subtitle: '',
           start_date: '',
           end_date: '',
+          description: '',
         },
         address: {
           street: '0',
@@ -86,6 +97,7 @@ const OrganisationEdit = (props) => {
           zip_code: '0',
         },
         address_update: false,
+        id: '',
       });
       getItemsList();
     } catch (error) {
@@ -93,7 +105,7 @@ const OrganisationEdit = (props) => {
     }
   };
 
-  const removeItem = async (event, id) => {
+  const removeLanguage = async (event, id) => {
     event.preventDefault();
 
     try {
@@ -108,7 +120,7 @@ const OrganisationEdit = (props) => {
     }
   };
 
-  const getItem = async (event, id) => {
+  const getLanguage = async (event, id) => {
     event.preventDefault();
 
     try {
@@ -119,58 +131,81 @@ const OrganisationEdit = (props) => {
       });
       setItem({
         data: {
-          type: 'Organisation',
           title: data.title,
           subtitle: data.subtitle,
           start_date: data.start_date,
           end_date: data.end_date,
+          description: data.description,
         },
         address: {
           street: '0',
           num_int: 0,
           num_ext: 0,
           suburb: '0',
-          town: data.town,
+          town: '0',
           state: '0',
-          country: data.country,
+          country: '0',
           zip_code: '0',
         },
         address_update: false,
         id: data.id,
       });
       setEditItems(true);
-      firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
     }
   };
 
-  const updateItem = async (event, id) => {
+  const updateLanguage = async (event, id) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.put(`${URL}/${id}`, editedItem, {
-        headers: {
-          authorization: `Token ${myToken}`,
+      const { data } = await axios.put(
+        `${URL}/${id}`,
+        {
+          data: {
+            title: item.data.title,
+            subtitle: item.data.subtitle,
+            start_date: item.data.start_date,
+            end_date: item.data.end_date,
+            description: item.data.description,
+          },
+          address: {
+            street: '0',
+            num_int: 0,
+            num_ext: 0,
+            suburb: '0',
+            town: '0',
+            state: '0',
+            country: '0',
+            zip_code: '0',
+          },
+          address_update: false,
         },
-      });
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
       setEditItems(false);
       setItem({
         data: {
-          type: 'Organisation',
+          type: 'Project',
           title: '',
           subtitle: '',
           start_date: '',
           end_date: '',
+          description: '',
         },
         address: {
           street: '0',
           num_int: 0,
           num_ext: 0,
           suburb: '0',
-          town: '',
+          town: '0',
           state: '0',
-          country: '',
+          country: '0',
           zip_code: '0',
         },
         address_update: false,
@@ -187,20 +222,21 @@ const OrganisationEdit = (props) => {
     setEditItems(false);
     setItem({
       data: {
-        type: 'Organisation',
+        type: 'Project',
         title: '',
         subtitle: '',
         start_date: '',
         end_date: '',
+        description: '',
       },
       address: {
         street: '0',
         num_int: 0,
         num_ext: 0,
         suburb: '0',
-        town: '',
+        town: '0',
         state: '0',
-        country: '',
+        country: '0',
         zip_code: '0',
       },
       address_update: false,
@@ -263,16 +299,14 @@ const OrganisationEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Organización
+            Proyectos
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>
           </div>
           <div className="body">
             {itemsList.length === 0 ? (
-              <p className="tasks_0">
-                Aun no tienes ninguna organización guardado
-              </p>
+              <p className="tasks_0">Aun no tienes ningun proyecto guardado</p>
             ) : (
               itemsList.map((item) => {
                 return (
@@ -281,11 +315,9 @@ const OrganisationEdit = (props) => {
                       <span>{item.title}</span>
                     </p>
                     <p>{item.subtitle}</p>
-                    <p>
-                      {item.start_date} | {item.end_date}
-                    </p>
+                    <p>{item.description}</p>
                     <div className="editBox">
-                      <button onClick={(event) => getItem(event, item.id)}>
+                      <button onClick={(event) => getLanguage(event, item.id)}>
                         <FontAwesomeIcon
                           icon={faPenToSquare}
                           className="editBox_edit"
@@ -309,7 +341,9 @@ const OrganisationEdit = (props) => {
                           />
                         )}
                       </button>
-                      <button onClick={(event) => removeItem(event, item.id)}>
+                      <button
+                        onClick={(event) => removeLanguage(event, item.id)}
+                      >
                         <FontAwesomeIcon
                           icon={faTrashCan}
                           className="editBox_delete"
@@ -322,36 +356,36 @@ const OrganisationEdit = (props) => {
             )}
             <div className="separador"></div>
             {editItems ? (
-              <h3>Actualizar organización</h3>
+              <h3>Actualizar proyecto</h3>
             ) : (
-              <h3>Agregar nuevo organización</h3>
+              <h3>Agregar nuevo proyecto</h3>
             )}
             <p>
               <label htmlFor="title">
-                Nombre de la organización
+                Titulo del proyecto
                 <span className="fieldRecomendation">Requerido</span>
               </label>
               <input
-                ref={firstInputRef}
                 type="text"
+                id="title"
                 name="title"
                 value={item.data.title}
-                placeholder="Escribe el nombre de la organización"
+                placeholder="Escribe el nombre del proyecto"
                 autoComplete="off"
                 onChange={handleDataChange}
               />
             </p>
             <p>
               <label htmlFor="subtitle">
-                Posición dentro de la organización
+                Subtitulo
                 <span className="fieldRecomendation">Requerido</span>
               </label>
               <input
                 type="text"
-                id="company"
+                id="subtitle"
                 name="subtitle"
                 value={item.data.subtitle}
-                placeholder="Escribe el nombre del empleador"
+                placeholder="Escribe un subtitulo sobre el proyecto"
                 autoComplete="off"
                 onChange={handleDataChange}
               />
@@ -359,41 +393,7 @@ const OrganisationEdit = (props) => {
             <div className="twoColumns">
               <div>
                 <p>
-                  <label htmlFor="city">
-                    Ciudad<span className="fieldRecomendation">Requerido</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="town"
-                    value={item.address.town}
-                    autoComplete="off"
-                    placeholder="Escribe la ciudad en la que vives"
-                    onChange={handleAddressChange}
-                    required
-                  />
-                </p>
-              </div>
-              <div>
-                <p>
-                  <label htmlFor="country">
-                    Pais<span className="fieldRecomendation">Requerido</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="country"
-                    value={item.address.country}
-                    autoComplete="off"
-                    placeholder="Escribe el pais en el que vives"
-                    onChange={handleAddressChange}
-                    required
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="twoColumns">
-              <div>
-                <p>
-                  <label htmlFor="expedition_date">
+                  <label htmlFor="start_date">
                     Fecha de inicio
                     <span className="fieldRecomendation">Requerido</span>
                   </label>
@@ -408,7 +408,7 @@ const OrganisationEdit = (props) => {
               </div>
               <div>
                 <p>
-                  <label htmlFor="expiry_date">
+                  <label htmlFor="end_date">
                     Fecha de culminación
                     <span className="fieldRecomendation">Requerido</span>
                   </label>
@@ -433,17 +433,18 @@ const OrganisationEdit = (props) => {
               </div>
             </div>
             <p>
-              <label htmlFor="credential_id">
-                Descripción<span className="fieldRecomendation">Opcional</span>
+              <label htmlFor="description">
+                Descripción<span className="fieldRecomendation">Requerido</span>
               </label>
-              <textarea
+              <input
                 type="text"
-                name="credential_id"
-                value={item.credential_id}
-                placeholder="Escribe una breve descripcion de la organización"
+                id="description"
+                name="description"
+                value={item.data.description}
+                placeholder="Escribe tus tareas en el cargo"
                 autoComplete="off"
                 onChange={handleDataChange}
-              ></textarea>
+              />
             </p>
             <ButtonBox>
               {editItems ? (
@@ -453,7 +454,7 @@ const OrganisationEdit = (props) => {
                   </Button>
                   <Button
                     type="button"
-                    onClick={(event) => updateItem(event, item.id)}
+                    onClick={(event) => updateLanguage(event, item.id)}
                   >
                     Actualizar
                   </Button>
@@ -471,4 +472,4 @@ const OrganisationEdit = (props) => {
   );
 };
 
-export default OrganisationEdit;
+export default ProjectsEdit;

@@ -41,7 +41,7 @@ const AwardEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(URL, {
+      const { data } = await axios.get(`${URL}?type=Award`, {
         headers: {
           authorization: `Token ${myToken}`,
         },

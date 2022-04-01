@@ -160,6 +160,7 @@ const CV_preview = () => {
   const [firstData, setFirstData] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
+  const [dataNotLoaded, setDataNotLoaded] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(-100);
   const [sidebarHelpWidth, setSidebarHelpWidth] = useState(-100);
 
@@ -197,6 +198,7 @@ const CV_preview = () => {
         }
       );
       setUser(data);
+      setDataNotLoaded(false);
       console.log(data);
       data.name === null ? setFirstData(true) : setFirstData(false);
     } catch (error) {
@@ -223,7 +225,6 @@ const CV_preview = () => {
           },
         }
       );
-      console.log('cv');
       setCvData(data);
     } catch (error) {
       console.error('errorData', error.message);
@@ -282,7 +283,11 @@ const CV_preview = () => {
           isEdit ? (
             <EditCV cvId={cvData.id} editButton={handleEdit} />
           ) : (
-            <CV cvId={cvData.id} editButton={handleEdit} />
+            <CV
+              cvId={cvData.id}
+              editButton={handleEdit}
+              dataLoaded={dataNotLoaded}
+            />
           )
         }
         right={<TasksTodo />} /* {isEdit ? <TasksTodo /> : <Tasks />} */

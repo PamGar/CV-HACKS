@@ -11,36 +11,46 @@ import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox } from './EditStyledComponents';
 
-const OrganisationEdit = (props) => {
-  const URL = `${process.env.REACT_APP_BASE_URL}/cv/formnormals/${props.cvId}`;
+const EducationEdit = (props) => {
+  const URL = `${process.env.REACT_APP_BASE_URL}/cv/educations/${props.cvId}`;
   const [hide, setHide] = useState(false);
   const [editItems, setEditItems] = useState(false);
-  const [itemsList, setItemsList] = useState([]);
   const [item, setItem] = useState({
     data: {
-      type: 'Organisation',
-      title: '',
-      subtitle: '',
+      major: '',
+      academic_discipline: 'empty',
+      degree: '',
       start_date: '',
-      end_date: '',
+      end_date: null,
+      description: '',
     },
     address: {
-      street: '0',
+      street: 'empty',
       num_int: 0,
       num_ext: 0,
-      suburb: '0',
+      suburb: 'empty',
       town: '',
-      state: '0',
+      state: 'empty',
       country: '',
-      zip_code: '0',
+      zip_code: 'empty',
     },
     address_update: false,
     id: '',
   });
-  const [editedItem, setEditedItem] = useState({});
+
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
+
+  const [itemsList, setItemsList] = useState([]);
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setItem({
+      ...item,
+      [name]: value,
+    });
+  };
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
@@ -48,18 +58,19 @@ const OrganisationEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?type=Organisation`, {
+      const { data } = await axios.get(`${URL}?page_size=2&page_number=1`, {
         headers: {
           authorization: `Token ${myToken}`,
         },
       });
-      setItemsList(data);
+      setItemsList(data.data);
     } catch (error) {
       console.error('error', error);
     }
   };
 
   const addItem = async (e) => {
+    console.log('hi');
     e.preventDefault();
     try {
       const { data } = await axios.post(URL, item, {
@@ -69,21 +80,22 @@ const OrganisationEdit = (props) => {
       });
       setItem({
         data: {
-          type: 'Organisation',
-          title: '',
-          subtitle: '',
+          major: '',
+          academic_discipline: 'empty',
+          degree: '',
           start_date: '',
-          end_date: '',
+          end_date: null,
+          description: '',
         },
         address: {
-          street: '0',
+          street: 'empty',
           num_int: 0,
           num_ext: 0,
-          suburb: '0',
-          town: '0',
-          state: '0',
-          country: '0',
-          zip_code: '0',
+          suburb: 'empty',
+          town: '',
+          state: 'empty',
+          country: '',
+          zip_code: 'empty',
         },
         address_update: false,
       });
@@ -93,7 +105,7 @@ const OrganisationEdit = (props) => {
     }
   };
 
-  const removeItem = async (event, id) => {
+  const removeLanguage = async (event, id) => {
     event.preventDefault();
 
     try {
@@ -108,7 +120,7 @@ const OrganisationEdit = (props) => {
     }
   };
 
-  const getItem = async (event, id) => {
+  const getLanguage = async (event, id) => {
     event.preventDefault();
 
     try {
@@ -119,21 +131,22 @@ const OrganisationEdit = (props) => {
       });
       setItem({
         data: {
-          type: 'Organisation',
-          title: data.title,
-          subtitle: data.subtitle,
+          major: data.major,
+          academic_discipline: 'empty',
+          degree: data.degree,
           start_date: data.start_date,
           end_date: data.end_date,
+          description: data.description,
         },
         address: {
-          street: '0',
+          street: 'empty',
           num_int: 0,
           num_ext: 0,
-          suburb: '0',
-          town: data.town,
-          state: '0',
-          country: data.country,
-          zip_code: '0',
+          suburb: 'empty',
+          town: '',
+          state: 'empty',
+          country: '',
+          zip_code: 'empty',
         },
         address_update: false,
         id: data.id,
@@ -145,11 +158,11 @@ const OrganisationEdit = (props) => {
     }
   };
 
-  const updateItem = async (event, id) => {
+  const updateLanguage = async (event, id) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.put(`${URL}/${id}`, editedItem, {
+      const { data } = await axios.put(`${URL}/${id}`, item, {
         headers: {
           authorization: `Token ${myToken}`,
         },
@@ -157,24 +170,24 @@ const OrganisationEdit = (props) => {
       setEditItems(false);
       setItem({
         data: {
-          type: 'Organisation',
-          title: '',
-          subtitle: '',
+          major: '',
+          academic_discipline: 'empty',
+          degree: '',
           start_date: '',
-          end_date: '',
+          end_date: null,
+          description: '',
         },
         address: {
-          street: '0',
+          street: 'empty',
           num_int: 0,
           num_ext: 0,
-          suburb: '0',
+          suburb: 'empty',
           town: '',
-          state: '0',
+          state: 'empty',
           country: '',
-          zip_code: '0',
+          zip_code: 'empty',
         },
         address_update: false,
-        id: '',
       });
       getItemsList();
     } catch (error) {
@@ -187,24 +200,24 @@ const OrganisationEdit = (props) => {
     setEditItems(false);
     setItem({
       data: {
-        type: 'Organisation',
-        title: '',
-        subtitle: '',
+        major: '',
+        academic_discipline: 'empty',
+        degree: '',
         start_date: '',
-        end_date: '',
+        end_date: null,
+        description: '',
       },
       address: {
-        street: '0',
+        street: 'empty',
         num_int: 0,
         num_ext: 0,
-        suburb: '0',
+        suburb: 'empty',
         town: '',
-        state: '0',
+        state: 'empty',
         country: '',
-        zip_code: '0',
+        zip_code: 'empty',
       },
       address_update: false,
-      id: '',
     });
   };
 
@@ -219,14 +232,6 @@ const OrganisationEdit = (props) => {
         [name]: value,
       },
     });
-
-    setEditedItem({
-      ...editedItem,
-      address: {
-        ...editedItem.address,
-        [name]: value,
-      },
-    });
   };
 
   /*Captar cambios al escribir en el formulario*/
@@ -237,14 +242,6 @@ const OrganisationEdit = (props) => {
       ...item,
       data: {
         ...item.data,
-        [name]: value,
-      },
-    });
-
-    setEditedItem({
-      ...editedItem,
-      data: {
-        ...editedItem.data,
         [name]: value,
       },
     });
@@ -263,7 +260,7 @@ const OrganisationEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Organización
+            Educación
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>
@@ -271,21 +268,21 @@ const OrganisationEdit = (props) => {
           <div className="body">
             {itemsList.length === 0 ? (
               <p className="tasks_0">
-                Aun no tienes ninguna organización guardado
+                Aun no tienes ninguna educacion guardada
               </p>
             ) : (
               itemsList.map((item) => {
                 return (
                   <div className="body_box" key={item.id}>
                     <p>
-                      <span>{item.title}</span>
+                      <span>{item.major}</span>
                     </p>
-                    <p>{item.subtitle}</p>
+                    <p>{item.degree}</p>
                     <p>
                       {item.start_date} | {item.end_date}
                     </p>
                     <div className="editBox">
-                      <button onClick={(event) => getItem(event, item.id)}>
+                      <button onClick={(event) => getLanguage(event, item.id)}>
                         <FontAwesomeIcon
                           icon={faPenToSquare}
                           className="editBox_edit"
@@ -309,7 +306,9 @@ const OrganisationEdit = (props) => {
                           />
                         )}
                       </button>
-                      <button onClick={(event) => removeItem(event, item.id)}>
+                      <button
+                        onClick={(event) => removeLanguage(event, item.id)}
+                      >
                         <FontAwesomeIcon
                           icon={faTrashCan}
                           className="editBox_delete"
@@ -322,9 +321,9 @@ const OrganisationEdit = (props) => {
             )}
             <div className="separador"></div>
             {editItems ? (
-              <h3>Actualizar organización</h3>
+              <h3>Actualizar educación</h3>
             ) : (
-              <h3>Agregar nuevo organización</h3>
+              <h3>Agregar nueva educación</h3>
             )}
             <p>
               <label htmlFor="title">
@@ -334,23 +333,24 @@ const OrganisationEdit = (props) => {
               <input
                 ref={firstInputRef}
                 type="text"
-                name="title"
-                value={item.data.title}
+                name="major"
+                value={item.data.major}
                 placeholder="Escribe el nombre de la organización"
                 autoComplete="off"
                 onChange={handleDataChange}
+                required
               />
             </p>
             <p>
               <label htmlFor="subtitle">
-                Posición dentro de la organización
+                Nombre de la institución
                 <span className="fieldRecomendation">Requerido</span>
               </label>
               <input
                 type="text"
                 id="company"
-                name="subtitle"
-                value={item.data.subtitle}
+                name="degree"
+                value={item.data.degree}
                 placeholder="Escribe el nombre del empleador"
                 autoComplete="off"
                 onChange={handleDataChange}
@@ -403,6 +403,7 @@ const OrganisationEdit = (props) => {
                     value={item.data.start_date}
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   />
                 </p>
               </div>
@@ -427,6 +428,7 @@ const OrganisationEdit = (props) => {
                     value={item.data.end_date}
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   />
                   <label htmlFor="expiry_date">Presente (Actualidad)</label>
                 </div>
@@ -434,15 +436,16 @@ const OrganisationEdit = (props) => {
             </div>
             <p>
               <label htmlFor="credential_id">
-                Descripción<span className="fieldRecomendation">Opcional</span>
+                Descripción<span className="fieldRecomendation">Requerido</span>
               </label>
               <textarea
                 type="text"
-                name="credential_id"
-                value={item.credential_id}
+                name="descripcion"
+                value={item.data.description}
                 placeholder="Escribe una breve descripcion de la organización"
                 autoComplete="off"
                 onChange={handleDataChange}
+                required
               ></textarea>
             </p>
             <ButtonBox>
@@ -453,7 +456,7 @@ const OrganisationEdit = (props) => {
                   </Button>
                   <Button
                     type="button"
-                    onClick={(event) => updateItem(event, item.id)}
+                    onClick={(event) => updateLanguage(event, item.id)}
                   >
                     Actualizar
                   </Button>
@@ -471,4 +474,4 @@ const OrganisationEdit = (props) => {
   );
 };
 
-export default OrganisationEdit;
+export default EducationEdit;
