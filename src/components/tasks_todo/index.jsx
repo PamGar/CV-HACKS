@@ -65,7 +65,7 @@ const TasksBox = styled.div`
 
   @media (max-width: 820px) {
     box-shadow: unset;
-    margin: 0;
+    padding: 0;
 
     h2 {
       font-size: 20px;

@@ -44,18 +44,15 @@ const Nav = styled.nav`
     margin: 5px;
     height: 70px;
     padding-left: 20px;
-    box-sizing: border-box;
     padding-right: 20px;
     flex-direction: row;
     justify-content: space-between;
+    position: sticky;
+    top: 5px;
 
     .grow {
       display: none;
     }
-  }
-
-  @media (max-width: 820px) {
-    width: 100vw;
   }
 `;
 

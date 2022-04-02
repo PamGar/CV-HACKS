@@ -59,6 +59,13 @@ const Form = styled.form`
   @media (max-width: 1099px) {
     width: 90%;
   }
+
+  @media (max-width: 820px) {
+    width: 100%;
+    padding: 0px;
+    background-color: unset;
+    box-shadow: unset;
+  }
 `;
 
 const EditCV = ({ editButton, cvId }) => {
