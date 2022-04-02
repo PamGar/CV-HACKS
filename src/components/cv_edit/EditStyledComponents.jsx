@@ -10,7 +10,7 @@ export const AccordeonBox = styled.div`
     box-shadow: 0px 10px 15px grey;
 
     .iconAccordeon {
-      font-size: 24px;
+      font-size: 18px;
       margin-right: 10px;
 
       path {

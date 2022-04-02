@@ -57,7 +57,7 @@ const Form = styled.form`
   }
 
   @media (max-width: 1099px) {
-    width: 100%;
+    width: 90%;
   }
 `;
 

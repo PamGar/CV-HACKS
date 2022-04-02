@@ -8,7 +8,7 @@ const GridBase = styled.div`
   display: grid;
   width: 100%;
   max-width: 1440px;
-  grid-template-columns: 100px 1fr 1fr;
+  grid-template-columns: 130px 1fr 1fr;
   grid-template-areas: 'navigation main tasks';
 
   @media (max-width: 1099px) {
@@ -23,24 +23,25 @@ const GridBase = styled.div`
 
 const Nav = styled.nav`
   grid-area: navigation / navigation / navigation / navigation;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
-  width: 100%;
-  background-color: #00b7b8;
-  height: 100vh;
+  background-color: #565696;
   max-height: 100vh;
-  margin: 0;
+  margin: 5px 30px 5px 5px;
   z-index: 7;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: 5px 5px 15px grey;
+  border-radius: 25px;
 
   .grow {
     flex-grow: 1;
   }
 
   @media (max-width: 1099px) {
+    margin: 5px;
     height: 70px;
     padding-left: 20px;
     box-sizing: border-box;
@@ -163,6 +164,10 @@ const Main = styled.div`
     display: none;
   }
 
+  /* @media (max-width: 1099px) {
+    height: calc(100vh - 80px);
+  } */
+
   @media (max-width: 820px) {
     width: 100vw;
   }
@@ -176,6 +181,10 @@ const Tasks = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  /* @media (max-width: 1099px) {
+    height: calc(100vh - 80px);
+  } */
 
   @media (max-width: 820px) {
     display: none;

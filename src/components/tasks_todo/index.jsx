@@ -60,7 +60,7 @@ const TasksBox = styled.div`
   }
 
   @media (max-width: 1099px) {
-    width: 100%;
+    width: 90%;
   }
 
   @media (max-width: 820px) {

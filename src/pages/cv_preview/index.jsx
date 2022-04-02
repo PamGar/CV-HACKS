@@ -38,14 +38,14 @@ const HelpCont = styled.button`
     bottom: -10px;
   }
 
-  @media (max-width: 820px) {
+  @media (max-width: 1099px) {
     display: none;
   }
 `;
 
 const FloatBox = styled.div`
   display: none;
-  @media (max-width: 820px) {
+  @media (max-width: 1099px) {
     display: block;
     position: fixed;
     bottom: 0;
