@@ -6,6 +6,7 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
+  faStar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
@@ -162,7 +163,10 @@ const AwardEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Premios
+            <div>
+              <FontAwesomeIcon icon={faStar} className="iconAccordeon" />
+              Premios
+            </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>

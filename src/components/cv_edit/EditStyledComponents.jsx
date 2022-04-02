@@ -8,6 +8,15 @@ export const AccordeonBox = styled.div`
     overflow: hidden;
     margin: 30px 20px;
     box-shadow: 0px 10px 15px grey;
+
+    .iconAccordeon {
+      font-size: 24px;
+      margin-right: 10px;
+
+      path {
+        color: #fff;
+      }
+    }
   }
 
   .header {
@@ -19,6 +28,12 @@ export const AccordeonBox = styled.div`
     align-items: center;
     justify-content: space-between;
     letter-spacing: 2px;
+
+    div {
+      color: #fff;
+      display: flex;
+      align-items: center;
+    }
 
     .openClose {
       width: 25px;

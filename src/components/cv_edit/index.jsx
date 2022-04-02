@@ -18,8 +18,11 @@ import ProjectsEdit from './projectsEdit';
 
 const Form = styled.form`
   width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+  padding: 10px;
+  margin: 30px auto;
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0px 10px 15px grey;
 
   input::placeholder {
     color: #888;

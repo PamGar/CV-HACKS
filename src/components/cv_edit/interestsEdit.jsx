@@ -6,6 +6,7 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
+  faFutbol,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
@@ -165,7 +166,10 @@ const InterestEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Intereses
+            <div>
+              <FontAwesomeIcon icon={faFutbol} className="iconAccordeon" />
+              Intereses
+            </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>

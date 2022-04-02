@@ -9,6 +9,7 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
+  faUser,
 } from '@fortawesome/free-regular-svg-icons';
 
 const AboutEdit = (props) => {
@@ -187,7 +188,10 @@ const AboutEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Acerca de mi
+            <div>
+              <FontAwesomeIcon icon={faUser} className="iconAccordeon" />
+              Acerca de mi
+            </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>

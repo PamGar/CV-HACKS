@@ -6,6 +6,7 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
+  faHandshake,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
@@ -263,7 +264,10 @@ const OrganisationEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Organización
+            <div>
+              <FontAwesomeIcon icon={faHandshake} className="iconAccordeon" />
+              Organización
+            </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>

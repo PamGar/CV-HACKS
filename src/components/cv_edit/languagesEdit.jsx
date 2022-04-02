@@ -6,6 +6,7 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
+  faComments,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
@@ -168,7 +169,10 @@ const LanguagesEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Idiomas
+            <div>
+              <FontAwesomeIcon icon={faComments} className="iconAccordeon" />
+              Idiomas
+            </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>
