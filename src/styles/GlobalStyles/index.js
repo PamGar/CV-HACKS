@@ -10,14 +10,14 @@ export const GlobalStyles = createGlobalStyle`
     font-size: 13px;
     border: 0px;
     font-weight: 500;
-    color: #3c3c3c;
+    color:#5e5e5e;
 }
 
 body {
     background-color: #f3f4f6;
 }
 
-h1, h2, h3, label {
+h1, h2, h3, label {    
     font-family: 'Fredoka One', cursive;
 }
 
