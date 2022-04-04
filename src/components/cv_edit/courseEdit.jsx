@@ -37,6 +37,7 @@ const CoursesEdit = (props) => {
     },
     address_update: false,
     id: '',
+    address_id: '',
   });
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
@@ -119,6 +120,7 @@ const CoursesEdit = (props) => {
           authorization: `Token ${myToken}`,
         },
       });
+      console.log(data);
       setItem({
         data: {
           title: data.title,
@@ -139,6 +141,7 @@ const CoursesEdit = (props) => {
         },
         address_update: false,
         id: data.id,
+        address_id: data.address.id,
       });
       setEditItems(true);
       firstInputRef.current.focus();
@@ -218,6 +221,7 @@ const CoursesEdit = (props) => {
 
     setItem({
       ...item,
+      address_update: true,
       address: {
         ...item.address,
         [name]: value,

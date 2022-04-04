@@ -38,6 +38,7 @@ const JobEdit = (props) => {
     },
     address_update: false,
     id: '',
+    address_id: '',
   });
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();

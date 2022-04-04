@@ -45,14 +45,6 @@ const EducationEdit = (props) => {
 
   const [itemsList, setItemsList] = useState([]);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setItem({
-      ...item,
-      [name]: value,
-    });
-  };
-
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
   };
