@@ -26,6 +26,8 @@ const AboutEdit = (props) => {
   });
   const toggleAccordeonRef = useRef();
   const profileImageRef = useRef();
+  const getHeightRef = useRef();
+  const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
 
   const [itemsList, setItemsList] = useState([]);
@@ -40,6 +42,7 @@ const AboutEdit = (props) => {
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
   const getItemsList = async () => {
@@ -196,305 +199,317 @@ const AboutEdit = (props) => {
               <img src={Chevron} alt="" />
             </div>
           </div>
-          <div className="body">
-            <div className="addPicture">
+          <div
+            className="body"
+            ref={getHeightRef}
+            style={{
+              height: `${childBodyHeight}px`,
+            }}
+          >
+            <div>
+              <div className="addPicture">
+                <p>
+                  Carga una foto para tu CV
+                  <hr />
+                  <span className="fieldRecomendation">Recomendado</span>
+                </p>
+                <label htmlFor="profilePicture">+</label>
+                <input
+                  ref={profileImageRef}
+                  type="file"
+                  id="profilePicture"
+                  name="profilePicture"
+                  value={item.credential_url}
+                  autoComplete="off"
+                  onChange={UploadImageInfo}
+                />
+                <p className="fileName">
+                  {profileImageInfo}
+                  {profileImageInfo !== '' ? (
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        profileImageRef.current.value = '';
+                        setProfileImageInfo('');
+                      }}
+                    >
+                      Eliminar
+                    </button>
+                  ) : null}
+                </p>
+              </div>
               <p>
-                Carga una foto para tu CV
-                <hr />
-                <span className="fieldRecomendation">Recomendado</span>
-              </p>
-              <label htmlFor="profilePicture">+</label>
-              <input
-                ref={profileImageRef}
-                type="file"
-                id="profilePicture"
-                name="profilePicture"
-                value={item.credential_url}
-                autoComplete="off"
-                onChange={UploadImageInfo}
-              />
-              <p className="fileName">
-                {profileImageInfo}
-                {profileImageInfo !== '' ? (
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      profileImageRef.current.value = '';
-                      setProfileImageInfo('');
-                    }}
-                  >
-                    Eliminar
-                  </button>
-                ) : null}
-              </p>
-            </div>
-            <p>
-              <label htmlFor="name">
-                Nombre
-                <span className="fieldRecomendation">Requerido</span>
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={item.credential_url}
-                placeholder="Escribe tu nombre"
-                autoComplete="off"
-                onChange={handleChange}
-                required
-              />
-            </p>
-            <p>
-              <label htmlFor="surname">
-                Apellido
-                <span className="fieldRecomendation">Requerido</span>
-              </label>
-              <input
-                type="text"
-                id="surname"
-                name="surname"
-                value={item.credential_url}
-                placeholder="Escribe tu apellido"
-                autoComplete="off"
-                onChange={handleChange}
-                required
-              />
-            </p>
-            <div className="twoColumns">
-              <div>
-                <p>
-                  <label htmlFor="city">
-                    Ciudad en la que vives
-                    <span className="fieldRecomendation">Requerido</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="city"
-                    name="city"
-                    value={item.expedition_date}
-                    autoComplete="off"
-                    placeholder="Escribe la ciudad en la que vives"
-                    onChange={handleChange}
-                    required
-                  />
-                </p>
-              </div>
-              <div>
-                <p>
-                  <label htmlFor="country">
-                    Pais en el que vives
-                    <span className="fieldRecomendation">Requerido</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="country"
-                    name="country"
-                    value={item.expiry_date}
-                    autoComplete="off"
-                    placeholder="Escribe el pais en el que vives"
-                    onChange={handleChange}
-                    required
-                  />
-                </p>
-              </div>
-            </div>
-            <p>
-              <label htmlFor="country">
-                Escribe un poco acerca de ti
-                <span className="fieldRecomendation">Opcional</span>
-              </label>
-              <textarea
-                rows="5"
-                id="country"
-                name="country"
-                value={item.expiry_date}
-                autoComplete="off"
-                placeholder="Escribe algo acerca de ti"
-                onChange={handleChange}
-              ></textarea>
-            </p>
-            <p>
-              <label htmlFor="softskills">
-                Nombra algunas de tus softskills
-                <span className="fieldRecomendation">Requerido</span>
-              </label>
-              <input
-                type="text"
-                id="softskills"
-                name="softskills"
-                value={item.expiry_date}
-                autoComplete="off"
-                placeholder="Por ejemplo: empatia, puntualidad"
-                onChange={handleChange}
-                required
-              />
-            </p>
-            <p>
-              <label htmlFor="technologies">
-                Tecnologias y herramientas que mas usas
-                <span className="fieldRecomendation">Requerido</span>
-              </label>
-              <input
-                type="text"
-                id="technologies"
-                name="technologies"
-                value={item.expiry_date}
-                autoComplete="off"
-                placeholder="Por ejemplo: python, react, git"
-                onChange={handleChange}
-                required
-              />
-            </p>
-            <p>
-              <label htmlFor="mail">
-                Correo electronico
-                <span className="fieldRecomendation">Requerido</span>
-              </label>
-              <input
-                type="text"
-                id="mail"
-                name="mail"
-                value={item.expiry_date}
-                autoComplete="off"
-                placeholder="Escribe tu correo electronico"
-                onChange={handleChange}
-                required
-              />
-            </p>
-            <p>
-              <label htmlFor="phone">
-                Telefono
-                <span className="fieldRecomendation">Requerido</span>
-              </label>
-              <input
-                type="text"
-                id="phone"
-                name="phone"
-                value={item.expiry_date}
-                autoComplete="off"
-                placeholder="Escribe tu numero de telefono"
-                onChange={handleChange}
-                required
-              />
-            </p>
-            <p>
-              <label htmlFor="redes">
-                Redes sociales
-                <span className="fieldRecomendation">Recomendado</span>
-              </label>
-              <div className="twoColumns twoColumns__redes">
-                <select name="redes" id="cars">
-                  <option value="volvo">Twitter</option>
-                  <option value="saab">Github</option>
-                  <option value="mercedes">Stackoverflow</option>
-                  <option value="audi">Instagram</option>
-                </select>
+                <label htmlFor="name">
+                  Nombre
+                  <span className="fieldRecomendation">Requerido</span>
+                </label>
                 <input
                   type="text"
-                  name="urlRed"
+                  id="name"
+                  name="name"
+                  value={item.credential_url}
+                  placeholder="Escribe tu nombre"
+                  autoComplete="off"
+                  onChange={handleChange}
+                  required
+                />
+              </p>
+              <p>
+                <label htmlFor="surname">
+                  Apellido
+                  <span className="fieldRecomendation">Requerido</span>
+                </label>
+                <input
+                  type="text"
+                  id="surname"
+                  name="surname"
+                  value={item.credential_url}
+                  placeholder="Escribe tu apellido"
+                  autoComplete="off"
+                  onChange={handleChange}
+                  required
+                />
+              </p>
+              <div className="twoColumns">
+                <div>
+                  <p>
+                    <label htmlFor="city">
+                      Ciudad en la que vives
+                      <span className="fieldRecomendation">Requerido</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      value={item.expedition_date}
+                      autoComplete="off"
+                      placeholder="Escribe la ciudad en la que vives"
+                      onChange={handleChange}
+                      required
+                    />
+                  </p>
+                </div>
+                <div>
+                  <p>
+                    <label htmlFor="country">
+                      Pais en el que vives
+                      <span className="fieldRecomendation">Requerido</span>
+                    </label>
+                    <input
+                      type="text"
+                      id="country"
+                      name="country"
+                      value={item.expiry_date}
+                      autoComplete="off"
+                      placeholder="Escribe el pais en el que vives"
+                      onChange={handleChange}
+                      required
+                    />
+                  </p>
+                </div>
+              </div>
+              <p>
+                <label htmlFor="country">
+                  Escribe un poco acerca de ti
+                  <span className="fieldRecomendation">Opcional</span>
+                </label>
+                <textarea
+                  rows="5"
+                  id="country"
+                  name="country"
                   value={item.expiry_date}
                   autoComplete="off"
-                  placeholder="Escribe la URL de tu perfil"
+                  placeholder="Escribe algo acerca de ti"
                   onChange={handleChange}
+                ></textarea>
+              </p>
+              <p>
+                <label htmlFor="softskills">
+                  Nombra algunas de tus softskills
+                  <span className="fieldRecomendation">Requerido</span>
+                </label>
+                <input
+                  type="text"
+                  id="softskills"
+                  name="softskills"
+                  value={item.expiry_date}
+                  autoComplete="off"
+                  placeholder="Por ejemplo: empatia, puntualidad"
+                  onChange={handleChange}
+                  required
                 />
-                <button className="addIcon">+</button>
-              </div>
-              <div className="redList">
-                <div className="redItem">
-                  <div>
-                    <a href="http://www.twitter.com/ale6jss">Twitter</a>
+              </p>
+              <p>
+                <label htmlFor="technologies">
+                  Tecnologias y herramientas que mas usas
+                  <span className="fieldRecomendation">Requerido</span>
+                </label>
+                <input
+                  type="text"
+                  id="technologies"
+                  name="technologies"
+                  value={item.expiry_date}
+                  autoComplete="off"
+                  placeholder="Por ejemplo: python, react, git"
+                  onChange={handleChange}
+                  required
+                />
+              </p>
+              <p>
+                <label htmlFor="mail">
+                  Correo electronico
+                  <span className="fieldRecomendation">Requerido</span>
+                </label>
+                <input
+                  type="text"
+                  id="mail"
+                  name="mail"
+                  value={item.expiry_date}
+                  autoComplete="off"
+                  placeholder="Escribe tu correo electronico"
+                  onChange={handleChange}
+                  required
+                />
+              </p>
+              <p>
+                <label htmlFor="phone">
+                  Telefono
+                  <span className="fieldRecomendation">Requerido</span>
+                </label>
+                <input
+                  type="text"
+                  id="phone"
+                  name="phone"
+                  value={item.expiry_date}
+                  autoComplete="off"
+                  placeholder="Escribe tu numero de telefono"
+                  onChange={handleChange}
+                  required
+                />
+              </p>
+              <p>
+                <label htmlFor="redes">
+                  Redes sociales
+                  <span className="fieldRecomendation">Recomendado</span>
+                </label>
+                <div className="twoColumns twoColumns__redes">
+                  <select name="redes" id="cars">
+                    <option value="volvo">Twitter</option>
+                    <option value="saab">Github</option>
+                    <option value="mercedes">Stackoverflow</option>
+                    <option value="audi">Instagram</option>
+                  </select>
+                  <input
+                    type="text"
+                    name="urlRed"
+                    value={item.expiry_date}
+                    autoComplete="off"
+                    placeholder="Escribe la URL de tu perfil"
+                    onChange={handleChange}
+                  />
+                  <button className="addIcon">+</button>
+                </div>
+                <div className="redList">
+                  <div className="redItem">
+                    <div>
+                      <a href="http://www.twitter.com/ale6jss">Twitter</a>
+                    </div>
+                    <div className="editBox">
+                      <button onClick={(event) => getLanguage(event, item.id)}>
+                        <FontAwesomeIcon
+                          icon={faPenToSquare}
+                          className="editBox_edit"
+                        />
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setHide(!hide);
+                        }}
+                      >
+                        {hide ? (
+                          <FontAwesomeIcon
+                            icon={faEyeSlash}
+                            className="editBox_hide"
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faEye}
+                            className="editBox_unhide"
+                          />
+                        )}
+                      </button>
+                      <button
+                        onClick={(event) => removeLanguage(event, item.id)}
+                      >
+                        <FontAwesomeIcon
+                          icon={faTrashCan}
+                          className="editBox_delete"
+                        />
+                      </button>
+                    </div>
                   </div>
-                  <div className="editBox">
-                    <button onClick={(event) => getLanguage(event, item.id)}>
-                      <FontAwesomeIcon
-                        icon={faPenToSquare}
-                        className="editBox_edit"
-                      />
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setHide(!hide);
-                      }}
-                    >
-                      {hide ? (
+                  <div className="redItem">
+                    <div>
+                      <a href="http://www.twitter.com/ale6jss">Stackoverflow</a>
+                    </div>
+                    <div className="editBox">
+                      <button onClick={(event) => getLanguage(event, item.id)}>
                         <FontAwesomeIcon
-                          icon={faEyeSlash}
-                          className="editBox_hide"
+                          icon={faPenToSquare}
+                          className="editBox_edit"
                         />
-                      ) : (
+                      </button>
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setHide(!hide);
+                        }}
+                      >
+                        {hide ? (
+                          <FontAwesomeIcon
+                            icon={faEyeSlash}
+                            className="editBox_hide"
+                          />
+                        ) : (
+                          <FontAwesomeIcon
+                            icon={faEye}
+                            className="editBox_unhide"
+                          />
+                        )}
+                      </button>
+                      <button
+                        onClick={(event) => removeLanguage(event, item.id)}
+                      >
                         <FontAwesomeIcon
-                          icon={faEye}
-                          className="editBox_unhide"
+                          icon={faTrashCan}
+                          className="editBox_delete"
                         />
-                      )}
-                    </button>
-                    <button onClick={(event) => removeLanguage(event, item.id)}>
-                      <FontAwesomeIcon
-                        icon={faTrashCan}
-                        className="editBox_delete"
-                      />
-                    </button>
+                      </button>
+                    </div>
                   </div>
                 </div>
-                <div className="redItem">
-                  <div>
-                    <a href="http://www.twitter.com/ale6jss">Stackoverflow</a>
-                  </div>
-                  <div className="editBox">
-                    <button onClick={(event) => getLanguage(event, item.id)}>
-                      <FontAwesomeIcon
-                        icon={faPenToSquare}
-                        className="editBox_edit"
-                      />
-                    </button>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setHide(!hide);
-                      }}
+              </p>
+              <ButtonBox>
+                {editItems ? (
+                  <>
+                    <Button type="button" onClick={cancelUpdate}>
+                      Cancelar
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={(event) => updateLanguage(event, item.id)}
                     >
-                      {hide ? (
-                        <FontAwesomeIcon
-                          icon={faEyeSlash}
-                          className="editBox_hide"
-                        />
-                      ) : (
-                        <FontAwesomeIcon
-                          icon={faEye}
-                          className="editBox_unhide"
-                        />
-                      )}
-                    </button>
-                    <button onClick={(event) => removeLanguage(event, item.id)}>
-                      <FontAwesomeIcon
-                        icon={faTrashCan}
-                        className="editBox_delete"
-                      />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </p>
-            <ButtonBox>
-              {editItems ? (
-                <>
-                  <Button type="button" onClick={cancelUpdate}>
-                    Cancelar
+                      Actualizar
+                    </Button>
+                  </>
+                ) : (
+                  <Button type="button" onClick={addItem}>
+                    Guardar
                   </Button>
-                  <Button
-                    type="button"
-                    onClick={(event) => updateLanguage(event, item.id)}
-                  >
-                    Actualizar
-                  </Button>
-                </>
-              ) : (
-                <Button type="button" onClick={addItem}>
-                  Guardar
-                </Button>
-              )}
-            </ButtonBox>
+                )}
+              </ButtonBox>
+            </div>
           </div>
         </div>
       </AccordeonBox>

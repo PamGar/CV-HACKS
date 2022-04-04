@@ -22,6 +22,8 @@ const LanguagesEdit = (props) => {
     level: '',
   });
   const toggleAccordeonRef = useRef();
+  const getHeightRef = useRef();
+  const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
 
   const [languagesList, setLanguagesList] = useState([]);
@@ -36,6 +38,7 @@ const LanguagesEdit = (props) => {
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
   const addLanguage = async (e) => {
@@ -177,127 +180,137 @@ const LanguagesEdit = (props) => {
               <img src={Chevron} alt="" />
             </div>
           </div>
-          <div className="body">
-            {languagesList.length === 0 ? (
-              <p className="tasks_0">Aun no tienes ningun idioma guardado</p>
-            ) : (
-              languagesList.map((language) => {
-                return (
-                  <div className="body_box" key={language.id}>
-                    <p>{language.title}</p>
-                    <p>
-                      <span>
-                        {language.subtitle} | {language.level}
-                      </span>
-                    </p>
-                    <div className="editBox">
-                      <button
-                        onClick={(event) => getLanguage(event, language.id)}
-                      >
-                        <FontAwesomeIcon
-                          icon={faPenToSquare}
-                          className="editBox_edit"
-                        />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setHide(!hide);
-                        }}
-                      >
-                        {hide ? (
-                          <FontAwesomeIcon
-                            icon={faEyeSlash}
-                            className="editBox_hide"
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            icon={faEye}
-                            className="editBox_unhide"
-                          />
-                        )}
-                      </button>
-                      <button
-                        onClick={(event) => removeLanguage(event, language.id)}
-                      >
-                        <FontAwesomeIcon
-                          icon={faTrashCan}
-                          className="editBox_delete"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })
-            )}
-            <div className="separador"></div>
-            {editLanguage ? (
-              <h3>Actualizar idioma</h3>
-            ) : (
-              <h3>Agregar nuevo idioma</h3>
-            )}
-            <p>
-              <label htmlFor="title">
-                Title<span className="fieldRecomendation">Requerido</span>
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={language.title}
-                onChange={handleChange}
-                placeholder="Escribe el idioma aprendido (Ingles, Chino, etc)"
-                autoComplete="off"
-              />
-            </p>
-            <p>
-              <label htmlFor="subtitle">
-                Certificación
-                <span className="fieldRecomendation">Opcional</span>
-              </label>
-              <input
-                type="text"
-                id="subtitle"
-                name="subtitle"
-                value={language.subtitle}
-                onChange={handleChange}
-                placeholder="Escribe el examen aprobado (IELTS, HSK, TOEFL, etc)"
-                autoComplete="off"
-              />
-            </p>
-            <p>
-              <label htmlFor="level">
-                Nivel<span className="fieldRecomendation">Opcional</span>
-              </label>
-              <input
-                type="level"
-                id="level"
-                name="level"
-                value={language.level}
-                onChange={handleChange}
-                placeholder="Escribe el nivel (Basico, Intermedio, Avanzado, etc)"
-                autoComplete="off"
-              />
-            </p>
-            <ButtonBox>
-              {editLanguage ? (
-                <>
-                  <Button type="button" onClick={cancelUpdate}>
-                    Cancelar
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={(event) => updateLanguage(event, language.id)}
-                  >
-                    Actualizar
-                  </Button>
-                </>
+          <div
+            className="body"
+            ref={getHeightRef}
+            style={{
+              height: `${childBodyHeight}px`,
+            }}
+          >
+            <div>
+              {languagesList.length === 0 ? (
+                <p className="tasks_0">Aun no tienes ningun idioma guardado</p>
               ) : (
-                <Button type="button" onClick={addLanguage}>
-                  Agregar +
-                </Button>
+                languagesList.map((language) => {
+                  return (
+                    <div className="body_box" key={language.id}>
+                      <p>{language.title}</p>
+                      <p>
+                        <span>
+                          {language.subtitle} | {language.level}
+                        </span>
+                      </p>
+                      <div className="editBox">
+                        <button
+                          onClick={(event) => getLanguage(event, language.id)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faPenToSquare}
+                            className="editBox_edit"
+                          />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setHide(!hide);
+                          }}
+                        >
+                          {hide ? (
+                            <FontAwesomeIcon
+                              icon={faEyeSlash}
+                              className="editBox_hide"
+                            />
+                          ) : (
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              className="editBox_unhide"
+                            />
+                          )}
+                        </button>
+                        <button
+                          onClick={(event) =>
+                            removeLanguage(event, language.id)
+                          }
+                        >
+                          <FontAwesomeIcon
+                            icon={faTrashCan}
+                            className="editBox_delete"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })
               )}
-            </ButtonBox>
+              <div className="separador"></div>
+              {editLanguage ? (
+                <h3>Actualizar idioma</h3>
+              ) : (
+                <h3>Agregar nuevo idioma</h3>
+              )}
+              <p>
+                <label htmlFor="title">
+                  Title<span className="fieldRecomendation">Requerido</span>
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={language.title}
+                  onChange={handleChange}
+                  placeholder="Escribe el idioma aprendido (Ingles, Chino, etc)"
+                  autoComplete="off"
+                />
+              </p>
+              <p>
+                <label htmlFor="subtitle">
+                  Certificación
+                  <span className="fieldRecomendation">Opcional</span>
+                </label>
+                <input
+                  type="text"
+                  id="subtitle"
+                  name="subtitle"
+                  value={language.subtitle}
+                  onChange={handleChange}
+                  placeholder="Escribe el examen aprobado (IELTS, HSK, TOEFL, etc)"
+                  autoComplete="off"
+                />
+              </p>
+              <p>
+                <label htmlFor="level">
+                  Nivel<span className="fieldRecomendation">Opcional</span>
+                </label>
+                <input
+                  type="level"
+                  id="level"
+                  name="level"
+                  value={language.level}
+                  onChange={handleChange}
+                  placeholder="Escribe el nivel (Basico, Intermedio, Avanzado, etc)"
+                  autoComplete="off"
+                />
+              </p>
+              <ButtonBox>
+                {editLanguage ? (
+                  <>
+                    <Button type="button" onClick={cancelUpdate}>
+                      Cancelar
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={(event) => updateLanguage(event, language.id)}
+                    >
+                      Actualizar
+                    </Button>
+                  </>
+                ) : (
+                  <Button type="button" onClick={addLanguage}>
+                    Agregar +
+                  </Button>
+                )}
+              </ButtonBox>
+            </div>
           </div>
         </div>
       </AccordeonBox>

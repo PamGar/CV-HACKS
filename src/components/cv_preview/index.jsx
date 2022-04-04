@@ -137,7 +137,7 @@ const ButtonBox = styled.div`
   }
 `;
 
-const CV_preview = ({ editButton, dataLoaded }) => {
+const CV_preview = ({ editButton, dataLoaded, cvData }) => {
   const widthRef = useRef();
   const printRef = useRef();
   const [width, setWidth] = useState(0);

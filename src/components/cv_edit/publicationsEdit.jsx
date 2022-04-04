@@ -23,6 +23,8 @@ const PublicationsEdit = (props) => {
     description: '',
   });
   const toggleAccordeonRef = useRef();
+  const getHeightRef = useRef();
+  const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
 
   const [itemsList, setItemsList] = useState([]);
@@ -37,6 +39,7 @@ const PublicationsEdit = (props) => {
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
   const getItemsList = async () => {
@@ -179,131 +182,141 @@ const PublicationsEdit = (props) => {
               <img src={Chevron} alt="" />
             </div>
           </div>
-          <div className="body">
-            {itemsList.length === 0 ? (
-              <p className="tasks_0">
-                Aun no tienes ninguna publicacion guardada
-              </p>
-            ) : (
-              itemsList.map((item) => {
-                return (
-                  <div className="body_box" key={item.id}>
-                    <p>
-                      <span>{item.title}</span>
-                    </p>
-                    <p>{item.subtitle}</p>
-                    <p>{item.description}</p>
-                    <div className="editBox">
-                      <button onClick={(event) => getLanguage(event, item.id)}>
-                        <FontAwesomeIcon
-                          icon={faPenToSquare}
-                          className="editBox_edit"
-                        />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setHide(!hide);
-                        }}
-                      >
-                        {hide ? (
-                          <FontAwesomeIcon
-                            icon={faEyeSlash}
-                            className="editBox_hide"
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            icon={faEye}
-                            className="editBox_unhide"
-                          />
-                        )}
-                      </button>
-                      <button
-                        onClick={(event) => removeLanguage(event, item.id)}
-                      >
-                        <FontAwesomeIcon
-                          icon={faTrashCan}
-                          className="editBox_delete"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })
-            )}
-            <div className="separador"></div>
-            {editItems ? (
-              <h3>Actualizar publicación</h3>
-            ) : (
-              <h3>Agregar nueva publicación</h3>
-            )}
-            <p>
-              <label htmlFor="title">Nombre de la publicación</label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={item.title}
-                placeholder="Escribe el titulo de la publicacion"
-                autoComplete="off"
-                onChange={handleChange}
-              />
-            </p>
-            <p>
-              <label htmlFor="subtitle">¿Donde se publico?</label>
-              <input
-                type="text"
-                id="subtitle"
-                name="subtitle"
-                value={item.subtitle}
-                placeholder="Escribe el nombre del empleador"
-                autoComplete="off"
-                onChange={handleChange}
-              />
-            </p>
-            <p>
-              <label htmlFor="date">Fecha de publicación</label>
-              <input
-                type="date"
-                id="date"
-                name="date"
-                value={item.date}
-                autoComplete="off"
-                onChange={handleChange}
-              />
-            </p>
-            <p>
-              <label htmlFor="description">Descripción</label>
-              <textarea
-                type="text"
-                id="description"
-                name="description"
-                rows="5"
-                value={item.description}
-                placeholder="Escribe una breve descripcion de la publicación"
-                autoComplete="off"
-                onChange={handleChange}
-              ></textarea>
-            </p>
-            <ButtonBox>
-              {editItems ? (
-                <>
-                  <Button type="button" onClick={cancelUpdate}>
-                    Cancelar
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={(event) => updateLanguage(event, item.id)}
-                  >
-                    Actualizar
-                  </Button>
-                </>
+          <div
+            className="body"
+            ref={getHeightRef}
+            style={{
+              height: `${childBodyHeight}px`,
+            }}
+          >
+            <div>
+              {itemsList.length === 0 ? (
+                <p className="tasks_0">
+                  Aun no tienes ninguna publicacion guardada
+                </p>
               ) : (
-                <Button type="button" onClick={addItem}>
-                  Agregar +
-                </Button>
+                itemsList.map((item) => {
+                  return (
+                    <div className="body_box" key={item.id}>
+                      <p>
+                        <span>{item.title}</span>
+                      </p>
+                      <p>{item.subtitle}</p>
+                      <p>{item.description}</p>
+                      <div className="editBox">
+                        <button
+                          onClick={(event) => getLanguage(event, item.id)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faPenToSquare}
+                            className="editBox_edit"
+                          />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setHide(!hide);
+                          }}
+                        >
+                          {hide ? (
+                            <FontAwesomeIcon
+                              icon={faEyeSlash}
+                              className="editBox_hide"
+                            />
+                          ) : (
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              className="editBox_unhide"
+                            />
+                          )}
+                        </button>
+                        <button
+                          onClick={(event) => removeLanguage(event, item.id)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faTrashCan}
+                            className="editBox_delete"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })
               )}
-            </ButtonBox>
+              <div className="separador"></div>
+              {editItems ? (
+                <h3>Actualizar publicación</h3>
+              ) : (
+                <h3>Agregar nueva publicación</h3>
+              )}
+              <p>
+                <label htmlFor="title">Nombre de la publicación</label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={item.title}
+                  placeholder="Escribe el titulo de la publicacion"
+                  autoComplete="off"
+                  onChange={handleChange}
+                />
+              </p>
+              <p>
+                <label htmlFor="subtitle">¿Donde se publico?</label>
+                <input
+                  type="text"
+                  id="subtitle"
+                  name="subtitle"
+                  value={item.subtitle}
+                  placeholder="Escribe el nombre del empleador"
+                  autoComplete="off"
+                  onChange={handleChange}
+                />
+              </p>
+              <p>
+                <label htmlFor="date">Fecha de publicación</label>
+                <input
+                  type="date"
+                  id="date"
+                  name="date"
+                  value={item.date}
+                  autoComplete="off"
+                  onChange={handleChange}
+                />
+              </p>
+              <p>
+                <label htmlFor="description">Descripción</label>
+                <textarea
+                  type="text"
+                  id="description"
+                  name="description"
+                  rows="5"
+                  value={item.description}
+                  placeholder="Escribe una breve descripcion de la publicación"
+                  autoComplete="off"
+                  onChange={handleChange}
+                ></textarea>
+              </p>
+              <ButtonBox>
+                {editItems ? (
+                  <>
+                    <Button type="button" onClick={cancelUpdate}>
+                      Cancelar
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={(event) => updateLanguage(event, item.id)}
+                    >
+                      Actualizar
+                    </Button>
+                  </>
+                ) : (
+                  <Button type="button" onClick={addItem}>
+                    Agregar +
+                  </Button>
+                )}
+              </ButtonBox>
+            </div>
           </div>
         </div>
       </AccordeonBox>

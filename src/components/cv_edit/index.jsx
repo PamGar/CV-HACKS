@@ -35,7 +35,6 @@ const Form = styled.form`
   }
 
   label {
-    font-weight: 700;
     margin: 10px 0 5px 10px;
     font-size: 14px;
   }

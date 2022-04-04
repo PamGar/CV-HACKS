@@ -17,6 +17,10 @@ body {
     background-color: #f3f4f6;
 }
 
+h1, h2, h3, label {
+    font-family: 'Fredoka One', cursive;
+}
+
 h1 {
     font-size: 31.475px;
 }

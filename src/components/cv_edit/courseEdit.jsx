@@ -40,11 +40,14 @@ const CoursesEdit = (props) => {
     address_id: '',
   });
   const toggleAccordeonRef = useRef();
+  const getHeightRef = useRef();
+  const [childBodyHeight, setChildBodyHeight] = useState(0);
   const firstInputRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
   const getItemsList = async () => {
@@ -260,201 +263,211 @@ const CoursesEdit = (props) => {
               <img src={Chevron} alt="" />
             </div>
           </div>
-          <div className="body">
-            {itemsList.length === 0 ? (
-              <p className="tasks_0">Aun no tienes ningun curso guardado</p>
-            ) : (
-              itemsList.map((item) => {
-                return (
-                  <div className="body_box" key={item.id}>
-                    <p>
-                      <span>{item.title}</span>
-                    </p>
-                    <p>{item.subtitle}</p>
-                    <p>
-                      {item.start_date} | {item.end_date}
-                    </p>
-                    <div className="editBox">
-                      <button onClick={(event) => getItem(event, item.id)}>
-                        <FontAwesomeIcon
-                          icon={faPenToSquare}
-                          className="editBox_edit"
-                        />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setHide(!hide);
-                        }}
-                      >
-                        {hide ? (
+          <div
+            className="body"
+            ref={getHeightRef}
+            style={{
+              height: `${childBodyHeight}px`,
+            }}
+          >
+            <div>
+              {itemsList.length === 0 ? (
+                <p className="tasks_0">Aun no tienes ningun curso guardado</p>
+              ) : (
+                itemsList.map((item) => {
+                  return (
+                    <div className="body_box" key={item.id}>
+                      <p>
+                        <span>{item.title}</span>
+                      </p>
+                      <p>{item.subtitle}</p>
+                      <p>
+                        {item.start_date} | {item.end_date}
+                      </p>
+                      <div className="editBox">
+                        <button onClick={(event) => getItem(event, item.id)}>
                           <FontAwesomeIcon
-                            icon={faEyeSlash}
-                            className="editBox_hide"
+                            icon={faPenToSquare}
+                            className="editBox_edit"
                           />
-                        ) : (
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setHide(!hide);
+                          }}
+                        >
+                          {hide ? (
+                            <FontAwesomeIcon
+                              icon={faEyeSlash}
+                              className="editBox_hide"
+                            />
+                          ) : (
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              className="editBox_unhide"
+                            />
+                          )}
+                        </button>
+                        <button onClick={(event) => removeItem(event, item.id)}>
                           <FontAwesomeIcon
-                            icon={faEye}
-                            className="editBox_unhide"
+                            icon={faTrashCan}
+                            className="editBox_delete"
                           />
-                        )}
-                      </button>
-                      <button onClick={(event) => removeItem(event, item.id)}>
-                        <FontAwesomeIcon
-                          icon={faTrashCan}
-                          className="editBox_delete"
-                        />
-                      </button>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-                );
-              })
-            )}
-            <div className="separador"></div>
-            {editItems ? (
-              <h3>Actualizar curso</h3>
-            ) : (
-              <h3>Agregar nuevo curso</h3>
-            )}
-            <p>
-              <label htmlFor="title">
-                Nombre del curso
-                <span className="fieldRecomendation">Requerido</span>
-              </label>
-              <input
-                ref={firstInputRef}
-                type="text"
-                name="title"
-                value={item.data.title}
-                placeholder="Escribe el nombre del curso realizado"
-                autoComplete="off"
-                onChange={handleDataChange}
-              />
-            </p>
-            <p>
-              <label htmlFor="subtitle">
-                Institucion o plataforma
-                <span className="fieldRecomendation">Requerido</span>
-              </label>
-              <input
-                type="text"
-                id="company"
-                name="subtitle"
-                value={item.data.subtitle}
-                placeholder="Escribe el nombre de la institucion o plataforma"
-                autoComplete="off"
-                onChange={handleDataChange}
-              />
-            </p>
-            <div className="twoColumns">
-              <div>
-                <p>
-                  <label htmlFor="city">
-                    Ciudad<span className="fieldRecomendation">Requerido</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="town"
-                    value={item.address.town}
-                    autoComplete="off"
-                    placeholder="Escribe la ciudad donde realizaste el curso"
-                    onChange={handleAddressChange}
-                    required
-                  />
-                </p>
-              </div>
-              <div>
-                <p>
-                  <label htmlFor="country">
-                    Pais<span className="fieldRecomendation">Requerido</span>
-                  </label>
-                  <input
-                    type="text"
-                    name="country"
-                    value={item.address.country}
-                    autoComplete="off"
-                    placeholder="Escribe el pais donde realizaste el curso"
-                    onChange={handleAddressChange}
-                    required
-                  />
-                </p>
-              </div>
-            </div>
-            <div className="twoColumns">
-              <div>
-                <p>
-                  <label htmlFor="expedition_date">
-                    Fecha de inicio
-                    <span className="fieldRecomendation">Requerido</span>
-                  </label>
-                  <input
-                    type="date"
-                    name="start_date"
-                    value={item.data.start_date}
-                    autoComplete="off"
-                    onChange={handleDataChange}
-                  />
-                </p>
-              </div>
-              <div>
-                <p>
-                  <label htmlFor="expiry_date">
-                    Fecha de culminación
-                    <span className="fieldRecomendation">Requerido</span>
-                  </label>
-                  <input
-                    type="date"
-                    name="end_date"
-                    value={item.data.end_date}
-                    autoComplete="off"
-                    onChange={handleDataChange}
-                  />
-                </p>
-                <div className="check_data">
-                  <input
-                    type="checkbox"
-                    name="expiry_date"
-                    value={item.data.end_date}
-                    autoComplete="off"
-                    onChange={handleDataChange}
-                  />
-                  <label htmlFor="expiry_date">Presente (Actualidad)</label>
+                  );
+                })
+              )}
+              <div className="separador"></div>
+              {editItems ? (
+                <h3>Actualizar curso</h3>
+              ) : (
+                <h3>Agregar nuevo curso</h3>
+              )}
+              <p>
+                <label htmlFor="title">
+                  Nombre del curso
+                  <span className="fieldRecomendation">Requerido</span>
+                </label>
+                <input
+                  ref={firstInputRef}
+                  type="text"
+                  name="title"
+                  value={item.data.title}
+                  placeholder="Escribe el nombre del curso realizado"
+                  autoComplete="off"
+                  onChange={handleDataChange}
+                />
+              </p>
+              <p>
+                <label htmlFor="subtitle">
+                  Institucion o plataforma
+                  <span className="fieldRecomendation">Requerido</span>
+                </label>
+                <input
+                  type="text"
+                  id="company"
+                  name="subtitle"
+                  value={item.data.subtitle}
+                  placeholder="Escribe el nombre de la institucion o plataforma"
+                  autoComplete="off"
+                  onChange={handleDataChange}
+                />
+              </p>
+              <div className="twoColumns">
+                <div>
+                  <p>
+                    <label htmlFor="city">
+                      Ciudad
+                      <span className="fieldRecomendation">Requerido</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="town"
+                      value={item.address.town}
+                      autoComplete="off"
+                      placeholder="Escribe la ciudad donde realizaste el curso"
+                      onChange={handleAddressChange}
+                      required
+                    />
+                  </p>
+                </div>
+                <div>
+                  <p>
+                    <label htmlFor="country">
+                      Pais<span className="fieldRecomendation">Requerido</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="country"
+                      value={item.address.country}
+                      autoComplete="off"
+                      placeholder="Escribe el pais donde realizaste el curso"
+                      onChange={handleAddressChange}
+                      required
+                    />
+                  </p>
                 </div>
               </div>
+              <div className="twoColumns">
+                <div>
+                  <p>
+                    <label htmlFor="expedition_date">
+                      Fecha de inicio
+                      <span className="fieldRecomendation">Requerido</span>
+                    </label>
+                    <input
+                      type="date"
+                      name="start_date"
+                      value={item.data.start_date}
+                      autoComplete="off"
+                      onChange={handleDataChange}
+                    />
+                  </p>
+                </div>
+                <div>
+                  <p>
+                    <label htmlFor="expiry_date">
+                      Fecha de culminación
+                      <span className="fieldRecomendation">Requerido</span>
+                    </label>
+                    <input
+                      type="date"
+                      name="end_date"
+                      value={item.data.end_date}
+                      autoComplete="off"
+                      onChange={handleDataChange}
+                    />
+                  </p>
+                  <div className="check_data">
+                    <input
+                      type="checkbox"
+                      name="expiry_date"
+                      value={item.data.end_date}
+                      autoComplete="off"
+                      onChange={handleDataChange}
+                    />
+                    <label htmlFor="expiry_date">Presente (Actualidad)</label>
+                  </div>
+                </div>
+              </div>
+              <p>
+                <label htmlFor="credential_id">
+                  Descripción
+                  <span className="fieldRecomendation">Opcional</span>
+                </label>
+                <textarea
+                  type="text"
+                  name="description"
+                  rows="5"
+                  value={item.data.description}
+                  placeholder="Escribe una breve descripcion del curso realizado"
+                  autoComplete="off"
+                  onChange={handleDataChange}
+                ></textarea>
+              </p>
+              <ButtonBox>
+                {editItems ? (
+                  <>
+                    <Button type="button" onClick={cancelUpdate}>
+                      Cancelar
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={(event) => updateItem(event, item.id)}
+                    >
+                      Actualizar
+                    </Button>
+                  </>
+                ) : (
+                  <Button type="button" onClick={addItem}>
+                    Agregar +
+                  </Button>
+                )}
+              </ButtonBox>
             </div>
-            <p>
-              <label htmlFor="credential_id">
-                Descripción<span className="fieldRecomendation">Opcional</span>
-              </label>
-              <textarea
-                type="text"
-                name="description"
-                rows="5"
-                value={item.data.description}
-                placeholder="Escribe una breve descripcion del curso realizado"
-                autoComplete="off"
-                onChange={handleDataChange}
-              ></textarea>
-            </p>
-            <ButtonBox>
-              {editItems ? (
-                <>
-                  <Button type="button" onClick={cancelUpdate}>
-                    Cancelar
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={(event) => updateItem(event, item.id)}
-                  >
-                    Actualizar
-                  </Button>
-                </>
-              ) : (
-                <Button type="button" onClick={addItem}>
-                  Agregar +
-                </Button>
-              )}
-            </ButtonBox>
           </div>
         </div>
       </AccordeonBox>

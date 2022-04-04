@@ -23,7 +23,8 @@ const SkillsEdit = (props) => {
     subtitle: '',
     level: '0',
   });
-
+  const getHeightRef = useRef();
+  const [childBodyHeight, setChildBodyHeight] = useState(0);
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
@@ -40,6 +41,7 @@ const SkillsEdit = (props) => {
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
   const getItemsList = async () => {
@@ -174,111 +176,121 @@ const SkillsEdit = (props) => {
               <img src={Chevron} alt="" />
             </div>
           </div>
-          <div className="body">
-            {itemsList.length === 0 ? (
-              <p className="tasks_0">Aun no tienes ninguna skill guardada</p>
-            ) : (
-              itemsList.map((item) => {
-                return (
-                  <div className="body_box" key={item.id}>
-                    <p>
-                      <span>{item.title}</span>
-                    </p>
-                    <p>{item.subtitle}</p>
-                    <div className="editBox">
-                      <button onClick={(event) => getLanguage(event, item.id)}>
-                        <FontAwesomeIcon
-                          icon={faPenToSquare}
-                          className="editBox_edit"
-                        />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setHide(!hide);
-                        }}
-                      >
-                        {hide ? (
-                          <FontAwesomeIcon
-                            icon={faEyeSlash}
-                            className="editBox_hide"
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            icon={faEye}
-                            className="editBox_unhide"
-                          />
-                        )}
-                      </button>
-                      <button
-                        onClick={(event) => removeLanguage(event, item.id)}
-                      >
-                        <FontAwesomeIcon
-                          icon={faTrashCan}
-                          className="editBox_delete"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })
-            )}
-            <div className="separador"></div>
-            {editItems ? (
-              <h3>Actualizar skill</h3>
-            ) : (
-              <h3>Agregar nueva skill</h3>
-            )}
-            <p>
-              <label htmlFor="title">
-                Nombre de la skill
-                <span className="fieldRecomendation">Requerido</span>
-              </label>
-              <input
-                ref={firstInputRef}
-                type="text"
-                name="title"
-                value={item.title}
-                placeholder="Escribe el nombre de la skill"
-                autoComplete="off"
-                onChange={handleChange}
-              />
-            </p>
-            <p>
-              <label htmlFor="subtitle">
-                Descripcion
-                <span className="fieldRecomendation">Requerido</span>
-              </label>
-              <textarea
-                type="text"
-                name="subtitle"
-                rows="5"
-                value={item.subtitle}
-                placeholder="Escribe una breve descripcion de la skill"
-                autoComplete="off"
-                onChange={handleChange}
-              ></textarea>
-            </p>
-
-            <ButtonBox>
-              {editItems ? (
-                <>
-                  <Button type="button" onClick={cancelUpdate}>
-                    Cancelar
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={(event) => updateLanguage(event, item.id)}
-                  >
-                    Actualizar
-                  </Button>
-                </>
+          <div
+            className="body"
+            ref={getHeightRef}
+            style={{
+              height: `${childBodyHeight}px`,
+            }}
+          >
+            <div>
+              {itemsList.length === 0 ? (
+                <p className="tasks_0">Aun no tienes ninguna skill guardada</p>
               ) : (
-                <Button type="button" onClick={addItem}>
-                  Agregar +
-                </Button>
+                itemsList.map((item) => {
+                  return (
+                    <div className="body_box" key={item.id}>
+                      <p>
+                        <span>{item.title}</span>
+                      </p>
+                      <p>{item.subtitle}</p>
+                      <div className="editBox">
+                        <button
+                          onClick={(event) => getLanguage(event, item.id)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faPenToSquare}
+                            className="editBox_edit"
+                          />
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setHide(!hide);
+                          }}
+                        >
+                          {hide ? (
+                            <FontAwesomeIcon
+                              icon={faEyeSlash}
+                              className="editBox_hide"
+                            />
+                          ) : (
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              className="editBox_unhide"
+                            />
+                          )}
+                        </button>
+                        <button
+                          onClick={(event) => removeLanguage(event, item.id)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faTrashCan}
+                            className="editBox_delete"
+                          />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })
               )}
-            </ButtonBox>
+              <div className="separador"></div>
+              {editItems ? (
+                <h3>Actualizar skill</h3>
+              ) : (
+                <h3>Agregar nueva skill</h3>
+              )}
+              <p>
+                <label htmlFor="title">
+                  Nombre de la skill
+                  <span className="fieldRecomendation">Requerido</span>
+                </label>
+                <input
+                  ref={firstInputRef}
+                  type="text"
+                  name="title"
+                  value={item.title}
+                  placeholder="Escribe el nombre de la skill"
+                  autoComplete="off"
+                  onChange={handleChange}
+                />
+              </p>
+              <p>
+                <label htmlFor="subtitle">
+                  Descripcion
+                  <span className="fieldRecomendation">Requerido</span>
+                </label>
+                <textarea
+                  type="text"
+                  name="subtitle"
+                  rows="5"
+                  value={item.subtitle}
+                  placeholder="Escribe una breve descripcion de la skill"
+                  autoComplete="off"
+                  onChange={handleChange}
+                ></textarea>
+              </p>
+
+              <ButtonBox>
+                {editItems ? (
+                  <>
+                    <Button type="button" onClick={cancelUpdate}>
+                      Cancelar
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={(event) => updateLanguage(event, item.id)}
+                    >
+                      Actualizar
+                    </Button>
+                  </>
+                ) : (
+                  <Button type="button" onClick={addItem}>
+                    Agregar +
+                  </Button>
+                )}
+              </ButtonBox>
+            </div>
           </div>
         </div>
       </AccordeonBox>

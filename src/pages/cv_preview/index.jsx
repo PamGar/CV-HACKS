@@ -199,7 +199,7 @@ const CV_preview = () => {
       );
       setUser(data);
       setDataNotLoaded(false);
-      console.log(data);
+      console.log('user', data);
       data.name === null ? setFirstData(true) : setFirstData(false);
     } catch (error) {
       const invalidToken = error.response.data.message;
@@ -281,10 +281,10 @@ const CV_preview = () => {
       <Layout
         main={
           isEdit ? (
-            <EditCV cvId={cvData.id} editButton={handleEdit} />
+            <EditCV cvId={cvData.cv.id} editButton={handleEdit} />
           ) : (
             <CV
-              cvId={cvData.id}
+              cvData={cvData}
               editButton={handleEdit}
               dataLoaded={dataNotLoaded}
             />

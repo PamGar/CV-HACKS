@@ -112,17 +112,18 @@ const ProfileBox = styled.div`
 
 const MenuOptions = styled.div`
   background-color: #fff;
-  border-radius: 3px;
+  border-radius: 15px;
   box-shadow: 5px 5px 35px grey;
   position: absolute;
   right: -210px;
   bottom: 0;
   text-align: left;
-  padding: 20px;
+  padding: 0 10px;
   width: 200px;
 
   .menu_user {
-    padding-bottom: 10px;
+    padding: 10px;
+    margin-top: 10px;
 
     a {
       font-size: 10px;
@@ -131,17 +132,23 @@ const MenuOptions = styled.div`
   }
 
   .menu_options {
-    padding: 10px 0;
+    padding: 10px;
     border-top: solid 1px #ededed;
     border-bottom: solid 1px #ededed;
   }
 
   .menu_out {
-    padding-top: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
 
     a {
       color: #ff3535;
     }
+  }
+
+  div:hover {
+    background-color: #d1d1ff;
+    border-radius: 10px;
   }
 
   @media (max-width: 1099px) {

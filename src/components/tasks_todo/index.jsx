@@ -107,6 +107,7 @@ const Task = styled.section`
   label {
     width: unset;
     margin-left: 10px;
+    font-family: 'Poppins', sans-serif;
   }
   input {
     width: unset;

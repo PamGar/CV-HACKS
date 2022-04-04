@@ -39,6 +39,8 @@ const ProjectsEdit = (props) => {
     id: '',
   });
   const toggleAccordeonRef = useRef();
+  const getHeightRef = useRef();
+  const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
 
   const [itemsList, setItemsList] = useState([]);
@@ -53,6 +55,7 @@ const ProjectsEdit = (props) => {
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
   const getItemsList = async () => {
@@ -255,14 +258,6 @@ const ProjectsEdit = (props) => {
         [name]: value,
       },
     });
-
-    setEditedItem({
-      ...editedItem,
-      address: {
-        ...editedItem.address,
-        [name]: value,
-      },
-    });
   };
 
   /*Captar cambios al escribir en el formulario*/
@@ -273,14 +268,6 @@ const ProjectsEdit = (props) => {
       ...item,
       data: {
         ...item.data,
-        [name]: value,
-      },
-    });
-
-    setEditedItem({
-      ...editedItem,
-      data: {
-        ...editedItem.data,
         [name]: value,
       },
     });
@@ -304,168 +291,181 @@ const ProjectsEdit = (props) => {
               <img src={Chevron} alt="" />
             </div>
           </div>
-          <div className="body">
-            {itemsList.length === 0 ? (
-              <p className="tasks_0">Aun no tienes ningun proyecto guardado</p>
-            ) : (
-              itemsList.map((item) => {
-                return (
-                  <div className="body_box" key={item.id}>
-                    <p>
-                      <span>{item.title}</span>
-                    </p>
-                    <p>{item.subtitle}</p>
-                    <p>{item.description}</p>
-                    <div className="editBox">
-                      <button onClick={(event) => getLanguage(event, item.id)}>
-                        <FontAwesomeIcon
-                          icon={faPenToSquare}
-                          className="editBox_edit"
-                        />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setHide(!hide);
-                        }}
-                      >
-                        {hide ? (
+          <div
+            className="body"
+            ref={getHeightRef}
+            style={{
+              height: `${childBodyHeight}px`,
+            }}
+          >
+            <div>
+              {itemsList.length === 0 ? (
+                <p className="tasks_0">
+                  Aun no tienes ningun proyecto guardado
+                </p>
+              ) : (
+                itemsList.map((item) => {
+                  return (
+                    <div className="body_box" key={item.id}>
+                      <p>
+                        <span>{item.title}</span>
+                      </p>
+                      <p>{item.subtitle}</p>
+                      <p>{item.description}</p>
+                      <div className="editBox">
+                        <button
+                          onClick={(event) => getLanguage(event, item.id)}
+                        >
                           <FontAwesomeIcon
-                            icon={faEyeSlash}
-                            className="editBox_hide"
+                            icon={faPenToSquare}
+                            className="editBox_edit"
                           />
-                        ) : (
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setHide(!hide);
+                          }}
+                        >
+                          {hide ? (
+                            <FontAwesomeIcon
+                              icon={faEyeSlash}
+                              className="editBox_hide"
+                            />
+                          ) : (
+                            <FontAwesomeIcon
+                              icon={faEye}
+                              className="editBox_unhide"
+                            />
+                          )}
+                        </button>
+                        <button
+                          onClick={(event) => removeLanguage(event, item.id)}
+                        >
                           <FontAwesomeIcon
-                            icon={faEye}
-                            className="editBox_unhide"
+                            icon={faTrashCan}
+                            className="editBox_delete"
                           />
-                        )}
-                      </button>
-                      <button
-                        onClick={(event) => removeLanguage(event, item.id)}
-                      >
-                        <FontAwesomeIcon
-                          icon={faTrashCan}
-                          className="editBox_delete"
-                        />
-                      </button>
+                        </button>
+                      </div>
                     </div>
+                  );
+                })
+              )}
+              <div className="separador"></div>
+              {editItems ? (
+                <h3>Actualizar proyecto</h3>
+              ) : (
+                <h3>Agregar nuevo proyecto</h3>
+              )}
+              <p>
+                <label htmlFor="title">
+                  Titulo del proyecto
+                  <span className="fieldRecomendation">Requerido</span>
+                </label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={item.data.title}
+                  placeholder="Escribe el nombre del proyecto"
+                  autoComplete="off"
+                  onChange={handleDataChange}
+                />
+              </p>
+              <p>
+                <label htmlFor="subtitle">
+                  Subtitulo
+                  <span className="fieldRecomendation">Requerido</span>
+                </label>
+                <input
+                  type="text"
+                  id="subtitle"
+                  name="subtitle"
+                  value={item.data.subtitle}
+                  placeholder="Escribe un subtitulo sobre el proyecto"
+                  autoComplete="off"
+                  onChange={handleDataChange}
+                />
+              </p>
+              <div className="twoColumns">
+                <div>
+                  <p>
+                    <label htmlFor="start_date">
+                      Fecha de inicio
+                      <span className="fieldRecomendation">Requerido</span>
+                    </label>
+                    <input
+                      type="date"
+                      name="start_date"
+                      value={item.data.start_date}
+                      autoComplete="off"
+                      onChange={handleDataChange}
+                    />
+                  </p>
+                </div>
+                <div>
+                  <p>
+                    <label htmlFor="end_date">
+                      Fecha de culminación
+                      <span className="fieldRecomendation">Requerido</span>
+                    </label>
+                    <input
+                      type="date"
+                      name="end_date"
+                      value={item.data.end_date}
+                      autoComplete="off"
+                      onChange={handleDataChange}
+                    />
+                  </p>
+                  <div className="check_data">
+                    <input
+                      type="checkbox"
+                      name="expiry_date"
+                      value={item.data.end_date}
+                      autoComplete="off"
+                      onChange={handleDataChange}
+                    />
+                    <label htmlFor="expiry_date">Presente (Actualidad)</label>
                   </div>
-                );
-              })
-            )}
-            <div className="separador"></div>
-            {editItems ? (
-              <h3>Actualizar proyecto</h3>
-            ) : (
-              <h3>Agregar nuevo proyecto</h3>
-            )}
-            <p>
-              <label htmlFor="title">
-                Titulo del proyecto
-                <span className="fieldRecomendation">Requerido</span>
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={item.data.title}
-                placeholder="Escribe el nombre del proyecto"
-                autoComplete="off"
-                onChange={handleDataChange}
-              />
-            </p>
-            <p>
-              <label htmlFor="subtitle">
-                Subtitulo
-                <span className="fieldRecomendation">Requerido</span>
-              </label>
-              <input
-                type="text"
-                id="subtitle"
-                name="subtitle"
-                value={item.data.subtitle}
-                placeholder="Escribe un subtitulo sobre el proyecto"
-                autoComplete="off"
-                onChange={handleDataChange}
-              />
-            </p>
-            <div className="twoColumns">
-              <div>
-                <p>
-                  <label htmlFor="start_date">
-                    Fecha de inicio
-                    <span className="fieldRecomendation">Requerido</span>
-                  </label>
-                  <input
-                    type="date"
-                    name="start_date"
-                    value={item.data.start_date}
-                    autoComplete="off"
-                    onChange={handleDataChange}
-                  />
-                </p>
-              </div>
-              <div>
-                <p>
-                  <label htmlFor="end_date">
-                    Fecha de culminación
-                    <span className="fieldRecomendation">Requerido</span>
-                  </label>
-                  <input
-                    type="date"
-                    name="end_date"
-                    value={item.data.end_date}
-                    autoComplete="off"
-                    onChange={handleDataChange}
-                  />
-                </p>
-                <div className="check_data">
-                  <input
-                    type="checkbox"
-                    name="expiry_date"
-                    value={item.data.end_date}
-                    autoComplete="off"
-                    onChange={handleDataChange}
-                  />
-                  <label htmlFor="expiry_date">Presente (Actualidad)</label>
                 </div>
               </div>
+              <p>
+                <label htmlFor="description">
+                  Descripción
+                  <span className="fieldRecomendation">Requerido</span>
+                </label>
+                <textarea
+                  type="text"
+                  id="description"
+                  name="description"
+                  rows="5"
+                  value={item.data.description}
+                  placeholder="Escribe una breve descripción del proyecto"
+                  autoComplete="off"
+                  onChange={handleDataChange}
+                ></textarea>
+              </p>
+              <ButtonBox>
+                {editItems ? (
+                  <>
+                    <Button type="button" onClick={cancelUpdate}>
+                      Cancelar
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={(event) => updateLanguage(event, item.id)}
+                    >
+                      Actualizar
+                    </Button>
+                  </>
+                ) : (
+                  <Button type="button" onClick={addItem}>
+                    Agregar +
+                  </Button>
+                )}
+              </ButtonBox>
             </div>
-            <p>
-              <label htmlFor="description">
-                Descripción<span className="fieldRecomendation">Requerido</span>
-              </label>
-              <textarea
-                type="text"
-                id="description"
-                name="description"
-                rows="5"
-                value={item.data.description}
-                placeholder="Escribe una breve descripción del proyecto"
-                autoComplete="off"
-                onChange={handleDataChange}
-              ></textarea>
-            </p>
-            <ButtonBox>
-              {editItems ? (
-                <>
-                  <Button type="button" onClick={cancelUpdate}>
-                    Cancelar
-                  </Button>
-                  <Button
-                    type="button"
-                    onClick={(event) => updateLanguage(event, item.id)}
-                  >
-                    Actualizar
-                  </Button>
-                </>
-              ) : (
-                <Button type="button" onClick={addItem}>
-                  Agregar +
-                </Button>
-              )}
-            </ButtonBox>
           </div>
         </div>
       </AccordeonBox>

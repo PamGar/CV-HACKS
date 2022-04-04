@@ -28,11 +28,13 @@ export const AccordeonBox = styled.div`
     align-items: center;
     justify-content: space-between;
     letter-spacing: 2px;
+    font-family: 'Fredoka One', cursive;
 
     div {
       color: #fff;
       display: flex;
       align-items: center;
+      font-family: 'Fredoka One', cursive;
     }
 
     .openClose {
@@ -50,15 +52,15 @@ export const AccordeonBox = styled.div`
   }
 
   .body {
-    height: auto;
     background-color: #f9f9f9;
-    padding: 20px;
+    padding: 0px 20px;
     color: black;
     transition-duration: 0.5s;
     cursor: auto;
   }
 
   .addPicture {
+    padding-top: 20px;
     margin-left: 10px;
     display: flex;
     align-items: center;
@@ -127,13 +129,13 @@ export const AccordeonBox = styled.div`
   }
 
   .tasks_0 {
-    padding-bottom: 20px;
+    padding: 20px;
     color: #999999;
     margin-top: 0;
   }
 
   .body_box {
-    padding: 10px 0;
+    padding: 20px 0;
 
     span {
       font-weight: 700;
@@ -175,7 +177,7 @@ export const AccordeonBox = styled.div`
   }
 
   .hide + .body {
-    height: 0;
+    height: 0 !important;
     padding-top: 0;
     padding-bottom: 0;
   }
@@ -293,7 +295,6 @@ export const AccordeonBox = styled.div`
     height: 2px;
     background-color: #bed028;
     margin-bottom: 20px;
-    margin-top: 10px;
   }
 
   .redList {
