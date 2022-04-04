@@ -24,37 +24,48 @@ const ButtonsContainer = styled.div`
   position: sticky;
   bottom: 10px;
   margin: 0 15px 10px;
-  display: grid;
-  grid-template-columns: 1fr 3fr;
+  /* display: grid;
+  grid-template-columns: 1fr 3fr; */
+  display: flex;
   gap: 15px;
+
+  button:nth-child(1) {
+    flex-grow: 1;
+  }
+
+  button:nth-child(2) {
+    flex-grow: 3;
+  }
 `;
 const FormWrapper = ({
   children,
-  onClick,
+  onClickLoadingButton,
+  onClickOutlinedButton,
   setShowMainContent,
   disableButton,
   loading,
+  loadingButtonTitle,
+  singleButton,
 }) => {
   return (
     <Wrapper>
       <Form>{children}</Form>
       <ButtonsContainer>
-        <OutlinedButton
-          type='submit'
-          fullWidth
-          bgColor='white'
-          onClick={() => setShowMainContent('CVlist')}
-        >
-          regresar
-        </OutlinedButton>
+        {!singleButton && (
+          <OutlinedButton
+            bgColor='white'
+            onClick={onClickOutlinedButton}
+            disabled={loading}
+          >
+            regresar
+          </OutlinedButton>
+        )}
         <LoadingButton
-          fullWidth
-          onClick={onClick}
-          type='submit'
+          onClick={onClickLoadingButton}
           disabled={disableButton}
           loading={loading}
         >
-          enviar
+          {loadingButtonTitle}
         </LoadingButton>
       </ButtonsContainer>
     </Wrapper>

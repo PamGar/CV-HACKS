@@ -6,6 +6,7 @@ import { GlobalStyles } from './styles/GlobalStyles';
 import Login from './pages/Login';
 import CV_preview from './pages/cv_preview';
 import AdminDashboard from './pages/AdminDashboard';
+import RegisterCompany from './pages/RegisterCompany';
 import Layout from './layouts/navigation';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -32,14 +33,14 @@ const App = () => {
       <Routes>
         <Route element={<PublicRoute isAuth={isAuthenticated.isAuth} />}>
           <Route
-            path="/login"
+            path='/login'
             element={<Login setIsAuthenticated={setIsAuthenticated} />}
           />
-          <Route path="/login/company" element={<Login company />} />
+          <Route path='/login/company' element={<Login company />} />
         </Route>
         <Route element={<PrivateRoute isAuth={isAuthenticated.isAuth} />}>
           <Route
-            path="/dashboard"
+            path='/dashboard'
             element={
               isAuthenticated.role == 5 ? (
                 <AdminDashboard />
@@ -50,6 +51,10 @@ const App = () => {
               ) : isAuthenticated.role == 2 ? null : isAuthenticated.role ===
                 1 ? null : null
             }
+          />
+          <Route
+            path='register-company'
+            element={isAuthenticated.role == 3 && <RegisterCompany />}
           />
         </Route>
       </Routes>

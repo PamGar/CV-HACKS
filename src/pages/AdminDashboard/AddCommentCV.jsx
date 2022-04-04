@@ -131,8 +131,9 @@ const AddCommentCV = ({ setShowMainContent, userSelectedId }) => {
   return (
     <>
       <FormWrapper
-        onClick={WriteAComment}
-        setShowMainContent={setShowMainContent}
+        onClickLoadingButton={WriteAComment}
+        onClickOutlinedButton={() => setShowMainContent('CVlist')}
+        loadingButtonTitle='Agregar correción'
         disableButton={!comment.comment || loading}
         loading={loading}
       >

@@ -1,7 +1,10 @@
 import NavDescriptionCard from '../../components/NavDescriptionCard';
-import ModalLayout from '../../layouts/ModalLayout';
 import Modal from '../../components/Modal';
 import styled from 'styled-components';
+import ModalLayout from '../../components/Modal/ModalLayout';
+import { useRef } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleLeft } from '@fortawesome/free-regular-svg-icons';
 
 const Box = styled.div`
   width: 90vw;
@@ -15,21 +18,49 @@ const Box = styled.div`
   background-color: rgb(238, 238, 255);
 `;
 
+const IconWrapper = styled.button`
+  cursor: pointer;
+  position: fixed;
+  top: 50px;
+  left: 50px;
+  background-color: transparent;
+  border-radius: 50%;
+
+  .goBack {
+    background-color: rgb(238, 238, 255);
+    background-color: transparent;
+    color: white;
+    width: 50px;
+    height: 50px;
+  }
+`;
+
 const NavModal = ({ openModal, setOpenModal, setShowMainContent }) => {
+  const ModalLayoutRef = useRef();
+
+  const handleShowMainContent = (content) => {
+    ModalLayoutRef.current.classList.add('fadeOut');
+    setTimeout(() => setShowMainContent(content), 250);
+  };
   return (
     <Modal
       isOpen={openModal}
       element={
-        <ModalLayout
-          onClick={() => setTimeout(() => setOpenModal(false), 250)}
-          hideScrollBar
-        >
+        <ModalLayout ref={ModalLayoutRef} myOwnContainer>
+          <IconWrapper
+            onClick={() => {
+              ModalLayoutRef.current.classList.add('fadeOut');
+              setTimeout(() => setOpenModal(false), 250);
+            }}
+          >
+            <FontAwesomeIcon icon={faCircleLeft} className='goBack' />
+          </IconWrapper>
           <Box>
             <NavDescriptionCard
               description='Escribe algun comentario sobre el CV seleccionado'
               icon='icono'
               onClick={() => {
-                setTimeout(() => setShowMainContent('comments'), 250);
+                handleShowMainContent('comments');
               }}
             >
               Escribir comentarios
@@ -38,7 +69,7 @@ const NavModal = ({ openModal, setOpenModal, setShowMainContent }) => {
               description='Agrega información al CV seleccionado'
               icon='icono'
               onClick={() => {
-                setTimeout(() => setShowMainContent('edit'), 250);
+                handleShowMainContent('edit');
               }}
             >
               Editar CV
@@ -47,7 +78,7 @@ const NavModal = ({ openModal, setOpenModal, setShowMainContent }) => {
               description='Compartir CVs a las empresas'
               icon='icono'
               onClick={() => {
-                setTimeout(() => setShowMainContent('share'), 250);
+                handleShowMainContent('share');
               }}
             >
               Compartir

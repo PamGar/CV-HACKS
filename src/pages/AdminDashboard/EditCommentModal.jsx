@@ -1,68 +1,43 @@
 import axios from 'axios';
-import { useState, useLayoutEffect, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import Modal from '../../components/Modal';
 import LoadingButton from '../../components/Buttons/LoadingButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faCircleLeft,
-  faPenToSquare,
-} from '@fortawesome/free-regular-svg-icons';
-import { ModalWrapper } from '../../layouts/ModalLayout';
+import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
+import OutlinedButton from '../../components/Buttons/OutlinedButton';
 import { toast } from 'react-toastify';
+import ModalLayout from '../../components/Modal/ModalLayout';
 
-const Container = styled.div`
-  background-color: rgb(238, 238, 255);
-  width: 90vw;
-  max-width: 500px;
-  padding: clamp(10px, 5%, 30px);
+const Textarea = styled.textarea`
+  max-width: 100%;
+  width: 100%;
+  resize: vertical;
+  overflow-wrap: break-word;
+  padding: 8px 15px;
+  box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
+    0px 1px 8px 0px rgb(0 0 0 / 12%);
   border-radius: 3px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-
-  textarea {
-    max-width: 100%;
-    width: 100%;
-    resize: vertical;
-    overflow-wrap: break-word;
-    padding: 8px 15px;
-    box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%),
-      0px 2px 5px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
-    border-radius: 3px;
-  }
-
-  select {
-    padding: 8px 15px;
-    box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%),
-      0px 2px 5px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
-    border-radius: 3px;
-    width: 100%;
-  }
-
-  .editIcon {
-    width: 50px;
-    height: 50px;
-    color: #239e23;
-  }
 `;
 
-const IconWrapper = styled.button`
-  cursor: pointer;
-  position: fixed;
-  top: 50px;
-  left: 50px;
-  background-color: transparent;
-  border-radius: 50%;
+const Select = styled.select`
+  padding: 8px 15px;
+  box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
+    0px 1px 8px 0px rgb(0 0 0 / 12%);
+  border-radius: 3px;
+  width: 100%;
+`;
 
-  .goBack {
-    background-color: rgb(238, 238, 255);
-    background-color: transparent;
-    color: white;
-    width: 50px;
-    height: 50px;
-  }
+const FontAwesomeIconStyled = styled(FontAwesomeIcon)`
+  width: 50px;
+  height: 50px;
+  color: #239e23;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  gap: 20px;
+  width: 100%;
 `;
 
 const EditCommentModal = ({
@@ -127,56 +102,47 @@ const EditCommentModal = ({
     }
   };
 
-  useLayoutEffect(() => {
-    document.body.style.marginRight = '17px';
-    document.body.style.overflowY = 'hidden';
-    ModalWrapperRef.current.classList.add('fadeIn');
-
-    return () => document.body.removeAttribute('style');
-  }, []);
-
-  useEffect(() => {
-    setTimeout(() => ModalWrapperRef.current.classList.remove('fadeIn'), 250);
-  }, []);
   return (
     <Modal
       isOpen={openEditCommentModal}
       element={
-        <ModalWrapper ref={ModalWrapperRef}>
-          <IconWrapper
-            onClick={() => {
-              setTimeout(() => setOpenEditCommentModal(false), 250);
-              ModalWrapperRef.current.classList.add('fadeOut');
-            }}
+        <ModalLayout ref={ModalWrapperRef}>
+          <FontAwesomeIconStyled icon={faPenToSquare} />
+          <h1>Editar correción</h1>
+          <Textarea
+            value={commentToBeChanged.comment}
+            onChange={handleChangeTextarea}
+          />
+          <Select
+            onChange={handleChangeSelect}
+            value={commentToBeChanged.description}
           >
-            <FontAwesomeIcon icon={faCircleLeft} className='goBack' />
-          </IconWrapper>
-          <Container>
-            <FontAwesomeIcon icon={faPenToSquare} className='editIcon' />
-            <h1>Editar correción</h1>
-            <textarea
-              value={commentToBeChanged.comment}
-              onChange={handleChangeTextarea}
-            />
-            <select
-              onChange={handleChangeSelect}
-              value={commentToBeChanged.description}
+            <option value='Informacion Personal'>Informacion Personal</option>
+            <option value='Estudios'>Estudios</option>
+            <option value='Experiencia'>Experiencia</option>
+            <option value='Cursos'>Cursos</option>
+          </Select>
+          <ButtonContainer>
+            <OutlinedButton
+              fullWidth
+              disabled={loading}
+              onClick={() => {
+                ModalWrapperRef.current.classList.add('fadeOut');
+                setTimeout(() => setOpenEditCommentModal(false), 250);
+              }}
             >
-              <option value='Informacion Personal'>Informacion Personal</option>
-              <option value='Estudios'>Estudios</option>
-              <option value='Experiencia'>Experiencia</option>
-              <option value='Cursos'>Cursos</option>
-            </select>
+              cancelar
+            </OutlinedButton>
             <LoadingButton
               fullWidth
               onClick={editComment}
               disabled={disabledButton}
               loading={loading}
             >
-              editar corrección
+              eliminar
             </LoadingButton>
-          </Container>
-        </ModalWrapper>
+          </ButtonContainer>
+        </ModalLayout>
       }
     />
   );
