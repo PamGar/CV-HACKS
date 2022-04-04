@@ -39,7 +39,6 @@ const JobEdit = (props) => {
     address_update: false,
     id: '',
   });
-  const [editedItem, setEditedItem] = useState({});
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
@@ -91,6 +90,7 @@ const JobEdit = (props) => {
         },
         address_update: false,
         id: '',
+        address_id: '',
       });
       getItemsList();
     } catch (error) {
@@ -137,13 +137,14 @@ const JobEdit = (props) => {
           num_int: 0,
           num_ext: 0,
           suburb: '0',
-          town: data.town,
+          town: data.address.town,
           state: '0',
-          country: data.country,
+          country: data.address.country,
           zip_code: '0',
         },
         address_update: false,
         id: data.id,
+        address_id: data.address.id,
       });
       setEditItems(true);
       firstInputRef.current.focus();
@@ -156,7 +157,7 @@ const JobEdit = (props) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.put(`${URL}/${id}`, editedItem, {
+      const { data } = await axios.put(`${URL}/${id}`, item, {
         headers: {
           authorization: `Token ${myToken}`,
         },
@@ -225,16 +226,9 @@ const JobEdit = (props) => {
 
     setItem({
       ...item,
+      address_update: true,
       address: {
         ...item.address,
-        [name]: value,
-      },
-    });
-
-    setEditedItem({
-      ...editedItem,
-      address: {
-        ...editedItem.address,
         [name]: value,
       },
     });
@@ -248,14 +242,6 @@ const JobEdit = (props) => {
       ...item,
       data: {
         ...item.data,
-        [name]: value,
-      },
-    });
-
-    setEditedItem({
-      ...editedItem,
-      data: {
-        ...editedItem.data,
         [name]: value,
       },
     });

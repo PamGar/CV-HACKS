@@ -36,6 +36,7 @@ const EducationEdit = (props) => {
     },
     address_update: false,
     id: '',
+    address_id: '',
   });
 
   const toggleAccordeonRef = useRef();
@@ -70,7 +71,6 @@ const EducationEdit = (props) => {
   };
 
   const addItem = async (e) => {
-    console.log('hi');
     e.preventDefault();
     try {
       const { data } = await axios.post(URL, item, {
@@ -84,7 +84,7 @@ const EducationEdit = (props) => {
           academic_discipline: 'empty',
           degree: '',
           start_date: '',
-          end_date: null,
+          end_date: '',
           description: '',
         },
         address: {
@@ -143,13 +143,14 @@ const EducationEdit = (props) => {
           num_int: 0,
           num_ext: 0,
           suburb: 'empty',
-          town: '',
+          town: data.address.town,
           state: 'empty',
-          country: '',
+          country: data.address.country,
           zip_code: 'empty',
         },
         address_update: false,
         id: data.id,
+        address_id: data.address.id,
       });
       setEditItems(true);
       firstInputRef.current.focus();
@@ -174,7 +175,7 @@ const EducationEdit = (props) => {
           academic_discipline: 'empty',
           degree: '',
           start_date: '',
-          end_date: null,
+          end_date: '',
           description: '',
         },
         address: {
@@ -227,6 +228,7 @@ const EducationEdit = (props) => {
 
     setItem({
       ...item,
+      address_update: true,
       address: {
         ...item.address,
         [name]: value,

@@ -38,7 +38,6 @@ const CoursesEdit = (props) => {
     address_update: false,
     id: '',
   });
-  const [editedItem, setEditedItem] = useState({});
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
@@ -133,9 +132,9 @@ const CoursesEdit = (props) => {
           num_int: 0,
           num_ext: 0,
           suburb: '0',
-          town: data.town,
+          town: data.address.town,
           state: '0',
-          country: data.country,
+          country: data.address.country,
           zip_code: '0',
         },
         address_update: false,
@@ -152,7 +151,7 @@ const CoursesEdit = (props) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.put(`${URL}/${id}`, editedItem, {
+      const { data } = await axios.put(`${URL}/${id}`, item, {
         headers: {
           authorization: `Token ${myToken}`,
         },
@@ -224,14 +223,6 @@ const CoursesEdit = (props) => {
         [name]: value,
       },
     });
-
-    setEditedItem({
-      ...editedItem,
-      address: {
-        ...editedItem.address,
-        [name]: value,
-      },
-    });
   };
 
   /*Captar cambios al escribir en el formulario*/
@@ -242,14 +233,6 @@ const CoursesEdit = (props) => {
       ...item,
       data: {
         ...item.data,
-        [name]: value,
-      },
-    });
-
-    setEditedItem({
-      ...editedItem,
-      data: {
-        ...editedItem.data,
         [name]: value,
       },
     });
