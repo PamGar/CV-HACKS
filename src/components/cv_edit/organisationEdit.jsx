@@ -40,13 +40,22 @@ const OrganisationEdit = (props) => {
   });
   const [editedItem, setEditedItem] = useState({});
   const getHeightRef = useRef();
+  const addButtonRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
+  const formRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+  };
+
+  const handleForm = (e) => {
+    e.preventDefault();
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
     setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
@@ -58,6 +67,7 @@ const OrganisationEdit = (props) => {
         },
       });
       setItemsList(data);
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
@@ -143,6 +153,9 @@ const OrganisationEdit = (props) => {
         id: data.id,
       });
       setEditItems(true);
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
@@ -189,6 +202,9 @@ const OrganisationEdit = (props) => {
   const cancelUpdate = (event) => {
     event.preventDefault();
     setEditItems(false);
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     setItem({
       data: {
         type: 'Organisation',
@@ -223,14 +239,6 @@ const OrganisationEdit = (props) => {
         [name]: value,
       },
     });
-
-    setEditedItem({
-      ...editedItem,
-      address: {
-        ...editedItem.address,
-        [name]: value,
-      },
-    });
   };
 
   /*Captar cambios al escribir en el formulario*/
@@ -241,14 +249,6 @@ const OrganisationEdit = (props) => {
       ...item,
       data: {
         ...item.data,
-        [name]: value,
-      },
-    });
-
-    setEditedItem({
-      ...editedItem,
-      data: {
-        ...editedItem.data,
         [name]: value,
       },
     });
@@ -335,151 +335,164 @@ const OrganisationEdit = (props) => {
                 })
               )}
               <div className="separador"></div>
-              {editItems ? (
-                <h3>Actualizar organización</h3>
-              ) : (
-                <h3>Agregar nuevo organización</h3>
-              )}
-              <p>
-                <label htmlFor="title">
-                  Nombre de la organización
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  ref={firstInputRef}
-                  type="text"
-                  name="title"
-                  value={item.data.title}
-                  placeholder="Escribe el nombre de la organización"
-                  autoComplete="off"
-                  onChange={handleDataChange}
-                />
-              </p>
-              <p>
-                <label htmlFor="subtitle">
-                  Posición dentro de la organización
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  type="text"
-                  id="company"
-                  name="subtitle"
-                  value={item.data.subtitle}
-                  placeholder="Escribe tu posicion dentro de la organización"
-                  autoComplete="off"
-                  onChange={handleDataChange}
-                />
-              </p>
-              <div className="twoColumns">
-                <div>
-                  <p>
-                    <label htmlFor="city">
-                      Ciudad
-                      <span className="fieldRecomendation">Requerido</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="town"
-                      value={item.address.town}
-                      autoComplete="off"
-                      placeholder="Escribe la ciudad donde se ubica la organizacion"
-                      onChange={handleAddressChange}
-                      required
-                    />
-                  </p>
-                </div>
-                <div>
-                  <p>
-                    <label htmlFor="country">
-                      Pais<span className="fieldRecomendation">Requerido</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="country"
-                      value={item.address.country}
-                      autoComplete="off"
-                      placeholder="Escribe el pais donde se ubica la organizacion"
-                      onChange={handleAddressChange}
-                      required
-                    />
-                  </p>
-                </div>
-              </div>
-              <div className="twoColumns">
-                <div>
-                  <p>
-                    <label htmlFor="expedition_date">
-                      Fecha de inicio
-                      <span className="fieldRecomendation">Requerido</span>
-                    </label>
-                    <input
-                      type="date"
-                      name="start_date"
-                      value={item.data.start_date}
-                      autoComplete="off"
-                      onChange={handleDataChange}
-                    />
-                  </p>
-                </div>
-                <div>
-                  <p>
-                    <label htmlFor="expiry_date">
-                      Fecha de culminación
-                      <span className="fieldRecomendation">Requerido</span>
-                    </label>
-                    <input
-                      type="date"
-                      name="end_date"
-                      value={item.data.end_date}
-                      autoComplete="off"
-                      onChange={handleDataChange}
-                    />
-                  </p>
-                  <div className="check_data">
-                    <input
-                      type="checkbox"
-                      name="expiry_date"
-                      value={item.data.end_date}
-                      autoComplete="off"
-                      onChange={handleDataChange}
-                    />
-                    <label htmlFor="expiry_date">Presente (Actualidad)</label>
+              <div className="wrapperForm" ref={formRef}>
+                {editItems ? (
+                  <h3>Actualizar organización</h3>
+                ) : (
+                  <h3>Agregar nuevo organización</h3>
+                )}
+                <p>
+                  <label htmlFor="title">
+                    Nombre de la organización
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    ref={firstInputRef}
+                    type="text"
+                    name="title"
+                    value={item.data.title}
+                    placeholder="Escribe el nombre de la organización"
+                    autoComplete="off"
+                    onChange={handleDataChange}
+                  />
+                </p>
+                <p>
+                  <label htmlFor="subtitle">
+                    Posición dentro de la organización
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="company"
+                    name="subtitle"
+                    value={item.data.subtitle}
+                    placeholder="Escribe tu posicion dentro de la organización"
+                    autoComplete="off"
+                    onChange={handleDataChange}
+                  />
+                </p>
+                <div className="twoColumns">
+                  <div>
+                    <p>
+                      <label htmlFor="city">
+                        Ciudad
+                        <span className="fieldRecomendation">Requerido</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="town"
+                        value={item.address.town}
+                        autoComplete="off"
+                        placeholder="Escribe la ciudad donde se ubica la organizacion"
+                        onChange={handleAddressChange}
+                        required
+                      />
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      <label htmlFor="country">
+                        Pais
+                        <span className="fieldRecomendation">Requerido</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="country"
+                        value={item.address.country}
+                        autoComplete="off"
+                        placeholder="Escribe el pais donde se ubica la organizacion"
+                        onChange={handleAddressChange}
+                        required
+                      />
+                    </p>
                   </div>
                 </div>
+                <div className="twoColumns">
+                  <div>
+                    <p>
+                      <label htmlFor="expedition_date">
+                        Fecha de inicio
+                        <span className="fieldRecomendation">Requerido</span>
+                      </label>
+                      <input
+                        type="date"
+                        name="start_date"
+                        value={item.data.start_date}
+                        autoComplete="off"
+                        onChange={handleDataChange}
+                      />
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      <label htmlFor="expiry_date">
+                        Fecha de culminación
+                        <span className="fieldRecomendation">Requerido</span>
+                      </label>
+                      <input
+                        type="date"
+                        name="end_date"
+                        value={item.data.end_date}
+                        autoComplete="off"
+                        onChange={handleDataChange}
+                      />
+                    </p>
+                    <div className="check_data">
+                      <input
+                        type="checkbox"
+                        name="expiry_date"
+                        value={item.data.end_date}
+                        autoComplete="off"
+                        onChange={handleDataChange}
+                      />
+                      <label htmlFor="expiry_date">Presente (Actualidad)</label>
+                    </div>
+                  </div>
+                </div>
+                <p>
+                  <label htmlFor="credential_id">
+                    Descripción
+                    <span className="fieldRecomendation">Opcional</span>
+                  </label>
+                  <textarea
+                    type="text"
+                    name="credential_id"
+                    rows="5"
+                    value={item.credential_id}
+                    placeholder="Escribe una breve descripcion de la organización"
+                    autoComplete="off"
+                    onChange={handleDataChange}
+                  ></textarea>
+                </p>
+                <ButtonBox>
+                  {editItems ? (
+                    <>
+                      <Button type="button" onClick={cancelUpdate}>
+                        Cancelar
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={(event) => updateItem(event, item.id)}
+                      >
+                        Actualizar
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button type="button" onClick={handleForm}>
+                        Cancelar
+                      </Button>
+                      <Button type="button" onClick={addItem}>
+                        Guardar
+                      </Button>
+                    </>
+                  )}
+                </ButtonBox>
               </div>
-              <p>
-                <label htmlFor="credential_id">
-                  Descripción
-                  <span className="fieldRecomendation">Opcional</span>
-                </label>
-                <textarea
-                  type="text"
-                  name="credential_id"
-                  rows="5"
-                  value={item.credential_id}
-                  placeholder="Escribe una breve descripcion de la organización"
-                  autoComplete="off"
-                  onChange={handleDataChange}
-                ></textarea>
-              </p>
-              <ButtonBox>
-                {editItems ? (
-                  <>
-                    <Button type="button" onClick={cancelUpdate}>
-                      Cancelar
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={(event) => updateItem(event, item.id)}
-                    >
-                      Actualizar
-                    </Button>
-                  </>
-                ) : (
-                  <Button type="button" onClick={addItem}>
-                    Agregar +
-                  </Button>
-                )}
+              <ButtonBox ref={addButtonRef}>
+                <Button type="button" onClick={handleForm}>
+                  Agregar
+                </Button>
               </ButtonBox>
             </div>
           </div>

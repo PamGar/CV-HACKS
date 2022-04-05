@@ -154,6 +154,7 @@ const LanguagesEdit = (props) => {
         }
       );
       setLanguagesList(data);
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }

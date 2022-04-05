@@ -57,6 +57,18 @@ export const AccordeonBox = styled.div`
     color: black;
     transition-duration: 0.5s;
     cursor: auto;
+
+    .wrapperForm {
+      display: none;
+    }
+
+    .unhide {
+      display: block;
+    }
+
+    .hide {
+      display: none;
+    }
   }
 
   .addPicture {

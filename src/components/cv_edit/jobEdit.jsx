@@ -59,6 +59,7 @@ const JobEdit = (props) => {
         },
       });
       setItemsList(data.data);
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
