@@ -24,6 +24,8 @@ const CertificationsEdit = (props) => {
   });
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
+  const formRef = useRef();
+  const addButtonRef = useRef();
   const getHeightRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
@@ -40,6 +42,13 @@ const CertificationsEdit = (props) => {
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+  };
+
+  const handleForm = (e) => {
+    e.preventDefault();
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
     setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
@@ -82,6 +91,9 @@ const CertificationsEdit = (props) => {
         credential_url: '',
       });
       getItemsList();
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
@@ -119,6 +131,9 @@ const CertificationsEdit = (props) => {
       );
       setItem(data);
       setEditItems(true);
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
@@ -148,6 +163,9 @@ const CertificationsEdit = (props) => {
         credential_url: '',
       });
       getItemsList();
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
@@ -156,6 +174,9 @@ const CertificationsEdit = (props) => {
   const cancelUpdate = (event) => {
     event.preventDefault();
     setEditItems(false);
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     setItem({
       name: '',
       company: '',
@@ -248,155 +269,167 @@ const CertificationsEdit = (props) => {
                 })
               )}
               <div className="separador"></div>
-              {editItems ? (
-                <h3>Actualizar certificado</h3>
-              ) : (
-                <h3>Agregar nuevo certificado</h3>
-              )}
-              <p>
-                <label htmlFor="name">
-                  Nombre del certificado
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  ref={firstInputRef}
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={item.name}
-                  placeholder="Escribe el nombre de la certificacion"
-                  autoComplete="off"
-                  onChange={handleChange}
-                  required
-                />
-              </p>
-              <p>
-                <label htmlFor="company">
-                  Institucion que lo expide
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  value={item.company}
-                  placeholder="Escribe el nombre de la quien entrega el certificado"
-                  autoComplete="off"
-                  onChange={handleChange}
-                  required
-                />
-              </p>
-              <div className="twoColumns">
-                <div>
-                  <p>
-                    <label htmlFor="expedition_date">
-                      Fecha de expedición
-                      <span className="fieldRecomendation">Requerido</span>
-                    </label>
-                    <input
-                      type="date"
-                      id="expedition_date"
-                      name="expedition_date"
-                      value={item.expedition_date}
-                      autoComplete="off"
-                      onChange={handleChange}
-                      required
-                    />
-                  </p>
-                </div>
-                <div>
-                  <p>
-                    <label htmlFor="expiry_date">
-                      Fecha de expiración
-                      <span className="fieldRecomendation">Requerido</span>
-                    </label>
-                    <input
-                      type="date"
-                      id="expiry_date"
-                      name="expiry_date"
-                      value={item.expiry_date}
-                      autoComplete="off"
-                      onChange={handleChange}
-                      required
-                    />
-                  </p>
-                  <div className="check_data">
-                    <input
-                      type="checkbox"
-                      id="expiry_date"
-                      name="expiry_date"
-                      value={item.expiry_date}
-                      autoComplete="off"
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="expiry_date">Presente (Actualidad)</label>
+              <div className="wrapperForm" ref={formRef}>
+                {editItems ? (
+                  <h3>Actualizar certificado</h3>
+                ) : (
+                  <h3>Agregar nuevo certificado</h3>
+                )}
+                <p>
+                  <label htmlFor="name">
+                    Nombre del certificado
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    ref={firstInputRef}
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={item.name}
+                    placeholder="Escribe el nombre de la certificacion"
+                    autoComplete="off"
+                    onChange={handleChange}
+                    required
+                  />
+                </p>
+                <p>
+                  <label htmlFor="company">
+                    Institucion que lo expide
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="company"
+                    name="company"
+                    value={item.company}
+                    placeholder="Escribe el nombre de la quien entrega el certificado"
+                    autoComplete="off"
+                    onChange={handleChange}
+                    required
+                  />
+                </p>
+                <div className="twoColumns">
+                  <div>
+                    <p>
+                      <label htmlFor="expedition_date">
+                        Fecha de expedición
+                        <span className="fieldRecomendation">Requerido</span>
+                      </label>
+                      <input
+                        type="date"
+                        id="expedition_date"
+                        name="expedition_date"
+                        value={item.expedition_date}
+                        autoComplete="off"
+                        onChange={handleChange}
+                        required
+                      />
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      <label htmlFor="expiry_date">
+                        Fecha de expiración
+                        <span className="fieldRecomendation">Requerido</span>
+                      </label>
+                      <input
+                        type="date"
+                        id="expiry_date"
+                        name="expiry_date"
+                        value={item.expiry_date}
+                        autoComplete="off"
+                        onChange={handleChange}
+                        required
+                      />
+                    </p>
+                    <div className="check_data">
+                      <input
+                        type="checkbox"
+                        id="expiry_date"
+                        name="expiry_date"
+                        value={item.expiry_date}
+                        autoComplete="off"
+                        onChange={handleChange}
+                      />
+                      <label htmlFor="expiry_date">Presente (Actualidad)</label>
+                    </div>
                   </div>
                 </div>
+                <p>
+                  <label htmlFor="credential_id">
+                    ID de la credencial
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="credential_id"
+                    value={item.credential_id}
+                    placeholder="Escribe tus tareas en el cargo"
+                    autoComplete="off"
+                    onChange={handleChange}
+                    required
+                  />
+                </p>
+                <p>
+                  <label htmlFor="credential_url">
+                    URL de la credencial
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="credential_url"
+                    value={item.credential_url}
+                    placeholder="Escribe tus tareas en el cargo"
+                    autoComplete="off"
+                    onChange={handleChange}
+                    required
+                  />
+                </p>
+                <p>
+                  <label htmlFor="description">
+                    Descripción
+                    <span className="fieldRecomendation">Opcional</span>
+                  </label>
+                  <textarea
+                    type="text"
+                    id="description"
+                    name="description"
+                    rows="5"
+                    value={item.description}
+                    placeholder="Escribe una breve descripcion"
+                    autoComplete="off"
+                    onChange={handleChange}
+                  ></textarea>
+                </p>
+                <ButtonBox>
+                  {editItems ? (
+                    <>
+                      <Button type="button" onClick={cancelUpdate}>
+                        Cancelar
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={(event) => updateLanguage(event, item.id)}
+                      >
+                        Actualizar
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button type="button" onClick={handleForm}>
+                        Cancelar
+                      </Button>
+                      <Button type="button" onClick={addItem}>
+                        Guardar
+                      </Button>
+                    </>
+                  )}
+                </ButtonBox>
               </div>
-              <p>
-                <label htmlFor="credential_id">
-                  ID de la credencial
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  type="text"
-                  name="credential_id"
-                  value={item.credential_id}
-                  placeholder="Escribe tus tareas en el cargo"
-                  autoComplete="off"
-                  onChange={handleChange}
-                  required
-                />
-              </p>
-              <p>
-                <label htmlFor="credential_url">
-                  URL de la credencial
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  type="text"
-                  name="credential_url"
-                  value={item.credential_url}
-                  placeholder="Escribe tus tareas en el cargo"
-                  autoComplete="off"
-                  onChange={handleChange}
-                  required
-                />
-              </p>
-              <p>
-                <label htmlFor="description">
-                  Descripción
-                  <span className="fieldRecomendation">Opcional</span>
-                </label>
-                <textarea
-                  type="text"
-                  id="description"
-                  name="description"
-                  rows="5"
-                  value={item.description}
-                  placeholder="Escribe una breve descripcion"
-                  autoComplete="off"
-                  onChange={handleChange}
-                ></textarea>
-              </p>
-              <ButtonBox>
-                {editItems ? (
-                  <>
-                    <Button type="button" onClick={cancelUpdate}>
-                      Cancelar
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={(event) => updateLanguage(event, item.id)}
-                    >
-                      Actualizar
-                    </Button>
-                  </>
-                ) : (
-                  <Button type="button" onClick={addItem}>
-                    Agregar +
-                  </Button>
-                )}
+              <ButtonBox ref={addButtonRef}>
+                <Button type="button" onClick={handleForm}>
+                  Agregar
+                </Button>
               </ButtonBox>
             </div>
           </div>

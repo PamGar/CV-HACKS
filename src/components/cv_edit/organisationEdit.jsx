@@ -40,11 +40,11 @@ const OrganisationEdit = (props) => {
   });
   const [editedItem, setEditedItem] = useState({});
   const getHeightRef = useRef();
+  const firstInputRef = useRef();
+  const formRef = useRef();
   const addButtonRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const toggleAccordeonRef = useRef();
-  const firstInputRef = useRef();
-  const formRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
 
   const toggleAccordeonHandle = () => {
@@ -102,6 +102,9 @@ const OrganisationEdit = (props) => {
         address_update: false,
       });
       getItemsList();
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
@@ -194,6 +197,9 @@ const OrganisationEdit = (props) => {
         id: '',
       });
       getItemsList();
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }

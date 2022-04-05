@@ -26,6 +26,8 @@ const InterestEdit = (props) => {
 
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
+  const formRef = useRef();
+  const addButtonRef = useRef();
   const getHeightRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
@@ -42,6 +44,13 @@ const InterestEdit = (props) => {
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+  };
+
+  const handleForm = (e) => {
+    e.preventDefault();
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
     setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
@@ -74,6 +83,9 @@ const InterestEdit = (props) => {
         level: '0',
       });
       getItemsList();
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
@@ -111,6 +123,9 @@ const InterestEdit = (props) => {
         level: '0',
       });
       setEditItems(true);
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
@@ -141,6 +156,9 @@ const InterestEdit = (props) => {
         level: '0',
       });
       getItemsList();
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
@@ -149,6 +167,9 @@ const InterestEdit = (props) => {
   const cancelUpdate = (event) => {
     event.preventDefault();
     setEditItems(false);
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     setItem({
       type: 'Interest',
       title: '',
@@ -239,60 +260,71 @@ const InterestEdit = (props) => {
                 })
               )}
               <div className="separador"></div>
-              {editItems ? (
-                <h3>Actualizar interes</h3>
-              ) : (
-                <h3>Agregar nuevo interes</h3>
-              )}
-              <p>
-                <label htmlFor="title">
-                  Nombre del interes
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  ref={firstInputRef}
-                  type="text"
-                  name="title"
-                  value={item.title}
-                  placeholder="Escribe el nombre de tu interes"
-                  autoComplete="off"
-                  onChange={handleChange}
-                />
-              </p>
-              <p>
-                <label htmlFor="subtitle">
-                  Descripcion
-                  <span className="fieldRecomendation">Opcional</span>
-                </label>
-                <textarea
-                  type="text"
-                  name="subtitle"
-                  value={item.subtitle}
-                  rows="5"
-                  placeholder="Escribe una breve descripcion de tu interes"
-                  autoComplete="off"
-                  onChange={handleChange}
-                ></textarea>
-              </p>
-
-              <ButtonBox>
+              <div className="wrapperForm" ref={formRef}>
                 {editItems ? (
-                  <>
-                    <Button type="button" onClick={cancelUpdate}>
-                      Cancelar
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={(event) => updateLanguage(event, item.id)}
-                    >
-                      Actualizar
-                    </Button>
-                  </>
+                  <h3>Actualizar interes</h3>
                 ) : (
-                  <Button type="button" onClick={addItem}>
-                    Agregar +
-                  </Button>
+                  <h3>Agregar nuevo interes</h3>
                 )}
+                <p>
+                  <label htmlFor="title">
+                    Nombre del interes
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    ref={firstInputRef}
+                    type="text"
+                    name="title"
+                    value={item.title}
+                    placeholder="Escribe el nombre de tu interes"
+                    autoComplete="off"
+                    onChange={handleChange}
+                  />
+                </p>
+                <p>
+                  <label htmlFor="subtitle">
+                    Descripcion
+                    <span className="fieldRecomendation">Opcional</span>
+                  </label>
+                  <textarea
+                    type="text"
+                    name="subtitle"
+                    value={item.subtitle}
+                    rows="5"
+                    placeholder="Escribe una breve descripcion de tu interes"
+                    autoComplete="off"
+                    onChange={handleChange}
+                  ></textarea>
+                </p>
+                <ButtonBox>
+                  {editItems ? (
+                    <>
+                      <Button type="button" onClick={cancelUpdate}>
+                        Cancelar
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={(event) => updateLanguage(event, item.id)}
+                      >
+                        Actualizar
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button type="button" onClick={handleForm}>
+                        Cancelar
+                      </Button>
+                      <Button type="button" onClick={addItem}>
+                        Guardar
+                      </Button>
+                    </>
+                  )}
+                </ButtonBox>
+              </div>
+              <ButtonBox ref={addButtonRef}>
+                <Button type="button" onClick={handleForm}>
+                  Agregar
+                </Button>
               </ButtonBox>
             </div>
           </div>

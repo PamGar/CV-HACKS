@@ -27,6 +27,8 @@ const SkillsEdit = (props) => {
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
+  const formRef = useRef();
+  const addButtonRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
 
   const [itemsList, setItemsList] = useState([]);
@@ -41,6 +43,13 @@ const SkillsEdit = (props) => {
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+  };
+
+  const handleForm = (e) => {
+    e.preventDefault();
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
     setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
@@ -73,6 +82,9 @@ const SkillsEdit = (props) => {
         level: '0',
       });
       getItemsList();
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
@@ -110,6 +122,9 @@ const SkillsEdit = (props) => {
         level: '0',
       });
       setEditItems(true);
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
@@ -140,6 +155,9 @@ const SkillsEdit = (props) => {
         level: '0',
       });
       getItemsList();
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
@@ -148,6 +166,9 @@ const SkillsEdit = (props) => {
   const cancelUpdate = (event) => {
     event.preventDefault();
     setEditItems(false);
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     setItem({
       type: 'Skill',
       title: '',
@@ -236,61 +257,73 @@ const SkillsEdit = (props) => {
                 })
               )}
               <div className="separador"></div>
-              {editItems ? (
-                <h3>Actualizar skill</h3>
-              ) : (
-                <h3>Agregar nueva skill</h3>
-              )}
-              <p>
-                <label htmlFor="title">
-                  Nombre de la skill
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  ref={firstInputRef}
-                  type="text"
-                  name="title"
-                  value={item.title}
-                  placeholder="Escribe el nombre de la skill"
-                  autoComplete="off"
-                  onChange={handleChange}
-                />
-              </p>
-              <p>
-                <label htmlFor="subtitle">
-                  Descripcion
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <textarea
-                  type="text"
-                  name="subtitle"
-                  rows="5"
-                  value={item.subtitle}
-                  placeholder="Escribe una breve descripcion de la skill"
-                  autoComplete="off"
-                  onChange={handleChange}
-                ></textarea>
-              </p>
-
-              <ButtonBox>
+              <div className="wrapperForm" ref={formRef}>
                 {editItems ? (
-                  <>
-                    <Button type="button" onClick={cancelUpdate}>
-                      Cancelar
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={(event) => updateLanguage(event, item.id)}
-                    >
-                      Actualizar
-                    </Button>
-                  </>
+                  <h3>Actualizar skill</h3>
                 ) : (
-                  <Button type="button" onClick={addItem}>
-                    Agregar +
-                  </Button>
+                  <h3>Agregar nueva skill</h3>
                 )}
-              </ButtonBox>
+                <p>
+                  <label htmlFor="title">
+                    Nombre de la skill
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    ref={firstInputRef}
+                    type="text"
+                    name="title"
+                    value={item.title}
+                    placeholder="Escribe el nombre de la skill"
+                    autoComplete="off"
+                    onChange={handleChange}
+                  />
+                </p>
+                <p>
+                  <label htmlFor="subtitle">
+                    Descripcion
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <textarea
+                    type="text"
+                    name="subtitle"
+                    rows="5"
+                    value={item.subtitle}
+                    placeholder="Escribe una breve descripcion de la skill"
+                    autoComplete="off"
+                    onChange={handleChange}
+                  ></textarea>
+                </p>
+
+                <ButtonBox>
+                  {editItems ? (
+                    <>
+                      <Button type="button" onClick={cancelUpdate}>
+                        Cancelar
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={(event) => updateLanguage(event, item.id)}
+                      >
+                        Actualizar
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button type="button" onClick={handleForm}>
+                        Cancelar
+                      </Button>
+                      <Button type="button" onClick={addItem}>
+                        Guardar
+                      </Button>
+                    </>
+                  )}
+                </ButtonBox>
+              </div>
+              <ButtonBox ref={addButtonRef}>
+                <Button type="button" onClick={handleForm}>
+                  Agregar
+                </Button>
+              </ButtonBox>{' '}
             </div>
           </div>
         </div>

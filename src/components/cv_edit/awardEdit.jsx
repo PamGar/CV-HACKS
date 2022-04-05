@@ -25,6 +25,9 @@ const AwardEdit = (props) => {
   });
   const toggleAccordeonRef = useRef();
   const getHeightRef = useRef();
+  const addButtonRef = useRef();
+  const formRef = useRef();
+  const firstInputRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
 
@@ -43,6 +46,13 @@ const AwardEdit = (props) => {
     setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
+  const handleForm = (e) => {
+    e.preventDefault();
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+  };
+
   const getItemsList = async () => {
     try {
       const { data } = await axios.get(`${URL}?type=Award`, {
@@ -58,7 +68,6 @@ const AwardEdit = (props) => {
   };
 
   const addItem = async (e) => {
-    console.log('hi');
     e.preventDefault();
     try {
       const { data } = await axios.post(URL, item, {
@@ -74,6 +83,9 @@ const AwardEdit = (props) => {
         description: '',
       });
       getItemsList();
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
@@ -105,6 +117,10 @@ const AwardEdit = (props) => {
       });
       setItem(data);
       setEditItems(true);
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
     }
@@ -137,6 +153,9 @@ const AwardEdit = (props) => {
         description: '',
       });
       getItemsList();
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
@@ -144,6 +163,9 @@ const AwardEdit = (props) => {
 
   const cancelUpdate = (event) => {
     event.preventDefault();
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     setEditItems(false);
     setItem({
       type: 'Award',
@@ -235,89 +257,101 @@ const AwardEdit = (props) => {
                 })
               )}
               <div className="separador"></div>
-              {editItems ? (
-                <h3>Actualizar premio</h3>
-              ) : (
-                <h3>Agregar nuevo premio</h3>
-              )}
-              <p>
-                <label htmlFor="title">
-                  Nombre del premio
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  value={item.title}
-                  placeholder="Escribe el nombre del premio"
-                  autoComplete="off"
-                  onChange={handleChange}
-                />
-              </p>
-              <p>
-                <label htmlFor="subtitle">
-                  Institucion que lo entrega
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  type="text"
-                  id="subtitle"
-                  name="subtitle"
-                  value={item.subtitle}
-                  placeholder="Escribe el nombre de quien lo entrega"
-                  autoComplete="off"
-                  onChange={handleChange}
-                />
-              </p>
-              <p>
-                <label htmlFor="date">
-                  Fecha de expedición
-                  <span className="fieldRecomendation">Opcional</span>
-                </label>
-                <input
-                  type="date"
-                  id="date"
-                  name="date"
-                  value={item.date}
-                  autoComplete="off"
-                  onChange={handleChange}
-                />
-              </p>
-              <p>
-                <label htmlFor="description">
-                  Descripción
-                  <span className="fieldRecomendation">Opcional</span>
-                </label>
-                <textarea
-                  type="text"
-                  id="description"
-                  name="description"
-                  rows="5"
-                  value={item.description}
-                  placeholder="Escribe una breve descripcion"
-                  autoComplete="off"
-                  onChange={handleChange}
-                ></textarea>
-              </p>
-              <ButtonBox>
+              <div className="wrapperForm" ref={formRef}>
                 {editItems ? (
-                  <>
-                    <Button type="button" onClick={cancelUpdate}>
-                      Cancelar
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={(event) => updateLanguage(event, item.id)}
-                    >
-                      Actualizar
-                    </Button>
-                  </>
+                  <h3>Actualizar premio</h3>
                 ) : (
-                  <Button type="button" onClick={addItem}>
-                    Agregar +
-                  </Button>
+                  <h3>Agregar nuevo premio</h3>
                 )}
+                <p>
+                  <label htmlFor="title">
+                    Nombre del premio
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    value={item.title}
+                    placeholder="Escribe el nombre del premio"
+                    autoComplete="off"
+                    onChange={handleChange}
+                  />
+                </p>
+                <p>
+                  <label htmlFor="subtitle">
+                    Institucion que lo entrega
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="subtitle"
+                    name="subtitle"
+                    value={item.subtitle}
+                    placeholder="Escribe el nombre de quien lo entrega"
+                    autoComplete="off"
+                    onChange={handleChange}
+                  />
+                </p>
+                <p>
+                  <label htmlFor="date">
+                    Fecha de expedición
+                    <span className="fieldRecomendation">Opcional</span>
+                  </label>
+                  <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    value={item.date}
+                    autoComplete="off"
+                    onChange={handleChange}
+                  />
+                </p>
+                <p>
+                  <label htmlFor="description">
+                    Descripción
+                    <span className="fieldRecomendation">Opcional</span>
+                  </label>
+                  <textarea
+                    type="text"
+                    id="description"
+                    name="description"
+                    rows="5"
+                    value={item.description}
+                    placeholder="Escribe una breve descripcion"
+                    autoComplete="off"
+                    onChange={handleChange}
+                  ></textarea>
+                </p>
+                <ButtonBox>
+                  {editItems ? (
+                    <>
+                      <Button type="button" onClick={cancelUpdate}>
+                        Cancelar
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={(event) => updateLanguage(event, item.id)}
+                      >
+                        Actualizar
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button type="button" onClick={handleForm}>
+                        Cancelar
+                      </Button>
+                      <Button type="button" onClick={addItem}>
+                        Guardar
+                      </Button>
+                    </>
+                  )}
+                </ButtonBox>
+              </div>
+              <ButtonBox ref={addButtonRef}>
+                <Button type="button" onClick={handleForm}>
+                  Agregar
+                </Button>
               </ButtonBox>
             </div>
           </div>

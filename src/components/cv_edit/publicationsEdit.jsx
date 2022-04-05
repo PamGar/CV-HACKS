@@ -23,6 +23,9 @@ const PublicationsEdit = (props) => {
     description: '',
   });
   const toggleAccordeonRef = useRef();
+  const firstInputRef = useRef();
+  const formRef = useRef();
+  const addButtonRef = useRef();
   const getHeightRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
@@ -39,6 +42,13 @@ const PublicationsEdit = (props) => {
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+  };
+
+  const handleForm = (e) => {
+    e.preventDefault();
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
     setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
@@ -79,6 +89,9 @@ const PublicationsEdit = (props) => {
         description: '',
       });
       getItemsList();
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
@@ -116,6 +129,9 @@ const PublicationsEdit = (props) => {
       );
       setItem(data);
       setEditItems(true);
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
@@ -148,6 +164,9 @@ const PublicationsEdit = (props) => {
         description: '',
       });
       getItemsList();
+      formRef.current.classList.toggle('unhide');
+      addButtonRef.current.classList.toggle('hide');
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
     }
@@ -156,6 +175,9 @@ const PublicationsEdit = (props) => {
   const cancelUpdate = (event) => {
     event.preventDefault();
     setEditItems(false);
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     setItem({
       type: 'Publication',
       title: '',
@@ -245,77 +267,90 @@ const PublicationsEdit = (props) => {
                 })
               )}
               <div className="separador"></div>
-              {editItems ? (
-                <h3>Actualizar publicación</h3>
-              ) : (
-                <h3>Agregar nueva publicación</h3>
-              )}
-              <p>
-                <label htmlFor="title">Nombre de la publicación</label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  value={item.title}
-                  placeholder="Escribe el titulo de la publicacion"
-                  autoComplete="off"
-                  onChange={handleChange}
-                />
-              </p>
-              <p>
-                <label htmlFor="subtitle">¿Donde se publico?</label>
-                <input
-                  type="text"
-                  id="subtitle"
-                  name="subtitle"
-                  value={item.subtitle}
-                  placeholder="Escribe el nombre del empleador"
-                  autoComplete="off"
-                  onChange={handleChange}
-                />
-              </p>
-              <p>
-                <label htmlFor="date">Fecha de publicación</label>
-                <input
-                  type="date"
-                  id="date"
-                  name="date"
-                  value={item.date}
-                  autoComplete="off"
-                  onChange={handleChange}
-                />
-              </p>
-              <p>
-                <label htmlFor="description">Descripción</label>
-                <textarea
-                  type="text"
-                  id="description"
-                  name="description"
-                  rows="5"
-                  value={item.description}
-                  placeholder="Escribe una breve descripcion de la publicación"
-                  autoComplete="off"
-                  onChange={handleChange}
-                ></textarea>
-              </p>
-              <ButtonBox>
+              <div className="wrapperForm" ref={formRef}>
                 {editItems ? (
-                  <>
-                    <Button type="button" onClick={cancelUpdate}>
-                      Cancelar
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={(event) => updateLanguage(event, item.id)}
-                    >
-                      Actualizar
-                    </Button>
-                  </>
+                  <h3>Actualizar publicación</h3>
                 ) : (
-                  <Button type="button" onClick={addItem}>
-                    Agregar +
-                  </Button>
+                  <h3>Agregar nueva publicación</h3>
                 )}
+                <p>
+                  <label htmlFor="title">Nombre de la publicación</label>
+                  <input
+                    ref={firstInputRef}
+                    type="text"
+                    id="title"
+                    name="title"
+                    value={item.title}
+                    placeholder="Escribe el titulo de la publicacion"
+                    autoComplete="off"
+                    onChange={handleChange}
+                  />
+                </p>
+                <p>
+                  <label htmlFor="subtitle">¿Donde se publico?</label>
+                  <input
+                    type="text"
+                    id="subtitle"
+                    name="subtitle"
+                    value={item.subtitle}
+                    placeholder="Escribe el nombre del empleador"
+                    autoComplete="off"
+                    onChange={handleChange}
+                  />
+                </p>
+                <p>
+                  <label htmlFor="date">Fecha de publicación</label>
+                  <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    value={item.date}
+                    autoComplete="off"
+                    onChange={handleChange}
+                  />
+                </p>
+                <p>
+                  <label htmlFor="description">Descripción</label>
+                  <textarea
+                    type="text"
+                    id="description"
+                    name="description"
+                    rows="5"
+                    value={item.description}
+                    placeholder="Escribe una breve descripcion de la publicación"
+                    autoComplete="off"
+                    onChange={handleChange}
+                  ></textarea>
+                </p>
+                <ButtonBox>
+                  {editItems ? (
+                    <>
+                      <Button type="button" onClick={cancelUpdate}>
+                        Cancelar
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={(event) => updateLanguage(event, item.id)}
+                      >
+                        Actualizar
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button type="button" onClick={handleForm}>
+                        Cancelar
+                      </Button>
+                      <Button type="button" onClick={addItem}>
+                        Guardar
+                      </Button>
+                    </>
+                  )}
+                </ButtonBox>
+              </div>
+              <ButtonBox ref={addButtonRef}>
+                <Button type="button" onClick={handleForm}>
+                  Agregar
+                </Button>
               </ButtonBox>
             </div>
           </div>
