@@ -473,7 +473,7 @@ const EducationEdit = (props) => {
                   <textarea
                     type="text"
                     rows="5"
-                    name="descripcion"
+                    name="description"
                     value={item.data.description}
                     placeholder="Escribe una breve descripcion del titulo obtenido"
                     autoComplete="off"

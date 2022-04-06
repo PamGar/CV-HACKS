@@ -137,10 +137,22 @@ const ButtonBox = styled.div`
   }
 `;
 
-const CV_preview = ({ editButton, dataLoaded, cvData }) => {
-  const widthRef = useRef();
+const Wrapper = styled.div`
+  text-align: center;
+  box-shadow: 2px 1px 7px #00000057;
+  padding: 20px 0;
+  margin: 30px;
+  border-radius: 15px;
+
+  div {
+    padding: 15px 0;
+  }
+`;
+
+const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
   const printRef = useRef();
-  const [width, setWidth] = useState(0);
+  /* const [width, setWidth] = useState(0); */
+  /* const widthRef = useRef(); */
 
   const handleDownloadPdf = async () => {
     const element = printRef.current;
@@ -156,21 +168,21 @@ const CV_preview = ({ editButton, dataLoaded, cvData }) => {
     pdf.save('MyCV.pdf');
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     setWidth(widthRef.current.clientWidth);
-  }, []);
+  }, []); */
 
-  useEffect(() => {
+  /* useEffect(() => {
     const myWidth = () => {
       setWidth(widthRef.current.clientWidth);
     };
 
     window.addEventListener('resize', myWidth);
-  });
+  }); */
 
   return (
     <>
-      <Page>
+      {/* <Page>
         <div className="page_container" ref={widthRef}>
           <div
             className="page"
@@ -292,7 +304,47 @@ const CV_preview = ({ editButton, dataLoaded, cvData }) => {
             </CourseLang>
           </div>
         </div>
-      </Page>
+      </Page> */}
+      <Wrapper>
+        <h2>Nombre y apellido</h2>
+        <p>
+          {userData.name} {userData.paternal_surname}
+        </p>
+        <h2>Email</h2>
+        <p>{userData.email}</p>
+        {cvData.awards.length === 0 ? null : (
+          <div>
+            <h2>Premios</h2>
+            {cvData.awards.map((item) => {
+              return <p>{item.title}</p>;
+            })}
+          </div>
+        )}
+        {cvData.certifications.length === 0 ? null : (
+          <div>
+            <h2>Certificaciones</h2>
+            {cvData.certifications.map((item) => {
+              return <p>{item.name}</p>;
+            })}
+          </div>
+        )}
+        {cvData.courses.length === 0 ? null : (
+          <div>
+            <h2>Cursos</h2>
+            {cvData.courses.map((item) => {
+              return <p>{item.title}</p>;
+            })}
+          </div>
+        )}
+        {cvData.languages.length === 0 ? null : (
+          <div>
+            <h2>Lenguajes</h2>
+            {cvData.languages.map((item) => {
+              return <p>{item.title}</p>;
+            })}
+          </div>
+        )}
+      </Wrapper>
       <ButtonBox>
         <Button type="button" onClick={editButton} disabled={dataLoaded}>
           Editar

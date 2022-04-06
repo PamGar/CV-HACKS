@@ -109,11 +109,11 @@ const LanguagesEdit = (props) => {
         }
       );
       setLanguage(data);
+      setEditLanguage(true);
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
-      setEditLanguage(true);
     } catch (error) {
       console.error('error', error);
     }

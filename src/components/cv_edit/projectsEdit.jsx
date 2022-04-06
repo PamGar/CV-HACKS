@@ -12,31 +12,19 @@ import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox } from './EditStyledComponents';
 
 const ProjectsEdit = (props) => {
-  const URL = `${process.env.REACT_APP_BASE_URL}/cv/formnormals/${props.cvId}`;
+  const URL = `${process.env.REACT_APP_BASE_URL}/cv/projects/${props.cvId}`;
   const [hide, setHide] = useState(false);
   const [editItems, setEditItems] = useState(false);
   const [editedItem, setEditedItem] = useState({});
   const [item, setItem] = useState({
-    data: {
-      type: 'Project',
-      title: '',
-      subtitle: '',
-      start_date: '',
-      end_date: '',
-      description: '',
-    },
-    address: {
-      street: '0',
-      num_int: 0,
-      num_ext: 0,
-      suburb: '0',
-      town: '0',
-      state: '0',
-      country: '0',
-      zip_code: '0',
-    },
-    address_update: false,
     id: '',
+    title: '',
+    additional_information: '',
+    start_date: '',
+    end_date: '',
+    description: '',
+    tools: 'empty',
+    technologies: 'empty',
   });
   const toggleAccordeonRef = useRef();
   const getHeightRef = useRef();
@@ -70,12 +58,12 @@ const ProjectsEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?type=Project`, {
+      const { data } = await axios.get(`${URL}?page_size=10&page_number=1`, {
         headers: {
           authorization: `Token ${myToken}`,
         },
       });
-      setItemsList(data);
+      setItemsList(data.data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
@@ -83,7 +71,6 @@ const ProjectsEdit = (props) => {
   };
 
   const addItem = async (e) => {
-    console.log('hi');
     e.preventDefault();
     try {
       const { data } = await axios.post(URL, item, {
@@ -92,26 +79,14 @@ const ProjectsEdit = (props) => {
         },
       });
       setItem({
-        data: {
-          type: 'Project',
-          title: '',
-          subtitle: '',
-          start_date: '',
-          end_date: '',
-          description: '',
-        },
-        address: {
-          street: '0',
-          num_int: 0,
-          num_ext: 0,
-          suburb: '0',
-          town: '0',
-          state: '0',
-          country: '0',
-          zip_code: '0',
-        },
-        address_update: false,
         id: '',
+        title: '',
+        additional_information: '',
+        start_date: '',
+        end_date: '',
+        description: '',
+        tools: 'empty',
+        technologies: 'empty',
       });
       getItemsList();
       formRef.current.classList.toggle('unhide');
@@ -147,25 +122,14 @@ const ProjectsEdit = (props) => {
         },
       });
       setItem({
-        data: {
-          title: data.title,
-          subtitle: data.subtitle,
-          start_date: data.start_date,
-          end_date: data.end_date,
-          description: data.description,
-        },
-        address: {
-          street: '0',
-          num_int: 0,
-          num_ext: 0,
-          suburb: '0',
-          town: '0',
-          state: '0',
-          country: '0',
-          zip_code: '0',
-        },
-        address_update: false,
         id: data.id,
+        title: data.title,
+        additional_information: data.additional_information,
+        start_date: data.start_date,
+        end_date: data.end_date,
+        description: data.description,
+        tools: 'empty',
+        technologies: 'empty',
       });
       setEditItems(true);
       formRef.current.classList.toggle('unhide');
@@ -180,56 +144,21 @@ const ProjectsEdit = (props) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.put(
-        `${URL}/${id}`,
-        {
-          data: {
-            title: item.data.title,
-            subtitle: item.data.subtitle,
-            start_date: item.data.start_date,
-            end_date: item.data.end_date,
-            description: item.data.description,
-          },
-          address: {
-            street: '0',
-            num_int: 0,
-            num_ext: 0,
-            suburb: '0',
-            town: '0',
-            state: '0',
-            country: '0',
-            zip_code: '0',
-          },
-          address_update: false,
+      const { data } = await axios.put(`${URL}/${id}`, item, {
+        headers: {
+          authorization: `Token ${myToken}`,
         },
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
+      });
       setEditItems(false);
       setItem({
-        data: {
-          type: 'Project',
-          title: '',
-          subtitle: '',
-          start_date: '',
-          end_date: '',
-          description: '',
-        },
-        address: {
-          street: '0',
-          num_int: 0,
-          num_ext: 0,
-          suburb: '0',
-          town: '0',
-          state: '0',
-          country: '0',
-          zip_code: '0',
-        },
-        address_update: false,
         id: '',
+        title: '',
+        additional_information: '',
+        start_date: '',
+        end_date: '',
+        description: '',
+        tools: 'empty',
+        technologies: 'empty',
       });
       getItemsList();
       formRef.current.classList.toggle('unhide');
@@ -247,52 +176,14 @@ const ProjectsEdit = (props) => {
     addButtonRef.current.classList.toggle('hide');
     setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     setItem({
-      data: {
-        type: 'Project',
-        title: '',
-        subtitle: '',
-        start_date: '',
-        end_date: '',
-        description: '',
-      },
-      address: {
-        street: '0',
-        num_int: 0,
-        num_ext: 0,
-        suburb: '0',
-        town: '0',
-        state: '0',
-        country: '0',
-        zip_code: '0',
-      },
-      address_update: false,
       id: '',
-    });
-  };
-
-  /*Captar cambios al escribir en el formulario*/
-  const handleAddressChange = (event) => {
-    const { name, value } = event.target;
-
-    setItem({
-      ...item,
-      address: {
-        ...item.address,
-        [name]: value,
-      },
-    });
-  };
-
-  /*Captar cambios al escribir en el formulario*/
-  const handleDataChange = (event) => {
-    const { name, value } = event.target;
-
-    setItem({
-      ...item,
-      data: {
-        ...item.data,
-        [name]: value,
-      },
+      title: '',
+      additional_information: '',
+      start_date: '',
+      end_date: '',
+      description: '',
+      tools: 'empty',
+      technologies: 'empty',
     });
   };
 
@@ -333,7 +224,7 @@ const ProjectsEdit = (props) => {
                       <p>
                         <span>{item.title}</span>
                       </p>
-                      <p>{item.subtitle}</p>
+                      <p>{item.additional_information}</p>
                       <p>{item.description}</p>
                       <div className="editBox">
                         <button
@@ -392,10 +283,10 @@ const ProjectsEdit = (props) => {
                     type="text"
                     id="title"
                     name="title"
-                    value={item.data.title}
+                    value={item.title}
                     placeholder="Escribe el nombre del proyecto"
                     autoComplete="off"
-                    onChange={handleDataChange}
+                    onChange={handleChange}
                   />
                 </p>
                 <p>
@@ -406,11 +297,11 @@ const ProjectsEdit = (props) => {
                   <input
                     type="text"
                     id="subtitle"
-                    name="subtitle"
-                    value={item.data.subtitle}
+                    name="additional_information"
+                    value={item.additional_information}
                     placeholder="Escribe un subtitulo sobre el proyecto"
                     autoComplete="off"
-                    onChange={handleDataChange}
+                    onChange={handleChange}
                   />
                 </p>
                 <div className="twoColumns">
@@ -423,9 +314,9 @@ const ProjectsEdit = (props) => {
                       <input
                         type="date"
                         name="start_date"
-                        value={item.data.start_date}
+                        value={item.start_date}
                         autoComplete="off"
-                        onChange={handleDataChange}
+                        onChange={handleChange}
                       />
                     </p>
                   </div>
@@ -438,18 +329,17 @@ const ProjectsEdit = (props) => {
                       <input
                         type="date"
                         name="end_date"
-                        value={item.data.end_date}
+                        value={item.end_date}
                         autoComplete="off"
-                        onChange={handleDataChange}
+                        onChange={handleChange}
                       />
                     </p>
                     <div className="check_data">
                       <input
                         type="checkbox"
                         name="expiry_date"
-                        value={item.data.end_date}
                         autoComplete="off"
-                        onChange={handleDataChange}
+                        onChange={handleChange}
                       />
                       <label htmlFor="expiry_date">Presente (Actualidad)</label>
                     </div>
@@ -465,10 +355,10 @@ const ProjectsEdit = (props) => {
                     id="description"
                     name="description"
                     rows="5"
-                    value={item.data.description}
+                    value={item.description}
                     placeholder="Escribe una breve descripción del proyecto"
                     autoComplete="off"
-                    onChange={handleDataChange}
+                    onChange={handleChange}
                   ></textarea>
                 </p>
                 <ButtonBox>

@@ -38,7 +38,6 @@ const OrganisationEdit = (props) => {
     address_update: false,
     id: '',
   });
-  const [editedItem, setEditedItem] = useState({});
   const getHeightRef = useRef();
   const firstInputRef = useRef();
   const formRef = useRef();
@@ -134,6 +133,7 @@ const OrganisationEdit = (props) => {
           authorization: `Token ${myToken}`,
         },
       });
+      console.log(data);
       setItem({
         data: {
           type: 'Organisation',
@@ -169,7 +169,7 @@ const OrganisationEdit = (props) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.put(`${URL}/${id}`, editedItem, {
+      const { data } = await axios.put(`${URL}/${id}`, item, {
         headers: {
           authorization: `Token ${myToken}`,
         },

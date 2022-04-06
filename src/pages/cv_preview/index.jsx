@@ -226,6 +226,7 @@ const CV_preview = () => {
         }
       );
       setCvData(data);
+      console.log(data);
     } catch (error) {
       console.error('errorData', error.message);
     }
@@ -285,6 +286,7 @@ const CV_preview = () => {
           ) : (
             <CV
               cvData={cvData}
+              userData={user}
               editButton={handleEdit}
               dataLoaded={dataNotLoaded}
             />
