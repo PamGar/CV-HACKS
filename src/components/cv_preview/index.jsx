@@ -129,6 +129,8 @@ const CourseLang = styled.div`
 
 const ButtonBox = styled.div`
   padding: 20px;
+  bottom: 20px;
+  position: sticky;
   display: flex;
   justify-content: center;
 
@@ -316,7 +318,11 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           <div>
             <h2>Premios</h2>
             {cvData.awards.map((item) => {
-              return <p>{item.title}</p>;
+              return (
+                <div key={item.id}>
+                  <p>{item.title}</p>
+                </div>
+              );
             })}
           </div>
         )}
@@ -332,7 +338,47 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           <div>
             <h2>Cursos</h2>
             {cvData.courses.map((item) => {
-              return <p>{item.title}</p>;
+              return (
+                <div key={item.id}>
+                  <p>{item.title}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {cvData.educations.length === 0 ? null : (
+          <div>
+            <h2>Educations</h2>
+            {cvData.educations.map((item) => {
+              return (
+                <div key={item.id}>
+                  <p>{item.title}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {cvData.experiences.length === 0 ? null : (
+          <div>
+            <h2>Experiencia</h2>
+            {cvData.experiences.map((item) => {
+              return (
+                <div key={item.id}>
+                  <p>{item.title}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {cvData.intersts.length === 0 ? null : (
+          <div>
+            <h2>Intereses</h2>
+            {cvData.intersts.map((item) => {
+              return (
+                <div key={item.id}>
+                  <p>{item.title}</p>
+                </div>
+              );
             })}
           </div>
         )}
@@ -340,7 +386,59 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           <div>
             <h2>Lenguajes</h2>
             {cvData.languages.map((item) => {
-              return <p>{item.title}</p>;
+              return (
+                <div key={item.id}>
+                  <p>{item.title}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {cvData.organisations.length === 0 ? null : (
+          <div>
+            <h2>Organizaciones</h2>
+            {cvData.organisations.map((item) => {
+              return (
+                <div key={item.id}>
+                  <p>{item.title}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {cvData.projects.length === 0 ? null : (
+          <div>
+            <h2>Proyectos</h2>
+            {cvData.projects.map((item) => {
+              return (
+                <div key={item.id}>
+                  <p>{item.title}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {cvData.publications.length === 0 ? null : (
+          <div>
+            <h2>Publicaciones</h2>
+            {cvData.publications.map((item) => {
+              return (
+                <div key={item.id}>
+                  <p>{item.title}</p>
+                </div>
+              );
+            })}
+          </div>
+        )}
+        {cvData.skills.length === 0 ? null : (
+          <div>
+            <h2>Skills</h2>
+            {cvData.skills.map((item) => {
+              return (
+                <div key={item.id}>
+                  <p>{item.title}</p>
+                </div>
+              );
             })}
           </div>
         )}

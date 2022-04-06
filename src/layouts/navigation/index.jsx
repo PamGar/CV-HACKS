@@ -33,7 +33,7 @@ const Nav = styled.nav`
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 5px 5px 15px grey;
+  box-shadow: 2px 1px 7px #00000057;
   border-radius: 25px;
 
   .grow {

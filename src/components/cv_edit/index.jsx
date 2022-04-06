@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import LanguagesEdit from './languagesEdit';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { ButtonBox, ButtonBoxSticky } from './EditStyledComponents';
 import CertificationsEdit from './certificationsEdit';
 import AwardEdit from './awardEdit';
 import PublicationsEdit from './publicationsEdit';
@@ -22,7 +22,7 @@ const Form = styled.form`
   margin: 30px auto;
   background-color: #fff;
   border-radius: 15px;
-  box-shadow: 0px 10px 15px grey;
+  box-shadow: 2px 1px 7px #00000057;
 
   input::placeholder {
     color: #888;
@@ -84,11 +84,11 @@ const EditCV = ({ editButton, cvId }) => {
         <ProjectsEdit cvId={cvId} />
         <PublicationsEdit cvId={cvId} />
       </Form>
-      <ButtonBox>
+      <ButtonBoxSticky>
         <Button type="button" onClick={editButton}>
           Volver
         </Button>
-      </ButtonBox>
+      </ButtonBoxSticky>
     </>
   );
 };

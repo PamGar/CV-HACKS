@@ -148,13 +148,28 @@ const CV_preview = () => {
     subscribed: null,
   });
   const [cvData, setCvData] = useState({
-    id: null,
-    created_date: '',
-    description: '',
-    status: '',
-    url_public: null,
-    url_private: null,
-    area: null,
+    cv: {
+      id: null,
+      created_date: '',
+      description: '',
+      status: '',
+      url_public: null,
+      url_private: null,
+      area: null,
+    },
+    comments: [],
+    certifications: [],
+    awards: [],
+    publications: [],
+    languages: [],
+    skills: [],
+    intersts: [],
+    urls: [],
+    projects: [],
+    courses: [],
+    organisations: [],
+    experiences: [],
+    educations: [],
   });
   const navigate = useNavigate();
   const [firstData, setFirstData] = useState(false);

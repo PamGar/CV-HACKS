@@ -7,7 +7,7 @@ export const AccordeonBox = styled.div`
     border-radius: 15px;
     overflow: hidden;
     margin: 30px 20px;
-    box-shadow: 0px 10px 15px grey;
+    box-shadow: 2px 1px 7px #00000057;
 
     .iconAccordeon {
       font-size: 18px;
@@ -335,4 +335,9 @@ export const ButtonBox = styled.div`
   button {
     margin: 0 30px;
   }
+`;
+
+export const ButtonBoxSticky = styled(ButtonBox)`
+  bottom: 20px;
+  position: sticky;
 `;

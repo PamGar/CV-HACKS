@@ -14,7 +14,7 @@ const TasksBox = styled.div`
   margin-right: auto;
   background-color: #fff;
   border-radius: 15px;
-  box-shadow: 0px 10px 15px grey;
+  box-shadow: 2px 1px 7px #00000057;
 
   .hide + div {
     display: none;
