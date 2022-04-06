@@ -1,13 +1,13 @@
 import axios from 'axios';
 import { useState, useRef } from 'react';
 import styled from 'styled-components';
-import Modal from '../../components/Modal';
-import LoadingButton from '../../components/Buttons/LoadingButton';
+import Modal from '../../../components/Modal';
+import LoadingButton from '../../../components/Buttons/LoadingButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare } from '@fortawesome/free-regular-svg-icons';
-import OutlinedButton from '../../components/Buttons/OutlinedButton';
+import OutlinedButton from '../../../components/Buttons/OutlinedButton';
 import { toast } from 'react-toastify';
-import ModalLayout from '../../components/Modal/ModalLayout';
+import ModalLayout from '../../../components/Modal/ModalLayout';
 
 const Textarea = styled.textarea`
   max-width: 100%;
