@@ -156,6 +156,11 @@ const Wrapper = styled.div`
     border-radius: 15px;
     box-shadow: 2px 1px 7px #00000057;
   }
+
+  @media (max-width: 820px) {
+    box-shadow: unset;
+    margin: 0;
+  }
 `;
 
 const BoxColumn = styled.div`
