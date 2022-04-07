@@ -147,7 +147,7 @@ export const AccordeonBox = styled.div`
   }
 
   .body_box {
-    padding: 20px 0;
+    padding: 20px;
 
     span {
       font-weight: 700;

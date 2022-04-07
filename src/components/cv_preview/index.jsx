@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import Button from '../Buttons/LoadingButton';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar } from '@fortawesome/free-regular-svg-icons';
 
 const Page = styled.div`
   width: 100%;
@@ -142,12 +144,59 @@ const ButtonBox = styled.div`
 const Wrapper = styled.div`
   text-align: center;
   box-shadow: 2px 1px 7px #00000057;
-  padding: 20px 0;
+  padding: 20px 30px;
   margin: 30px;
   border-radius: 15px;
 
+  h2 {
+    font-size: 16px;
+    background-color: #0babb4;
+    color: #fff;
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 2px 1px 7px #00000057;
+  }
+`;
+
+const BoxColumn = styled.div`
+  padding: 15px 0;
+  text-align: left;
+
+  .item {
+    margin-bottom: 20px;
+  }
+
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .first {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .second {
+    color: #8d8d8d;
+  }
+
+  .third {
+    color: #bfbfbf;
+  }
+
+  .calendar path {
+    color: #bfbfbf;
+  }
+`;
+
+const BoxFlex = styled(BoxColumn)`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
   div {
-    padding: 15px 0;
+    max-width: 50%;
   }
 `;
 
@@ -307,139 +356,223 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           </div>
         </div>
       </Page> */}
-      <Wrapper>
-        <h2>Nombre y apellido</h2>
-        <p>
+      <Wrapper ref={printRef}>
+        <h1>
           {userData.name} {userData.paternal_surname}
-        </p>
-        <h2>Email</h2>
-        <p>{userData.email}</p>
-        {cvData.awards.length === 0 ? null : (
-          <div>
-            <h2>Premios</h2>
-            {cvData.awards.map((item) => {
-              return (
-                <div key={item.id}>
-                  <p>{item.title}</p>
-                </div>
-              );
-            })}
-          </div>
-        )}
-        {cvData.certifications.length === 0 ? null : (
-          <div>
-            <h2>Certificaciones</h2>
-            {cvData.certifications.map((item) => {
-              return <p>{item.name}</p>;
-            })}
-          </div>
-        )}
-        {cvData.courses.length === 0 ? null : (
-          <div>
-            <h2>Cursos</h2>
-            {cvData.courses.map((item) => {
-              return (
-                <div key={item.id}>
-                  <p>{item.title}</p>
-                </div>
-              );
-            })}
-          </div>
-        )}
+        </h1>
+        <BoxFlex>
+          <p>{userData.address.country}</p>
+          <p>{userData.email}</p>
+          <p>+584120202737</p>
+        </BoxFlex>
         {cvData.educations.length === 0 ? null : (
           <div>
             <h2>Educations</h2>
-            {cvData.educations.map((item) => {
-              return (
-                <div key={item.id}>
-                  <p>{item.title}</p>
-                </div>
-              );
-            })}
-          </div>
-        )}
-        {cvData.experiences.length === 0 ? null : (
-          <div>
-            <h2>Experiencia</h2>
-            {cvData.experiences.map((item) => {
-              return (
-                <div key={item.id}>
-                  <p>{item.title}</p>
-                </div>
-              );
-            })}
-          </div>
-        )}
-        {cvData.intersts.length === 0 ? null : (
-          <div>
-            <h2>Intereses</h2>
-            {cvData.intersts.map((item) => {
-              return (
-                <div key={item.id}>
-                  <p>{item.title}</p>
-                </div>
-              );
-            })}
+            <BoxFlex>
+              {cvData.educations.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <p>{item.title}</p>
+                  </div>
+                );
+              })}
+            </BoxFlex>
           </div>
         )}
         {cvData.languages.length === 0 ? null : (
           <div>
             <h2>Lenguajes</h2>
-            {cvData.languages.map((item) => {
-              return (
-                <div key={item.id}>
-                  <p>{item.title}</p>
-                </div>
-              );
-            })}
+            <BoxFlex>
+              {cvData.languages.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <p className="first">
+                      {item.title}
+                      {' • '}
+                      <span className="third">{item.level}</span>
+                    </p>
+                    <p className="second">{item.subtitle}</p>
+                  </div>
+                );
+              })}
+            </BoxFlex>
+          </div>
+        )}
+        {cvData.courses.length === 0 ? null : (
+          <div>
+            <h2>Cursos</h2>
+            <BoxFlex>
+              {cvData.courses.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <p>{item.title}</p>
+                  </div>
+                );
+              })}
+            </BoxFlex>
+          </div>
+        )}
+        {cvData.certifications.length === 0 ? null : (
+          <div>
+            <h2>Certificaciones</h2>
+            <BoxFlex>
+              {cvData.certifications.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <p className="first">{item.name}</p>
+                    <p className="third">{item.company}</p>
+                    <p className="second">
+                      <span className="first">{'id: '}</span>
+                      {item.credential_id}
+                    </p>
+                    <p className="third">
+                      <FontAwesomeIcon icon={faCalendar} className="calendar" />{' '}
+                      {item.expedition_date}
+                      {' • '}
+                      {item.expiry_date}
+                    </p>
+                  </div>
+                );
+              })}
+            </BoxFlex>
+          </div>
+        )}
+        {cvData.experiences.length === 0 ? null : (
+          <div>
+            <h2>Experiencia</h2>
+            <BoxFlex>
+              {cvData.experiences.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <p>{item.title}</p>
+                  </div>
+                );
+              })}
+            </BoxFlex>
           </div>
         )}
         {cvData.organisations.length === 0 ? null : (
           <div>
             <h2>Organizaciones</h2>
-            {cvData.organisations.map((item) => {
-              return (
-                <div key={item.id}>
-                  <p>{item.title}</p>
-                </div>
-              );
-            })}
+            <BoxFlex>
+              {cvData.organisations.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <p>{item.title}</p>
+                  </div>
+                );
+              })}
+            </BoxFlex>
           </div>
         )}
         {cvData.projects.length === 0 ? null : (
           <div>
             <h2>Proyectos</h2>
-            {cvData.projects.map((item) => {
-              return (
-                <div key={item.id}>
-                  <p>{item.title}</p>
-                </div>
-              );
-            })}
+            <BoxColumn>
+              {cvData.projects.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <p className="first">
+                      {item.title}
+                      {' • '}
+                      <span className="third">
+                        {item.additional_information}
+                      </span>
+                    </p>
+                    <p className="second">{item.description}</p>
+                    <p className="third">
+                      <FontAwesomeIcon icon={faCalendar} className="calendar" />{' '}
+                      {item.start_date}
+                      {' • '}
+                      {item.end_date}
+                    </p>
+                  </div>
+                );
+              })}
+            </BoxColumn>
           </div>
         )}
         {cvData.publications.length === 0 ? null : (
           <div>
             <h2>Publicaciones</h2>
-            {cvData.publications.map((item) => {
-              return (
-                <div key={item.id}>
-                  <p>{item.title}</p>
-                </div>
-              );
-            })}
+            <BoxColumn>
+              {cvData.publications.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <p className="first">
+                      {item.title}
+                      {' • '}
+                      <span className="third">{item.subtitle}</span>
+                    </p>
+                    <p className="second">{item.description}</p>
+                    <p className="third">
+                      <FontAwesomeIcon icon={faCalendar} className="calendar" />{' '}
+                      {item.date}
+                    </p>
+                  </div>
+                );
+              })}
+            </BoxColumn>
+          </div>
+        )}
+        {cvData.awards.length === 0 ? null : (
+          <div>
+            <h2>Premios</h2>
+            <BoxColumn>
+              {cvData.awards
+                .sort((a, b) => a.fechas > b.fechas)
+                .map((item) => {
+                  return (
+                    <div key={item.id} className="item">
+                      <div className="header">
+                        <p className="first">
+                          {item.title}
+                          {' • '}
+                          <span className="third">{item.subtitle}</span>
+                        </p>
+                      </div>
+                      <p className="second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.date}
+                      </p>
+                    </div>
+                  );
+                })}
+            </BoxColumn>
           </div>
         )}
         {cvData.skills.length === 0 ? null : (
           <div>
             <h2>Skills</h2>
-            {cvData.skills.map((item) => {
-              return (
-                <div key={item.id}>
-                  <p>{item.title}</p>
-                </div>
-              );
-            })}
+            <BoxFlex>
+              {cvData.skills.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <p className="first">{item.title}</p>
+                    <p className="second">{item.subtitle}</p>
+                  </div>
+                );
+              })}
+            </BoxFlex>
+          </div>
+        )}
+        {cvData.intersts.length === 0 ? null : (
+          <div>
+            <h2>Intereses</h2>
+            <BoxFlex>
+              {cvData.intersts.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <p className="first">{item.title}</p>
+                    <p className="second">{item.subtitle}</p>
+                  </div>
+                );
+              })}
+            </BoxFlex>
           </div>
         )}
       </Wrapper>
@@ -447,9 +580,9 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
         <Button type="button" onClick={editButton} disabled={dataLoaded}>
           Editar
         </Button>
-        <Button type="button" onClick={handleDownloadPdf} disabled={dataLoaded}>
+        {/* <Button type="button" onClick={handleDownloadPdf} disabled={dataLoaded}>
           Descargar
-        </Button>
+        </Button> */}
       </ButtonBox>
     </>
   );
