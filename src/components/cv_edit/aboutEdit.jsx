@@ -13,30 +13,57 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 
 const AboutEdit = (props) => {
+  const URL = `${process.env.REACT_APP_BASE_URL}/user/profile/`;
   const [hide, setHide] = useState(false);
   const [profileImageInfo, setProfileImageInfo] = useState('');
   const [editItems, setEditItems] = useState(false);
   const [item, setItem] = useState({
-    name: '',
-    company: '',
-    expedition_date: '',
-    expiry_date: null,
-    credential_id: null,
-    credential_url: '',
+    user: {
+      about_me: '',
+      name: '',
+      paternal_surname: '',
+      mothers_maiden_name: '0',
+      birthdate: '2020-06-21',
+      gender: '0',
+      subscribed: false,
+      phone: '',
+    },
+    address: {
+      state: '',
+      country: '',
+    },
+    address_update: false,
   });
   const toggleAccordeonRef = useRef();
   const profileImageRef = useRef();
   const getHeightRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
-
   const [itemsList, setItemsList] = useState([]);
 
-  const handleChange = (event) => {
+  const handleAddressChange = (event) => {
     const { name, value } = event.target;
+
     setItem({
       ...item,
-      [name]: value,
+      address_update: true,
+      address: {
+        ...item.address,
+        [name]: value,
+      },
+    });
+  };
+
+  /*Captar cambios al escribir en el formulario*/
+  const handleDataChange = (event) => {
+    const { name, value } = event.target;
+
+    setItem({
+      ...item,
+      user: {
+        ...item.user,
+        [name]: value,
+      },
     });
   };
 
@@ -130,25 +157,30 @@ const AboutEdit = (props) => {
     event.preventDefault();
 
     try {
-      const { data } = await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}/${id}`,
-        item,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      setEditItems(false);
+      const { data } = await axios.put(URL, item, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      }); /* 
+      setEditItems(false); */
       setItem({
-        name: '',
-        company: '',
-        expedition_date: '',
-        expiry_date: null,
-        credential_id: null,
-        credential_url: '',
+        user: {
+          about_me: '',
+          name: '',
+          paternal_surname: '',
+          mothers_maiden_name: '0',
+          birthdate: '2020-06-21',
+          gender: '0',
+          subscribed: false,
+          phone: '',
+        },
+        address: {
+          state: '',
+          country: '',
+        },
+        address_update: false,
       });
-      getItemsList();
+      /* getItemsList(); */
     } catch (error) {
       console.error('error', error);
     }
@@ -248,44 +280,44 @@ const AboutEdit = (props) => {
                   type="text"
                   id="name"
                   name="name"
-                  value={item.credential_url}
+                  value={item.name}
                   placeholder="Escribe tu nombre"
                   autoComplete="off"
-                  onChange={handleChange}
+                  onChange={handleDataChange}
                   required
                 />
               </p>
               <p>
-                <label htmlFor="surname">
+                <label htmlFor="paternal_surname">
                   Apellido
                   <span className="fieldRecomendation">Requerido</span>
                 </label>
                 <input
                   type="text"
                   id="surname"
-                  name="surname"
-                  value={item.credential_url}
+                  name="paternal_surname"
+                  value={item.paternal_surname}
                   placeholder="Escribe tu apellido"
                   autoComplete="off"
-                  onChange={handleChange}
+                  onChange={handleDataChange}
                   required
                 />
               </p>
               <div className="twoColumns">
                 <div>
                   <p>
-                    <label htmlFor="city">
-                      Ciudad en la que vives
+                    <label htmlFor="state">
+                      Estado en el que vives
                       <span className="fieldRecomendation">Requerido</span>
                     </label>
                     <input
                       type="text"
                       id="city"
-                      name="city"
-                      value={item.expedition_date}
+                      name="state"
+                      value={item.state}
                       autoComplete="off"
-                      placeholder="Escribe la ciudad en la que vives"
-                      onChange={handleChange}
+                      placeholder="Escribe el estado en el que vives"
+                      onChange={handleAddressChange}
                       required
                     />
                   </p>
@@ -300,28 +332,28 @@ const AboutEdit = (props) => {
                       type="text"
                       id="country"
                       name="country"
-                      value={item.expiry_date}
+                      value={item.country}
                       autoComplete="off"
                       placeholder="Escribe el pais en el que vives"
-                      onChange={handleChange}
+                      onChange={handleAddressChange}
                       required
                     />
                   </p>
                 </div>
               </div>
               <p>
-                <label htmlFor="country">
+                <label htmlFor="about_me">
                   Escribe un poco acerca de ti
                   <span className="fieldRecomendation">Opcional</span>
                 </label>
                 <textarea
                   rows="5"
-                  id="country"
-                  name="country"
-                  value={item.expiry_date}
+                  maxlength="200"
+                  name="about_me"
+                  value={item.about_me}
                   autoComplete="off"
                   placeholder="Escribe algo acerca de ti"
-                  onChange={handleChange}
+                  onChange={handleDataChange}
                 ></textarea>
               </p>
               <p>
@@ -333,10 +365,10 @@ const AboutEdit = (props) => {
                   type="text"
                   id="softskills"
                   name="softskills"
-                  value={item.expiry_date}
+                  value={item.softskills}
                   autoComplete="off"
                   placeholder="Por ejemplo: empatia, puntualidad"
-                  onChange={handleChange}
+                  onChange={handleDataChange}
                   required
                 />
               </p>
@@ -349,26 +381,25 @@ const AboutEdit = (props) => {
                   type="text"
                   id="technologies"
                   name="technologies"
-                  value={item.expiry_date}
+                  value={item.technologies}
                   autoComplete="off"
                   placeholder="Por ejemplo: python, react, git"
-                  onChange={handleChange}
+                  onChange={handleDataChange}
                   required
                 />
               </p>
               <p>
-                <label htmlFor="mail">
+                <label htmlFor="email">
                   Correo electronico
                   <span className="fieldRecomendation">Requerido</span>
                 </label>
                 <input
                   type="text"
-                  id="mail"
-                  name="mail"
-                  value={item.expiry_date}
+                  name="email"
+                  value={item.email}
                   autoComplete="off"
                   placeholder="Escribe tu correo electronico"
-                  onChange={handleChange}
+                  onChange={handleDataChange}
                   required
                 />
               </p>
@@ -381,10 +412,10 @@ const AboutEdit = (props) => {
                   type="text"
                   id="phone"
                   name="phone"
-                  value={item.expiry_date}
+                  value={item.phone}
                   autoComplete="off"
                   placeholder="Escribe tu numero de telefono"
-                  onChange={handleChange}
+                  onChange={handleDataChange}
                   required
                 />
               </p>
@@ -406,7 +437,7 @@ const AboutEdit = (props) => {
                     value={item.expiry_date}
                     autoComplete="off"
                     placeholder="Escribe la URL de tu perfil"
-                    onChange={handleChange}
+                    onChange={handleDataChange}
                   />
                   <button className="addIcon">+</button>
                 </div>
@@ -505,7 +536,7 @@ const AboutEdit = (props) => {
                     </Button>
                   </>
                 ) : (
-                  <Button type="button" onClick={addItem}>
+                  <Button type="button" onClick={updateLanguage}>
                     Guardar
                   </Button>
                 )}

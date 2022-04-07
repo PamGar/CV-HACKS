@@ -168,9 +168,9 @@ const Main = styled.div`
     display: none;
   }
 
-  /* @media (max-width: 1099px) {
+  @media (max-width: 1099px) {
     height: calc(100vh - 80px);
-  } */
+  }
 
   @media (max-width: 820px) {
     width: 100vw;
@@ -186,9 +186,9 @@ const Tasks = styled.div`
     display: none;
   }
 
-  /* @media (max-width: 1099px) {
+  @media (max-width: 1099px) {
     height: calc(100vh - 80px);
-  } */
+  }
 
   @media (max-width: 820px) {
     display: none;

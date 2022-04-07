@@ -138,6 +138,7 @@ const ButtonBox = styled.div`
 
   button {
     margin: 0 30px;
+    background-color: #565696;
   }
 `;
 
@@ -166,6 +167,10 @@ const Wrapper = styled.div`
 const BoxColumn = styled.div`
   padding: 15px 0;
   text-align: left;
+
+  p {
+    margin: 5px 0;
+  }
 
   .item {
     margin-bottom: 20px;
@@ -202,6 +207,7 @@ const BoxFlex = styled(BoxColumn)`
 
   div {
     max-width: 50%;
+    margin: 10px 0;
   }
 `;
 
@@ -365,11 +371,22 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
         <h1>
           {userData.name} {userData.paternal_surname}
         </h1>
-        <BoxFlex>
-          <p>{userData.address.country}</p>
-          <p>{userData.email}</p>
-          <p>+584120202737</p>
-        </BoxFlex>
+        <BoxColumn
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          <BoxFlex
+            style={{
+              paddingTop: `0`,
+            }}
+          >
+            <p>{userData.address.country}</p>
+            <p>{userData.email}</p>
+            <p>{userData.phone}</p>
+          </BoxFlex>
+          <p>{userData.about_me}</p>
+        </BoxColumn>
         {cvData.educations.length === 0 ? null : (
           <div>
             <h2>Educations</h2>

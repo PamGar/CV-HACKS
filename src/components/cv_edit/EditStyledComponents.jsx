@@ -340,4 +340,8 @@ export const ButtonBox = styled.div`
 export const ButtonBoxSticky = styled(ButtonBox)`
   bottom: 20px;
   position: sticky;
+
+  button {
+    background-color: #565696;
+  }
 `;
