@@ -136,7 +136,7 @@ const UserMenu = () => {
           Interviews
         </Button>
       )}
-      {role == 5 && (
+      {role == 3 && (
         <Button onClick={() => navigate('/register-company')}>
           <IconButton>
             <FontAwesomeIcon
@@ -148,7 +148,7 @@ const UserMenu = () => {
           Dar de alta
         </Button>
       )}
-      {role == 5 && (
+      {role == 3 && (
         <Button onClick={() => navigate('/job-offers')}>
           <IconButton>
             <FontAwesomeIcon
