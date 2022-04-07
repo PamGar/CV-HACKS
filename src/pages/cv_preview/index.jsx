@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Layout from '../../layouts/navigation/index';
 import CV from '../../components/cv_preview';
 import EditCV from '../../components/cv_edit';
@@ -12,6 +13,7 @@ import axios from 'axios';
 import TasksButton from '../../assets/icons/task-list.svg';
 import HelpButton from '../../assets/icons/bulb.svg';
 import Close from '../../assets/icons/close.svg';
+import UserMenu from '../../layouts/navigation/userMenu';
 
 const HelpCont = styled.button`
   position: fixed;
@@ -36,14 +38,14 @@ const HelpCont = styled.button`
     bottom: -10px;
   }
 
-  @media (max-width: 820px) {
+  @media (max-width: 1099px) {
     display: none;
   }
 `;
 
 const FloatBox = styled.div`
   display: none;
-  @media (max-width: 820px) {
+  @media (max-width: 1099px) {
     display: block;
     position: fixed;
     bottom: 0;
@@ -57,7 +59,7 @@ const FloatBox = styled.div`
       height: 50px;
       margin: 30px 20px;
       border-radius: 50%;
-      box-shadow: 0 0 35px -5px #000000b3;
+      box-shadow: 0 0 15px #00000036;
       font-weight: 700;
 
       img {
@@ -66,10 +68,10 @@ const FloatBox = styled.div`
     }
 
     .tasks {
-      background-color: #e7d8ff;
+      background-color: #fff;
     }
     .help {
-      background-color: #fbffd6;
+      background-color: #fff;
     }
   }
 `;
@@ -78,6 +80,7 @@ const SidebarTasks = styled.div`
   position: fixed;
   width: 95%;
   max-width: 600px;
+  top: 0;
   bottom: 0;
   left: -100%;
   z-index: 999;
@@ -90,8 +93,7 @@ const SidebarTasks = styled.div`
 
   .wrapper {
     overflow: auto;
-    /* height: calc(100vh - 70px); */
-    height: 100vh;
+    height: 100%;
   }
 
   button {
@@ -145,13 +147,37 @@ const CV_preview = () => {
     gender: null,
     subscribed: null,
   });
+  const [cvData, setCvData] = useState({
+    cv: {
+      id: null,
+      created_date: '',
+      description: '',
+      status: '',
+      url_public: null,
+      url_private: null,
+      area: null,
+    },
+    comments: [],
+    certifications: [],
+    awards: [],
+    publications: [],
+    languages: [],
+    skills: [],
+    intersts: [],
+    urls: [],
+    projects: [],
+    courses: [],
+    organisations: [],
+    experiences: [],
+    educations: [],
+  });
+  const navigate = useNavigate();
   const [firstData, setFirstData] = useState(false);
   const [openLoginModal, setOpenLoginModal] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
+  const [dataNotLoaded, setDataNotLoaded] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(-100);
   const [sidebarHelpWidth, setSidebarHelpWidth] = useState(-100);
-
-  /* console.log(user); */
 
   const handleEdit = () => {
     setIsEdit(!isEdit);
@@ -173,28 +199,57 @@ const CV_preview = () => {
     }
   };
 
-  /* const myToken = window.localStorage.getItem('token'); */
+  const myId = window.localStorage.getItem('id');
+  const myToken = window.localStorage.getItem('authToken');
 
   const getUserData = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/user/6`,
+        `${process.env.REACT_APP_BASE_URL}/user/${myId}`,
         {
           headers: {
-            /* authorization: `Token ${myToken}`, */
-            authorization: `Token ef86a37ba3c734970179e34b4a72b928418df264`,
+            Authorization: `Token ${myToken}`,
           },
         }
       );
       setUser(data);
+      setDataNotLoaded(false);
+      console.log('user', data);
       data.name === null ? setFirstData(true) : setFirstData(false);
     } catch (error) {
-      console.error('error', error);
+      const invalidToken = error.response.data.message;
+      console.error('errorUser', error.response.data.message);
+      if (invalidToken === 'Token invalido') {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('id');
+        localStorage.removeItem('role');
+        navigate('/');
+      } else {
+        return;
+      }
+    }
+  };
+
+  const getCV = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/cv/`,
+        {
+          headers: {
+            Authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      setCvData(data);
+      console.log(data);
+    } catch (error) {
+      console.error('errorData', error.message);
     }
   };
 
   useEffect(() => {
     getUserData();
+    getCV();
   }, []);
 
   return (
@@ -214,7 +269,7 @@ const CV_preview = () => {
         <button onClick={handleSidebarTask}>
           <img src={Close} alt="" />
         </button>
-        <div className="wrapper">{isEdit ? <TasksTodo /> : <Tasks />}</div>
+        <div className="wrapper">{<TasksTodo />}</div>
       </SidebarTasks>
       <SidebarHelp style={{ left: `${sidebarHelpWidth}%` }}>
         <button onClick={handleSidebarHelp}>
@@ -239,14 +294,23 @@ const CV_preview = () => {
         />
       )}
 
-      {isEdit ? (
-        <Layout
-          main={<EditCV editButton={handleEdit} />}
-          right={<TasksTodo />}
-        />
-      ) : (
-        <Layout main={<CV editButton={handleEdit} />} right={<Tasks />} />
-      )}
+      <Layout
+        main={
+          isEdit ? (
+            <EditCV cvId={cvData.cv.id} editButton={handleEdit} />
+          ) : (
+            <CV
+              cvData={cvData}
+              userData={user}
+              editButton={handleEdit}
+              dataLoaded={dataNotLoaded}
+            />
+          )
+        }
+        right={<TasksTodo />} /* {isEdit ? <TasksTodo /> : <Tasks />} */
+        menu={<UserMenu />}
+        name={`${user.name} ${user.paternal_surname}`}
+      />
 
       <HelpCont onClick={handleSidebarHelp}>
         <p>¿Ayuda necesitas?</p>

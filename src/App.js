@@ -20,7 +20,7 @@ const App = () => {
   return (
     <Router>
       <ToastContainer
-        position='top-right'
+        position="top-right"
         autoClose={3000}
         hideProgressBar
         newestOnTop={false}
@@ -34,17 +34,17 @@ const App = () => {
       <Routes>
         <Route element={<PublicRoute isAuth={isAuthenticated.isAuth} />}>
           <Route
-            path='/login'
+            path="/login"
             element={<Login setIsAuthenticated={setIsAuthenticated} />}
           />
-          <Route path='/login/company' element={<Login company />} />
+          <Route path="/login/company" element={<Login company />} />
         </Route>
         <Route element={<PrivateRoute isAuth={isAuthenticated.isAuth} />}>
           <Route
-            path='/dashboard'
+            path="/dashboard"
             element={
               isAuthenticated.role == 5 ? (
-                <AdminDashboard />
+                <CV_preview />
               ) : isAuthenticated.role == 4 ? (
                 <CV_preview />
               ) : isAuthenticated.role == 3 ? (
@@ -54,10 +54,10 @@ const App = () => {
             }
           />
           <Route
-            path='/register-company'
+            path="/register-company"
             element={isAuthenticated.role == 3 && <RegisterCompany />}
           />
-          <Route path='/job-offers' element={<VacancyList />} />
+          <Route path="/job-offers" element={<VacancyList />} />
         </Route>
       </Routes>
     </Router>

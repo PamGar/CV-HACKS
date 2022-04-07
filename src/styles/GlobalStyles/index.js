@@ -13,7 +13,15 @@ export const GlobalStyles = createGlobalStyle`
 }
 
 h1,h2,h3,h4,h5,h6,p,span,strong,em,blockquote,code,pre,ul,li,ol,dl,dt,mark,ins,del,sup,sub,small,i,b{
-    color: #3c3c3c;
+    color:#5e5e5e;
+}
+
+body {
+    background-color: #f3f4f6;
+}
+
+h1, h2, h3, label {    
+    font-family: 'Fredoka One', cursive;
 }
 
 h1 {
