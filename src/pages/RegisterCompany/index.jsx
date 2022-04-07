@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Layout from '../../layouts/navigation';
-import FormWrapper from '../../components/FormWrapper';
+import MainContentWrapper from '../../components/MainContentWrapper';
 import MultipleEmail from '../../components/MultipleEmail';
 import ConfirmRegisterCompanyModal from './ConfirmRegisterCompanyModal';
 
@@ -15,7 +15,7 @@ const RegisterCompany = () => {
     <Layout
       main={
         <>
-          <FormWrapper
+          <MainContentWrapper
             onClickLoadingButton={handleClick}
             disableButton={!emailList.length > 0}
             loadingButtonTitle='dar de alta'
@@ -23,7 +23,7 @@ const RegisterCompany = () => {
           >
             <h1>Dar de alta a las empresas</h1>
             <MultipleEmail emailList={emailList} setEmailList={setEmailList} />
-          </FormWrapper>
+          </MainContentWrapper>
           {openModal && (
             <ConfirmRegisterCompanyModal
               openModal={openModal}

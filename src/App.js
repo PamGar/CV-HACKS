@@ -10,6 +10,7 @@ import RegisterCompany from './pages/RegisterCompany';
 import Layout from './layouts/navigation';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import VacancyList from './pages/VacancyList';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState({
@@ -53,9 +54,10 @@ const App = () => {
             }
           />
           <Route
-            path="register-company"
+            path="/register-company"
             element={isAuthenticated.role == 3 && <RegisterCompany />}
           />
+          <Route path="/job-offers" element={<VacancyList />} />
         </Route>
       </Routes>
     </Router>

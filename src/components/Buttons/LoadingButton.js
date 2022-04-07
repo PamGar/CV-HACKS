@@ -47,7 +47,7 @@ const Button = styled.button`
   }
 
   &:active::before {
-    opacity: 1;
+    opacity: ${(props) => (props.disabled ? 0 : 1)};
   }
 
   &:hover {
@@ -55,7 +55,7 @@ const Button = styled.button`
   }
 
   &:active {
-    background-color: #00a2a3;
+    background-color: ${(props) => (props.disabled ? '#c7c7c7' : '#00a2a3')};
   }
 `;
 

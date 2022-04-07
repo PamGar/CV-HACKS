@@ -4,7 +4,7 @@ import { keyframes } from 'styled-components';
 import CVicon from '../../assets/icons/CV.svg';
 import InterIcon from '../../assets/icons/Interview.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPaperPlane, faBuilding } from '@fortawesome/free-regular-svg-icons';
+import { faBuilding, faFileLines } from '@fortawesome/free-regular-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
 const jelloAnim = keyframes`
@@ -136,15 +136,7 @@ const UserMenu = () => {
           Interviews
         </Button>
       )}
-      {role == 3 && (
-        <Button onClick={() => navigate('/share-resume')} onMouseOver={addAnim}>
-          <IconButton>
-            <FontAwesomeIcon icon={faPaperPlane} className='fontAwesomeIcon' />
-          </IconButton>
-          Share CVs
-        </Button>
-      )}
-      {role == 3 && (
+      {role == 5 && (
         <Button onClick={() => navigate('/register-company')}>
           <IconButton>
             <FontAwesomeIcon
@@ -154,6 +146,18 @@ const UserMenu = () => {
             />
           </IconButton>
           Dar de alta
+        </Button>
+      )}
+      {role == 5 && (
+        <Button onClick={() => navigate('/job-offers')}>
+          <IconButton>
+            <FontAwesomeIcon
+              icon={faFileLines}
+              className='fontAwesomeIcon'
+              onMouseOver={addAnim}
+            />
+          </IconButton>
+          Vacantes
         </Button>
       )}
       <Button onMouseOver={addAnim}>
