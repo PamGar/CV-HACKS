@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import FormWrapper from '../../components/FormWrapper';
+import MainContentWrapper from '../../../components/MainContentWrapper';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import EditCommentModal from './EditCommentModal';
@@ -130,7 +130,7 @@ const AddCommentCV = ({ setShowMainContent, userSelectedId }) => {
 
   return (
     <>
-      <FormWrapper
+      <MainContentWrapper
         onClickLoadingButton={WriteAComment}
         onClickOutlinedButton={() => setShowMainContent('CVlist')}
         loadingButtonTitle='Agregar correción'
@@ -196,7 +196,7 @@ const AddCommentCV = ({ setShowMainContent, userSelectedId }) => {
             <p className='comment'>{comment}</p>
           </CommentContainer>
         ))}
-      </FormWrapper>
+      </MainContentWrapper>
       {openEditCommentModal && (
         <EditCommentModal
           openEditCommentModal={openEditCommentModal}

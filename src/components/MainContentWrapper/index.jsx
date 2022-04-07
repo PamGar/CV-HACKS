@@ -1,5 +1,5 @@
 import LoadingButton from '../Buttons/LoadingButton';
-import OutlinedButton from '../../components/Buttons/OutlinedButton';
+import OutlinedButton from '../Buttons/OutlinedButton';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   gap: 30px;
 `;
 
-const Form = styled.form`
+const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -24,8 +24,6 @@ const ButtonsContainer = styled.div`
   position: sticky;
   bottom: 10px;
   margin: 0 15px 10px;
-  /* display: grid;
-  grid-template-columns: 1fr 3fr; */
   display: flex;
   gap: 15px;
 
@@ -37,7 +35,7 @@ const ButtonsContainer = styled.div`
     flex-grow: 3;
   }
 `;
-const FormWrapper = ({
+const MainContentWrapper = ({
   children,
   onClickLoadingButton,
   onClickOutlinedButton,
@@ -46,12 +44,13 @@ const FormWrapper = ({
   loading,
   loadingButtonTitle,
   singleButton,
+  noButton,
 }) => {
   return (
     <Wrapper>
-      <Form>{children}</Form>
+      <Content>{children}</Content>
       <ButtonsContainer>
-        {!singleButton && (
+        {!singleButton && !noButton && (
           <OutlinedButton
             bgColor='white'
             onClick={onClickOutlinedButton}
@@ -60,16 +59,18 @@ const FormWrapper = ({
             regresar
           </OutlinedButton>
         )}
-        <LoadingButton
-          onClick={onClickLoadingButton}
-          disabled={disableButton}
-          loading={loading}
-        >
-          {loadingButtonTitle}
-        </LoadingButton>
+        {!noButton && (
+          <LoadingButton
+            onClick={onClickLoadingButton}
+            disabled={disableButton}
+            loading={loading}
+          >
+            {loadingButtonTitle}
+          </LoadingButton>
+        )}
       </ButtonsContainer>
     </Wrapper>
   );
 };
 
-export default FormWrapper;
+export default MainContentWrapper;
