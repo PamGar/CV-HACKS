@@ -126,7 +126,7 @@ const UserMenu = () => {
         <IconButton bgcolor='#E83E8C'>
           <img src={CVicon} alt='' />
         </IconButton>
-        CV
+        MyCV
       </Button>
       {role != 5 && (
         <Button onMouseOver={addAnim}>

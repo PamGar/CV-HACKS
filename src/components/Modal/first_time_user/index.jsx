@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import Button from '../../Buttons/LoadingButton';
 
 const FirstTimeModal = styled.div`
   position: fixed;
@@ -209,8 +208,10 @@ const Input = styled.input`
 `;
 
 const FirstTime = ({ closeModal, isOpen }) => {
-  const [user, setUser] = useState({});
-  const myToken = window.localStorage.getItem('token');
+  const [user, setUser] = useState({
+    address_update: false,
+  });
+  const myToken = window.localStorage.getItem('authToken');
 
   /*Captar cambios al escribir en el formulario*/
   const handleChange = (event) => {
@@ -238,8 +239,6 @@ const FirstTime = ({ closeModal, isOpen }) => {
     const names = event.target.name.split('/');
     const checked = event.target.checked;
 
-    console.log(checked);
-
     setUser({
       ...user,
       [names[0]]: {
@@ -260,19 +259,41 @@ const FirstTime = ({ closeModal, isOpen }) => {
           user,
           {
             headers: {
-              Authorization: `Token 9a3e569c51fb0e74e3e6f99a780e2e53bb7c5221`,
+              Authorization: `Token ${myToken}`,
             },
           }
         );
-        console.log(data);
         closeModal();
       } catch (error) {
-        console.log('error', error);
+        console.error('error', error);
       }
     };
 
     postData();
   };
+
+  useEffect(() => {
+    const myToken = window.localStorage.getItem('authToken');
+
+    const postCV = async () => {
+      try {
+        const { data } = await axios.post(
+          `${process.env.REACT_APP_BASE_URL}/cv/`,
+          {
+            description: 'Mi primer CV',
+          },
+          {
+            headers: {
+              Authorization: `Token ${myToken}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.error('error', error);
+      }
+    };
+    postCV();
+  }, []);
 
   return (
     <FirstTimeModal isOpen={isOpen}>
@@ -281,7 +302,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
           Parece que aun no te has presentado, que tal si nos proporcionas
           algunos datos basicos para empezar
         </p>
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <h3>Datos personales</h3>
           <div className="multiBox">
             <p>
@@ -390,7 +411,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
               </p>
               <p>
                 <label htmlFor="address/suburb">
-                  <span>Barrio</span>
+                  <span>Colonia / Barrio</span>
                   <strong>
                     <abbr title="required">*</abbr>
                   </strong>
@@ -399,7 +420,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
                   type="text"
                   id="suburb"
                   name="address/suburb"
-                  placeholder="Escribe el barrio / urbanizacion / etc"
+                  placeholder="Escribe el barrio / Colonia / etc"
                   autoComplete="off"
                   onChange={handleChange}
                   required
@@ -454,7 +475,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
                   type="text"
                   id="num_ext"
                   name="address/num_ext"
-                  placeholder="Escribe el numero de tu edificio"
+                  placeholder="Si no aplica escribe 0"
                   autoComplete="off"
                   onChange={handleChange}
                   required
@@ -471,7 +492,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
                   type="text"
                   id="num_int"
                   name="address/num_int"
-                  placeholder="Escribe el numero de la casa / apartamento"
+                  placeholder="Si no aplica escribe 0"
                   autoComplete="off"
                   onChange={handleChange}
                   required
@@ -492,9 +513,6 @@ const FirstTime = ({ closeModal, isOpen }) => {
           </section>
           <ButtonBox>
             <input type="submit" value="Enviar" />
-            {/* <Button type="submit" onClick={handleSubmit}>
-              Enviar
-            </Button> */}
           </ButtonBox>
         </form>
       </div>

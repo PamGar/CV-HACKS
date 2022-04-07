@@ -112,6 +112,7 @@ const LoginModal = ({ closeModal, isOpen, userEmail, setIsAuthenticated }) => {
       closeModal(false);
       localStorage.setItem('authToken', data.token);
       localStorage.setItem('role', data.user.role.id);
+      localStorage.setItem('id', data.user.id);
       setIsAuthenticated({ isAuth: true, role: data.user.role.id });
       navigate('/dashboard');
     } catch (err) {
@@ -153,14 +154,14 @@ const LoginModal = ({ closeModal, isOpen, userEmail, setIsAuthenticated }) => {
         <input
           onChange={handleChange}
           value={user.accessToken}
-          name='password'
+          name="password"
           required
         />
         <AlertMessage hide={inputError.hideErrorMessage} error>
           {responseErrorMessage}
         </AlertMessage>
         <LoadingButton
-          type='submit'
+          type="submit"
           fullWidth
           disabled={inputError.disabledButton}
           loading={inputError.loadingButton}

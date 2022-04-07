@@ -9,7 +9,7 @@ const GridBase = styled.div`
   display: grid;
   width: 100%;
   max-width: 1440px;
-  grid-template-columns: 100px 1fr 1fr;
+  grid-template-columns: 130px 1fr 1fr;
   grid-template-areas: 'navigation main tasks';
 
   @media (max-width: 1099px) {
@@ -24,38 +24,36 @@ const GridBase = styled.div`
 
 const Nav = styled.nav`
   grid-area: navigation / navigation / navigation / navigation;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
-  width: 100%;
-  background-color: #00b7b8;
-  height: 100vh;
+  background-color: #565696;
   max-height: 100vh;
-  margin: 0;
+  margin: 5px 30px 5px 5px;
   z-index: 7;
   display: flex;
   flex-direction: column;
   align-items: center;
-  box-shadow: 5px 5px 15px grey;
+  box-shadow: 2px 1px 7px #00000057;
+  border-radius: 25px;
 
   .grow {
     flex-grow: 1;
   }
 
   @media (max-width: 1099px) {
+    margin: 5px;
     height: 70px;
     padding-left: 20px;
-    box-sizing: border-box;
     padding-right: 20px;
     flex-direction: row;
     justify-content: space-between;
+    position: sticky;
+    top: 5px;
 
     .grow {
       display: none;
     }
-  }
-
-  @media (max-width: 820px) {
-    width: 100vw;
   }
 `;
 
@@ -121,17 +119,18 @@ const ProfileBox = styled.div`
 
 const MenuOptions = styled.div`
   background-color: #fff;
-  border-radius: 3px;
+  border-radius: 15px;
   box-shadow: 5px 5px 35px grey;
   position: absolute;
   right: -210px;
   bottom: 0;
   text-align: left;
-  padding: 20px;
+  padding: 0 10px;
   width: 200px;
 
   .menu_user {
-    padding-bottom: 10px;
+    padding: 10px;
+    margin-top: 10px;
 
     a {
       font-size: 10px;
@@ -140,17 +139,23 @@ const MenuOptions = styled.div`
   }
 
   .menu_options {
-    padding: 10px 0;
+    padding: 10px;
     border-top: solid 1px #ededed;
     border-bottom: solid 1px #ededed;
   }
 
   .menu_out {
-    padding-top: 10px;
+    padding: 10px;
+    margin-bottom: 10px;
 
     a {
       color: #ff3535;
     }
+  }
+
+  div:hover {
+    background-color: #d1d1ff;
+    border-radius: 10px;
   }
 
   @media (max-width: 1099px) {
@@ -162,8 +167,17 @@ const MenuOptions = styled.div`
 
 const Main = styled.div`
   width: 100%;
-  overflow: hidden;
+  overflow-y: scroll;
+  height: 100vh;
   grid-area: main / main / main / main;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: 1099px) {
+    height: calc(100vh - 80px);
+  }
 
   @media (max-width: 820px) {
     width: 100vw;
@@ -171,9 +185,17 @@ const Main = styled.div`
 `;
 
 const Tasks = styled.div`
-  position: sticky;
-  height: 100vh;
   grid-area: tasks / tasks / tasks / tasks;
+  overflow-y: scroll;
+  height: 100vh;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (max-width: 1099px) {
+    height: calc(100vh - 80px);
+  }
 
   @media (max-width: 820px) {
     display: none;
@@ -202,30 +224,30 @@ const Index = (props) => {
     <GridBase>
       <Nav>
         <LogoContainer>
-          <img src={Logo} alt='' />
+          <img src={Logo} alt="" />
         </LogoContainer>
-        <IconsBox />
-        <div className='grow'></div>
+        <div>{props.menu}</div>
+        <div className="grow"></div>
         <ProfileBox>
-          <div className='imageProfile' onClick={handleMenu}>
-            <img src={Profile} alt='' />
+          <div className="imageProfile" onClick={handleMenu}>
+            <img src={Profile} alt="" />
           </div>
-          <div className='menu_hide' ref={refMenu}>
+          <div className="menu_hide" ref={refMenu}>
             {openMenu && (
               <MenuOptions>
-                <div className='menu_user'>
-                  <a href=''>
-                    <p>Alexis Salcedo</p>
+                <div className="menu_user">
+                  <a href="">
+                    <p>{props.name}</p>
                     Ver perfil
                   </a>
                 </div>
-                <div className='menu_options'>
-                  <a href='https:/'>Settings</a>
+                <div className="menu_options">
+                  <a href="https:/">Settings</a>
                 </div>
-                <div className='menu_out'>
+                <div className="menu_out">
                   <a
-                    className='logoutButton'
-                    href='https:/'
+                    className="logoutButton"
+                    href="https:/"
                     onClick={handleLogout}
                   >
                     Logout
