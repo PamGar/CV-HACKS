@@ -5,6 +5,12 @@ import { jsPDF } from 'jspdf';
 import Button from '../Buttons/LoadingButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import Github from '../../assets/icons/Github.svg';
+import Gitlab from '../../assets/icons/Gitlab.svg';
+import Instagram from '../../assets/icons/Instagram.svg';
+import LinkedIn from '../../assets/icons/LinkedIn.svg';
+import Twitter from '../../assets/icons/Twitter.svg';
+import Stackoverflow from '../../assets/icons/Stackoverflow.svg';
 
 const Page = styled.div`
   width: 100%;
@@ -168,6 +174,10 @@ const BoxColumn = styled.div`
   padding: 15px 0;
   text-align: left;
 
+  img {
+    width: 25px;
+  }
+
   p {
     margin: 5px 0;
   }
@@ -198,12 +208,16 @@ const BoxColumn = styled.div`
   .calendar path {
     color: #bfbfbf;
   }
+
+  .center {
+    text-align: center;
+  }
 `;
 
 const BoxFlex = styled(BoxColumn)`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
 
   div {
     max-width: 50%;
@@ -228,6 +242,31 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
 
     pdf.addImage(data, 'PNG', 0, 0, pdfWidth, pdfHeight);
     pdf.save('MyCV.pdf');
+  };
+
+  const iconRedesSociales = (value) => {
+    switch (value) {
+      case 'Github':
+        return Github;
+        break;
+      case 'Gitlab':
+        return Gitlab;
+        break;
+      case 'Instagram':
+        return Instagram;
+        break;
+      case 'LinkedIn':
+        return LinkedIn;
+        break;
+      case 'Stackoverflow':
+        return Stackoverflow;
+        break;
+      case 'Twitter':
+        return Twitter;
+        break;
+      default:
+        break;
+    }
   };
 
   /* useEffect(() => {
@@ -387,6 +426,22 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           </BoxFlex>
           <p>{userData.about_me}</p>
         </BoxColumn>
+        {cvData.urls.length === 0 ? null : (
+          <div>
+            <h2>Redes sociales</h2>
+            <BoxFlex>
+              {cvData.urls.map((item) => {
+                return (
+                  <div key={item.id} className="center">
+                    <img src={iconRedesSociales(item.type)} alt={item.type} />
+                    <p className="first">{item.type}</p>
+                    <p className="second">{item.url}</p>
+                  </div>
+                );
+              })}
+            </BoxFlex>
+          </div>
+        )}
         {cvData.educations.length === 0 ? null : (
           <div>
             <h2>Educations</h2>
@@ -407,7 +462,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             <BoxFlex>
               {cvData.languages.map((item) => {
                 return (
-                  <div key={item.id}>
+                  <div key={item.id} className="center">
                     <p className="first">
                       {item.title}
                       {' • '}
@@ -440,7 +495,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             <BoxFlex>
               {cvData.certifications.map((item) => {
                 return (
-                  <div key={item.id}>
+                  <div key={item.id} className="center">
                     <p className="first">{item.name}</p>
                     <p className="third">{item.company}</p>
                     <p className="second">
@@ -570,31 +625,31 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
         {cvData.skills.length === 0 ? null : (
           <div>
             <h2>Skills</h2>
-            <BoxFlex>
+            <BoxColumn>
               {cvData.skills.map((item) => {
                 return (
-                  <div key={item.id}>
+                  <div key={item.id} className="item">
                     <p className="first">{item.title}</p>
                     <p className="second">{item.subtitle}</p>
                   </div>
                 );
               })}
-            </BoxFlex>
+            </BoxColumn>
           </div>
         )}
         {cvData.intersts.length === 0 ? null : (
           <div>
             <h2>Intereses</h2>
-            <BoxFlex>
+            <BoxColumn>
               {cvData.intersts.map((item) => {
                 return (
-                  <div key={item.id}>
+                  <div key={item.id} className="item">
                     <p className="first">{item.title}</p>
                     <p className="second">{item.subtitle}</p>
                   </div>
                 );
               })}
-            </BoxFlex>
+            </BoxColumn>
           </div>
         )}
       </Wrapper>
