@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import SocialEdit from './socialEdit';
 import axios from 'axios';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { Form, AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTrashCan,
   faPenToSquare,
@@ -34,9 +35,9 @@ const AboutEdit = (props) => {
     },
     address_update: false,
   });
-  const toggleAccordeonRef = useRef();
   const profileImageRef = useRef();
   const getHeightRef = useRef();
+  const toggleAccordeonRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
   const [itemsList, setItemsList] = useState([]);
@@ -359,7 +360,7 @@ const AboutEdit = (props) => {
                   onChange={handleDataChange}
                 ></textarea>
               </p>
-              <p>
+              {/* <p>
                 <label htmlFor="softskills">
                   Nombra algunas de tus softskills
                   <span className="fieldRecomendation">Requerido</span>
@@ -392,7 +393,7 @@ const AboutEdit = (props) => {
                   required
                   disabled
                 />
-              </p>
+              </p> */}
               <p>
                 <label htmlFor="phone">
                   Telefono
@@ -409,109 +410,7 @@ const AboutEdit = (props) => {
                   required
                 />
               </p>
-              <p>
-                <label htmlFor="redes">
-                  Redes sociales
-                  <span className="fieldRecomendation">Recomendado</span>
-                </label>
-                <div className="twoColumns twoColumns__redes">
-                  <select name="redes" id="cars">
-                    <option value="volvo">Twitter</option>
-                    <option value="saab">Github</option>
-                    <option value="mercedes">Stackoverflow</option>
-                    <option value="audi">Instagram</option>
-                  </select>
-                  <input
-                    type="text"
-                    name="urlRed"
-                    value={item.expiry_date}
-                    autoComplete="off"
-                    placeholder="Escribe la URL de tu perfil"
-                    onChange={handleDataChange}
-                  />
-                  <button className="addIcon">+</button>
-                </div>
-                <div className="redList">
-                  <div className="redItem">
-                    <div>
-                      <a href="http://www.twitter.com/ale6jss">Twitter</a>
-                    </div>
-                    <div className="editBox">
-                      <button onClick={(event) => getLanguage(event, item.id)}>
-                        <FontAwesomeIcon
-                          icon={faPenToSquare}
-                          className="editBox_edit"
-                        />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setHide(!hide);
-                        }}
-                      >
-                        {hide ? (
-                          <FontAwesomeIcon
-                            icon={faEyeSlash}
-                            className="editBox_hide"
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            icon={faEye}
-                            className="editBox_unhide"
-                          />
-                        )}
-                      </button>
-                      <button
-                        onClick={(event) => removeLanguage(event, item.id)}
-                      >
-                        <FontAwesomeIcon
-                          icon={faTrashCan}
-                          className="editBox_delete"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                  <div className="redItem">
-                    <div>
-                      <a href="http://www.twitter.com/ale6jss">Stackoverflow</a>
-                    </div>
-                    <div className="editBox">
-                      <button onClick={(event) => getLanguage(event, item.id)}>
-                        <FontAwesomeIcon
-                          icon={faPenToSquare}
-                          className="editBox_edit"
-                        />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setHide(!hide);
-                        }}
-                      >
-                        {hide ? (
-                          <FontAwesomeIcon
-                            icon={faEyeSlash}
-                            className="editBox_hide"
-                          />
-                        ) : (
-                          <FontAwesomeIcon
-                            icon={faEye}
-                            className="editBox_unhide"
-                          />
-                        )}
-                      </button>
-                      <button
-                        onClick={(event) => removeLanguage(event, item.id)}
-                      >
-                        <FontAwesomeIcon
-                          icon={faTrashCan}
-                          className="editBox_delete"
-                        />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </p>
+              <SocialEdit cvId={props.cvId} />
               <ButtonBox>
                 {editItems ? (
                   <>

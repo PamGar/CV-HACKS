@@ -271,22 +271,47 @@ export const AccordeonBox = styled.div`
 
   .twoColumns__redes {
     select {
+      width: 50%;
       padding: 10px;
       background: #ededed;
       border-radius: 10px;
-      margin-right: 10px;
+    }
+  }
+
+  .redesSociales {
+    .inputUrl {
+      width: 100%;
+      margin-top: 10px;
     }
 
-    input {
-      width: 100%;
+    .editBox {
+      margin-top: 0;
+    }
+
+    .socialButtonsBox {
+      display: flex;
+      justify-content: space-evenly;
+
+      svg,
+      button {
+        font-size: 18px;
+      }
+
+      button {
+        width: 100px;
+      }
     }
 
     .addIcon {
-      width: 50px;
       height: 50px;
-      font-size: 24px;
+      font-weight: 700;
       color: #57d737;
       background: none;
+      cursor: pointer;
+    }
+
+    .editBox_xmark path {
+      color: #ff6666;
     }
   }
 
@@ -310,13 +335,11 @@ export const AccordeonBox = styled.div`
   }
 
   .redList {
-    margin: 10px 0;
-
     .redItem {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 10px;
+      margin: 0px 10px 20px 10px;
     }
 
     a {
