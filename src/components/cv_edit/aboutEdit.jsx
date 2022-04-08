@@ -111,6 +111,7 @@ const AboutEdit = (props) => {
         credential_url: '',
       });
       getItemsList();
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -129,6 +130,7 @@ const AboutEdit = (props) => {
         }
       );
       getItemsList();
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -181,6 +183,7 @@ const AboutEdit = (props) => {
         address_update: false,
       });
       /* getItemsList(); */
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -370,6 +373,7 @@ const AboutEdit = (props) => {
                   placeholder="Por ejemplo: empatia, puntualidad"
                   onChange={handleDataChange}
                   required
+                  disabled
                 />
               </p>
               <p>
@@ -386,21 +390,7 @@ const AboutEdit = (props) => {
                   placeholder="Por ejemplo: python, react, git"
                   onChange={handleDataChange}
                   required
-                />
-              </p>
-              <p>
-                <label htmlFor="email">
-                  Correo electronico
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  type="text"
-                  name="email"
-                  value={item.email}
-                  autoComplete="off"
-                  placeholder="Escribe tu correo electronico"
-                  onChange={handleDataChange}
-                  required
+                  disabled
                 />
               </p>
               <p>

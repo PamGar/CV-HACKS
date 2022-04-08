@@ -14,6 +14,7 @@ import TasksButton from '../../assets/icons/task-list.svg';
 import HelpButton from '../../assets/icons/bulb.svg';
 import Close from '../../assets/icons/close.svg';
 import UserMenu from '../../layouts/navigation/userMenu';
+import HelpCV from '../../components/cv_help';
 
 const HelpCont = styled.button`
   position: fixed;
@@ -247,6 +248,11 @@ const CV_preview = () => {
     }
   };
 
+  const refreshCvData = () => {
+    getUserData();
+    getCV();
+  };
+
   useEffect(() => {
     getUserData();
     getCV();
@@ -276,7 +282,7 @@ const CV_preview = () => {
           <img src={Close} alt="" />
         </button>
         <div className="wrapper">
-          <h1>Help me</h1>
+          <HelpCV />
         </div>
       </SidebarHelp>
 
@@ -297,7 +303,11 @@ const CV_preview = () => {
       <Layout
         main={
           isEdit ? (
-            <EditCV cvId={cvData.cv.id} editButton={handleEdit} />
+            <EditCV
+              cvId={cvData.cv.id}
+              editButton={handleEdit}
+              refreshCvData={refreshCvData}
+            />
           ) : (
             <CV
               cvData={cvData}

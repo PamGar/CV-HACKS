@@ -67,22 +67,22 @@ const Form = styled.form`
   }
 `;
 
-const EditCV = ({ editButton, cvId }) => {
+const EditCV = ({ editButton, cvId, refreshCvData }) => {
   return (
     <>
       <Form>
-        <AboutEdit cvId={cvId} />
-        <OrganisationEdit cvId={cvId} />
-        <AwardEdit cvId={cvId} />
-        <SkillsEdit cvId={cvId} />
-        <LanguagesEdit cvId={cvId} />
-        <InterestEdit cvId={cvId} />
-        <EducationEdit cvId={cvId} />
-        <CoursesEdit cvId={cvId} />
-        <CertificationsEdit cvId={cvId} />
-        <JobEdit cvId={cvId} />
-        <ProjectsEdit cvId={cvId} />
-        <PublicationsEdit cvId={cvId} />
+        <AboutEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <OrganisationEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <AwardEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <SkillsEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <LanguagesEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <InterestEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <EducationEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <CoursesEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <CertificationsEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <JobEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <ProjectsEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <PublicationsEdit cvId={cvId} refreshCvData={refreshCvData} />
       </Form>
       <ButtonBoxSticky>
         <Button type="button" onClick={editButton}>
