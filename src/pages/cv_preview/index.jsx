@@ -15,6 +15,7 @@ import HelpButton from '../../assets/icons/bulb.svg';
 import Close from '../../assets/icons/close.svg';
 import UserMenu from '../../layouts/navigation/userMenu';
 import HelpCV from '../../components/cv_help';
+import { toast } from 'react-toastify';
 
 const HelpCont = styled.button`
   position: fixed;
@@ -219,6 +220,7 @@ const CV_preview = () => {
       data.name === null ? setFirstData(true) : setFirstData(false);
     } catch (error) {
       const invalidToken = error.response.data.message;
+      toast.error(invalidToken);
       console.error('errorUser', error.response.data.message);
       if (invalidToken === 'Token invalido') {
         localStorage.removeItem('authToken');
@@ -245,6 +247,7 @@ const CV_preview = () => {
       console.log(data);
     } catch (error) {
       console.error('errorData', error.message);
+      toast.error(error.response.data.message);
     }
   };
 

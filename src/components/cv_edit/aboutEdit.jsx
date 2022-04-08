@@ -12,6 +12,7 @@ import {
   faEyeSlash,
   faUser,
 } from '@fortawesome/free-regular-svg-icons';
+import { toast } from 'react-toastify';
 
 const AboutEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/user/profile/`;
@@ -86,6 +87,7 @@ const AboutEdit = (props) => {
       setItemsList(data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
+      toast.error(error.response.data.message);
       console.error('error', error);
     }
   };

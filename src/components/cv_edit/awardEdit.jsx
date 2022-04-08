@@ -11,6 +11,7 @@ import {
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { toast } from 'react-toastify';
 
 const AwardEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formworks/${props.cvId}`;
@@ -63,6 +64,7 @@ const AwardEdit = (props) => {
       setItemsList(data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
+      toast.error(error.response.data.message);
       console.error('error', error);
     }
   };
