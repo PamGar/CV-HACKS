@@ -110,7 +110,7 @@ const StyledLink = styled(NavLink)`
   @media (max-width: 800px) {
     width: 50px;
     margin-right: 20px;
-    color: #565696;
+    color: rgb(212, 182, 137);
   }
 `;
 
@@ -123,7 +123,7 @@ const StyledLinkMobile = styled(StyledLink)`
 `;
 
 const HamburgerIcon = styled.div`
-  border: 3px solid #565696;
+  border: 3px solid rgb(236, 225, 209);
   margin-left: 20px;
   width: 40px;
   height: 40px;
@@ -138,7 +138,7 @@ const HamburgerIcon = styled.div`
     left: 7px;
     width: 20px;
     height: 5px;
-    background-color: #565696;
+    background-color: rgb(236, 225, 209);
     border-radius: 15px;
   }
   ::before {
@@ -148,7 +148,7 @@ const HamburgerIcon = styled.div`
     left: 7px;
     width: 20px;
     height: 5px;
-    background-color: #565696;
+    background-color: rgb(236, 225, 209);
     border-radius: 15px;
   }
 `;
