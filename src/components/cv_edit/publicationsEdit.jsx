@@ -6,10 +6,11 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
+  faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
 
 const PublicationsEdit = (props) => {
   const URLroute = 'admin-cv-formworks';
@@ -221,63 +222,78 @@ const PublicationsEdit = (props) => {
                   Aun no tienes ninguna publicacion guardada
                 </p>
               ) : (
-                itemsList.map((item) => {
-                  return (
-                    <div className="body_box" key={item.id}>
-                      <p>
-                        <span>{item.title}</span>
-                      </p>
-                      <p>{item.subtitle}</p>
-                      <p>{item.description}</p>
-                      <div className="editBox">
-                        <button
-                          onClick={(event) => getLanguage(event, item.id)}
-                        >
+                itemsList
+                  .sort((a, b) => {
+                    return new Date(b.date) - new Date(a.date);
+                  })
+                  .map((item) => {
+                    return (
+                      <BoxColumn key={item.id}>
+                        <p className="first">
+                          {item.title}
+                          {' • '}
+                          <span className="third">{item.subtitle}</span>
+                        </p>
+                        <p className="second">{item.description}</p>
+                        <p className="third">
                           <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            className="editBox_edit"
-                          />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
-                          }}
-                        >
-                          {hide ? (
+                            icon={faCalendar}
+                            className="calendar"
+                          />{' '}
+                          {item.date}
+                        </p>
+                        <div className="editBox">
+                          <button
+                            onClick={(event) => getLanguage(event, item.id)}
+                          >
                             <FontAwesomeIcon
-                              icon={faEyeSlash}
-                              className="editBox_hide"
+                              icon={faPenToSquare}
+                              className="editBox_edit"
                             />
-                          ) : (
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setHide(!hide);
+                            }}
+                          >
+                            {hide ? (
+                              <FontAwesomeIcon
+                                icon={faEyeSlash}
+                                className="editBox_hide"
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                icon={faEye}
+                                className="editBox_unhide"
+                              />
+                            )}
+                          </button>
+                          <button
+                            onClick={(event) => removeLanguage(event, item.id)}
+                          >
                             <FontAwesomeIcon
-                              icon={faEye}
-                              className="editBox_unhide"
+                              icon={faTrashCan}
+                              className="editBox_delete"
                             />
-                          )}
-                        </button>
-                        <button
-                          onClick={(event) => removeLanguage(event, item.id)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrashCan}
-                            className="editBox_delete"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })
+                          </button>
+                        </div>
+                      </BoxColumn>
+                    );
+                  })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
                   <h3>Actualizar publicación</h3>
                 ) : (
                   <h3>Agregar nueva publicación</h3>
                 )}
                 <p>
-                  <label htmlFor="title">Nombre de la publicación</label>
+                  <label htmlFor="title">
+                    Nombre de la publicación
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
                   <input
                     ref={firstInputRef}
                     type="text"
@@ -287,10 +303,14 @@ const PublicationsEdit = (props) => {
                     placeholder="Escribe el titulo de la publicacion"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   />
                 </p>
                 <p>
-                  <label htmlFor="subtitle">¿Donde se publico?</label>
+                  <label htmlFor="subtitle">
+                    ¿Donde se publico?
+                    <span className="fieldRecomendation">Opcional</span>
+                  </label>
                   <input
                     type="text"
                     id="subtitle"
@@ -299,10 +319,14 @@ const PublicationsEdit = (props) => {
                     placeholder="Escribe el nombre del empleador"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   />
                 </p>
                 <p>
-                  <label htmlFor="date">Fecha de publicación</label>
+                  <label htmlFor="date">
+                    Fecha de publicación
+                    <span className="fieldRecomendation">Opcional</span>
+                  </label>
                   <input
                     type="date"
                     id="date"
@@ -310,10 +334,14 @@ const PublicationsEdit = (props) => {
                     value={item.date}
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   />
                 </p>
                 <p>
-                  <label htmlFor="description">Descripción</label>
+                  <label htmlFor="description">
+                    Descripción
+                    <span className="fieldRecomendation">Opcional</span>
+                  </label>
                   <textarea
                     type="text"
                     id="description"
@@ -323,6 +351,7 @@ const PublicationsEdit = (props) => {
                     placeholder="Escribe una breve descripcion de la publicación"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   ></textarea>
                 </p>
                 <ButtonBox>
@@ -343,13 +372,11 @@ const PublicationsEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addItem}>
-                        Guardar
-                      </Button>
+                      <Button type="button">Guardar</Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

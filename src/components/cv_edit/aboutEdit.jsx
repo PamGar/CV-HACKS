@@ -74,6 +74,14 @@ const AboutEdit = (props) => {
     setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
+  const getHeight = () => {
+    console.log('getHeight');
+    /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
+    setTimeout(() => {
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+    }, 1000);
+  };
+
   const getItemsList = async () => {
     try {
       const { data } = await axios.get(
@@ -93,7 +101,6 @@ const AboutEdit = (props) => {
   };
 
   const addItem = async (e) => {
-    console.log('hi');
     e.preventDefault();
     try {
       const { data } = await axios.post(
@@ -412,7 +419,11 @@ const AboutEdit = (props) => {
                   required
                 />
               </p>
-              <SocialEdit cvId={props.cvId} />
+              <SocialEdit
+                cvId={props.cvId}
+                getHeight={getHeight}
+                refreshCvData={props.refreshCvData}
+              />
               <ButtonBox>
                 {editItems ? (
                   <>

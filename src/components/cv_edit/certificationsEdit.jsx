@@ -6,10 +6,11 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
+  faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
 
 const CertificationsEdit = (props) => {
   const [hide, setHide] = useState(false);
@@ -221,58 +222,75 @@ const CertificationsEdit = (props) => {
                   Aun no tienes ningun certificado guardado
                 </p>
               ) : (
-                itemsList.map((item) => {
-                  return (
-                    <div className="body_box" key={item.id}>
-                      <p>
-                        <span>{item.name}</span> {item.company}
-                      </p>
-                      <p>
-                        {item.expedition_date} | {item.expiry_date}
-                      </p>
-                      <a href="http://">{item.credential_url}</a>
-                      <div className="editBox">
-                        <button
-                          onClick={(event) => getLanguage(event, item.id)}
-                        >
+                itemsList
+                  .sort((a, b) => {
+                    return (
+                      new Date(b.expedition_date) - new Date(a.expedition_date)
+                    );
+                  })
+                  .map((item) => {
+                    return (
+                      <BoxColumn key={item.id}>
+                        <p className="first">
+                          {item.company}
+                          {' • '}
+                          <span className="second">{item.company}</span>
+                        </p>
+                        <p className="second">{item.description}</p>
+
+                        <p className="third">
                           <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            className="editBox_edit"
-                          />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
-                          }}
-                        >
-                          {hide ? (
+                            icon={faCalendar}
+                            className="calendar"
+                          />{' '}
+                          {item.expedition_date}
+                          {' • '}
+                          {item.expiry_date}
+                        </p>
+
+                        <a href="http://">{item.credential_url}</a>
+                        <div className="editBox">
+                          <button
+                            onClick={(event) => getLanguage(event, item.id)}
+                          >
                             <FontAwesomeIcon
-                              icon={faEyeSlash}
-                              className="editBox_hide"
+                              icon={faPenToSquare}
+                              className="editBox_edit"
                             />
-                          ) : (
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setHide(!hide);
+                            }}
+                          >
+                            {hide ? (
+                              <FontAwesomeIcon
+                                icon={faEyeSlash}
+                                className="editBox_hide"
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                icon={faEye}
+                                className="editBox_unhide"
+                              />
+                            )}
+                          </button>
+                          <button
+                            onClick={(event) => removeLanguage(event, item.id)}
+                          >
                             <FontAwesomeIcon
-                              icon={faEye}
-                              className="editBox_unhide"
+                              icon={faTrashCan}
+                              className="editBox_delete"
                             />
-                          )}
-                        </button>
-                        <button
-                          onClick={(event) => removeLanguage(event, item.id)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrashCan}
-                            className="editBox_delete"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })
+                          </button>
+                        </div>
+                      </BoxColumn>
+                    );
+                  })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
                   <h3>Actualizar certificado</h3>
                 ) : (
@@ -388,22 +406,6 @@ const CertificationsEdit = (props) => {
                     required
                   />
                 </p>
-                <p>
-                  <label htmlFor="description">
-                    Descripción
-                    <span className="fieldRecomendation">Opcional</span>
-                  </label>
-                  <textarea
-                    type="text"
-                    id="description"
-                    name="description"
-                    rows="5"
-                    value={item.description}
-                    placeholder="Escribe una breve descripcion"
-                    autoComplete="off"
-                    onChange={handleChange}
-                  ></textarea>
-                </p>
                 <ButtonBox>
                   {editItems ? (
                     <>
@@ -422,13 +424,11 @@ const CertificationsEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addItem}>
-                        Guardar
-                      </Button>
+                      <Button type="button">Guardar</Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

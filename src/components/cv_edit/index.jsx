@@ -16,7 +16,7 @@ import CoursesEdit from './courseEdit';
 import JobEdit from './jobEdit';
 import ProjectsEdit from './projectsEdit';
 
-const Form = styled.form`
+const Wrapper = styled.div`
   width: 90%;
   padding: 10px;
   margin: 30px auto;
@@ -70,20 +70,20 @@ const Form = styled.form`
 const EditCV = ({ editButton, cvId, refreshCvData }) => {
   return (
     <>
-      <Form>
+      <Wrapper>
         <AboutEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <OrganisationEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <AwardEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <SkillsEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <LanguagesEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <InterestEdit cvId={cvId} refreshCvData={refreshCvData} />
         <EducationEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <LanguagesEdit cvId={cvId} refreshCvData={refreshCvData} />
         <CoursesEdit cvId={cvId} refreshCvData={refreshCvData} />
         <CertificationsEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <OrganisationEdit cvId={cvId} refreshCvData={refreshCvData} />
         <JobEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <ProjectsEdit cvId={cvId} refreshCvData={refreshCvData} />
         <PublicationsEdit cvId={cvId} refreshCvData={refreshCvData} />
-      </Form>
+        <ProjectsEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <AwardEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <SkillsEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <InterestEdit cvId={cvId} refreshCvData={refreshCvData} />
+      </Wrapper>
       <ButtonBoxSticky>
         <Button type="button" onClick={editButton}>
           Volver

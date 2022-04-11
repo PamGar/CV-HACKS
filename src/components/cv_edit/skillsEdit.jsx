@@ -7,10 +7,11 @@ import {
   faEye,
   faEyeSlash,
   faChessPawn,
+  faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
 
 const SkillsEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formskills/${props.cvId}`;
@@ -214,11 +215,9 @@ const SkillsEdit = (props) => {
               ) : (
                 itemsList.map((item) => {
                   return (
-                    <div className="body_box" key={item.id}>
-                      <p>
-                        <span>{item.title}</span>
-                      </p>
-                      <p>{item.subtitle}</p>
+                    <BoxColumn key={item.id}>
+                      <p className="first">{item.title}</p>
+                      <p className="second">{item.subtitle}</p>
                       <div className="editBox">
                         <button
                           onClick={(event) => getLanguage(event, item.id)}
@@ -255,12 +254,12 @@ const SkillsEdit = (props) => {
                           />
                         </button>
                       </div>
-                    </div>
+                    </BoxColumn>
                   );
                 })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
                   <h3>Actualizar skill</h3>
                 ) : (
@@ -279,6 +278,7 @@ const SkillsEdit = (props) => {
                     placeholder="Escribe el nombre de la skill"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   />
                 </p>
                 <p>
@@ -294,6 +294,7 @@ const SkillsEdit = (props) => {
                     placeholder="Escribe una breve descripcion de la skill"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   ></textarea>
                 </p>
 
@@ -315,13 +316,11 @@ const SkillsEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addItem}>
-                        Guardar
-                      </Button>
+                      <Button type="button">Guardar</Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

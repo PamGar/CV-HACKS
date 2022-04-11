@@ -6,10 +6,17 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
+  faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import {
+  AccordeonBox,
+  ButtonBox,
+  BoxFlex,
+  BoxColumn,
+} from './EditStyledComponents';
+import { toast } from 'react-toastify';
 
 const EducationEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/educations/${props.cvId}`;
@@ -110,7 +117,8 @@ const EducationEdit = (props) => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
+      toast.error(error.response.data.message);
+      console.error('error', error.response);
     }
   };
 
@@ -300,58 +308,70 @@ const EducationEdit = (props) => {
                   Aun no tienes ninguna educacion guardada
                 </p>
               ) : (
-                itemsList.map((item) => {
-                  return (
-                    <div className="body_box" key={item.id}>
-                      <p>
-                        <span>{item.major}</span>
-                      </p>
-                      <p>{item.degree}</p>
-                      <p>
-                        {item.start_date} | {item.end_date}
-                      </p>
-                      <div className="editBox">
-                        <button
-                          onClick={(event) => getLanguage(event, item.id)}
-                        >
+                itemsList
+                  .sort((a, b) => {
+                    return new Date(b.date) - new Date(a.date);
+                  })
+                  .map((item) => {
+                    return (
+                      <BoxColumn key={item.id}>
+                        <p className="first">
+                          {item.major}
+                          {' • '}
+                          <span className="third">{item.degree}</span>
+                        </p>
+                        <p>{item.description}</p>
+                        <p className="third">
                           <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            className="editBox_edit"
-                          />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
-                          }}
-                        >
-                          {hide ? (
+                            icon={faCalendar}
+                            className="calendar"
+                          />{' '}
+                          {item.start_date}
+                          {' • '}
+                          {item.end_date}
+                        </p>
+                        <div className="editBox">
+                          <button
+                            onClick={(event) => getLanguage(event, item.id)}
+                          >
                             <FontAwesomeIcon
-                              icon={faEyeSlash}
-                              className="editBox_hide"
+                              icon={faPenToSquare}
+                              className="editBox_edit"
                             />
-                          ) : (
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setHide(!hide);
+                            }}
+                          >
+                            {hide ? (
+                              <FontAwesomeIcon
+                                icon={faEyeSlash}
+                                className="editBox_hide"
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                icon={faEye}
+                                className="editBox_unhide"
+                              />
+                            )}
+                          </button>
+                          <button
+                            onClick={(event) => removeLanguage(event, item.id)}
+                          >
                             <FontAwesomeIcon
-                              icon={faEye}
-                              className="editBox_unhide"
+                              icon={faTrashCan}
+                              className="editBox_delete"
                             />
-                          )}
-                        </button>
-                        <button
-                          onClick={(event) => removeLanguage(event, item.id)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrashCan}
-                            className="editBox_delete"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })
+                          </button>
+                        </div>
+                      </BoxColumn>
+                    );
+                  })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form className="wrapperForm" ref={formRef} onSubmit={addItem}>
                 {editItems ? (
                   <h3>Actualizar educación</h3>
                 ) : (
@@ -386,6 +406,7 @@ const EducationEdit = (props) => {
                     placeholder="Preparatoria / Universidad / Institucion"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   />
                 </p>
                 <div className="twoColumns">
@@ -453,6 +474,7 @@ const EducationEdit = (props) => {
                         value={item.data.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
+                        required
                       />
                     </p>
                     <div className="check_data">
@@ -462,7 +484,6 @@ const EducationEdit = (props) => {
                         value={item.data.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
-                        required
                       />
                       <label htmlFor="expiry_date">Presente (Actualidad)</label>
                     </div>
@@ -502,13 +523,13 @@ const EducationEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addItem}>
+                      <Button type="submit" /* onClick={addItem} */>
                         Guardar
                       </Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

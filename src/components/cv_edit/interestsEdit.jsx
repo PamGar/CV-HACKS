@@ -7,10 +7,11 @@ import {
   faEye,
   faEyeSlash,
   faFutbol,
+  faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
 
 const InterestEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formskills/${props.cvId}`;
@@ -217,11 +218,9 @@ const InterestEdit = (props) => {
               ) : (
                 itemsList.map((item) => {
                   return (
-                    <div className="body_box" key={item.id}>
-                      <p>
-                        <span>{item.title}</span>
-                      </p>
-                      <p>{item.subtitle}</p>
+                    <BoxColumn key={item.id}>
+                      <p className="first">{item.title}</p>
+                      <p className="second">{item.subtitle}</p>
                       <div className="editBox">
                         <button
                           onClick={(event) => getLanguage(event, item.id)}
@@ -258,12 +257,12 @@ const InterestEdit = (props) => {
                           />
                         </button>
                       </div>
-                    </div>
+                    </BoxColumn>
                   );
                 })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
                   <h3>Actualizar interes</h3>
                 ) : (
@@ -282,6 +281,7 @@ const InterestEdit = (props) => {
                     placeholder="Escribe el nombre de tu interes"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   />
                 </p>
                 <p>
@@ -297,6 +297,7 @@ const InterestEdit = (props) => {
                     placeholder="Escribe una breve descripcion de tu interes"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   ></textarea>
                 </p>
                 <ButtonBox>
@@ -317,13 +318,11 @@ const InterestEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addItem}>
-                        Guardar
-                      </Button>
+                      <Button type="button">Guardar</Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

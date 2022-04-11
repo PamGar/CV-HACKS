@@ -271,7 +271,6 @@ export const AccordeonBox = styled.div`
 
   .twoColumns__redes {
     select {
-      width: 50%;
       padding: 10px;
       background: #ededed;
       border-radius: 10px;
@@ -366,5 +365,67 @@ export const ButtonBoxSticky = styled(ButtonBox)`
 
   button {
     background-color: #565696;
+  }
+`;
+
+export const BoxColumn = styled.div`
+  padding: 15px 0;
+  text-align: left;
+
+  img {
+    width: 25px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #00b7b8;
+  }
+
+  p {
+    display: block !important;
+    margin: 5px 0;
+  }
+
+  .item {
+    margin-bottom: 20px;
+  }
+
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .first {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .second {
+    color: #8d8d8d;
+  }
+
+  .third {
+    color: #bfbfbf;
+  }
+
+  .calendar path {
+    color: #bfbfbf;
+  }
+
+  .center {
+    text-align: center;
+  }
+`;
+
+export const BoxFlex = styled(BoxColumn)`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  div {
+    min-width: 150px;
+    max-width: 50%;
+    margin: 10px 0;
   }
 `;

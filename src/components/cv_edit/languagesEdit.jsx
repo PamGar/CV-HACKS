@@ -10,7 +10,7 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
 
 const LanguagesEdit = (props) => {
   const [hide, setHide] = useState(false);
@@ -220,12 +220,11 @@ const LanguagesEdit = (props) => {
               ) : (
                 languagesList.map((language) => {
                   return (
-                    <div className="body_box" key={language.id}>
-                      <p>{language.title}</p>
-                      <p>
-                        <span>
-                          {language.subtitle} | {language.level}
-                        </span>
+                    <BoxColumn key={language.id}>
+                      <p className="first">{language.title}</p>
+                      <p className="second">
+                        {language.subtitle} {' • '}
+                        <span className="third">{language.level}</span>
                       </p>
                       <div className="editBox">
                         <button
@@ -265,12 +264,16 @@ const LanguagesEdit = (props) => {
                           />
                         </button>
                       </div>
-                    </div>
+                    </BoxColumn>
                   );
                 })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form
+                onSubmit={addLanguage}
+                className="wrapperForm"
+                ref={formRef}
+              >
                 {editLanguage ? (
                   <h3>Actualizar idioma</h3>
                 ) : (
@@ -288,6 +291,7 @@ const LanguagesEdit = (props) => {
                     onChange={handleChange}
                     placeholder="Escribe el idioma aprendido (Ingles, Chino, etc)"
                     autoComplete="off"
+                    required
                   />
                 </p>
                 <p>
@@ -303,6 +307,7 @@ const LanguagesEdit = (props) => {
                     onChange={handleChange}
                     placeholder="Escribe el examen aprobado (IELTS, HSK, TOEFL, etc)"
                     autoComplete="off"
+                    required
                   />
                 </p>
                 <p>
@@ -317,6 +322,7 @@ const LanguagesEdit = (props) => {
                     onChange={handleChange}
                     placeholder="Escribe el nivel (Basico, Intermedio, Avanzado, etc)"
                     autoComplete="off"
+                    required
                   />
                 </p>
                 <ButtonBox>
@@ -337,13 +343,11 @@ const LanguagesEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addLanguage}>
-                        Guardar
-                      </Button>
+                      <Button type="button">Guardar</Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

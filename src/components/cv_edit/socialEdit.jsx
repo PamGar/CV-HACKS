@@ -67,6 +67,7 @@ const SocialEdit = (props) => {
       });
       getItemsList();
       props.refreshCvData();
+      props.getHeight();
     } catch (error) {
       console.error('error', error);
     }
@@ -83,6 +84,7 @@ const SocialEdit = (props) => {
       });
       getItemsList();
       props.refreshCvData();
+      props.getHeight();
     } catch (error) {
       console.error('error', error);
     }

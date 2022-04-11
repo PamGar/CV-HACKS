@@ -178,6 +178,10 @@ const BoxColumn = styled.div`
     width: 25px;
   }
 
+  a {
+    text-decoration: none;
+  }
+
   p {
     margin: 5px 0;
   }
@@ -220,6 +224,7 @@ const BoxFlex = styled(BoxColumn)`
   justify-content: space-evenly;
 
   div {
+    min-width: 150px;
     max-width: 50%;
     margin: 10px 0;
   }
@@ -433,9 +438,11 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
               {cvData.urls.map((item) => {
                 return (
                   <div key={item.id} className="center">
-                    <img src={iconRedesSociales(item.type)} alt={item.type} />
-                    <p className="first">{item.type}</p>
-                    <p className="second">{item.url}</p>
+                    <a href={item.description} target="_blank" rel="noreferrer">
+                      <img src={iconRedesSociales(item.type)} alt={item.type} />
+                      <p className="first">{item.type}</p>
+                      <p className="second">{item.url}</p>
+                    </a>
                   </div>
                 );
               })}
@@ -446,13 +453,17 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           <div>
             <h2>Educations</h2>
             <BoxFlex>
-              {cvData.educations.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p>{item.title}</p>
-                  </div>
-                );
-              })}
+              {cvData.educations
+                .sort((a, b) => {
+                  return new Date(b.date) - new Date(a.date);
+                })
+                .map((item) => {
+                  return (
+                    <div key={item.id}>
+                      <p>{item.title}</p>
+                    </div>
+                  );
+                })}
             </BoxFlex>
           </div>
         )}
@@ -479,13 +490,17 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           <div>
             <h2>Cursos</h2>
             <BoxFlex>
-              {cvData.courses.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p>{item.title}</p>
-                  </div>
-                );
-              })}
+              {cvData.courses
+                .sort((a, b) => {
+                  return new Date(b.start_date) - new Date(a.start_date);
+                })
+                .map((item) => {
+                  return (
+                    <div key={item.id}>
+                      <p>{item.title}</p>
+                    </div>
+                  );
+                })}
             </BoxFlex>
           </div>
         )}
@@ -493,24 +508,33 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           <div>
             <h2>Certificaciones</h2>
             <BoxFlex>
-              {cvData.certifications.map((item) => {
-                return (
-                  <div key={item.id} className="center">
-                    <p className="first">{item.name}</p>
-                    <p className="third">{item.company}</p>
-                    <p className="second">
-                      <span className="first">{'id: '}</span>
-                      {item.credential_id}
-                    </p>
-                    <p className="third">
-                      <FontAwesomeIcon icon={faCalendar} className="calendar" />{' '}
-                      {item.expedition_date}
-                      {' • '}
-                      {item.expiry_date}
-                    </p>
-                  </div>
-                );
-              })}
+              {cvData.certifications
+                .sort((a, b) => {
+                  return (
+                    new Date(b.expedition_date) - new Date(a.expedition_date)
+                  );
+                })
+                .map((item) => {
+                  return (
+                    <div key={item.id} className="center">
+                      <p className="first">{item.name}</p>
+                      <p className="third">{item.company}</p>
+                      <p className="second">
+                        <span className="first">{'id: '}</span>
+                        {item.credential_id}
+                      </p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.expedition_date}
+                        {' • '}
+                        {item.expiry_date}
+                      </p>
+                    </div>
+                  );
+                })}
             </BoxFlex>
           </div>
         )}
@@ -518,13 +542,17 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           <div>
             <h2>Experiencia</h2>
             <BoxFlex>
-              {cvData.experiences.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p>{item.title}</p>
-                  </div>
-                );
-              })}
+              {cvData.experiences
+                .sort((a, b) => {
+                  return new Date(b.start_date) - new Date(a.start_date);
+                })
+                .map((item) => {
+                  return (
+                    <div key={item.id}>
+                      <p>{item.title}</p>
+                    </div>
+                  );
+                })}
             </BoxFlex>
           </div>
         )}
@@ -532,13 +560,17 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           <div>
             <h2>Organizaciones</h2>
             <BoxFlex>
-              {cvData.organisations.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p>{item.title}</p>
-                  </div>
-                );
-              })}
+              {cvData.organisations
+                .sort((a, b) => {
+                  return new Date(b.start_date) - new Date(a.start_date);
+                })
+                .map((item) => {
+                  return (
+                    <div key={item.id}>
+                      <p>{item.title}</p>
+                    </div>
+                  );
+                })}
             </BoxFlex>
           </div>
         )}
@@ -546,26 +578,33 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           <div>
             <h2>Proyectos</h2>
             <BoxColumn>
-              {cvData.projects.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p className="first">
-                      {item.title}
-                      {' • '}
-                      <span className="third">
-                        {item.additional_information}
-                      </span>
-                    </p>
-                    <p className="second">{item.description}</p>
-                    <p className="third">
-                      <FontAwesomeIcon icon={faCalendar} className="calendar" />{' '}
-                      {item.start_date}
-                      {' • '}
-                      {item.end_date}
-                    </p>
-                  </div>
-                );
-              })}
+              {cvData.projects
+                .sort((a, b) => {
+                  return new Date(b.start_date) - new Date(a.start_date);
+                })
+                .map((item) => {
+                  return (
+                    <div key={item.id}>
+                      <p className="first">
+                        {item.title}
+                        {' • '}
+                        <span className="third">
+                          {item.additional_information}
+                        </span>
+                      </p>
+                      <p className="second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.start_date}
+                        {' • '}
+                        {item.end_date}
+                      </p>
+                    </div>
+                  );
+                })}
             </BoxColumn>
           </div>
         )}
@@ -573,22 +612,29 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           <div>
             <h2>Publicaciones</h2>
             <BoxColumn>
-              {cvData.publications.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p className="first">
-                      {item.title}
-                      {' • '}
-                      <span className="third">{item.subtitle}</span>
-                    </p>
-                    <p className="second">{item.description}</p>
-                    <p className="third">
-                      <FontAwesomeIcon icon={faCalendar} className="calendar" />{' '}
-                      {item.date}
-                    </p>
-                  </div>
-                );
-              })}
+              {cvData.publications
+                .sort((a, b) => {
+                  return new Date(b.date) - new Date(a.date);
+                })
+                .map((item) => {
+                  return (
+                    <div key={item.id}>
+                      <p className="first">
+                        {item.title}
+                        {' • '}
+                        <span className="third">{item.subtitle}</span>
+                      </p>
+                      <p className="second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.date}
+                      </p>
+                    </div>
+                  );
+                })}
             </BoxColumn>
           </div>
         )}
@@ -597,7 +643,9 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             <h2>Premios</h2>
             <BoxColumn>
               {cvData.awards
-                .sort((a, b) => a.fechas > b.fechas)
+                .sort((a, b) => {
+                  return new Date(b.date) - new Date(a.date);
+                })
                 .map((item) => {
                   return (
                     <div key={item.id} className="item">

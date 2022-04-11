@@ -6,10 +6,11 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
+  faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
 
 const ProjectsEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/projects/${props.cvId}`;
@@ -174,10 +175,6 @@ const ProjectsEdit = (props) => {
 
   const cancelUpdate = (event) => {
     event.preventDefault();
-    setEditItems(false);
-    formRef.current.classList.toggle('unhide');
-    addButtonRef.current.classList.toggle('hide');
-    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     setItem({
       id: '',
       title: '',
@@ -188,6 +185,10 @@ const ProjectsEdit = (props) => {
       tools: 'empty',
       technologies: 'empty',
     });
+    setEditItems(false);
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
   };
 
   useEffect(() => {
@@ -221,56 +222,72 @@ const ProjectsEdit = (props) => {
                   Aun no tienes ningun proyecto guardado
                 </p>
               ) : (
-                itemsList.map((item) => {
-                  return (
-                    <div className="body_box" key={item.id}>
-                      <p>
-                        <span>{item.title}</span>
-                      </p>
-                      <p>{item.additional_information}</p>
-                      <p>{item.description}</p>
-                      <div className="editBox">
-                        <button
-                          onClick={(event) => getLanguage(event, item.id)}
-                        >
+                itemsList
+                  .sort((a, b) => {
+                    return new Date(b.start_date) - new Date(a.start_date);
+                  })
+                  .map((item) => {
+                    return (
+                      <BoxColumn key={item.id}>
+                        <p className="first">
+                          {item.title}
+                          {' • '}
+                          <span className="third">
+                            {item.additional_information}
+                          </span>
+                        </p>
+                        <p className="second">{item.description}</p>
+                        <p className="third">
                           <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            className="editBox_edit"
-                          />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
-                          }}
-                        >
-                          {hide ? (
+                            icon={faCalendar}
+                            className="calendar"
+                          />{' '}
+                          {item.start_date}
+                          {' • '}
+                          {item.end_date}
+                        </p>
+                        <div className="editBox">
+                          <button
+                            onClick={(event) => getLanguage(event, item.id)}
+                          >
                             <FontAwesomeIcon
-                              icon={faEyeSlash}
-                              className="editBox_hide"
+                              icon={faPenToSquare}
+                              className="editBox_edit"
                             />
-                          ) : (
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setHide(!hide);
+                            }}
+                          >
+                            {hide ? (
+                              <FontAwesomeIcon
+                                icon={faEyeSlash}
+                                className="editBox_hide"
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                icon={faEye}
+                                className="editBox_unhide"
+                              />
+                            )}
+                          </button>
+                          <button
+                            onClick={(event) => removeLanguage(event, item.id)}
+                          >
                             <FontAwesomeIcon
-                              icon={faEye}
-                              className="editBox_unhide"
+                              icon={faTrashCan}
+                              className="editBox_delete"
                             />
-                          )}
-                        </button>
-                        <button
-                          onClick={(event) => removeLanguage(event, item.id)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrashCan}
-                            className="editBox_delete"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })
+                          </button>
+                        </div>
+                      </BoxColumn>
+                    );
+                  })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
                   <h3>Actualizar proyecto</h3>
                 ) : (
@@ -290,6 +307,7 @@ const ProjectsEdit = (props) => {
                     placeholder="Escribe el nombre del proyecto"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   />
                 </p>
                 <p>
@@ -305,6 +323,7 @@ const ProjectsEdit = (props) => {
                     placeholder="Escribe un subtitulo sobre el proyecto"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   />
                 </p>
                 <div className="twoColumns">
@@ -320,6 +339,7 @@ const ProjectsEdit = (props) => {
                         value={item.start_date}
                         autoComplete="off"
                         onChange={handleChange}
+                        required
                       />
                     </p>
                   </div>
@@ -335,6 +355,7 @@ const ProjectsEdit = (props) => {
                         value={item.end_date}
                         autoComplete="off"
                         onChange={handleChange}
+                        required
                       />
                     </p>
                     <div className="check_data">
@@ -362,6 +383,7 @@ const ProjectsEdit = (props) => {
                     placeholder="Escribe una breve descripción del proyecto"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   ></textarea>
                 </p>
                 <ButtonBox>
@@ -382,13 +404,11 @@ const ProjectsEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addItem}>
-                        Guardar
-                      </Button>
+                      <Button type="button">Guardar</Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

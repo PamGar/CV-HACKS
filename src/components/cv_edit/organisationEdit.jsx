@@ -7,10 +7,11 @@ import {
   faEye,
   faEyeSlash,
   faHandshake,
+  faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
 
 const OrganisationEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/formnormals/${props.cvId}`;
@@ -297,54 +298,68 @@ const OrganisationEdit = (props) => {
                   Aun no tienes ninguna organización guardado
                 </p>
               ) : (
-                itemsList.map((item) => {
-                  return (
-                    <div className="body_box" key={item.id}>
-                      <p>
-                        <span>{item.title}</span>
-                      </p>
-                      <p>{item.subtitle}</p>
-                      <p>
-                        {item.start_date} | {item.end_date}
-                      </p>
-                      <div className="editBox">
-                        <button onClick={(event) => getItem(event, item.id)}>
+                itemsList
+                  .sort((a, b) => {
+                    return new Date(b.start_date) - new Date(a.start_date);
+                  })
+                  .map((item) => {
+                    return (
+                      <BoxColumn key={item.id}>
+                        <p className="first">
+                          {item.title}
+                          {' • '}
+                          <span className="third">{item.subtitle}</span>
+                        </p>
+                        <p className="second">{item.description}</p>
+                        <p className="third">
                           <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            className="editBox_edit"
-                          />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
-                          }}
-                        >
-                          {hide ? (
+                            icon={faCalendar}
+                            className="calendar"
+                          />{' '}
+                          {item.start_date}
+                          {' • '}
+                          {item.end_date}
+                        </p>
+                        <div className="editBox">
+                          <button onClick={(event) => getItem(event, item.id)}>
                             <FontAwesomeIcon
-                              icon={faEyeSlash}
-                              className="editBox_hide"
+                              icon={faPenToSquare}
+                              className="editBox_edit"
                             />
-                          ) : (
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setHide(!hide);
+                            }}
+                          >
+                            {hide ? (
+                              <FontAwesomeIcon
+                                icon={faEyeSlash}
+                                className="editBox_hide"
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                icon={faEye}
+                                className="editBox_unhide"
+                              />
+                            )}
+                          </button>
+                          <button
+                            onClick={(event) => removeItem(event, item.id)}
+                          >
                             <FontAwesomeIcon
-                              icon={faEye}
-                              className="editBox_unhide"
+                              icon={faTrashCan}
+                              className="editBox_delete"
                             />
-                          )}
-                        </button>
-                        <button onClick={(event) => removeItem(event, item.id)}>
-                          <FontAwesomeIcon
-                            icon={faTrashCan}
-                            className="editBox_delete"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })
+                          </button>
+                        </div>
+                      </BoxColumn>
+                    );
+                  })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
                   <h3>Actualizar organización</h3>
                 ) : (
@@ -363,6 +378,7 @@ const OrganisationEdit = (props) => {
                     placeholder="Escribe el nombre de la organización"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   />
                 </p>
                 <p>
@@ -378,6 +394,7 @@ const OrganisationEdit = (props) => {
                     placeholder="Escribe tu posicion dentro de la organización"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   />
                 </p>
                 <div className="twoColumns">
@@ -429,6 +446,7 @@ const OrganisationEdit = (props) => {
                         value={item.data.start_date}
                         autoComplete="off"
                         onChange={handleDataChange}
+                        required
                       />
                     </p>
                   </div>
@@ -444,6 +462,7 @@ const OrganisationEdit = (props) => {
                         value={item.data.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
+                        required
                       />
                     </p>
                     <div className="check_data">
@@ -471,6 +490,7 @@ const OrganisationEdit = (props) => {
                     placeholder="Escribe una breve descripcion de la organización"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   ></textarea>
                 </p>
                 <ButtonBox>
@@ -491,13 +511,11 @@ const OrganisationEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addItem}>
-                        Guardar
-                      </Button>
+                      <Button type="button">Guardar</Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar
