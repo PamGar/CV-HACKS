@@ -7,7 +7,6 @@ const ModalWrapper = styled.div`
   display: grid;
   place-items: center;
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  background-color: rgb(0, 0, 0, 0.5);
   z-index: 100;
   opacity: 1;
   overflow-y: auto;
@@ -19,6 +18,14 @@ const ModalWrapper = styled.div`
   &[class~='fadeIn'] {
     opacity: 0;
   }
+`;
+
+const Background = styled.div`
+  position: fixed;
+  inset: 0px;
+  z-index: -1;
+  background-color: rgb(0, 0, 0, 0.5);
+  margin-right: 17px;
 `;
 
 const Container = styled.div`
@@ -36,28 +43,39 @@ const Container = styled.div`
   margin: 20px 0;
 `;
 
-const ModalLayout = forwardRef(({ children, myOwnContainer }, ref) => {
-  useLayoutEffect(() => {
-    ref.current.classList.add('fadeIn');
-    if (document.body.clientHeight > window.innerHeight) {
-      document.body.style.marginRight = '17px';
-      document.body.style.overflowY = 'hidden';
-    }
+const ModalLayout = forwardRef(
+  ({ children, myOwnContainer, setOpenModal }, ref) => {
+    useLayoutEffect(() => {
+      ref.current.classList.add('fadeIn');
 
-    return () => {
-      document.body.removeAttribute('style');
-    };
-  }, []);
+      if (document.body.clientHeight > window.innerHeight) {
+        document.body.style.marginRight = '17px';
+        document.body.style.overflowY = 'hidden';
+      }
 
-  useEffect(() => {
-    setTimeout(() => ref.current.classList.remove('fadeIn'), 250);
-  }, []);
+      return () => {
+        document.body.removeAttribute('style');
+      };
+    }, []);
 
-  return (
-    <ModalWrapper ref={ref}>
-      {myOwnContainer ? children : <Container>{children}</Container>}
-    </ModalWrapper>
-  );
-});
+    useEffect(() => {
+      setTimeout(() => ref.current.classList.remove('fadeIn'), 250);
+    }, []);
+
+    return (
+      <ModalWrapper ref={ref}>
+        <Background
+          onClick={() => {
+            if (!!setOpenModal) {
+              ref.current.classList.add('fadeOut');
+              setTimeout(() => setOpenModal(false), 250);
+            }
+          }}
+        />
+        {myOwnContainer ? children : <Container>{children}</Container>}
+      </ModalWrapper>
+    );
+  }
+);
 
 export default ModalLayout;
