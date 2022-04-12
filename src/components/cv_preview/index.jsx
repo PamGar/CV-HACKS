@@ -647,7 +647,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                   return new Date(b.date) - new Date(a.date);
                 })
                 .map((item) => {
-                  return (
+                  return item.public ? (
                     <div key={item.id} className="item">
                       <div className="header">
                         <p className="first">
@@ -665,7 +665,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         {item.date}
                       </p>
                     </div>
-                  );
+                  ) : null;
                 })}
             </BoxColumn>
           </div>

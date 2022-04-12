@@ -26,8 +26,6 @@ const SocialEdit = (props) => {
   const firstInputRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
 
-  console.log(item);
-
   const [itemsList, setItemsList] = useState([]);
 
   const handleChange = (event) => {

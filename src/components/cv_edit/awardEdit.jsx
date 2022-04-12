@@ -25,6 +25,7 @@ const AwardEdit = (props) => {
     date: null,
     description: '',
   });
+  const [itemsList, setItemsList] = useState([]);
   const toggleAccordeonRef = useRef();
   const getHeightRef = useRef();
   const addButtonRef = useRef();
@@ -33,7 +34,7 @@ const AwardEdit = (props) => {
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
 
-  const [itemsList, setItemsList] = useState([]);
+  console.log(itemsList);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -182,6 +183,33 @@ const AwardEdit = (props) => {
     });
   };
 
+  const visibility = async (event, visibility, id, index) => {
+    event.preventDefault();
+
+    let newArr = [...itemsList];
+    newArr[index].public = visibility;
+
+    setItemsList(newArr);
+
+    try {
+      const { data } = await axios.put(
+        `${URL}/${id}`,
+        {
+          public: visibility,
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      /* getItemsList(); */
+      props.refreshCvData();
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
   useEffect(() => {
     getItemsList();
   }, []);
@@ -215,10 +243,10 @@ const AwardEdit = (props) => {
                 <p className="tasks_0">Aun no tienes ningun premio guardado</p>
               ) : (
                 itemsList
-                  .sort((a, b) => {
+                  /* .sort((a, b) => {
                     return new Date(b.date) - new Date(a.date);
-                  })
-                  .map((item) => {
+                  }) */
+                  .map((item, index) => {
                     return (
                       <BoxColumn key={item.id}>
                         <p className="first">
@@ -244,20 +272,19 @@ const AwardEdit = (props) => {
                             />
                           </button>
                           <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setHide(!hide);
+                            onClick={(event) => {
+                              visibility(event, !item.public, item.id, index);
                             }}
                           >
-                            {hide ? (
-                              <FontAwesomeIcon
-                                icon={faEyeSlash}
-                                className="editBox_hide"
-                              />
-                            ) : (
+                            {item.public ? (
                               <FontAwesomeIcon
                                 icon={faEye}
                                 className="editBox_unhide"
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                icon={faEyeSlash}
+                                className="editBox_hide"
                               />
                             )}
                           </button>
