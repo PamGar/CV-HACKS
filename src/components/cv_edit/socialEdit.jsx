@@ -144,6 +144,32 @@ const SocialEdit = (props) => {
     });
   };
 
+  const visibility = async (event, visibility, id, index) => {
+    event.preventDefault();
+
+    let newArr = [...itemsList];
+    newArr[index].public = visibility;
+
+    setItemsList(newArr);
+
+    try {
+      const { data } = await axios.put(
+        `${URL}/${id}`,
+        {
+          public: visibility,
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      props.refreshCvData();
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
   useEffect(() => {
     getItemsList();
   }, []);
@@ -211,7 +237,7 @@ const SocialEdit = (props) => {
         </div>
       </div>
       <div className="redList">
-        {itemsList.map((redSocial) => {
+        {itemsList.map((redSocial, index) => {
           return (
             <div className="redItem">
               <div>
@@ -230,12 +256,11 @@ const SocialEdit = (props) => {
                   />
                 </button>
                 <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setHide(!hide);
+                  onClick={(event) => {
+                    visibility(event, !redSocial.public, redSocial.id, index);
                   }}
                 >
-                  {hide ? (
+                  {!redSocial.public ? (
                     <FontAwesomeIcon
                       icon={faEyeSlash}
                       className="editBox_hide"

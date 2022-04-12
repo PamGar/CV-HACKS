@@ -436,7 +436,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             <h2>Redes sociales</h2>
             <BoxFlex>
               {cvData.urls.map((item) => {
-                return (
+                return item.public ? (
                   <div key={item.id} className="center">
                     <a href={item.description} target="_blank" rel="noreferrer">
                       <img src={iconRedesSociales(item.type)} alt={item.type} />
@@ -444,7 +444,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                       <p className="second">{item.url}</p>
                     </a>
                   </div>
-                );
+                ) : null;
               })}
             </BoxFlex>
           </div>
@@ -458,11 +458,11 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                   return new Date(b.date) - new Date(a.date);
                 })
                 .map((item) => {
-                  return (
+                  return item.public ? (
                     <div key={item.id}>
                       <p>{item.title}</p>
                     </div>
-                  );
+                  ) : null;
                 })}
             </BoxFlex>
           </div>
@@ -472,7 +472,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             <h2>Lenguajes</h2>
             <BoxFlex>
               {cvData.languages.map((item) => {
-                return (
+                return item.public ? (
                   <div key={item.id} className="center">
                     <p className="first">
                       {item.title}
@@ -481,7 +481,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                     </p>
                     <p className="second">{item.subtitle}</p>
                   </div>
-                );
+                ) : null;
               })}
             </BoxFlex>
           </div>
@@ -495,11 +495,11 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                   return new Date(b.start_date) - new Date(a.start_date);
                 })
                 .map((item) => {
-                  return (
+                  return item.public ? (
                     <div key={item.id}>
                       <p>{item.title}</p>
                     </div>
-                  );
+                  ) : null;
                 })}
             </BoxFlex>
           </div>
@@ -515,7 +515,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                   );
                 })
                 .map((item) => {
-                  return (
+                  return item.public ? (
                     <div key={item.id} className="center">
                       <p className="first">{item.name}</p>
                       <p className="third">{item.company}</p>
@@ -533,7 +533,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         {item.expiry_date}
                       </p>
                     </div>
-                  );
+                  ) : null;
                 })}
             </BoxFlex>
           </div>
@@ -547,11 +547,11 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                   return new Date(b.start_date) - new Date(a.start_date);
                 })
                 .map((item) => {
-                  return (
+                  return item.public ? (
                     <div key={item.id}>
                       <p>{item.title}</p>
                     </div>
-                  );
+                  ) : null;
                 })}
             </BoxFlex>
           </div>
@@ -565,11 +565,11 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                   return new Date(b.start_date) - new Date(a.start_date);
                 })
                 .map((item) => {
-                  return (
+                  return item.public ? (
                     <div key={item.id}>
                       <p>{item.title}</p>
                     </div>
-                  );
+                  ) : null;
                 })}
             </BoxFlex>
           </div>
@@ -583,7 +583,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                   return new Date(b.start_date) - new Date(a.start_date);
                 })
                 .map((item) => {
-                  return (
+                  return item.public ? (
                     <div key={item.id}>
                       <p className="first">
                         {item.title}
@@ -603,7 +603,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         {item.end_date}
                       </p>
                     </div>
-                  );
+                  ) : null;
                 })}
             </BoxColumn>
           </div>
@@ -617,7 +617,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                   return new Date(b.date) - new Date(a.date);
                 })
                 .map((item) => {
-                  return (
+                  return item.public ? (
                     <div key={item.id}>
                       <p className="first">
                         {item.title}
@@ -633,7 +633,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         {item.date}
                       </p>
                     </div>
-                  );
+                  ) : null;
                 })}
             </BoxColumn>
           </div>
@@ -675,12 +675,12 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             <h2>Skills</h2>
             <BoxColumn>
               {cvData.skills.map((item) => {
-                return (
+                return item.public ? (
                   <div key={item.id} className="item">
                     <p className="first">{item.title}</p>
                     <p className="second">{item.subtitle}</p>
                   </div>
-                );
+                ) : null;
               })}
             </BoxColumn>
           </div>
@@ -690,12 +690,12 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             <h2>Intereses</h2>
             <BoxColumn>
               {cvData.intersts.map((item) => {
-                return (
+                return item.public ? (
                   <div key={item.id} className="item">
                     <p className="first">{item.title}</p>
                     <p className="second">{item.subtitle}</p>
                   </div>
-                );
+                ) : null;
               })}
             </BoxColumn>
           </div>

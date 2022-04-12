@@ -34,8 +34,6 @@ const AwardEdit = (props) => {
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
 
-  console.log(itemsList);
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setItem({

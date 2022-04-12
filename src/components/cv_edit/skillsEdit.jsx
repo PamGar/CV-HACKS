@@ -181,6 +181,33 @@ const SkillsEdit = (props) => {
     });
   };
 
+  const visibility = async (event, visibility, id, index) => {
+    event.preventDefault();
+
+    let newArr = [...itemsList];
+    newArr[index].public = visibility;
+
+    setItemsList(newArr);
+
+    try {
+      const { data } = await axios.put(
+        `${URL}/${id}`,
+        {
+          public: visibility,
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      /* getItemsList(); */
+      props.refreshCvData();
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
   useEffect(() => {
     getItemsList();
   }, []);
@@ -213,7 +240,7 @@ const SkillsEdit = (props) => {
               {itemsList.length === 0 ? (
                 <p className="tasks_0">Aun no tienes ninguna skill guardada</p>
               ) : (
-                itemsList.map((item) => {
+                itemsList.map((item, index) => {
                   return (
                     <BoxColumn key={item.id}>
                       <p className="first">{item.title}</p>
@@ -228,12 +255,11 @@ const SkillsEdit = (props) => {
                           />
                         </button>
                         <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
+                          onClick={(event) => {
+                            visibility(event, !item.public, item.id, index);
                           }}
                         >
-                          {hide ? (
+                          {!item.public ? (
                             <FontAwesomeIcon
                               icon={faEyeSlash}
                               className="editBox_hide"

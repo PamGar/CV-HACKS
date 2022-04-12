@@ -208,9 +208,10 @@ const Index = (props) => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    navigate('/');
     localStorage.removeItem('authToken');
     localStorage.removeItem('role');
+    localStorage.removeItem('id');
+    navigate('/');
   };
 
   const refMenu = useRef();

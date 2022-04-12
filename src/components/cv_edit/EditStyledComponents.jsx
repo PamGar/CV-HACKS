@@ -270,6 +270,9 @@ export const AccordeonBox = styled.div`
   }
 
   .twoColumns__redes {
+    & * {
+      width: 48%;
+    }
     select {
       padding: 10px;
       background: #ededed;

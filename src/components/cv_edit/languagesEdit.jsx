@@ -186,6 +186,33 @@ const LanguagesEdit = (props) => {
     }
   };
 
+  const visibility = async (event, visibility, id, index) => {
+    event.preventDefault();
+
+    let newArr = [...languagesList];
+    newArr[index].public = visibility;
+
+    setLanguagesList(newArr);
+
+    try {
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formskills/${props.cvId}/${id}`,
+        {
+          public: visibility,
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      /* getItemsList(); */
+      props.refreshCvData();
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
   useEffect(() => {
     getLanguagesList();
   }, []);
@@ -218,7 +245,7 @@ const LanguagesEdit = (props) => {
               {languagesList.length === 0 ? (
                 <p className="tasks_0">Aun no tienes ningun idioma guardado</p>
               ) : (
-                languagesList.map((language) => {
+                languagesList.map((language, index) => {
                   return (
                     <BoxColumn key={language.id}>
                       <p className="first">{language.title}</p>
@@ -236,12 +263,16 @@ const LanguagesEdit = (props) => {
                           />
                         </button>
                         <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
+                          onClick={(event) => {
+                            visibility(
+                              event,
+                              !language.public,
+                              language.id,
+                              index
+                            );
                           }}
                         >
-                          {hide ? (
+                          {!language.public ? (
                             <FontAwesomeIcon
                               icon={faEyeSlash}
                               className="editBox_hide"

@@ -221,7 +221,6 @@ const CV_preview = () => {
     } catch (error) {
       const invalidToken = error.response.data.message;
       toast.error(invalidToken);
-      console.error('errorUser', error.response.data.message);
       if (invalidToken === 'Token invalido') {
         localStorage.removeItem('authToken');
         localStorage.removeItem('id');

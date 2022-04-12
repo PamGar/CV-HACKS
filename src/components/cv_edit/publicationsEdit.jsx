@@ -190,6 +190,32 @@ const PublicationsEdit = (props) => {
       description: '',
     });
   };
+  const visibility = async (event, visibility, id, index) => {
+    event.preventDefault();
+
+    let newArr = [...itemsList];
+    newArr[index].public = visibility;
+
+    setItemsList(newArr);
+
+    try {
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/cv/${URLroute}/${props.cvId}/${id}`,
+        {
+          public: visibility,
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      /* getItemsList(); */
+      props.refreshCvData();
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
 
   useEffect(() => {
     getItemsList();
@@ -222,65 +248,60 @@ const PublicationsEdit = (props) => {
                   Aun no tienes ninguna publicacion guardada
                 </p>
               ) : (
-                itemsList
-                  .sort((a, b) => {
-                    return new Date(b.date) - new Date(a.date);
-                  })
-                  .map((item) => {
-                    return (
-                      <BoxColumn key={item.id}>
-                        <p className="first">
-                          {item.title}
-                          {' • '}
-                          <span className="third">{item.subtitle}</span>
-                        </p>
-                        <p className="second">{item.description}</p>
-                        <p className="third">
+                itemsList.map((item, index) => {
+                  return (
+                    <BoxColumn key={item.id}>
+                      <p className="first">
+                        {item.title}
+                        {' • '}
+                        <span className="third">{item.subtitle}</span>
+                      </p>
+                      <p className="second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.date}
+                      </p>
+                      <div className="editBox">
+                        <button
+                          onClick={(event) => getLanguage(event, item.id)}
+                        >
                           <FontAwesomeIcon
-                            icon={faCalendar}
-                            className="calendar"
-                          />{' '}
-                          {item.date}
-                        </p>
-                        <div className="editBox">
-                          <button
-                            onClick={(event) => getLanguage(event, item.id)}
-                          >
+                            icon={faPenToSquare}
+                            className="editBox_edit"
+                          />
+                        </button>
+                        <button
+                          onClick={(event) => {
+                            visibility(event, !item.public, item.id, index);
+                          }}
+                        >
+                          {!item.public ? (
                             <FontAwesomeIcon
-                              icon={faPenToSquare}
-                              className="editBox_edit"
+                              icon={faEyeSlash}
+                              className="editBox_hide"
                             />
-                          </button>
-                          <button
-                            onClick={(e) => {
-                              e.preventDefault();
-                              setHide(!hide);
-                            }}
-                          >
-                            {hide ? (
-                              <FontAwesomeIcon
-                                icon={faEyeSlash}
-                                className="editBox_hide"
-                              />
-                            ) : (
-                              <FontAwesomeIcon
-                                icon={faEye}
-                                className="editBox_unhide"
-                              />
-                            )}
-                          </button>
-                          <button
-                            onClick={(event) => removeLanguage(event, item.id)}
-                          >
+                          ) : (
                             <FontAwesomeIcon
-                              icon={faTrashCan}
-                              className="editBox_delete"
+                              icon={faEye}
+                              className="editBox_unhide"
                             />
-                          </button>
-                        </div>
-                      </BoxColumn>
-                    );
-                  })
+                          )}
+                        </button>
+                        <button
+                          onClick={(event) => removeLanguage(event, item.id)}
+                        >
+                          <FontAwesomeIcon
+                            icon={faTrashCan}
+                            className="editBox_delete"
+                          />
+                        </button>
+                      </div>
+                    </BoxColumn>
+                  );
+                })
               )}
               <div className="separador"></div>
               <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
