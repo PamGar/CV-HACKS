@@ -3,9 +3,9 @@ import styled, { keyframes } from 'styled-components';
 const Button = styled.button`
   padding: 10px 16px;
   border: none;
-  background-color: ${(props) => (props.disabled ? '#c7c7c7' : '#00b7b8')};
+  background-color: ${(props) => (props.disabled ? '#c7c7c7' : '#565696')};
   color: ${(props) => (props.disabled ? '#888888' : 'white')};
-  border-radius: 5px;
+  border-radius: 15px;
   width: ${(props) => (props.fullWidth ? '100%' : 'max-content')};
   box-shadow: 0 1px 4px #888888;
   font-size: 0.875rem;
@@ -26,7 +26,7 @@ const Button = styled.button`
     opacity: 0;
     box-shadow: 0 2px 8px #888888;
     transition: opacity 250ms ease;
-    border-radius: 5px;
+    border-radius: 15px;
   }
 
   &::before {
@@ -39,7 +39,7 @@ const Button = styled.button`
     box-shadow: 0 2px 12px;
     opacity: 0;
     transition: opacity 250ms ease;
-    border-radius: 5px;
+    border-radius: 15px;
   }
 
   &:hover::after {
@@ -51,11 +51,11 @@ const Button = styled.button`
   }
 
   &:hover {
-    background-color: ${(props) => (props.disabled ? '#c7c7c7' : '#00acad')};
+    background-color: ${(props) => (props.disabled ? '#c7c7c7' : '#434383')};
   }
 
   &:active {
-    background-color: ${(props) => (props.disabled ? '#c7c7c7' : '#00a2a3')};
+    background-color: ${(props) => (props.disabled ? '#c7c7c7' : '#5b5b99')};
   }
 `;
 
