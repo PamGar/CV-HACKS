@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import Layout from '../../layouts/navigation';
 import MainContentWrapper from '../../components/MainContentWrapper';
 import MultipleEmail from '../../components/MultipleEmail';
 import ConfirmRegisterCompanyModal from './ConfirmRegisterCompanyModal';
+import MainAndRightLayout from '../../layouts/MainAndRightLayout';
 
 const RegisterCompany = () => {
   const [emailList, setEmailList] = useState([]);
@@ -12,7 +12,7 @@ const RegisterCompany = () => {
     setOpenModal(true);
   };
   return (
-    <Layout
+    <MainAndRightLayout
       main={
         <>
           <MainContentWrapper
