@@ -39,7 +39,6 @@ const FloatIcons = styled.div`
     display: block;
     position: fixed;
     bottom: 60px;
-    /* right: ${(props) => (props.openModal ? '33px' : '16px')}; */
     right: 16px;
 
     button {

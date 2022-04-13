@@ -36,7 +36,7 @@ const FlexWrapper = styled.div`
   top: 30px;
   display: flex;
   flex-direction: column;
-  z-index: 10px;
+  z-index: 90;
   @media (max-width: 1000px) {
     top: 0;
     flex-direction: row;
@@ -62,17 +62,13 @@ const AppBarDesktop = styled.nav`
 const AppBarMobile = styled.nav`
   background-color: #a0a0cc;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   gap: 20px;
 
   box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
     0px 1px 8px 0px rgb(0 0 0 / 12%);
-
-  @media (max-width: 800px) {
-    justify-content: space-between;
-  }
 `;
 
 const MainWrapper = styled.div`
@@ -110,7 +106,7 @@ const StyledLink = styled(NavLink)`
   @media (max-width: 800px) {
     width: 50px;
     margin-right: 20px;
-    color: rgb(212, 182, 137);
+    color: #6b6b6b;
   }
 `;
 
@@ -186,21 +182,25 @@ const AppbarLayout = ({ role }) => {
             <StyledLink to='/'>
               <img src={HackademyIcon} className='HackademyIcon' />
             </StyledLink>
-            {(role == 5 || role == 4 || role == 3) && (
-              <StyledLink to='/layout'>
+            {(role == 5 || role == 4 || role == 2) && (
+              <StyledLink to={role == 5 || role == 4 ? '/resume' : '/resumes'}>
                 <FontAwesomeIcon icon={faAddressCard} className='Icon' />
-                {role == 5 ? 'CVs' : 'Mi CV'}
+                {role == 5 || role == 4 ? 'Mi CV' : 'CVs'}
               </StyledLink>
             )}
-            <StyledLink to='/job-offers'>
-              <FontAwesomeIcon icon={faFileLines} className='Icon' />
-              Vacantes
-            </StyledLink>
-            <StyledLink to='/register-company'>
-              <FontAwesomeIcon icon={faBuilding} className='Icon' />
-              Dar de alta
-            </StyledLink>
-            <StyledLink to='/settings'>
+            {role == 2 && (
+              <StyledLink to='/job-offers'>
+                <FontAwesomeIcon icon={faFileLines} className='Icon' />
+                Vacantes
+              </StyledLink>
+            )}
+            {role == 2 && (
+              <StyledLink to='/register-company'>
+                <FontAwesomeIcon icon={faBuilding} className='Icon' />
+                Dar de alta
+              </StyledLink>
+            )}
+            <StyledLink to='/profile'>
               <FontAwesomeIcon icon={faUser} className='Icon' />
               Mi perfil
             </StyledLink>
@@ -214,23 +214,27 @@ const AppbarLayout = ({ role }) => {
             <StyledLink to='/'>
               <img src={HackademyIcon} className='HackademyIcon' />
             </StyledLink>
-            {(role == 5 || role == 4 || role == 3) && clientWidth > 800 && (
-              <StyledLink to='/layout'>
+            {(role == 5 || role == 4 || role == 2) && clientWidth > 800 && (
+              <StyledLink to={role == 5 || role == 4 ? '/resume' : '/resumes'}>
                 <FontAwesomeIcon icon={faAddressCard} className='Icon' />
-                {role == 5 ? 'CVs' : 'Mi CV'}
+                {role == 5 || role == 4 ? 'Mi CV' : 'CVs'}
               </StyledLink>
             )}
             {clientWidth > 800 && (
               <>
-                <StyledLink to='/job-offers'>
-                  <FontAwesomeIcon icon={faFileLines} className='Icon' />
-                  Vacantes
-                </StyledLink>
-                <StyledLink to='/register-company'>
-                  <FontAwesomeIcon icon={faBuilding} className='Icon' />
-                  Dar de alta
-                </StyledLink>
-                <StyledLink to='/settings'>
+                {role == 2 && (
+                  <StyledLink to='/job-offers'>
+                    <FontAwesomeIcon icon={faFileLines} className='Icon' />
+                    Vacantes
+                  </StyledLink>
+                )}
+                {role == 2 && (
+                  <StyledLink to='/register-company'>
+                    <FontAwesomeIcon icon={faBuilding} className='Icon' />
+                    Dar de alta
+                  </StyledLink>
+                )}
+                <StyledLink to='/profile'>
                   <FontAwesomeIcon icon={faUser} className='Icon' />
                   Mi perfil
                 </StyledLink>
@@ -247,25 +251,32 @@ const AppbarLayout = ({ role }) => {
             ref={DrawerRef}
             activateFade={activateFade}
           >
-            {(role == 5 || role == 4 || role == 3) && (
-              <StyledLinkMobile to='/layout' onClick={handleClickDrawer}>
-                <FontAwesomeIcon icon={faAddressCard} className='Icon' />
-                {role == 5 ? 'CVs' : 'Mi CV'}
+            {(role == 5 || role == 4 || role == 2) && (
+              <StyledLinkMobile
+                to={role == 5 || role == 4 ? '/resume' : '/resumes'}
+                onClick={handleClickDrawer}
+              >
+                <FontAwesomeIcon icon={faAddressCard} className='Icon ' />
+                {role == 5 || role == 4 ? 'Mi CV' : 'CVs'}
               </StyledLinkMobile>
             )}
-            <StyledLinkMobile to='/job-offers' onClick={handleClickDrawer}>
-              <FontAwesomeIcon icon={faFileLines} className='Icon' />
-              Vacantes
-            </StyledLinkMobile>
-            <StyledLinkMobile
-              to='/register-company'
-              onClick={handleClickDrawer}
-            >
-              <FontAwesomeIcon icon={faBuilding} className='Icon' />
-              Dar de alta
-            </StyledLinkMobile>
-            <StyledLinkMobile to='/settings' onClick={handleClickDrawer}>
-              <FontAwesomeIcon icon={faUser} className='Icon' />
+            {role == 2 && (
+              <StyledLinkMobile to='/job-offers' onClick={handleClickDrawer}>
+                <FontAwesomeIcon icon={faFileLines} className='Icon ' />
+                Vacantes
+              </StyledLinkMobile>
+            )}
+            {role == 2 && (
+              <StyledLinkMobile
+                to='/register-company'
+                onClick={handleClickDrawer}
+              >
+                <FontAwesomeIcon icon={faBuilding} className='Icon ' />
+                Dar de alta
+              </StyledLinkMobile>
+            )}
+            <StyledLinkMobile to='/profile' onClick={handleClickDrawer}>
+              <FontAwesomeIcon icon={faUser} className='Icon ' />
               Mi perfil
             </StyledLinkMobile>
           </Drawer>

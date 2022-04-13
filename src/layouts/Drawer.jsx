@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const DrawerWrapper = styled.div`
   position: fixed;
   inset: 0;
+  z-index: 99;
 
   .background {
     position: fixed;

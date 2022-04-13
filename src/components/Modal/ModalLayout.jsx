@@ -25,7 +25,6 @@ const Background = styled.div`
   inset: 0px;
   z-index: -1;
   background-color: rgb(0, 0, 0, 0.5);
-  margin-right: 17px;
 `;
 
 const Container = styled.div`
@@ -47,11 +46,6 @@ const ModalLayout = forwardRef(
   ({ children, myOwnContainer, setOpenModal }, ref) => {
     useLayoutEffect(() => {
       ref.current.classList.add('fadeIn');
-
-      if (document.body.clientHeight > window.innerHeight) {
-        document.body.style.marginRight = '17px';
-        document.body.style.overflowY = 'hidden';
-      }
 
       return () => {
         document.body.removeAttribute('style');
