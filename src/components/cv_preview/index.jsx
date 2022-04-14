@@ -381,7 +381,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
               paddingTop: `0`,
             }}
           >
-            <p>{userData.address.country}</p>
+            {/* <p>{userData.address.country}</p> */}
             <p>{userData.email}</p>
             <p>{userData.phone}</p>
           </BoxFlex>
@@ -408,12 +408,12 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
               {cvData.languages.map((item) => {
                 return (
                   <div key={item.id}>
-                    <p className="first">
+                    <p className='first'>
                       {item.title}
                       {' • '}
-                      <span className="third">{item.level}</span>
+                      <span className='third'>{item.level}</span>
                     </p>
-                    <p className="second">{item.subtitle}</p>
+                    <p className='second'>{item.subtitle}</p>
                   </div>
                 );
               })}
@@ -441,14 +441,14 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
               {cvData.certifications.map((item) => {
                 return (
                   <div key={item.id}>
-                    <p className="first">{item.name}</p>
-                    <p className="third">{item.company}</p>
-                    <p className="second">
-                      <span className="first">{'id: '}</span>
+                    <p className='first'>{item.name}</p>
+                    <p className='third'>{item.company}</p>
+                    <p className='second'>
+                      <span className='first'>{'id: '}</span>
                       {item.credential_id}
                     </p>
-                    <p className="third">
-                      <FontAwesomeIcon icon={faCalendar} className="calendar" />{' '}
+                    <p className='third'>
+                      <FontAwesomeIcon icon={faCalendar} className='calendar' />{' '}
                       {item.expedition_date}
                       {' • '}
                       {item.expiry_date}
@@ -494,16 +494,16 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
               {cvData.projects.map((item) => {
                 return (
                   <div key={item.id}>
-                    <p className="first">
+                    <p className='first'>
                       {item.title}
                       {' • '}
-                      <span className="third">
+                      <span className='third'>
                         {item.additional_information}
                       </span>
                     </p>
-                    <p className="second">{item.description}</p>
-                    <p className="third">
-                      <FontAwesomeIcon icon={faCalendar} className="calendar" />{' '}
+                    <p className='second'>{item.description}</p>
+                    <p className='third'>
+                      <FontAwesomeIcon icon={faCalendar} className='calendar' />{' '}
                       {item.start_date}
                       {' • '}
                       {item.end_date}
@@ -521,14 +521,14 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
               {cvData.publications.map((item) => {
                 return (
                   <div key={item.id}>
-                    <p className="first">
+                    <p className='first'>
                       {item.title}
                       {' • '}
-                      <span className="third">{item.subtitle}</span>
+                      <span className='third'>{item.subtitle}</span>
                     </p>
-                    <p className="second">{item.description}</p>
-                    <p className="third">
-                      <FontAwesomeIcon icon={faCalendar} className="calendar" />{' '}
+                    <p className='second'>{item.description}</p>
+                    <p className='third'>
+                      <FontAwesomeIcon icon={faCalendar} className='calendar' />{' '}
                       {item.date}
                     </p>
                   </div>
@@ -545,19 +545,19 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                 .sort((a, b) => a.fechas > b.fechas)
                 .map((item) => {
                   return (
-                    <div key={item.id} className="item">
-                      <div className="header">
-                        <p className="first">
+                    <div key={item.id} className='item'>
+                      <div className='header'>
+                        <p className='first'>
                           {item.title}
                           {' • '}
-                          <span className="third">{item.subtitle}</span>
+                          <span className='third'>{item.subtitle}</span>
                         </p>
                       </div>
-                      <p className="second">{item.description}</p>
-                      <p className="third">
+                      <p className='second'>{item.description}</p>
+                      <p className='third'>
                         <FontAwesomeIcon
                           icon={faCalendar}
-                          className="calendar"
+                          className='calendar'
                         />{' '}
                         {item.date}
                       </p>
@@ -574,8 +574,8 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
               {cvData.skills.map((item) => {
                 return (
                   <div key={item.id}>
-                    <p className="first">{item.title}</p>
-                    <p className="second">{item.subtitle}</p>
+                    <p className='first'>{item.title}</p>
+                    <p className='second'>{item.subtitle}</p>
                   </div>
                 );
               })}
@@ -589,8 +589,8 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
               {cvData.intersts.map((item) => {
                 return (
                   <div key={item.id}>
-                    <p className="first">{item.title}</p>
-                    <p className="second">{item.subtitle}</p>
+                    <p className='first'>{item.title}</p>
+                    <p className='second'>{item.subtitle}</p>
                   </div>
                 );
               })}
@@ -599,7 +599,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
         )}
       </Wrapper>
       <ButtonBox>
-        <Button type="button" onClick={editButton} disabled={dataLoaded}>
+        <Button type='button' onClick={editButton} disabled={dataLoaded}>
           Editar
         </Button>
         {/* <Button type="button" onClick={handleDownloadPdf} disabled={dataLoaded}>
