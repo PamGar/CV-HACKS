@@ -114,7 +114,8 @@ const LoginModal = ({ closeModal, isOpen, userEmail, setIsAuthenticated }) => {
       localStorage.setItem('role', data.user.role.id);
       localStorage.setItem('id', data.user.id);
       setIsAuthenticated({ isAuth: true, role: data.user.role.id });
-      navigate('/dashboard');
+      if (data.user.role.id == 5 || data.user.role.id == 4) navigate('/resume');
+      if (data.user.role.id == 2) navigate('/resumes');
     } catch (err) {
       err.response.status === 400
         ? setResponseErrorMessage(t('invalid_login_code'))
@@ -154,14 +155,14 @@ const LoginModal = ({ closeModal, isOpen, userEmail, setIsAuthenticated }) => {
         <input
           onChange={handleChange}
           value={user.accessToken}
-          name="password"
+          name='password'
           required
         />
         <AlertMessage hide={inputError.hideErrorMessage} error>
           {responseErrorMessage}
         </AlertMessage>
         <LoadingButton
-          type="submit"
+          type='submit'
           fullWidth
           disabled={inputError.disabledButton}
           loading={inputError.loadingButton}
