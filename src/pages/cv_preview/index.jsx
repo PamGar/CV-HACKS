@@ -14,6 +14,7 @@ import TasksButton from '../../assets/icons/task-list.svg';
 import HelpButton from '../../assets/icons/bulb.svg';
 import Close from '../../assets/icons/close.svg';
 import UserMenu from '../../layouts/navigation/userMenu';
+import MainAndRightLayout from '../../layouts/MainAndRightLayout';
 
 const HelpCont = styled.button`
   position: fixed;
@@ -267,15 +268,15 @@ const CV_preview = () => {
       /> */}
       <SidebarTasks style={{ left: `${sidebarWidth}%` }}>
         <button onClick={handleSidebarTask}>
-          <img src={Close} alt="" />
+          <img src={Close} alt='' />
         </button>
-        <div className="wrapper">{<TasksTodo />}</div>
+        <div className='wrapper'>{<TasksTodo />}</div>
       </SidebarTasks>
       <SidebarHelp style={{ left: `${sidebarHelpWidth}%` }}>
         <button onClick={handleSidebarHelp}>
-          <img src={Close} alt="" />
+          <img src={Close} alt='' />
         </button>
-        <div className="wrapper">
+        <div className='wrapper'>
           <h1>Help me</h1>
         </div>
       </SidebarHelp>
@@ -294,7 +295,7 @@ const CV_preview = () => {
         />
       )}
 
-      <Layout
+      <MainAndRightLayout
         main={
           isEdit ? (
             <EditCV cvId={cvData.cv.id} editButton={handleEdit} />
@@ -314,14 +315,14 @@ const CV_preview = () => {
 
       <HelpCont onClick={handleSidebarHelp}>
         <p>¿Ayuda necesitas?</p>
-        <img src={Hacky} alt="" />
+        <img src={Hacky} alt='' />
       </HelpCont>
       <FloatBox>
-        <button className="tasks" onClick={handleSidebarTask}>
-          <img src={TasksButton} alt="" />
+        <button className='tasks' onClick={handleSidebarTask}>
+          <img src={TasksButton} alt='' />
         </button>
-        <button className="help" onClick={handleSidebarHelp}>
-          <img src={HelpButton} alt="" />
+        <button className='help' onClick={handleSidebarHelp}>
+          <img src={HelpButton} alt='' />
         </button>
       </FloatBox>
     </>

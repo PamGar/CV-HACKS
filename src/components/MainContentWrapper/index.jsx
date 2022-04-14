@@ -12,18 +12,17 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  margin: 20px 15px 0;
-  background-color: rgb(238, 238, 255);
-  border-radius: 3px;
-  box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
-    0px 1px 8px 0px rgb(0 0 0 / 12%);
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: rgb(0 0 0 / 20%) 0px 3px 1px -2px,
+    rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px;
   padding: 25px 15px;
 `;
 
 const ButtonsContainer = styled.div`
   position: sticky;
   bottom: 10px;
-  margin: 0 15px 10px;
+  margin-bottom: 10px;
   display: flex;
   gap: 15px;
 
@@ -49,26 +48,28 @@ const MainContentWrapper = ({
   return (
     <Wrapper>
       <Content>{children}</Content>
-      <ButtonsContainer>
-        {!singleButton && !noButton && (
-          <OutlinedButton
-            bgColor='white'
-            onClick={onClickOutlinedButton}
-            disabled={loading}
-          >
-            regresar
-          </OutlinedButton>
-        )}
-        {!noButton && (
-          <LoadingButton
-            onClick={onClickLoadingButton}
-            disabled={disableButton}
-            loading={loading}
-          >
-            {loadingButtonTitle}
-          </LoadingButton>
-        )}
-      </ButtonsContainer>
+      {!noButton && (
+        <ButtonsContainer>
+          {!singleButton && !noButton && (
+            <OutlinedButton
+              bgColor='white'
+              onClick={onClickOutlinedButton}
+              disabled={loading}
+            >
+              regresar
+            </OutlinedButton>
+          )}
+          {!noButton && (
+            <LoadingButton
+              onClick={onClickLoadingButton}
+              disabled={disableButton}
+              loading={loading}
+            >
+              {loadingButtonTitle}
+            </LoadingButton>
+          )}
+        </ButtonsContainer>
+      )}
     </Wrapper>
   );
 };

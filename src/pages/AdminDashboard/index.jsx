@@ -1,13 +1,14 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Layout from '../../layouts/navigation';
 import CVlist from './CVlist';
 import AddCommentCV from './AddCommentCV';
 import ShareCV from './ShareCV';
 import EditCV from './EditCV';
-const Stickyp = styled.p`
+import MainAndRightLayout from '../../layouts/MainAndRightLayout';
+
+const CV = styled.h1`
   border: 1px solid blue;
-  margin: 20px;
+  background-color: white;
 `;
 
 const AdminDashboard = () => {
@@ -15,7 +16,7 @@ const AdminDashboard = () => {
   const [showMainContent, setShowMainContent] = useState('CVlist');
   const [userSelectedId, setUserSelectedId] = useState(null);
   return (
-    <Layout
+    <MainAndRightLayout
       main={
         showMainContent === 'CVlist' ? (
           <CVlist
@@ -42,11 +43,7 @@ const AdminDashboard = () => {
           />
         ) : null
       }
-      right={
-        <>
-          <Stickyp>CV </Stickyp>
-        </>
-      }
+      right={<CV>cv</CV>}
     />
   );
 };

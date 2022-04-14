@@ -3,9 +3,9 @@ import styled from 'styled-components';
 const Button = styled.button`
   background-color: ${(props) => props.bgColor || 'transparent'};
   border: 1px solid;
-  color: ${(props) => (props.disabled ? '#888888' : '#00b7b8')};
-  border-color: ${(props) => (props.disabled ? '#888888' : ' #00b7b8')};
-  border-radius: 5px;
+  color: ${(props) => (props.disabled ? '#888888' : '#565696')};
+  border-color: ${(props) => (props.disabled ? '#888888' : ' #565696')};
+  border-radius: 15px;
   cursor: ${(props) => (props.disabled ? 'auto' : 'pointer')};
   text-transform: uppercase;
   width: ${(props) => (props.fullWidth ? '100%' : 'max-content')};

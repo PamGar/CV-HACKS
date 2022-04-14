@@ -10,29 +10,50 @@ import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { toast } from 'react-toastify';
 
 const Textarea = styled.textarea`
-  box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
-    0px 1px 8px 0px rgb(0 0 0 / 12%);
   max-width: 100%;
+  background-color: #f3f4f6;
   width: 100%;
   resize: vertical;
   overflow-wrap: break-word;
   padding: 8px 15px;
-  border-radius: 3px;
+  border-radius: 15px;
+  box-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px,
+    rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
+  :focus-visible {
+    outline-color: #565696;
+  }
 `;
 
 const CommentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: rgb(238, 238, 255);
-  border-radius: 3px;
-  box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
-    0px 1px 8px 0px rgb(0 0 0 / 12%);
+  border-radius: 15px;
   padding: 15px;
+  box-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px,
+    rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
+  position: relative;
+
+  ::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: rgb(0 0 0 / 20%) 0px 3px 3px -2px,
+      rgb(0 0 0 / 14%) 0px 3px 4px 0px, rgb(0 0 0 / 12%) 0px 1px 8px 0px;
+    opacity: 0;
+    border-radius: 15px;
+    transition: opacity 200ms ease;
+    pointer-events: none;
+  }
+
+  :hover::after {
+    opacity: 1;
+    border-radius: 15px;
+  }
 
   .comment {
-    background-color: rgb(213, 213, 255);
-    border-radius: 3px;
+    background-color: #f3f4f6;
+    border-radius: 10px;
     padding: 9px;
   }
 `;
@@ -44,8 +65,8 @@ const AreaContainer = styled.div`
 
   p:nth-child(2) {
     width: 100%;
-    background-color: rgb(213, 213, 255);
-    border-radius: 3px;
+    background-color: #f3f4f6;
+    border-radius: 10px;
     text-align: center;
     padding: 9px;
   }
@@ -53,9 +74,13 @@ const AreaContainer = styled.div`
 
 const Select = styled.select`
   padding: 8px 15px;
-  box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
-    0px 1px 8px 0px rgb(0 0 0 / 12%);
-  border-radius: 3px;
+  border-radius: 10px;
+  background-color: #f3f4f6;
+  box-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px,
+    rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
+  :focus-visible {
+    outline-color: #565696;
+  }
 `;
 
 const IconContainer = styled.div`

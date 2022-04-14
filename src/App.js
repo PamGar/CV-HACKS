@@ -7,10 +7,11 @@ import Login from './pages/Login';
 import CV_preview from './pages/cv_preview';
 import AdminDashboard from './pages/AdminDashboard';
 import RegisterCompany from './pages/RegisterCompany';
-import Layout from './layouts/navigation';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import VacancyList from './pages/VacancyList';
+import AppbarLayout from './layouts/AppbarLayout';
+import Profile from './pages/Profile';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState({
@@ -20,7 +21,7 @@ const App = () => {
   return (
     <Router>
       <ToastContainer
-        position="top-right"
+        position='top-right'
         autoClose={3000}
         hideProgressBar
         newestOnTop={false}
@@ -32,32 +33,44 @@ const App = () => {
       />
       <GlobalStyles />
       <Routes>
-        <Route element={<PublicRoute isAuth={isAuthenticated.isAuth} />}>
+        <Route
+          element={
+            <PublicRoute
+              isAuth={isAuthenticated.isAuth}
+              role={isAuthenticated.role}
+            />
+          }
+        >
+          <Route path='/' element={<h1>landing</h1>} />
           <Route
-            path="/login"
+            path='/login'
             element={<Login setIsAuthenticated={setIsAuthenticated} />}
           />
-          <Route path="/login/company" element={<Login company />} />
+          <Route path='/login/company' element={<Login company />} />
         </Route>
         <Route element={<PrivateRoute isAuth={isAuthenticated.isAuth} />}>
-          <Route
-            path="/dashboard"
-            element={
-              isAuthenticated.role == 5 ? (
-                <CV_preview />
-              ) : isAuthenticated.role == 4 ? (
-                <CV_preview />
-              ) : isAuthenticated.role == 3 ? (
-                <AdminDashboard />
-              ) : isAuthenticated.role == 2 ? null : isAuthenticated.role ===
-                1 ? null : null
-            }
-          />
-          <Route
-            path="/register-company"
-            element={isAuthenticated.role == 3 && <RegisterCompany />}
-          />
-          <Route path="/job-offers" element={<VacancyList />} />
+          <Route element={<AppbarLayout role={isAuthenticated.role} />}>
+            {(isAuthenticated.role == 5 || isAuthenticated.role == 4) && (
+              <Route path='/resume' element={<CV_preview />} />
+            )}
+            {isAuthenticated.role == 2 && (
+              <Route path='/resumes' element={<AdminDashboard />} />
+            )}
+            {isAuthenticated.role == 2 && (
+              <Route path='/register-company' element={<RegisterCompany />} />
+            )}
+            {isAuthenticated.role == 2 && (
+              <Route path='/job-offers' element={<VacancyList />} />
+            )}
+            <Route
+              path='/profile'
+              element={<Profile setIsAuthenticated={setIsAuthenticated} />}
+            >
+              <Route path='settings' element={<p>configuracion generales</p>} />
+              <Route index element={<p>pagina de configuracion</p>} />
+            </Route>
+            <Route path='*' element={<h1>not found</h1>} />
+          </Route>
         </Route>
       </Routes>
     </Router>

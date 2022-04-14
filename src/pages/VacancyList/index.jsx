@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Layout from '../../layouts/navigation';
 import MainContentWrapper from '../../components/MainContentWrapper';
 import styled from 'styled-components';
+import MainAndRightLayout from '../../layouts/MainAndRightLayout';
 
 const arrMock = [
   { company: 'empresa1', title: 'front-end developer', id: 1 },
@@ -30,7 +31,7 @@ const VacancyCard = styled.div`
 const VacancyList = () => {
   const [selectedVacancyID, setSelectedVacancyID] = useState(null);
   return (
-    <Layout
+    <MainAndRightLayout
       main={
         <MainContentWrapper noButton>
           <h1>Lista de Vacantes</h1>

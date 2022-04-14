@@ -3,8 +3,6 @@ import Modal from '../../components/Modal';
 import styled from 'styled-components';
 import ModalLayout from '../../components/Modal/ModalLayout';
 import { useRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleLeft } from '@fortawesome/free-regular-svg-icons';
 
 const Box = styled.div`
   width: 90vw;
@@ -18,23 +16,6 @@ const Box = styled.div`
   background-color: rgb(238, 238, 255);
 `;
 
-const IconWrapper = styled.button`
-  cursor: pointer;
-  position: fixed;
-  top: 50px;
-  left: 50px;
-  background-color: transparent;
-  border-radius: 50%;
-
-  .goBack {
-    background-color: rgb(238, 238, 255);
-    background-color: transparent;
-    color: white;
-    width: 50px;
-    height: 50px;
-  }
-`;
-
 const NavModal = ({ openModal, setOpenModal, setShowMainContent }) => {
   const ModalLayoutRef = useRef();
 
@@ -46,15 +27,11 @@ const NavModal = ({ openModal, setOpenModal, setShowMainContent }) => {
     <Modal
       isOpen={openModal}
       element={
-        <ModalLayout ref={ModalLayoutRef} myOwnContainer>
-          <IconWrapper
-            onClick={() => {
-              ModalLayoutRef.current.classList.add('fadeOut');
-              setTimeout(() => setOpenModal(false), 250);
-            }}
-          >
-            <FontAwesomeIcon icon={faCircleLeft} className='goBack' />
-          </IconWrapper>
+        <ModalLayout
+          ref={ModalLayoutRef}
+          myOwnContainer
+          setOpenModal={setOpenModal}
+        >
           <Box>
             <NavDescriptionCard
               description='Escribe algun comentario sobre el CV seleccionado'

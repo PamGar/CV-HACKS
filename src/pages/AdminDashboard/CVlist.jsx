@@ -15,25 +15,25 @@ const InfinityScrollContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
-  margin: 20px 15px 0;
-  background-color: rgb(238, 238, 255);
-  border-radius: 3px;
-  box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
-    0px 1px 8px 0px rgb(0 0 0 / 12%);
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: rgb(0 0 0 / 20%) 0px 3px 1px -2px,
+    rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px;
   padding: 25px 15px;
 `;
 
 const ButtonWrapper = styled.div`
-  margin: 0 15px 10px;
   position: sticky;
   bottom: 10px;
 `;
 
 const SearchUserInput = styled.input`
-  box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
-    0px 1px 8px 0px rgb(0 0 0 / 12%);
-  border-radius: 3px;
+  outline: 1px solid #888888;
+  border-radius: 10px;
   padding: 10px;
+  :focus-visible {
+    outline: 1px solid #565696;
+  }
 `;
 
 const CVlist = ({

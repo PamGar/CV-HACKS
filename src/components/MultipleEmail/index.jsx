@@ -7,15 +7,13 @@ import AlertMessage from '../AlertMessage';
 const Container = styled.div`
   background-color: white;
   display: flex;
-  padding: 10px;
   gap: 10px;
   flex-wrap: wrap;
-  box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
-    0px 1px 8px 0px rgb(0 0 0 / 12%);
-  &,
+  border-radius: 15px;
+
   > *,
   > * > * {
-    border-radius: 3px;
+    border-radius: 10px;
   }
 `;
 
@@ -31,7 +29,7 @@ const EmailCard = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
   font-weight: 600;
 
   .deleteIcon {
@@ -51,8 +49,8 @@ const Input = styled.input`
   :focus {
     border: 1px solid;
     outline: 1px solid;
-    border-color: ${(props) => (props.error ? '#D8000C' : '#00b7b8')};
-    outline-color: ${(props) => (props.error ? '#FFD2D2' : '#7cb4b4')};
+    border-color: ${(props) => (props.error ? '#D8000C' : '#565696')};
+    outline-color: ${(props) => (props.error ? '#FFD2D2' : '#9494c0')};
   }
 `;
 
