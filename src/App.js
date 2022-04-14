@@ -62,7 +62,10 @@ const App = () => {
             {isAuthenticated.role == 2 && (
               <Route path='/job-offers' element={<VacancyList />} />
             )}
-            <Route path='/profile' element={<Profile />}>
+            <Route
+              path='/profile'
+              element={<Profile setIsAuthenticated={setIsAuthenticated} />}
+            >
               <Route path='settings' element={<p>configuracion generales</p>} />
               <Route index element={<p>pagina de configuracion</p>} />
             </Route>

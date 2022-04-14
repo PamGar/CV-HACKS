@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,11 +12,10 @@ const Wrapper = styled.div`
 const ProfileLayout = styled.div`
   display: grid;
   grid-template-columns: 1fr 3fr;
-  /* border: 1px solid red; */
   width: 100%;
   gap: 30px;
-  > * {
-    /* border: 1px solid red; */
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
   }
 `;
 
@@ -59,15 +57,20 @@ const Logout = styled.div`
   color: #ff6a6a;
   gap: 10px;
 `;
+const ContentWrapper = styled.div`
+  @media (max-width: 600px) {
+    display: none;
+  }
+`;
 
-const Profile = () => {
+const Profile = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
 
   const handleLogout = (e) => {
-    // e.preventDefault();
-    navigate('/login');
+    setIsAuthenticated({ isAuth: false, role: null });
     localStorage.removeItem('authToken');
     localStorage.removeItem('role');
+    navigate('/login');
   };
 
   return (
@@ -88,9 +91,9 @@ const Profile = () => {
             </Logout>
           </NavCard>
         </Navigation>
-        <div>
+        <ContentWrapper>
           <Outlet />
-        </div>
+        </ContentWrapper>
       </ProfileLayout>
     </Wrapper>
   );
