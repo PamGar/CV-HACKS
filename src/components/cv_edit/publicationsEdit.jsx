@@ -56,14 +56,14 @@ const PublicationsEdit = (props) => {
   const getItemsList = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/${URLroute}/${props.cvId}?type=Publication`,
+        `${process.env.REACT_APP_BASE_URL}/cv/${URLroute}/${props.cvId}?type=Publication&page_size=20&page_number=1`,
         {
           headers: {
             authorization: `Token ${myToken}`,
           },
         }
       );
-      setItemsList(data);
+      setItemsList(data.data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);

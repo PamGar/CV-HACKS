@@ -38,12 +38,12 @@ const SocialEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}`, {
+      const { data } = await axios.get(`${URL}?page_size=20&page_number=1`, {
         headers: {
           authorization: `Token ${myToken}`,
         },
       });
-      setItemsList(data);
+      setItemsList(data.data);
     } catch (error) {
       console.error('error', error);
     }
@@ -239,7 +239,7 @@ const SocialEdit = (props) => {
       <div className="redList">
         {itemsList.map((redSocial, index) => {
           return (
-            <div className="redItem">
+            <div className="redItem" key={redSocial.id}>
               <div>
                 <p>
                   {redSocial.type}:{' '}

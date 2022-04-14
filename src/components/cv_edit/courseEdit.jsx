@@ -62,12 +62,15 @@ const CoursesEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?type=Course`, {
-        headers: {
-          authorization: `Token ${myToken}`,
-        },
-      });
-      setItemsList(data);
+      const { data } = await axios.get(
+        `${URL}?type=Course&page_size=20&page_number=1`,
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      setItemsList(data.data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
@@ -139,7 +142,6 @@ const CoursesEdit = (props) => {
           authorization: `Token ${myToken}`,
         },
       });
-      console.log(data);
       setItem({
         data: {
           title: data.title,
@@ -330,9 +332,12 @@ const CoursesEdit = (props) => {
                 itemsList.map((item, index) => {
                   return (
                     <BoxColumn key={item.id}>
-                      <p className="first">{item.title}</p>
-                      <p className="third">{item.subtitle}</p>
-                      <p className="second">{item.Description}</p>
+                      <p className="first">
+                        {item.title}
+                        {' • '}
+                        <span className="third">{item.subtitle}</span>
+                      </p>
+                      <p className="second">{item.description}</p>
                       <p className="third">
                         <FontAwesomeIcon
                           icon={faCalendar}

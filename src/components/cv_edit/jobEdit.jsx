@@ -63,7 +63,7 @@ const JobEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?page_size=2&page_number=1`, {
+      const { data } = await axios.get(`${URL}?page_size=20&page_number=1`, {
         headers: {
           authorization: `Token ${myToken}`,
         },

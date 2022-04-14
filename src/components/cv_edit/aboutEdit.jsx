@@ -29,6 +29,7 @@ const AboutEdit = (props) => {
       gender: '0',
       subscribed: false,
       phone: '',
+      image: '',
     },
     address: {
       state: '',
@@ -41,7 +42,43 @@ const AboutEdit = (props) => {
   const toggleAccordeonRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
+  const myId = window.localStorage.getItem('id');
   const [itemsList, setItemsList] = useState([]);
+
+  console.log(item);
+
+  const getItemsList = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/user/${myId}`,
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      setItem({
+        user: {
+          about_me: data.about_me,
+          name: data.name,
+          paternal_surname: data.paternal_surname,
+          mothers_maiden_name: data.mothers_maiden_name,
+          birthdate: data.birthdate,
+          gender: data.gender,
+          subscribed: data.subscribed,
+          phone: data.phone,
+        },
+        address: {
+          state: data.address.state,
+          country: data.address.country,
+        },
+        address_update: false,
+      });
+      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
 
   const handleAddressChange = (event) => {
     const { name, value } = event.target;
@@ -69,6 +106,23 @@ const AboutEdit = (props) => {
     });
   };
 
+  const UploadImageInfo = (e) => {
+    // Get the selected file
+    const [file] = e.target.files;
+    // Get the file name and size
+    const { name: fileName, size } = file;
+    // Convert size in bytes to kilo bytes
+    const fileSize = (size / 1000).toFixed(2);
+    // Set the text content
+    const fileNameAndSize = `${fileName} - ${fileSize}KB`;
+    setProfileImageInfo(fileNameAndSize);
+  };
+
+  const handleFileChange = (e) => {
+    setItem({ ...item, [e.target.name]: e.target.files[0] });
+    UploadImageInfo();
+  };
+
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
     setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
@@ -80,24 +134,6 @@ const AboutEdit = (props) => {
     setTimeout(() => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     }, 1000);
-  };
-
-  const getItemsList = async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      setItemsList(data);
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
-    } catch (error) {
-      toast.error(error.response.data.message);
-      console.error('error', error);
-    }
   };
 
   const addItem = async (e) => {
@@ -168,10 +204,14 @@ const AboutEdit = (props) => {
   const updateLanguage = async (event, id) => {
     event.preventDefault();
 
+    const formData = new FormData(item);
+    formData.append();
+
     try {
       const { data } = await axios.put(URL, item, {
         headers: {
           authorization: `Token ${myToken}`,
+          'Content-Type': 'multipart/form-data',
         },
       }); /* 
       setEditItems(false); */
@@ -212,18 +252,6 @@ const AboutEdit = (props) => {
     });
   };
 
-  const UploadImageInfo = (e) => {
-    // Get the selected file
-    const [file] = e.target.files;
-    // Get the file name and size
-    const { name: fileName, size } = file;
-    // Convert size in bytes to kilo bytes
-    const fileSize = (size / 1000).toFixed(2);
-    // Set the text content
-    const fileNameAndSize = `${fileName} - ${fileSize}KB`;
-    setProfileImageInfo(fileNameAndSize);
-  };
-
   useEffect(() => {
     getItemsList();
   }, []);
@@ -259,15 +287,15 @@ const AboutEdit = (props) => {
                   <hr />
                   <span className="fieldRecomendation">Recomendado</span>
                 </p>
-                <label htmlFor="profilePicture">+</label>
+                <label htmlFor="image">+</label>
                 <input
                   ref={profileImageRef}
                   type="file"
-                  id="profilePicture"
-                  name="profilePicture"
-                  value={item.credential_url}
+                  id="image"
+                  name="image"
+                  value={item.user.image}
                   autoComplete="off"
-                  onChange={UploadImageInfo}
+                  /* onChange={handleFileChange} */
                 />
                 <p className="fileName">
                   {profileImageInfo}
@@ -293,7 +321,7 @@ const AboutEdit = (props) => {
                   type="text"
                   id="name"
                   name="name"
-                  value={item.name}
+                  value={item.user.name}
                   placeholder="Escribe tu nombre"
                   autoComplete="off"
                   onChange={handleDataChange}
@@ -309,7 +337,7 @@ const AboutEdit = (props) => {
                   type="text"
                   id="surname"
                   name="paternal_surname"
-                  value={item.paternal_surname}
+                  value={item.user.paternal_surname}
                   placeholder="Escribe tu apellido"
                   autoComplete="off"
                   onChange={handleDataChange}
@@ -327,7 +355,7 @@ const AboutEdit = (props) => {
                       type="text"
                       id="city"
                       name="state"
-                      value={item.state}
+                      value={item.address.state}
                       autoComplete="off"
                       placeholder="Escribe el estado en el que vives"
                       onChange={handleAddressChange}
@@ -345,7 +373,7 @@ const AboutEdit = (props) => {
                       type="text"
                       id="country"
                       name="country"
-                      value={item.country}
+                      value={item.address.country}
                       autoComplete="off"
                       placeholder="Escribe el pais en el que vives"
                       onChange={handleAddressChange}
@@ -361,9 +389,9 @@ const AboutEdit = (props) => {
                 </label>
                 <textarea
                   rows="5"
-                  maxlength="200"
+                  maxLength="200"
                   name="about_me"
-                  value={item.about_me}
+                  value={item.user.about_me}
                   autoComplete="off"
                   placeholder="Escribe algo acerca de ti"
                   onChange={handleDataChange}
@@ -412,7 +440,7 @@ const AboutEdit = (props) => {
                   type="text"
                   id="phone"
                   name="phone"
-                  value={item.phone}
+                  value={item.user.phone}
                   autoComplete="off"
                   placeholder="Escribe tu numero de telefono"
                   onChange={handleDataChange}

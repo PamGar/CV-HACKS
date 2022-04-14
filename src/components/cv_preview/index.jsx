@@ -431,7 +431,8 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           </BoxFlex>
           <p>{userData.about_me}</p>
         </BoxColumn>
-        {cvData.urls.length === 0 ? null : (
+        {cvData.urls.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Redes sociales</h2>
             <BoxFlex>
@@ -449,25 +450,41 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             </BoxFlex>
           </div>
         )}
-        {cvData.educations.length === 0 ? null : (
+        {cvData.educations.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Educations</h2>
-            <BoxFlex>
+            <BoxColumn>
               {cvData.educations
                 .sort((a, b) => {
-                  return new Date(b.date) - new Date(a.date);
+                  return new Date(b.start_date) - new Date(a.start_date);
                 })
                 .map((item) => {
                   return item.public ? (
                     <div key={item.id}>
-                      <p>{item.title}</p>
+                      <p className="first">
+                        {item.major}
+                        {' • '}
+                        <span className="third">{item.degree}</span>
+                      </p>
+                      <p>{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.start_date}
+                        {' • '}
+                        {item.end_date}
+                      </p>
                     </div>
                   ) : null;
                 })}
-            </BoxFlex>
+            </BoxColumn>
           </div>
         )}
-        {cvData.languages.length === 0 ? null : (
+        {cvData.languages.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Lenguajes</h2>
             <BoxFlex>
@@ -486,10 +503,11 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             </BoxFlex>
           </div>
         )}
-        {cvData.courses.length === 0 ? null : (
+        {cvData.courses.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Cursos</h2>
-            <BoxFlex>
+            <BoxColumn>
               {cvData.courses
                 .sort((a, b) => {
                   return new Date(b.start_date) - new Date(a.start_date);
@@ -497,14 +515,27 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                 .map((item) => {
                   return item.public ? (
                     <div key={item.id}>
-                      <p>{item.title}</p>
+                      <p className="first">
+                        {item.title}
+                        {' • '}
+                        <span className="third">{item.subtitle}</span>
+                      </p>
+                      <p className="second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.start_date} {' • '} {item.end_date}
+                      </p>
                     </div>
                   ) : null;
                 })}
-            </BoxFlex>
+            </BoxColumn>
           </div>
         )}
-        {cvData.certifications.length === 0 ? null : (
+        {cvData.certifications.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Certificaciones</h2>
             <BoxFlex>
@@ -538,10 +569,11 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             </BoxFlex>
           </div>
         )}
-        {cvData.experiences.length === 0 ? null : (
+        {cvData.experiences.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Experiencia</h2>
-            <BoxFlex>
+            <BoxColumn>
               {cvData.experiences
                 .sort((a, b) => {
                   return new Date(b.start_date) - new Date(a.start_date);
@@ -549,17 +581,32 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                 .map((item) => {
                   return item.public ? (
                     <div key={item.id}>
-                      <p>{item.title}</p>
+                      <p className="first">
+                        {item.role}
+                        {' • '}
+                        <span className="third">{item.company_name}</span>
+                      </p>
+                      <p className="Second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.start_date}
+                        {' • '}
+                        {item.end_date}
+                      </p>
                     </div>
                   ) : null;
                 })}
-            </BoxFlex>
+            </BoxColumn>
           </div>
         )}
-        {cvData.organisations.length === 0 ? null : (
+        {cvData.organisations.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Organizaciones</h2>
-            <BoxFlex>
+            <BoxColumn>
               {cvData.organisations
                 .sort((a, b) => {
                   return new Date(b.start_date) - new Date(a.start_date);
@@ -567,14 +614,29 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                 .map((item) => {
                   return item.public ? (
                     <div key={item.id}>
-                      <p>{item.title}</p>
+                      <p className="first">
+                        {item.title}
+                        {' • '}
+                        <span className="third">{item.subtitle}</span>
+                      </p>
+                      <p className="second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.start_date}
+                        {' • '}
+                        {item.end_date}
+                      </p>
                     </div>
                   ) : null;
                 })}
-            </BoxFlex>
+            </BoxColumn>
           </div>
         )}
-        {cvData.projects.length === 0 ? null : (
+        {cvData.projects.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Proyectos</h2>
             <BoxColumn>
@@ -608,7 +670,8 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             </BoxColumn>
           </div>
         )}
-        {cvData.publications.length === 0 ? null : (
+        {cvData.publications.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Publicaciones</h2>
             <BoxColumn>
@@ -638,7 +701,8 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             </BoxColumn>
           </div>
         )}
-        {cvData.awards.length === 0 ? null : (
+        {cvData.awards.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Premios</h2>
             <BoxColumn>
@@ -670,7 +734,8 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             </BoxColumn>
           </div>
         )}
-        {cvData.skills.length === 0 ? null : (
+        {cvData.skills.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Skills</h2>
             <BoxColumn>
@@ -685,7 +750,8 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             </BoxColumn>
           </div>
         )}
-        {cvData.intersts.length === 0 ? null : (
+        {cvData.intersts.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Intereses</h2>
             <BoxColumn>

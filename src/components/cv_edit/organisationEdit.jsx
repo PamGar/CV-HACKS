@@ -25,6 +25,7 @@ const OrganisationEdit = (props) => {
       subtitle: '',
       start_date: '',
       end_date: '',
+      description: '',
     },
     address: {
       street: '0',
@@ -61,12 +62,15 @@ const OrganisationEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?type=Organisation`, {
-        headers: {
-          authorization: `Token ${myToken}`,
-        },
-      });
-      setItemsList(data);
+      const { data } = await axios.get(
+        `${URL}?type=Organisation&page_size=20&page_number=1`,
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      setItemsList(data.data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
@@ -88,6 +92,7 @@ const OrganisationEdit = (props) => {
           subtitle: '',
           start_date: '',
           end_date: '',
+          description: '',
         },
         address: {
           street: '0',
@@ -144,6 +149,7 @@ const OrganisationEdit = (props) => {
           subtitle: data.subtitle,
           start_date: data.start_date,
           end_date: data.end_date,
+          description: data.description,
         },
         address: {
           street: '0',
@@ -185,6 +191,7 @@ const OrganisationEdit = (props) => {
           subtitle: '',
           start_date: '',
           end_date: '',
+          description: '',
         },
         address: {
           street: '0',
@@ -222,6 +229,7 @@ const OrganisationEdit = (props) => {
         subtitle: '',
         start_date: '',
         end_date: '',
+        description: '',
       },
       address: {
         street: '0',
@@ -497,15 +505,15 @@ const OrganisationEdit = (props) => {
                   </div>
                 </div>
                 <p>
-                  <label htmlFor="credential_id">
+                  <label htmlFor="description">
                     Descripción
                     <span className="fieldRecomendation">Opcional</span>
                   </label>
                   <textarea
                     type="text"
-                    name="credential_id"
+                    name="description"
                     rows="5"
-                    value={item.credential_id}
+                    value={item.description}
                     placeholder="Escribe una breve descripcion de la organización"
                     autoComplete="off"
                     onChange={handleDataChange}

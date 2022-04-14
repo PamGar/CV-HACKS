@@ -56,12 +56,15 @@ const SkillsEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?type=Skill`, {
-        headers: {
-          authorization: `Token ${myToken}`,
-        },
-      });
-      setItemsList(data);
+      const { data } = await axios.get(
+        `${URL}?type=Skill&page_size=20&page_number=1`,
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      setItemsList(data.data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);

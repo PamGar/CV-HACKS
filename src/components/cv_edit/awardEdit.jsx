@@ -56,12 +56,15 @@ const AwardEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?type=Award`, {
-        headers: {
-          authorization: `Token ${myToken}`,
-        },
-      });
-      setItemsList(data);
+      const { data } = await axios.get(
+        `${URL}?type=Award&page_size=20&page_number=1`,
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      setItemsList(data.data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       toast.error(error.response.data.message);

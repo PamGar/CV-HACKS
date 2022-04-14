@@ -215,7 +215,6 @@ const CV_preview = () => {
         }
       );
       setUser(data);
-      setDataNotLoaded(false);
       console.log('user', data);
       data.name === null ? setFirstData(true) : setFirstData(false);
     } catch (error) {
@@ -242,8 +241,9 @@ const CV_preview = () => {
           },
         }
       );
-      setCvData(data);
       console.log(data);
+      setCvData(data);
+      setDataNotLoaded(false);
     } catch (error) {
       console.error('errorData', error.message);
       toast.error(error.response.data.message);
@@ -277,7 +277,9 @@ const CV_preview = () => {
         <button onClick={handleSidebarTask}>
           <img src={Close} alt="" />
         </button>
-        <div className="wrapper">{<TasksTodo />}</div>
+        <div className="wrapper">
+          {dataNotLoaded ? null : <TasksTodo cvId={cvData.cv.id} />}
+        </div>
       </SidebarTasks>
       <SidebarHelp style={{ left: `${sidebarHelpWidth}%` }}>
         <button onClick={handleSidebarHelp}>
@@ -319,7 +321,7 @@ const CV_preview = () => {
             />
           )
         }
-        right={<TasksTodo />} /* {isEdit ? <TasksTodo /> : <Tasks />} */
+        right={dataNotLoaded ? null : <TasksTodo cvId={cvData.cv.id} />}
         menu={<UserMenu />}
         name={`${user.name} ${user.paternal_surname}`}
       />
