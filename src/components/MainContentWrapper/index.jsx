@@ -1,6 +1,7 @@
 import LoadingButton from '../Buttons/LoadingButton';
 import OutlinedButton from '../Buttons/OutlinedButton';
 import styled from 'styled-components';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 const Wrapper = styled.div`
   display: flex;
@@ -34,6 +35,18 @@ const ButtonsContainer = styled.div`
     flex-grow: 3;
   }
 `;
+
+const InfiniteScrollStyled = styled(InfiniteScroll)`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: rgb(0 0 0 / 20%) 0px 3px 1px -2px,
+    rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px;
+  padding: 25px 15px;
+`;
+
 const MainContentWrapper = ({
   children,
   onClickLoadingButton,
@@ -44,10 +57,25 @@ const MainContentWrapper = ({
   loadingButtonTitle,
   singleButton,
   noButton,
+  dataLength,
+  hasMore,
+  next,
+  loader,
 }) => {
   return (
     <Wrapper>
-      <Content>{children}</Content>
+      {dataLength ? (
+        <InfiniteScrollStyled
+          dataLength={dataLength}
+          hasMore={hasMore}
+          next={next}
+          loader={loader}
+        >
+          {children}
+        </InfiniteScrollStyled>
+      ) : (
+        <Content>{children}</Content>
+      )}
       {!noButton && (
         <ButtonsContainer>
           {!singleButton && !noButton && (

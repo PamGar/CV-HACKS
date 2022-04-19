@@ -95,8 +95,7 @@ const UserCard = ({
   userSelectedId,
   setUserSelectedId,
   id,
-  setDiasableButton,
-  setUserCardRef,
+  setDisableButton,
   data,
   setData,
 }) => {
@@ -115,8 +114,7 @@ const UserCard = ({
       <UserCardContainer
         onClick={() => {
           setUserSelectedId(id);
-          setDiasableButton(false);
-          setUserCardRef(UserCardContainerRef);
+          setDisableButton(false);
         }}
         isSelected={userSelectedId === id}
         ref={UserCardContainerRef}

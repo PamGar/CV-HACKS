@@ -4,6 +4,8 @@ import LoadingButton from '../../components/Buttons/LoadingButton';
 import NavModal from './NavModal';
 import styled from 'styled-components';
 import axios from 'axios';
+import MainContentWrapper from '../../components/MainContentWrapper';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -11,7 +13,7 @@ export const Wrapper = styled.div`
   gap: 30px;
 `;
 
-const InfinityScrollContainer = styled.div`
+const InfinityScrollContainer = styled(InfiniteScroll)`
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -44,13 +46,16 @@ const CVlist = ({
   setUserSelectedId,
 }) => {
   const [data, setData] = useState([]);
-  const [diasableButton, setDiasableButton] = useState(true);
-  const [userCardRef, setUserCardRef] = useState({});
+  const [hasMore, setHasMore] = useState(null);
+  const [pageCounter, setPageCounter] = useState(1);
+  const [disableButton, setDisableButton] = useState(true);
+
+  const PAGE_SIZE = 5;
 
   const getCVlist = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-all?page_number=1&page_size=1`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-all?page_number=${pageCounter}&page_size=${PAGE_SIZE}`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
@@ -58,19 +63,50 @@ const CVlist = ({
         }
       );
       setData([...data.data]);
+      setHasMore(data.next_page);
+      setPageCounter((prev) => prev + 1);
       console.log(data);
     } catch (err) {
       console.log(err);
     }
   };
 
+  const fetchMoreData = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-all?page_number=${pageCounter}&page_size=${PAGE_SIZE}`,
+        {
+          headers: {
+            authorization: `Token ${localStorage.getItem('authToken')}`,
+          },
+        }
+      );
+      setData((prev) => [...prev, ...data.data]);
+      setPageCounter((prev) => prev + 1);
+      setHasMore(data.next_page);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     getCVlist();
   }, []);
 
   return (
     <Wrapper>
-      <InfinityScrollContainer>
+      <MainContentWrapper
+        dataLength={data.length}
+        hasMore={hasMore}
+        next={fetchMoreData}
+        loader={<p>loading...</p>}
+        onClickLoadingButton={() => {
+          setOpenModal(true);
+        }}
+        loadingButtonTitle='mas opciones'
+        singleButton
+        disableButton={disableButton}
+      >
         <h1>Listado de CVs</h1>
         <SearchUserInput type='text' placeholder='buscar usuario' />
         {data.map(({ name, area, isHired, id }) => (
@@ -80,35 +116,21 @@ const CVlist = ({
             isHired={isHired}
             userSelectedId={userSelectedId}
             setUserSelectedId={setUserSelectedId}
-            setDiasableButton={setDiasableButton}
-            setUserCardRef={setUserCardRef}
+            setDisableButton={setDisableButton}
             id={id}
             key={id}
             data={data}
             setData={setData}
           />
         ))}
-        <NavModal
-          openModal={openModal}
-          setOpenModal={setOpenModal}
-          setShowMainContent={setShowMainContent}
-        />
-      </InfinityScrollContainer>
-      <ButtonWrapper>
-        <LoadingButton
-          fullWidth
-          onClick={() => {
-            setOpenModal(true);
-            userCardRef.current.scrollIntoView({
-              behavior: 'smooth',
-              block: 'nearest',
-            });
-          }}
-          disabled={diasableButton}
-        >
-          más opciones
-        </LoadingButton>
-      </ButtonWrapper>
+        {openModal && (
+          <NavModal
+            openModal={openModal}
+            setOpenModal={setOpenModal}
+            setShowMainContent={setShowMainContent}
+          />
+        )}
+      </MainContentWrapper>
     </Wrapper>
   );
 };
