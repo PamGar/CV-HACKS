@@ -110,10 +110,14 @@ const AddCommentCV = ({ setShowMainContent, userSelectedId }) => {
   const [openConfirmDeleteComentModal, setOpenConfirmDeleteComentModal] =
     useState(false);
   const [loading, setLoading] = useState(false);
+  const [pageCounter, setPageCounter] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const handleChange = (e) => {
     setComment((prev) => ({ ...prev, comment: e.target.value }));
   };
   const token = localStorage.getItem('authToken');
+
+  const PAGE_SIZE = 4;
 
   const WriteAComment = async () => {
     setLoading(true);
@@ -125,7 +129,6 @@ const AddCommentCV = ({ setShowMainContent, userSelectedId }) => {
       );
       console.log(data);
       toast.success('¡Correción agregada!');
-      setCommentList((prev) => [...prev, data]);
       setComment({
         comment: '',
         description: 'Informacion Personal',
@@ -139,10 +142,31 @@ const AddCommentCV = ({ setShowMainContent, userSelectedId }) => {
   const getListOfComments = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${userSelectedId}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${userSelectedId}?page_number=${pageCounter}&page_size=${PAGE_SIZE}`,
         { headers: { authorization: `Token ${token}` } }
       );
-      setCommentList([...data]);
+      setCommentList([...data.data]);
+      setPageCounter((prev) => prev + 1);
+      setHasMore(data.next_page);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const fetchMoreData = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${userSelectedId}?page_number=${pageCounter}&page_size=${PAGE_SIZE}`,
+        {
+          headers: {
+            authorization: `Token ${localStorage.getItem('authToken')}`,
+          },
+        }
+      );
+      setCommentList((prev) => [...prev, ...data.data]);
+      setPageCounter((prev) => prev + 1);
+      setHasMore(data.next_page);
       console.log(data);
     } catch (err) {
       console.log(err);
@@ -161,6 +185,10 @@ const AddCommentCV = ({ setShowMainContent, userSelectedId }) => {
         loadingButtonTitle='Agregar correción'
         disableButton={!comment.comment || loading}
         loading={loading}
+        dataLength={commentList.length}
+        next={fetchMoreData}
+        hasMore={hasMore}
+        loader={<p>loading..</p>}
       >
         <h2>Agregar correción</h2>
         <Textarea

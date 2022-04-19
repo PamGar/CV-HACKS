@@ -139,7 +139,7 @@ const EditCommentModal = ({
               disabled={disabledButton}
               loading={loading}
             >
-              eliminar
+              editar
             </LoadingButton>
           </ButtonContainer>
         </ModalLayout>
