@@ -16,10 +16,8 @@ import CoursesEdit from './courseEdit';
 import JobEdit from './jobEdit';
 import ProjectsEdit from './projectsEdit';
 
-const Form = styled.form`
-  width: 90%;
+const Wrapper = styled.div`
   padding: 10px;
-  margin: 30px auto;
   background-color: #fff;
   border-radius: 15px;
   box-shadow: 2px 1px 7px #00000057;
@@ -55,10 +53,6 @@ const Form = styled.form`
     box-shadow: 0 0 10px #63b2b3;
   }
 
-  @media (max-width: 1099px) {
-    width: 90%;
-  }
-
   @media (max-width: 820px) {
     width: 100%;
     padding: 0px;
@@ -67,23 +61,23 @@ const Form = styled.form`
   }
 `;
 
-const EditCV = ({ editButton, cvId }) => {
+const EditCV = ({ editButton, cvId, refreshCvData }) => {
   return (
     <>
-      <Form>
-        <AboutEdit cvId={cvId} />
-        <OrganisationEdit cvId={cvId} />
-        <AwardEdit cvId={cvId} />
-        <SkillsEdit cvId={cvId} />
-        <LanguagesEdit cvId={cvId} />
-        <InterestEdit cvId={cvId} />
-        <EducationEdit cvId={cvId} />
-        <CoursesEdit cvId={cvId} />
-        <CertificationsEdit cvId={cvId} />
-        <JobEdit cvId={cvId} />
-        <ProjectsEdit cvId={cvId} />
-        <PublicationsEdit cvId={cvId} />
-      </Form>
+      <Wrapper>
+        <AboutEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <EducationEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <LanguagesEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <CoursesEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <CertificationsEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <OrganisationEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <JobEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <PublicationsEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <ProjectsEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <AwardEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <SkillsEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <InterestEdit cvId={cvId} refreshCvData={refreshCvData} />
+      </Wrapper>
       <ButtonBoxSticky>
         <Button type="button" onClick={editButton}>
           Volver

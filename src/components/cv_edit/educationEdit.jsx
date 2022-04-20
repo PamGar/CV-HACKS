@@ -6,10 +6,17 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
+  faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import {
+  AccordeonBox,
+  ButtonBox,
+  BoxFlex,
+  BoxColumn,
+} from './EditStyledComponents';
+import { toast } from 'react-toastify';
 
 const EducationEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/educations/${props.cvId}`;
@@ -63,7 +70,7 @@ const EducationEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?page_size=2&page_number=1`, {
+      const { data } = await axios.get(`${URL}?page_size=20&page_number=1`, {
         headers: {
           authorization: `Token ${myToken}`,
         },
@@ -108,8 +115,10 @@ const EducationEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
+      toast.error(error.response.data.message);
+      console.error('error', error.response);
     }
   };
 
@@ -123,6 +132,7 @@ const EducationEdit = (props) => {
         },
       });
       getItemsList();
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -205,6 +215,7 @@ const EducationEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -266,6 +277,32 @@ const EducationEdit = (props) => {
     });
   };
 
+  const visibility = async (event, visibility, id, index) => {
+    event.preventDefault();
+
+    let newArr = [...itemsList];
+    newArr[index].public = visibility;
+
+    setItemsList(newArr);
+
+    try {
+      const { data } = await axios.put(
+        `${URL}/${id}`,
+        {
+          public: visibility,
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      props.refreshCvData();
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
   useEffect(() => {
     getItemsList();
   }, []);
@@ -297,15 +334,23 @@ const EducationEdit = (props) => {
                   Aun no tienes ninguna educacion guardada
                 </p>
               ) : (
-                itemsList.map((item) => {
+                itemsList.map((item, index) => {
                   return (
-                    <div className="body_box" key={item.id}>
-                      <p>
-                        <span>{item.major}</span>
+                    <BoxColumn key={item.id}>
+                      <p className="first">
+                        {item.major}
+                        {' • '}
+                        <span className="third">{item.degree}</span>
                       </p>
-                      <p>{item.degree}</p>
-                      <p>
-                        {item.start_date} | {item.end_date}
+                      <p>{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.start_date}
+                        {' • '}
+                        {item.end_date}
                       </p>
                       <div className="editBox">
                         <button
@@ -317,12 +362,11 @@ const EducationEdit = (props) => {
                           />
                         </button>
                         <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
+                          onClick={(event) => {
+                            visibility(event, !item.public, item.id, index);
                           }}
                         >
-                          {hide ? (
+                          {!item.public ? (
                             <FontAwesomeIcon
                               icon={faEyeSlash}
                               className="editBox_hide"
@@ -343,12 +387,12 @@ const EducationEdit = (props) => {
                           />
                         </button>
                       </div>
-                    </div>
+                    </BoxColumn>
                   );
                 })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form className="wrapperForm" ref={formRef} onSubmit={addItem}>
                 {editItems ? (
                   <h3>Actualizar educación</h3>
                 ) : (
@@ -383,6 +427,7 @@ const EducationEdit = (props) => {
                     placeholder="Preparatoria / Universidad / Institucion"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   />
                 </p>
                 <div className="twoColumns">
@@ -450,6 +495,7 @@ const EducationEdit = (props) => {
                         value={item.data.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
+                        required
                       />
                     </p>
                     <div className="check_data">
@@ -459,7 +505,6 @@ const EducationEdit = (props) => {
                         value={item.data.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
-                        required
                       />
                       <label htmlFor="expiry_date">Presente (Actualidad)</label>
                     </div>
@@ -499,13 +544,13 @@ const EducationEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addItem}>
+                      <Button type="submit" /* onClick={addItem} */>
                         Guardar
                       </Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

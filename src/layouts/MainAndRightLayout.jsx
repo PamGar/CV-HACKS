@@ -7,9 +7,10 @@ import ModalLayout from '../components/Modal/ModalLayout';
 
 const Layout = styled.div`
   display: grid;
-  grid-template-columns: 465px minmax(auto, 780px);
+  grid-template-columns: 1fr 1fr;
   gap: 30px;
   @media (max-width: 1000px) {
+    display: block;
     grid-template-columns: 1fr;
   }
   position: relative;
@@ -38,8 +39,8 @@ const FloatIcons = styled.div`
   @media (max-width: 1000px) {
     display: block;
     position: fixed;
-    bottom: 60px;
-    right: 16px;
+    bottom: 20px;
+    right: 20px;
 
     button {
       background-color: #a0a0cc;
@@ -78,7 +79,7 @@ const MainAndRightLayout = ({ main, right }) => {
       <Right>{right}</Right>
       <FloatIcons openModal={openModal}>
         <button onClick={() => setOpenModal(true)}>
-          <FontAwesomeIcon icon={faNoteSticky} className='icon' />
+          <FontAwesomeIcon icon={faNoteSticky} className="icon" />
         </button>
       </FloatIcons>
       <Modal

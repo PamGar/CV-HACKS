@@ -10,7 +10,7 @@ import {
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
 
 const LanguagesEdit = (props) => {
   const [hide, setHide] = useState(false);
@@ -73,6 +73,7 @@ const LanguagesEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -91,6 +92,7 @@ const LanguagesEdit = (props) => {
         }
       );
       getLanguagesList();
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -147,6 +149,7 @@ const LanguagesEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -169,15 +172,42 @@ const LanguagesEdit = (props) => {
   const getLanguagesList = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formskills/${props.cvId}?type=Language`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formskills/${props.cvId}?type=Language&page_size=20&page_number=1`,
         {
           headers: {
             authorization: `Token ${myToken}`,
           },
         }
       );
-      setLanguagesList(data);
+      setLanguagesList(data.data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
+  const visibility = async (event, visibility, id, index) => {
+    event.preventDefault();
+
+    let newArr = [...languagesList];
+    newArr[index].public = visibility;
+
+    setLanguagesList(newArr);
+
+    try {
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formskills/${props.cvId}/${id}`,
+        {
+          public: visibility,
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      /* getItemsList(); */
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -215,14 +245,13 @@ const LanguagesEdit = (props) => {
               {languagesList.length === 0 ? (
                 <p className="tasks_0">Aun no tienes ningun idioma guardado</p>
               ) : (
-                languagesList.map((language) => {
+                languagesList.map((language, index) => {
                   return (
-                    <div className="body_box" key={language.id}>
-                      <p>{language.title}</p>
-                      <p>
-                        <span>
-                          {language.subtitle} | {language.level}
-                        </span>
+                    <BoxColumn key={language.id}>
+                      <p className="first">{language.title}</p>
+                      <p className="second">
+                        {language.subtitle} {' • '}
+                        <span className="third">{language.level}</span>
                       </p>
                       <div className="editBox">
                         <button
@@ -234,12 +263,16 @@ const LanguagesEdit = (props) => {
                           />
                         </button>
                         <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
+                          onClick={(event) => {
+                            visibility(
+                              event,
+                              !language.public,
+                              language.id,
+                              index
+                            );
                           }}
                         >
-                          {hide ? (
+                          {!language.public ? (
                             <FontAwesomeIcon
                               icon={faEyeSlash}
                               className="editBox_hide"
@@ -262,12 +295,16 @@ const LanguagesEdit = (props) => {
                           />
                         </button>
                       </div>
-                    </div>
+                    </BoxColumn>
                   );
                 })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form
+                onSubmit={addLanguage}
+                className="wrapperForm"
+                ref={formRef}
+              >
                 {editLanguage ? (
                   <h3>Actualizar idioma</h3>
                 ) : (
@@ -285,6 +322,7 @@ const LanguagesEdit = (props) => {
                     onChange={handleChange}
                     placeholder="Escribe el idioma aprendido (Ingles, Chino, etc)"
                     autoComplete="off"
+                    required
                   />
                 </p>
                 <p>
@@ -300,6 +338,7 @@ const LanguagesEdit = (props) => {
                     onChange={handleChange}
                     placeholder="Escribe el examen aprobado (IELTS, HSK, TOEFL, etc)"
                     autoComplete="off"
+                    required
                   />
                 </p>
                 <p>
@@ -314,6 +353,7 @@ const LanguagesEdit = (props) => {
                     onChange={handleChange}
                     placeholder="Escribe el nivel (Basico, Intermedio, Avanzado, etc)"
                     autoComplete="off"
+                    required
                   />
                 </p>
                 <ButtonBox>
@@ -334,13 +374,11 @@ const LanguagesEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addLanguage}>
-                        Guardar
-                      </Button>
+                      <Button type="button">Guardar</Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

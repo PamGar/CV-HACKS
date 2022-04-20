@@ -15,6 +15,8 @@ import HelpButton from '../../assets/icons/bulb.svg';
 import Close from '../../assets/icons/close.svg';
 import UserMenu from '../../layouts/navigation/userMenu';
 import MainAndRightLayout from '../../layouts/MainAndRightLayout';
+import HelpCV from '../../components/cv_help';
+import { toast } from 'react-toastify';
 
 const HelpCont = styled.button`
   position: fixed;
@@ -214,12 +216,11 @@ const CV_preview = () => {
         }
       );
       setUser(data);
-      setDataNotLoaded(false);
       console.log('user', data);
       data.name === null ? setFirstData(true) : setFirstData(false);
     } catch (error) {
       const invalidToken = error.response.data.message;
-      console.error('errorUser', error.response.data.message);
+      toast.error(invalidToken);
       if (invalidToken === 'Token invalido') {
         localStorage.removeItem('authToken');
         localStorage.removeItem('id');
@@ -241,11 +242,18 @@ const CV_preview = () => {
           },
         }
       );
-      setCvData(data);
       console.log(data);
+      setCvData(data);
+      setDataNotLoaded(false);
     } catch (error) {
       console.error('errorData', error.message);
+      toast.error(error.response.data.message);
     }
+  };
+
+  const refreshCvData = () => {
+    getUserData();
+    getCV();
   };
 
   useEffect(() => {
@@ -268,16 +276,18 @@ const CV_preview = () => {
       /> */}
       <SidebarTasks style={{ left: `${sidebarWidth}%` }}>
         <button onClick={handleSidebarTask}>
-          <img src={Close} alt='' />
+          <img src={Close} alt="" />
         </button>
-        <div className='wrapper'>{<TasksTodo />}</div>
+        <div className="wrapper">
+          {dataNotLoaded ? null : <TasksTodo cvId={cvData.cv.id} />}
+        </div>
       </SidebarTasks>
       <SidebarHelp style={{ left: `${sidebarHelpWidth}%` }}>
         <button onClick={handleSidebarHelp}>
-          <img src={Close} alt='' />
+          <img src={Close} alt="" />
         </button>
-        <div className='wrapper'>
-          <h1>Help me</h1>
+        <div className="wrapper">
+          <HelpCV />
         </div>
       </SidebarHelp>
 
@@ -298,7 +308,11 @@ const CV_preview = () => {
       <MainAndRightLayout
         main={
           isEdit ? (
-            <EditCV cvId={cvData.cv.id} editButton={handleEdit} />
+            <EditCV
+              cvId={cvData.cv.id}
+              editButton={handleEdit}
+              refreshCvData={refreshCvData}
+            />
           ) : (
             <CV
               cvData={cvData}
@@ -308,23 +322,24 @@ const CV_preview = () => {
             />
           )
         }
-        right={<TasksTodo />} /* {isEdit ? <TasksTodo /> : <Tasks />} */
+        right={dataNotLoaded ? null : <TasksTodo cvId={cvData.cv.id} />}
         menu={<UserMenu />}
         name={`${user.name} ${user.paternal_surname}`}
+        profilePicture={`${user.image}`}
       />
 
       <HelpCont onClick={handleSidebarHelp}>
         <p>¿Ayuda necesitas?</p>
-        <img src={Hacky} alt='' />
+        <img src={Hacky} alt="" />
       </HelpCont>
-      <FloatBox>
-        <button className='tasks' onClick={handleSidebarTask}>
-          <img src={TasksButton} alt='' />
+      {/* <FloatBox>
+        <button className="tasks" onClick={handleSidebarTask}>
+          <img src={TasksButton} alt="" />
         </button>
-        <button className='help' onClick={handleSidebarHelp}>
-          <img src={HelpButton} alt='' />
+        <button className="help" onClick={handleSidebarHelp}>
+          <img src={HelpButton} alt="" />
         </button>
-      </FloatBox>
+      </FloatBox> */}
     </>
   );
 };

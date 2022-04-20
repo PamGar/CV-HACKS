@@ -6,10 +6,11 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
+  faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { BoxColumn, AccordeonBox, ButtonBox } from './EditStyledComponents';
 
 const JobEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/experience/${props.cvId}`;
@@ -62,7 +63,7 @@ const JobEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?page_size=2&page_number=1`, {
+      const { data } = await axios.get(`${URL}?page_size=20&page_number=1`, {
         headers: {
           authorization: `Token ${myToken}`,
         },
@@ -110,6 +111,7 @@ const JobEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -125,6 +127,7 @@ const JobEdit = (props) => {
         },
       });
       getItemsList();
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -210,6 +213,7 @@ const JobEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -273,6 +277,32 @@ const JobEdit = (props) => {
     });
   };
 
+  const visibility = async (event, visibility, id, index) => {
+    event.preventDefault();
+
+    let newArr = [...itemsList];
+    newArr[index].public = visibility;
+
+    setItemsList(newArr);
+
+    try {
+      const { data } = await axios.put(
+        `${URL}/${id}`,
+        {
+          public: visibility,
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      props.refreshCvData();
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
   useEffect(() => {
     getItemsList();
   }, []);
@@ -304,15 +334,23 @@ const JobEdit = (props) => {
                   Aun no tienes ninguna experiencia guardada
                 </p>
               ) : (
-                itemsList.map((item) => {
+                itemsList.map((item, index) => {
                   return (
-                    <div className="body_box" key={item.id}>
-                      <p>
-                        <span>{item.role}</span>
+                    <BoxColumn key={item.id}>
+                      <p className="first">
+                        {item.role}
+                        {' • '}
+                        <span className="third">{item.company_name}</span>
                       </p>
-                      <p>{item.company_name}</p>
-                      <p>
-                        {item.start_date} | {item.end_date}
+                      <p className="Second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.start_date}
+                        {' • '}
+                        {item.end_date}
                       </p>
                       <div className="editBox">
                         <button onClick={(event) => getItem(event, item.id)}>
@@ -322,12 +360,11 @@ const JobEdit = (props) => {
                           />
                         </button>
                         <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
+                          onClick={(event) => {
+                            visibility(event, !item.public, item.id, index);
                           }}
                         >
-                          {hide ? (
+                          {!item.public ? (
                             <FontAwesomeIcon
                               icon={faEyeSlash}
                               className="editBox_hide"
@@ -346,12 +383,12 @@ const JobEdit = (props) => {
                           />
                         </button>
                       </div>
-                    </div>
+                    </BoxColumn>
                   );
                 })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
                   <h3>Actualizar experiencia</h3>
                 ) : (
@@ -370,6 +407,7 @@ const JobEdit = (props) => {
                     placeholder="Escribe el nombre que tenias dentro de la empresa"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   />
                 </p>
                 <p>
@@ -385,6 +423,7 @@ const JobEdit = (props) => {
                     placeholder="Escribe el nombre del empleador"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   />
                 </p>
                 <div className="twoColumns">
@@ -436,6 +475,7 @@ const JobEdit = (props) => {
                         value={item.data.start_date}
                         autoComplete="off"
                         onChange={handleDataChange}
+                        required
                       />
                     </p>
                   </div>
@@ -451,6 +491,7 @@ const JobEdit = (props) => {
                         value={item.data.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
+                        required
                       />
                     </p>
                     <div className="check_data">
@@ -478,6 +519,7 @@ const JobEdit = (props) => {
                     placeholder="Escribe una breve descripcion de la organización"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   ></textarea>
                 </p>
                 <ButtonBox>
@@ -498,13 +540,11 @@ const JobEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addItem}>
-                        Guardar
-                      </Button>
+                      <Button type="button">Guardar</Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

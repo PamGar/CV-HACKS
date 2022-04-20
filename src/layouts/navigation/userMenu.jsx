@@ -123,50 +123,50 @@ const UserMenu = () => {
   return (
     <IconsBox>
       <Button onMouseOver={addAnim}>
-        <IconButton bgcolor='#E83E8C'>
-          <img src={CVicon} alt='' />
+        <IconButton bgcolor="#E83E8C">
+          <img src={CVicon} alt="" />
         </IconButton>
         MyCV
       </Button>
       {role != 5 && (
         <Button onMouseOver={addAnim}>
-          <IconButton bgcolor='#59F97E'>
-            <img src={InterIcon} alt='' />
+          <IconButton bgcolor="#59F97E">
+            <img src={InterIcon} alt="" />
           </IconButton>
           Interviews
         </Button>
       )}
-      {role == 3 && (
+      {role != 5 && (
         <Button onClick={() => navigate('/register-company')}>
           <IconButton>
             <FontAwesomeIcon
               icon={faBuilding}
-              className='fontAwesomeIcon'
+              className="fontAwesomeIcon"
               onMouseOver={addAnim}
             />
           </IconButton>
           Dar de alta
         </Button>
       )}
-      {role == 3 && (
+      {role != 5 && (
         <Button onClick={() => navigate('/job-offers')}>
           <IconButton>
             <FontAwesomeIcon
               icon={faFileLines}
-              className='fontAwesomeIcon'
+              className="fontAwesomeIcon"
               onMouseOver={addAnim}
             />
           </IconButton>
           Vacantes
         </Button>
       )}
-      <Button onMouseOver={addAnim}>
-        <IconButton bgcolor='#59F97E'>
+      {/* <Button onMouseOver={addAnim}>
+        <IconButton bgcolor="#59F97E">
           <Notification>3</Notification>
-          <img src={InterIcon} alt='' />
+          <img src={InterIcon} alt="" />
         </IconButton>
         Entrevistas
-      </Button>
+      </Button> */}
     </IconsBox>
   );
 };

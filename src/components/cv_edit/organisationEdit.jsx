@@ -7,10 +7,11 @@ import {
   faEye,
   faEyeSlash,
   faHandshake,
+  faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
 
 const OrganisationEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/formnormals/${props.cvId}`;
@@ -24,6 +25,7 @@ const OrganisationEdit = (props) => {
       subtitle: '',
       start_date: '',
       end_date: '',
+      description: '',
     },
     address: {
       street: '0',
@@ -60,12 +62,15 @@ const OrganisationEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?type=Organisation`, {
-        headers: {
-          authorization: `Token ${myToken}`,
-        },
-      });
-      setItemsList(data);
+      const { data } = await axios.get(
+        `${URL}?type=Organisation&page_size=20&page_number=1`,
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      setItemsList(data.data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
@@ -87,6 +92,7 @@ const OrganisationEdit = (props) => {
           subtitle: '',
           start_date: '',
           end_date: '',
+          description: '',
         },
         address: {
           street: '0',
@@ -104,6 +110,7 @@ const OrganisationEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -119,6 +126,7 @@ const OrganisationEdit = (props) => {
         },
       });
       getItemsList();
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -141,6 +149,7 @@ const OrganisationEdit = (props) => {
           subtitle: data.subtitle,
           start_date: data.start_date,
           end_date: data.end_date,
+          description: data.description,
         },
         address: {
           street: '0',
@@ -182,6 +191,7 @@ const OrganisationEdit = (props) => {
           subtitle: '',
           start_date: '',
           end_date: '',
+          description: '',
         },
         address: {
           street: '0',
@@ -200,6 +210,7 @@ const OrganisationEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -218,6 +229,7 @@ const OrganisationEdit = (props) => {
         subtitle: '',
         start_date: '',
         end_date: '',
+        description: '',
       },
       address: {
         street: '0',
@@ -260,6 +272,32 @@ const OrganisationEdit = (props) => {
     });
   };
 
+  const visibility = async (event, visibility, id, index) => {
+    event.preventDefault();
+
+    let newArr = [...itemsList];
+    newArr[index].public = visibility;
+
+    setItemsList(newArr);
+
+    try {
+      const { data } = await axios.put(
+        `${URL}/${id}`,
+        {
+          public: visibility,
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      props.refreshCvData();
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
   useEffect(() => {
     getItemsList();
   }, []);
@@ -294,15 +332,23 @@ const OrganisationEdit = (props) => {
                   Aun no tienes ninguna organización guardado
                 </p>
               ) : (
-                itemsList.map((item) => {
+                itemsList.map((item, index) => {
                   return (
-                    <div className="body_box" key={item.id}>
-                      <p>
-                        <span>{item.title}</span>
+                    <BoxColumn key={item.id}>
+                      <p className="first">
+                        {item.title}
+                        {' • '}
+                        <span className="third">{item.subtitle}</span>
                       </p>
-                      <p>{item.subtitle}</p>
-                      <p>
-                        {item.start_date} | {item.end_date}
+                      <p className="second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.start_date}
+                        {' • '}
+                        {item.end_date}
                       </p>
                       <div className="editBox">
                         <button onClick={(event) => getItem(event, item.id)}>
@@ -312,12 +358,11 @@ const OrganisationEdit = (props) => {
                           />
                         </button>
                         <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
+                          onClick={(event) => {
+                            visibility(event, !item.public, item.id, index);
                           }}
                         >
-                          {hide ? (
+                          {!item.public ? (
                             <FontAwesomeIcon
                               icon={faEyeSlash}
                               className="editBox_hide"
@@ -336,12 +381,12 @@ const OrganisationEdit = (props) => {
                           />
                         </button>
                       </div>
-                    </div>
+                    </BoxColumn>
                   );
                 })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
                   <h3>Actualizar organización</h3>
                 ) : (
@@ -360,6 +405,7 @@ const OrganisationEdit = (props) => {
                     placeholder="Escribe el nombre de la organización"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   />
                 </p>
                 <p>
@@ -375,6 +421,7 @@ const OrganisationEdit = (props) => {
                     placeholder="Escribe tu posicion dentro de la organización"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   />
                 </p>
                 <div className="twoColumns">
@@ -426,6 +473,7 @@ const OrganisationEdit = (props) => {
                         value={item.data.start_date}
                         autoComplete="off"
                         onChange={handleDataChange}
+                        required
                       />
                     </p>
                   </div>
@@ -441,6 +489,7 @@ const OrganisationEdit = (props) => {
                         value={item.data.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
+                        required
                       />
                     </p>
                     <div className="check_data">
@@ -456,18 +505,19 @@ const OrganisationEdit = (props) => {
                   </div>
                 </div>
                 <p>
-                  <label htmlFor="credential_id">
+                  <label htmlFor="description">
                     Descripción
                     <span className="fieldRecomendation">Opcional</span>
                   </label>
                   <textarea
                     type="text"
-                    name="credential_id"
+                    name="description"
                     rows="5"
-                    value={item.credential_id}
+                    value={item.description}
                     placeholder="Escribe una breve descripcion de la organización"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   ></textarea>
                 </p>
                 <ButtonBox>
@@ -488,13 +538,11 @@ const OrganisationEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addItem}>
-                        Guardar
-                      </Button>
+                      <Button type="button">Guardar</Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

@@ -5,6 +5,12 @@ import { jsPDF } from 'jspdf';
 import Button from '../Buttons/LoadingButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import Github from '../../assets/icons/Github.svg';
+import Gitlab from '../../assets/icons/Gitlab.svg';
+import Instagram from '../../assets/icons/Instagram.svg';
+import LinkedIn from '../../assets/icons/LinkedIn.svg';
+import Twitter from '../../assets/icons/Twitter.svg';
+import Stackoverflow from '../../assets/icons/Stackoverflow.svg';
 
 const Page = styled.div`
   width: 100%;
@@ -146,7 +152,6 @@ const Wrapper = styled.div`
   text-align: center;
   box-shadow: 2px 1px 7px #00000057;
   padding: 20px 30px;
-  margin: 30px;
   border-radius: 15px;
 
   h2 {
@@ -161,12 +166,21 @@ const Wrapper = styled.div`
   @media (max-width: 820px) {
     box-shadow: unset;
     margin: 0;
+    padding: 10px;
   }
 `;
 
 const BoxColumn = styled.div`
   padding: 15px 0;
   text-align: left;
+
+  img {
+    width: 25px;
+  }
+
+  a {
+    text-decoration: none;
+  }
 
   p {
     margin: 5px 0;
@@ -198,12 +212,16 @@ const BoxColumn = styled.div`
   .calendar path {
     color: #bfbfbf;
   }
+
+  .center {
+    text-align: center;
+  }
 `;
 
 const BoxFlex = styled(BoxColumn)`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: space-evenly;
 
   div {
     max-width: 50%;
@@ -228,6 +246,31 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
 
     pdf.addImage(data, 'PNG', 0, 0, pdfWidth, pdfHeight);
     pdf.save('MyCV.pdf');
+  };
+
+  const iconRedesSociales = (value) => {
+    switch (value) {
+      case 'Github':
+        return Github;
+        break;
+      case 'Gitlab':
+        return Gitlab;
+        break;
+      case 'Instagram':
+        return Instagram;
+        break;
+      case 'LinkedIn':
+        return LinkedIn;
+        break;
+      case 'Stackoverflow':
+        return Stackoverflow;
+        break;
+      case 'Twitter':
+        return Twitter;
+        break;
+      default:
+        break;
+    }
   };
 
   /* useEffect(() => {
@@ -387,219 +430,344 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           </BoxFlex>
           <p>{userData.about_me}</p>
         </BoxColumn>
-        {cvData.educations.length === 0 ? null : (
+        {cvData.urls.filter((item) => item.public === true).length ===
+        0 ? null : (
+          <div>
+            <h2>Redes sociales</h2>
+            <BoxFlex>
+              {cvData.urls.map((item) => {
+                return item.public ? (
+                  <div key={item.id} className="center">
+                    <a href={item.description} target="_blank" rel="noreferrer">
+                      <img src={iconRedesSociales(item.type)} alt={item.type} />
+                      <p className="first">{item.type}</p>
+                      <p className="second">{item.url}</p>
+                    </a>
+                  </div>
+                ) : null;
+              })}
+            </BoxFlex>
+          </div>
+        )}
+        {cvData.educations.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Educations</h2>
-            <BoxFlex>
-              {cvData.educations.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p>{item.title}</p>
-                  </div>
-                );
-              })}
-            </BoxFlex>
-          </div>
-        )}
-        {cvData.languages.length === 0 ? null : (
-          <div>
-            <h2>Lenguajes</h2>
-            <BoxFlex>
-              {cvData.languages.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p className='first'>
-                      {item.title}
-                      {' • '}
-                      <span className='third'>{item.level}</span>
-                    </p>
-                    <p className='second'>{item.subtitle}</p>
-                  </div>
-                );
-              })}
-            </BoxFlex>
-          </div>
-        )}
-        {cvData.courses.length === 0 ? null : (
-          <div>
-            <h2>Cursos</h2>
-            <BoxFlex>
-              {cvData.courses.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p>{item.title}</p>
-                  </div>
-                );
-              })}
-            </BoxFlex>
-          </div>
-        )}
-        {cvData.certifications.length === 0 ? null : (
-          <div>
-            <h2>Certificaciones</h2>
-            <BoxFlex>
-              {cvData.certifications.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p className='first'>{item.name}</p>
-                    <p className='third'>{item.company}</p>
-                    <p className='second'>
-                      <span className='first'>{'id: '}</span>
-                      {item.credential_id}
-                    </p>
-                    <p className='third'>
-                      <FontAwesomeIcon icon={faCalendar} className='calendar' />{' '}
-                      {item.expedition_date}
-                      {' • '}
-                      {item.expiry_date}
-                    </p>
-                  </div>
-                );
-              })}
-            </BoxFlex>
-          </div>
-        )}
-        {cvData.experiences.length === 0 ? null : (
-          <div>
-            <h2>Experiencia</h2>
-            <BoxFlex>
-              {cvData.experiences.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p>{item.title}</p>
-                  </div>
-                );
-              })}
-            </BoxFlex>
-          </div>
-        )}
-        {cvData.organisations.length === 0 ? null : (
-          <div>
-            <h2>Organizaciones</h2>
-            <BoxFlex>
-              {cvData.organisations.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p>{item.title}</p>
-                  </div>
-                );
-              })}
-            </BoxFlex>
-          </div>
-        )}
-        {cvData.projects.length === 0 ? null : (
-          <div>
-            <h2>Proyectos</h2>
             <BoxColumn>
-              {cvData.projects.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p className='first'>
-                      {item.title}
-                      {' • '}
-                      <span className='third'>
-                        {item.additional_information}
-                      </span>
-                    </p>
-                    <p className='second'>{item.description}</p>
-                    <p className='third'>
-                      <FontAwesomeIcon icon={faCalendar} className='calendar' />{' '}
-                      {item.start_date}
-                      {' • '}
-                      {item.end_date}
-                    </p>
-                  </div>
-                );
-              })}
-            </BoxColumn>
-          </div>
-        )}
-        {cvData.publications.length === 0 ? null : (
-          <div>
-            <h2>Publicaciones</h2>
-            <BoxColumn>
-              {cvData.publications.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p className='first'>
-                      {item.title}
-                      {' • '}
-                      <span className='third'>{item.subtitle}</span>
-                    </p>
-                    <p className='second'>{item.description}</p>
-                    <p className='third'>
-                      <FontAwesomeIcon icon={faCalendar} className='calendar' />{' '}
-                      {item.date}
-                    </p>
-                  </div>
-                );
-              })}
-            </BoxColumn>
-          </div>
-        )}
-        {cvData.awards.length === 0 ? null : (
-          <div>
-            <h2>Premios</h2>
-            <BoxColumn>
-              {cvData.awards
-                .sort((a, b) => a.fechas > b.fechas)
+              {cvData.educations
+                .sort((a, b) => {
+                  return new Date(b.start_date) - new Date(a.start_date);
+                })
                 .map((item) => {
-                  return (
-                    <div key={item.id} className='item'>
-                      <div className='header'>
-                        <p className='first'>
-                          {item.title}
-                          {' • '}
-                          <span className='third'>{item.subtitle}</span>
-                        </p>
-                      </div>
-                      <p className='second'>{item.description}</p>
-                      <p className='third'>
+                  return item.public ? (
+                    <div key={item.id}>
+                      <p className="first">
+                        {item.major}
+                        {' • '}
+                        <span className="third">{item.degree}</span>
+                      </p>
+                      <p>{item.description}</p>
+                      <p className="third">
                         <FontAwesomeIcon
                           icon={faCalendar}
-                          className='calendar'
+                          className="calendar"
                         />{' '}
-                        {item.date}
+                        {item.start_date}
+                        {' • '}
+                        {item.end_date}
                       </p>
                     </div>
-                  );
+                  ) : null;
                 })}
             </BoxColumn>
           </div>
         )}
-        {cvData.skills.length === 0 ? null : (
+        {cvData.languages.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
-            <h2>Skills</h2>
+            <h2>Lenguajes</h2>
             <BoxFlex>
-              {cvData.skills.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p className='first'>{item.title}</p>
-                    <p className='second'>{item.subtitle}</p>
+              {cvData.languages.map((item) => {
+                return item.public ? (
+                  <div key={item.id} className="center">
+                    <p className="first">
+                      {item.title}
+                      {' • '}
+                      <span className="third">{item.level}</span>
+                    </p>
+                    <p className="second">{item.subtitle}</p>
                   </div>
-                );
+                ) : null;
               })}
             </BoxFlex>
           </div>
         )}
-        {cvData.intersts.length === 0 ? null : (
+        {cvData.courses.filter((item) => item.public === true).length ===
+        0 ? null : (
+          <div>
+            <h2>Cursos</h2>
+            <BoxColumn>
+              {cvData.courses
+                .sort((a, b) => {
+                  return new Date(b.start_date) - new Date(a.start_date);
+                })
+                .map((item) => {
+                  return item.public ? (
+                    <div key={item.id}>
+                      <p className="first">
+                        {item.title}
+                        {' • '}
+                        <span className="third">{item.subtitle}</span>
+                      </p>
+                      <p className="second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.start_date} {' • '} {item.end_date}
+                      </p>
+                    </div>
+                  ) : null;
+                })}
+            </BoxColumn>
+          </div>
+        )}
+        {cvData.certifications.filter((item) => item.public === true).length ===
+        0 ? null : (
+          <div>
+            <h2>Certificaciones</h2>
+            <BoxFlex>
+              {cvData.certifications
+                .sort((a, b) => {
+                  return (
+                    new Date(b.expedition_date) - new Date(a.expedition_date)
+                  );
+                })
+                .map((item) => {
+                  return item.public ? (
+                    <div key={item.id} className="center">
+                      <p className="first">{item.name}</p>
+                      <p className="third">{item.company}</p>
+                      <p className="second">
+                        <span className="first">{'id: '}</span>
+                        {item.credential_id}
+                      </p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.expedition_date}
+                        {' • '}
+                        {item.expiry_date}
+                      </p>
+                    </div>
+                  ) : null;
+                })}
+            </BoxFlex>
+          </div>
+        )}
+        {cvData.experiences.filter((item) => item.public === true).length ===
+        0 ? null : (
+          <div>
+            <h2>Experiencia</h2>
+            <BoxColumn>
+              {cvData.experiences
+                .sort((a, b) => {
+                  return new Date(b.start_date) - new Date(a.start_date);
+                })
+                .map((item) => {
+                  return item.public ? (
+                    <div key={item.id}>
+                      <p className="first">
+                        {item.role}
+                        {' • '}
+                        <span className="third">{item.company_name}</span>
+                      </p>
+                      <p className="Second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.start_date}
+                        {' • '}
+                        {item.end_date}
+                      </p>
+                    </div>
+                  ) : null;
+                })}
+            </BoxColumn>
+          </div>
+        )}
+        {cvData.organisations.filter((item) => item.public === true).length ===
+        0 ? null : (
+          <div>
+            <h2>Organizaciones</h2>
+            <BoxColumn>
+              {cvData.organisations
+                .sort((a, b) => {
+                  return new Date(b.start_date) - new Date(a.start_date);
+                })
+                .map((item) => {
+                  return item.public ? (
+                    <div key={item.id}>
+                      <p className="first">
+                        {item.title}
+                        {' • '}
+                        <span className="third">{item.subtitle}</span>
+                      </p>
+                      <p className="second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.start_date}
+                        {' • '}
+                        {item.end_date}
+                      </p>
+                    </div>
+                  ) : null;
+                })}
+            </BoxColumn>
+          </div>
+        )}
+        {cvData.projects.filter((item) => item.public === true).length ===
+        0 ? null : (
+          <div>
+            <h2>Proyectos</h2>
+            <BoxColumn>
+              {cvData.projects
+                .sort((a, b) => {
+                  return new Date(b.start_date) - new Date(a.start_date);
+                })
+                .map((item) => {
+                  return item.public ? (
+                    <div key={item.id}>
+                      <p className="first">
+                        {item.title}
+                        {' • '}
+                        <span className="third">
+                          {item.additional_information}
+                        </span>
+                      </p>
+                      <p className="second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.start_date}
+                        {' • '}
+                        {item.end_date}
+                      </p>
+                    </div>
+                  ) : null;
+                })}
+            </BoxColumn>
+          </div>
+        )}
+        {cvData.publications.filter((item) => item.public === true).length ===
+        0 ? null : (
+          <div>
+            <h2>Publicaciones</h2>
+            <BoxColumn>
+              {cvData.publications
+                .sort((a, b) => {
+                  return new Date(b.date) - new Date(a.date);
+                })
+                .map((item) => {
+                  return item.public ? (
+                    <div key={item.id}>
+                      <p className="first">
+                        {item.title}
+                        {' • '}
+                        <span className="third">{item.subtitle}</span>
+                      </p>
+                      <p className="second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.date}
+                      </p>
+                    </div>
+                  ) : null;
+                })}
+            </BoxColumn>
+          </div>
+        )}
+        {cvData.awards.filter((item) => item.public === true).length ===
+        0 ? null : (
+          <div>
+            <h2>Premios</h2>
+            <BoxColumn>
+              {cvData.awards
+                .sort((a, b) => {
+                  return new Date(b.date) - new Date(a.date);
+                })
+                .map((item) => {
+                  return item.public ? (
+                    <div key={item.id} className="item">
+                      <div className="header">
+                        <p className="first">
+                          {item.title}
+                          {' • '}
+                          <span className="third">{item.subtitle}</span>
+                        </p>
+                      </div>
+                      <p className="second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.date}
+                      </p>
+                    </div>
+                  ) : null;
+                })}
+            </BoxColumn>
+          </div>
+        )}
+        {cvData.skills.filter((item) => item.public === true).length ===
+        0 ? null : (
+          <div>
+            <h2>Skills</h2>
+            <BoxColumn>
+              {cvData.skills.map((item) => {
+                return item.public ? (
+                  <div key={item.id} className="item">
+                    <p className="first">{item.title}</p>
+                    <p className="second">{item.subtitle}</p>
+                  </div>
+                ) : null;
+              })}
+            </BoxColumn>
+          </div>
+        )}
+        {cvData.intersts.filter((item) => item.public === true).length ===
+        0 ? null : (
           <div>
             <h2>Intereses</h2>
-            <BoxFlex>
+            <BoxColumn>
               {cvData.intersts.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <p className='first'>{item.title}</p>
-                    <p className='second'>{item.subtitle}</p>
+                return item.public ? (
+                  <div key={item.id} className="item">
+                    <p className="first">{item.title}</p>
+                    <p className="second">{item.subtitle}</p>
                   </div>
-                );
+                ) : null;
               })}
-            </BoxFlex>
+            </BoxColumn>
           </div>
         )}
       </Wrapper>
       <ButtonBox>
-        <Button type='button' onClick={editButton} disabled={dataLoaded}>
+        <Button type="button" onClick={editButton} disabled={dataLoaded}>
           Editar
         </Button>
         {/* <Button type="button" onClick={handleDownloadPdf} disabled={dataLoaded}>

@@ -6,7 +6,7 @@ export const AccordeonBox = styled.div`
   .acordeon {
     border-radius: 15px;
     overflow: hidden;
-    margin: 30px 20px;
+    margin: 0 0 30px 0px;
     box-shadow: 2px 1px 7px #00000057;
 
     .iconAccordeon {
@@ -270,23 +270,50 @@ export const AccordeonBox = styled.div`
   }
 
   .twoColumns__redes {
+    & * {
+      width: 48%;
+    }
     select {
       padding: 10px;
       background: #ededed;
       border-radius: 10px;
-      margin-right: 10px;
+    }
+  }
+
+  .redesSociales {
+    .inputUrl {
+      width: 100%;
+      margin-top: 10px;
     }
 
-    input {
-      width: 100%;
+    .editBox {
+      margin-top: 0;
+    }
+
+    .socialButtonsBox {
+      display: flex;
+      justify-content: space-evenly;
+
+      svg,
+      button {
+        font-size: 18px;
+      }
+
+      button {
+        width: 100px;
+      }
     }
 
     .addIcon {
-      width: 50px;
       height: 50px;
-      font-size: 24px;
+      font-weight: 700;
       color: #57d737;
       background: none;
+      cursor: pointer;
+    }
+
+    .editBox_xmark path {
+      color: #ff6666;
     }
   }
 
@@ -310,13 +337,11 @@ export const AccordeonBox = styled.div`
   }
 
   .redList {
-    margin: 10px 0;
-
     .redItem {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 10px;
+      margin: 0px 10px 20px 10px;
     }
 
     a {
@@ -343,5 +368,67 @@ export const ButtonBoxSticky = styled(ButtonBox)`
 
   button {
     background-color: #565696;
+  }
+`;
+
+export const BoxColumn = styled.div`
+  padding: 15px 0;
+  text-align: left;
+
+  img {
+    width: 25px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #00b7b8;
+  }
+
+  p {
+    display: block !important;
+    margin: 5px 0;
+  }
+
+  .item {
+    margin-bottom: 20px;
+  }
+
+  .header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .first {
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .second {
+    color: #8d8d8d;
+  }
+
+  .third {
+    color: #bfbfbf;
+  }
+
+  .calendar path {
+    color: #bfbfbf;
+  }
+
+  .center {
+    text-align: center;
+  }
+`;
+
+export const BoxFlex = styled(BoxColumn)`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+
+  div {
+    min-width: 150px;
+    max-width: 50%;
+    margin: 10px 0;
   }
 `;

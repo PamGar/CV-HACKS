@@ -7,10 +7,11 @@ import {
   faEye,
   faEyeSlash,
   faFutbol,
+  faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
 
 const InterestEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formskills/${props.cvId}`;
@@ -56,12 +57,15 @@ const InterestEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?type=Interest`, {
-        headers: {
-          authorization: `Token ${myToken}`,
-        },
-      });
-      setItemsList(data);
+      const { data } = await axios.get(
+        `${URL}?type=Interest&page_size=20&page_number=1`,
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      setItemsList(data.data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
@@ -86,6 +90,7 @@ const InterestEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -101,6 +106,7 @@ const InterestEdit = (props) => {
         },
       });
       getItemsList();
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -159,6 +165,7 @@ const InterestEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -176,6 +183,33 @@ const InterestEdit = (props) => {
       subtitle: '',
       level: '0',
     });
+  };
+
+  const visibility = async (event, visibility, id, index) => {
+    event.preventDefault();
+
+    let newArr = [...itemsList];
+    newArr[index].public = visibility;
+
+    setItemsList(newArr);
+
+    try {
+      const { data } = await axios.put(
+        `${URL}/${id}`,
+        {
+          public: visibility,
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      /* getItemsList(); */
+      props.refreshCvData();
+    } catch (error) {
+      console.error('error', error);
+    }
   };
 
   useEffect(() => {
@@ -212,13 +246,11 @@ const InterestEdit = (props) => {
                   Aun no tienes ningun interes / hobby guardado
                 </p>
               ) : (
-                itemsList.map((item) => {
+                itemsList.map((item, index) => {
                   return (
-                    <div className="body_box" key={item.id}>
-                      <p>
-                        <span>{item.title}</span>
-                      </p>
-                      <p>{item.subtitle}</p>
+                    <BoxColumn key={item.id}>
+                      <p className="first">{item.title}</p>
+                      <p className="second">{item.subtitle}</p>
                       <div className="editBox">
                         <button
                           onClick={(event) => getLanguage(event, item.id)}
@@ -229,12 +261,11 @@ const InterestEdit = (props) => {
                           />
                         </button>
                         <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
+                          onClick={(event) => {
+                            visibility(event, !item.public, item.id, index);
                           }}
                         >
-                          {hide ? (
+                          {!item.public ? (
                             <FontAwesomeIcon
                               icon={faEyeSlash}
                               className="editBox_hide"
@@ -255,12 +286,12 @@ const InterestEdit = (props) => {
                           />
                         </button>
                       </div>
-                    </div>
+                    </BoxColumn>
                   );
                 })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
                   <h3>Actualizar interes</h3>
                 ) : (
@@ -279,6 +310,7 @@ const InterestEdit = (props) => {
                     placeholder="Escribe el nombre de tu interes"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   />
                 </p>
                 <p>
@@ -294,6 +326,7 @@ const InterestEdit = (props) => {
                     placeholder="Escribe una breve descripcion de tu interes"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   ></textarea>
                 </p>
                 <ButtonBox>
@@ -314,13 +347,11 @@ const InterestEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addItem}>
-                        Guardar
-                      </Button>
+                      <Button type="button">Guardar</Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

@@ -6,10 +6,11 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
+  faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
 
 const CoursesEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/formnormals/${props.cvId}`;
@@ -61,12 +62,15 @@ const CoursesEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?type=Course`, {
-        headers: {
-          authorization: `Token ${myToken}`,
-        },
-      });
-      setItemsList(data);
+      const { data } = await axios.get(
+        `${URL}?type=Course&page_size=20&page_number=1`,
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      setItemsList(data.data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
@@ -107,6 +111,7 @@ const CoursesEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -122,6 +127,7 @@ const CoursesEdit = (props) => {
         },
       });
       getItemsList();
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -136,7 +142,6 @@ const CoursesEdit = (props) => {
           authorization: `Token ${myToken}`,
         },
       });
-      console.log(data);
       setItem({
         data: {
           title: data.title,
@@ -205,6 +210,7 @@ const CoursesEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -267,6 +273,33 @@ const CoursesEdit = (props) => {
     });
   };
 
+  const visibility = async (event, visibility, id, index) => {
+    event.preventDefault();
+
+    let newArr = [...itemsList];
+    newArr[index].public = visibility;
+
+    setItemsList(newArr);
+
+    try {
+      const { data } = await axios.put(
+        `${URL}/${id}`,
+        {
+          public: visibility,
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      /* getItemsList(); */
+      props.refreshCvData();
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
   useEffect(() => {
     getItemsList();
   }, []);
@@ -296,15 +329,21 @@ const CoursesEdit = (props) => {
               {itemsList.length === 0 ? (
                 <p className="tasks_0">Aun no tienes ningun curso guardado</p>
               ) : (
-                itemsList.map((item) => {
+                itemsList.map((item, index) => {
                   return (
-                    <div className="body_box" key={item.id}>
-                      <p>
-                        <span>{item.title}</span>
+                    <BoxColumn key={item.id}>
+                      <p className="first">
+                        {item.title}
+                        {' • '}
+                        <span className="third">{item.subtitle}</span>
                       </p>
-                      <p>{item.subtitle}</p>
-                      <p>
-                        {item.start_date} | {item.end_date}
+                      <p className="second">{item.description}</p>
+                      <p className="third">
+                        <FontAwesomeIcon
+                          icon={faCalendar}
+                          className="calendar"
+                        />{' '}
+                        {item.start_date} {' • '} {item.end_date}
                       </p>
                       <div className="editBox">
                         <button onClick={(event) => getItem(event, item.id)}>
@@ -314,12 +353,11 @@ const CoursesEdit = (props) => {
                           />
                         </button>
                         <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
+                          onClick={(event) => {
+                            visibility(event, !item.public, item.id, index);
                           }}
                         >
-                          {hide ? (
+                          {item.public ? (
                             <FontAwesomeIcon
                               icon={faEyeSlash}
                               className="editBox_hide"
@@ -338,12 +376,12 @@ const CoursesEdit = (props) => {
                           />
                         </button>
                       </div>
-                    </div>
+                    </BoxColumn>
                   );
                 })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
                   <h3>Actualizar curso</h3>
                 ) : (
@@ -362,6 +400,7 @@ const CoursesEdit = (props) => {
                     placeholder="Escribe el nombre del curso realizado"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   />
                 </p>
                 <p>
@@ -377,6 +416,7 @@ const CoursesEdit = (props) => {
                     placeholder="Escribe el nombre de la institucion o plataforma"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   />
                 </p>
                 <div className="twoColumns">
@@ -428,6 +468,7 @@ const CoursesEdit = (props) => {
                         value={item.data.start_date}
                         autoComplete="off"
                         onChange={handleDataChange}
+                        required
                       />
                     </p>
                   </div>
@@ -443,6 +484,7 @@ const CoursesEdit = (props) => {
                         value={item.data.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
+                        required
                       />
                     </p>
                     <div className="check_data">
@@ -460,7 +502,7 @@ const CoursesEdit = (props) => {
                 <p>
                   <label htmlFor="credential_id">
                     Descripción
-                    <span className="fieldRecomendation">Opcional</span>
+                    <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <textarea
                     type="text"
@@ -470,6 +512,7 @@ const CoursesEdit = (props) => {
                     placeholder="Escribe una breve descripcion del curso realizado"
                     autoComplete="off"
                     onChange={handleDataChange}
+                    required
                   ></textarea>
                 </p>
                 <ButtonBox>
@@ -490,13 +533,11 @@ const CoursesEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addItem}>
-                        Guardar
-                      </Button>
+                      <Button type="button">Guardar</Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

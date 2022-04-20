@@ -7,10 +7,12 @@ import {
   faEye,
   faEyeSlash,
   faStar,
+  faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
-import { AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
+import { toast } from 'react-toastify';
 
 const AwardEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formworks/${props.cvId}`;
@@ -23,6 +25,7 @@ const AwardEdit = (props) => {
     date: null,
     description: '',
   });
+  const [itemsList, setItemsList] = useState([]);
   const toggleAccordeonRef = useRef();
   const getHeightRef = useRef();
   const addButtonRef = useRef();
@@ -30,8 +33,6 @@ const AwardEdit = (props) => {
   const firstInputRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
-
-  const [itemsList, setItemsList] = useState([]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -55,14 +56,18 @@ const AwardEdit = (props) => {
 
   const getItemsList = async () => {
     try {
-      const { data } = await axios.get(`${URL}?type=Award`, {
-        headers: {
-          authorization: `Token ${myToken}`,
-        },
-      });
-      setItemsList(data);
+      const { data } = await axios.get(
+        `${URL}?type=Award&page_size=20&page_number=1`,
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      setItemsList(data.data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
+      toast.error(error.response.data.message);
       console.error('error', error);
     }
   };
@@ -86,6 +91,7 @@ const AwardEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -101,6 +107,7 @@ const AwardEdit = (props) => {
         },
       });
       getItemsList();
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -156,6 +163,7 @@ const AwardEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      props.refreshCvData();
     } catch (error) {
       console.error('error', error);
     }
@@ -174,6 +182,33 @@ const AwardEdit = (props) => {
       date: null,
       description: '',
     });
+  };
+
+  const visibility = async (event, visibility, id, index) => {
+    event.preventDefault();
+
+    let newArr = [...itemsList];
+    newArr[index].public = visibility;
+
+    setItemsList(newArr);
+
+    try {
+      const { data } = await axios.put(
+        `${URL}/${id}`,
+        {
+          public: visibility,
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      /* getItemsList(); */
+      props.refreshCvData();
+    } catch (error) {
+      console.error('error', error);
+    }
   };
 
   useEffect(() => {
@@ -208,56 +243,67 @@ const AwardEdit = (props) => {
               {itemsList.length === 0 ? (
                 <p className="tasks_0">Aun no tienes ningun premio guardado</p>
               ) : (
-                itemsList.map((item) => {
-                  return (
-                    <div className="body_box" key={item.id}>
-                      <p>
-                        <span>{item.title}</span>
-                      </p>
-                      <p>{item.subtitle}</p>
-                      <p>{item.description}</p>
-                      <div className="editBox">
-                        <button
-                          onClick={(event) => getLanguage(event, item.id)}
-                        >
+                itemsList
+                  /* .sort((a, b) => {
+                    return new Date(b.date) - new Date(a.date);
+                  }) */
+                  .map((item, index) => {
+                    return (
+                      <BoxColumn key={item.id}>
+                        <p className="first">
+                          {item.title}
+                          {' • '}
+                          <span className="third">{item.subtitle}</span>
+                        </p>
+                        <p className="second">{item.description}</p>
+                        <p className="third">
                           <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            className="editBox_edit"
-                          />
-                        </button>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setHide(!hide);
-                          }}
-                        >
-                          {hide ? (
+                            icon={faCalendar}
+                            className="calendar"
+                          />{' '}
+                          {item.date}
+                        </p>
+                        <div className="editBox">
+                          <button
+                            onClick={(event) => getLanguage(event, item.id)}
+                          >
                             <FontAwesomeIcon
-                              icon={faEyeSlash}
-                              className="editBox_hide"
+                              icon={faPenToSquare}
+                              className="editBox_edit"
                             />
-                          ) : (
+                          </button>
+                          <button
+                            onClick={(event) => {
+                              visibility(event, !item.public, item.id, index);
+                            }}
+                          >
+                            {item.public ? (
+                              <FontAwesomeIcon
+                                icon={faEye}
+                                className="editBox_unhide"
+                              />
+                            ) : (
+                              <FontAwesomeIcon
+                                icon={faEyeSlash}
+                                className="editBox_hide"
+                              />
+                            )}
+                          </button>
+                          <button
+                            onClick={(event) => removeLanguage(event, item.id)}
+                          >
                             <FontAwesomeIcon
-                              icon={faEye}
-                              className="editBox_unhide"
+                              icon={faTrashCan}
+                              className="editBox_delete"
                             />
-                          )}
-                        </button>
-                        <button
-                          onClick={(event) => removeLanguage(event, item.id)}
-                        >
-                          <FontAwesomeIcon
-                            icon={faTrashCan}
-                            className="editBox_delete"
-                          />
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })
+                          </button>
+                        </div>
+                      </BoxColumn>
+                    );
+                  })
               )}
               <div className="separador"></div>
-              <div className="wrapperForm" ref={formRef}>
+              <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
                   <h3>Actualizar premio</h3>
                 ) : (
@@ -276,6 +322,7 @@ const AwardEdit = (props) => {
                     placeholder="Escribe el nombre del premio"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   />
                 </p>
                 <p>
@@ -291,6 +338,7 @@ const AwardEdit = (props) => {
                     placeholder="Escribe el nombre de quien lo entrega"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   />
                 </p>
                 <p>
@@ -305,6 +353,7 @@ const AwardEdit = (props) => {
                     value={item.date}
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   />
                 </p>
                 <p>
@@ -321,6 +370,7 @@ const AwardEdit = (props) => {
                     placeholder="Escribe una breve descripcion"
                     autoComplete="off"
                     onChange={handleChange}
+                    required
                   ></textarea>
                 </p>
                 <ButtonBox>
@@ -341,13 +391,11 @@ const AwardEdit = (props) => {
                       <Button type="button" onClick={handleForm}>
                         Cancelar
                       </Button>
-                      <Button type="button" onClick={addItem}>
-                        Guardar
-                      </Button>
+                      <Button type="button">Guardar</Button>
                     </>
                   )}
                 </ButtonBox>
-              </div>
+              </form>
               <ButtonBox ref={addButtonRef}>
                 <Button type="button" onClick={handleForm}>
                   Agregar

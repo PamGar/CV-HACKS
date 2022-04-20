@@ -1,14 +1,15 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { format } from 'timeago.js';
+import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import styled from 'styled-components';
 
 const TasksBox = styled.div`
   padding: 20px;
-  margin: 30px;
+  margin-bottom: 30px;
   text-align: center;
-  width: 90%;
-  max-width: 600px;
+  width: 95%;
   font-weight: 300;
   margin-left: auto;
   margin-right: auto;
@@ -59,13 +60,8 @@ const TasksBox = styled.div`
     color: #999999;
   }
 
-  @media (max-width: 1099px) {
-    width: 90%;
-  }
-
   @media (max-width: 820px) {
-    box-shadow: unset;
-    padding: 0;
+    width: 100%;
 
     h2 {
       font-size: 20px;
@@ -203,68 +199,43 @@ const Input = styled.input`
   }
 `;
 
-const TasksTodo = () => {
+const TasksTodo = (props) => {
+  const URL = `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${props.cvId}`;
+  const myToken = window.localStorage.getItem('authToken');
   const [hideTasks, setHideTasks] = useState(false);
-  const [tasks, setTasks] = useState({
-    comments: [
-      {
-        id: 1,
-        comment:
-          'Uno Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: false,
-      },
-      {
-        id: 2,
-        comment:
-          'Dos Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: false,
-      },
-      {
-        id: 3,
-        comment:
-          'Tres Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: false,
-      },
-      {
-        id: 4,
-        comment:
-          'Cuatro Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: true,
-      },
-      {
-        id: 5,
-        comment:
-          'Cinco Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: true,
-      },
-      {
-        id: 6,
-        comment:
-          'Seis Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: false,
-      },
-      {
-        id: 7,
-        comment:
-          'Seis Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: false,
-      },
-      {
-        id: 8,
-        comment:
-          'Seis Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: false,
-      },
-      {
-        id: 9,
-        comment:
-          'Seis Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsam expedita atque corporis quas fugiat ex perspiciatis, minus dolor! Impedit, inventore!',
-        state: true,
-      },
-    ],
-  });
-
+  const [tasks, setTasks] = useState([]);
   const hideTasksRef = useRef(null);
+
+  const getItemsList = async () => {
+    try {
+      const { data } = await axios.get(`${URL}?page_size=20&page_number=1`, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
+      setTasks(data.data);
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
+
+  const updateLanguage = async (id, value) => {
+    try {
+      const { data } = await axios.put(
+        `${URL}/${id}`,
+        {
+          done: value,
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.error('error', error);
+    }
+  };
 
   const hideTasksHandle = (e) => {
     e.preventDefault();
@@ -274,20 +245,23 @@ const TasksTodo = () => {
 
   const toggleDone = (id) => {
     // loop over the todos list and find the provided id.
-    let updatedList = tasks.comments.map((item) => {
+    let updatedList = tasks.map((item) => {
       if (item.id === id) {
-        return { ...item, state: !item.state }; //gets everything that was already in item, and updates "done"
+        updateLanguage(item.id, !item.done);
+        return { ...item, done: !item.done }; //gets everything that was already in item, and updates "done"
       }
       return item; // else return unmodified item
     });
 
-    setTasks({ comments: updatedList }); // set state to new object with updated list
+    setTasks(updatedList); // set state to new object with updated list
   };
 
-  const tasksDone = tasks.comments.filter((item) => item.state === true).length;
-  const tasksUndone = tasks.comments.filter(
-    (item) => item.state === false
-  ).length;
+  const tasksDone = tasks.filter((item) => item.done === true).length;
+  const tasksUndone = tasks.filter((item) => item.done === false).length;
+
+  useEffect(() => {
+    getItemsList();
+  }, []);
 
   return (
     <>
@@ -295,33 +269,31 @@ const TasksTodo = () => {
         <div className="tasksTitle">
           <h2>Correcciones recomendadas</h2>
         </div>
-
-        {tasksDone !== 0 ? (
-          tasks.comments.map((currentValue) => {
-            if (currentValue.state) {
-              return (
-                <Task key={currentValue.id}>
-                  <div className="task">
-                    <Input
-                      type="checkbox"
-                      id="checkbox"
-                      name={`task${currentValue.id}`}
-                      onChange={() => toggleDone(currentValue.id)}
-                    />
-                    <label for={`task${currentValue.id} form-control`}>
-                      {currentValue.comment}
-                    </label>
-                  </div>
-                  <div className="taskInfo">
-                    <p>Sonia Gastelum</p>
-                    <p>Estudios</p>
-                    <p>Hace 3 dias</p>
-                  </div>
-                </Task>
-              );
-            } else {
-              return null;
-            }
+        {tasksUndone !== 0 ? (
+          tasks.map((currentValue) => {
+            return (
+              <Task key={currentValue.id}>
+                <div className="task">
+                  <Input
+                    type="checkbox"
+                    id="checkbox"
+                    name={`task${currentValue.id}`}
+                    onChange={() => toggleDone(currentValue.id)}
+                  />
+                  <label for={`task${currentValue.id} form-control`}>
+                    {currentValue.comment}
+                  </label>
+                </div>
+                <div className="taskInfo">
+                  <p>
+                    {currentValue.admin.name}{' '}
+                    {currentValue.admin.paternal_surname}
+                  </p>
+                  <p>{currentValue.description}</p>
+                  <p>{format(currentValue.created_date)}</p>
+                </div>
+              </Task>
+            );
           })
         ) : (
           <p className="tasks_0">No tienes correcciones pendientes</p>
@@ -339,8 +311,8 @@ const TasksTodo = () => {
           </button>
         </div>
         <div>
-          {tasksUndone !== 0 ? (
-            tasks.comments.map((currentValue) => {
+          {tasksDone !== 0 ? (
+            tasks.map((currentValue) => {
               if (!currentValue.state) {
                 return (
                   <Task key={currentValue.id}>
@@ -360,9 +332,12 @@ const TasksTodo = () => {
                       </label>
                     </div>
                     <div className="taskInfo">
-                      <p>Sonia Gastelum</p>
-                      <p>Estudios</p>
-                      <p>Hace 3 dias</p>
+                      <p>
+                        {currentValue.admin.name}{' '}
+                        {currentValue.admin.paternal_surname}
+                      </p>
+                      <p>{currentValue.description}</p>
+                      <p>{format(currentValue.created_date)}</p>
                     </div>
                   </Task>
                 );

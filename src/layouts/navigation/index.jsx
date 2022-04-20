@@ -208,9 +208,10 @@ const Index = (props) => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    navigate('/');
     localStorage.removeItem('authToken');
     localStorage.removeItem('role');
+    localStorage.removeItem('id');
+    navigate('/');
   };
 
   const refMenu = useRef();
@@ -230,7 +231,13 @@ const Index = (props) => {
         <div className="grow"></div>
         <ProfileBox>
           <div className="imageProfile" onClick={handleMenu}>
-            <img src={Profile} alt="" />
+            <img
+              src={
+                `${process.env.REACT_APP_BASE_URL}${props.profilePicture}` ||
+                Profile
+              }
+              alt=""
+            />
           </div>
           <div className="menu_hide" ref={refMenu}>
             {openMenu && (
