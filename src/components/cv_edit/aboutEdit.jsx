@@ -218,7 +218,6 @@ const AboutEdit = (props) => {
       const { data } = await axios.put(URL, item, {
         headers: {
           authorization: `Token ${myToken}`,
-          'Content-Type': 'multipart/form-data',
         },
       }); /* 
       setEditItems(false); */
@@ -291,7 +290,7 @@ const AboutEdit = (props) => {
             <form ref={refForm} onSubmit={updateLanguage}>
               <div>
                 <div className="addPicture">
-                  <p>
+                  {/* <p>
                     Carga una foto para tu CV
                     <hr />
                     <span className="fieldRecomendation">Recomendado</span>
@@ -318,7 +317,7 @@ const AboutEdit = (props) => {
                         Eliminar
                       </button>
                     ) : null}
-                  </p>
+                  </p> */}
                 </div>
                 <p>
                   <label htmlFor="name">
@@ -455,11 +454,6 @@ const AboutEdit = (props) => {
                     required
                   />
                 </p>
-                <SocialEdit
-                  cvId={props.cvId}
-                  getHeight={getHeight}
-                  refreshCvData={props.refreshCvData}
-                />
                 <ButtonBox>
                   {editItems ? (
                     <>
@@ -477,6 +471,11 @@ const AboutEdit = (props) => {
                     <Button type="button">Guardar</Button>
                   )}
                 </ButtonBox>
+                <SocialEdit
+                  cvId={props.cvId}
+                  getHeight={getHeight}
+                  refreshCvData={props.refreshCvData}
+                />
               </div>
             </form>
           </div>

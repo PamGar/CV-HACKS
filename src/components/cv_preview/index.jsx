@@ -171,7 +171,7 @@ const Wrapper = styled.div`
 `;
 
 const BoxColumn = styled.div`
-  padding: 15px 0;
+  padding: 15px 10px;
   text-align: left;
 
   img {

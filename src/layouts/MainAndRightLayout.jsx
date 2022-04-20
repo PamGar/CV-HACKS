@@ -39,7 +39,7 @@ const FloatIcons = styled.div`
   @media (max-width: 1000px) {
     display: block;
     position: fixed;
-    bottom: 20px;
+    bottom: 31px;
     right: 20px;
 
     button {

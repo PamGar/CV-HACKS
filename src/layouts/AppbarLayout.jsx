@@ -20,7 +20,7 @@ const Layout = styled.div`
   gap: 30px;
   @media (max-width: 1000px) {
     grid-template-columns: 1fr;
-    grid-template-rows: 70px 1fr;
+    grid-template-rows: 80px 1fr;
     padding: 0;
     gap: 20px;
   }
@@ -54,21 +54,20 @@ const AppBarDesktop = styled.nav`
   align-items: center;
   gap: 10px;
   padding: 30px 0;
-
-  box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
-    0px 1px 8px 0px rgb(0 0 0 / 12%);
+  box-shadow: 2px 1px 7px #00000057;
 `;
 
 const AppBarMobile = styled.nav`
   background-color: #a0a0cc;
   display: flex;
+  flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  gap: 20px;
-
-  box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
-    0px 1px 8px 0px rgb(0 0 0 / 12%);
+  padding: 20px;
+  box-shadow: 0px 5px 10px #00000057;
+  border-radius: 15px;
+  margin: 5px;
 `;
 
 const MainWrapper = styled.div`
@@ -84,7 +83,7 @@ const StyledLink = styled(NavLink)`
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  color: rgb(236, 225, 209);
+  color: #ffffff;
   width: 80%;
   border-radius: 15px;
   padding: 10px 0;
@@ -95,8 +94,11 @@ const StyledLink = styled(NavLink)`
   }
 
   .HackademyIcon {
-    height: 50px;
     width: 50px;
+
+    @media (max-width: 1000px) {
+      width: 45px;
+    }
   }
 
   @media (max-width: 1000px) {
@@ -106,7 +108,6 @@ const StyledLink = styled(NavLink)`
 
   @media (max-width: 800px) {
     width: 50px;
-    margin-right: 20px;
     color: #6b6b6b;
   }
 `;
@@ -120,8 +121,7 @@ const StyledLinkMobile = styled(StyledLink)`
 `;
 
 const HamburgerIcon = styled.div`
-  border: 3px solid rgb(236, 225, 209);
-  margin-left: 20px;
+  border: 3px solid #f3f4f6;
   width: 40px;
   height: 40px;
   border-radius: 15px;
@@ -135,7 +135,7 @@ const HamburgerIcon = styled.div`
     left: 7px;
     width: 20px;
     height: 5px;
-    background-color: rgb(236, 225, 209);
+    background-color: #f3f4f6;
     border-radius: 15px;
   }
   ::before {
@@ -145,7 +145,7 @@ const HamburgerIcon = styled.div`
     left: 7px;
     width: 20px;
     height: 5px;
-    background-color: rgb(236, 225, 209);
+    background-color: #f3f4f6;
     border-radius: 15px;
   }
 `;

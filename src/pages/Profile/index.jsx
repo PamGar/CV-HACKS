@@ -31,13 +31,12 @@ const NavCard = styled.div`
   flex-direction: column;
   box-shadow: rgb(0 0 0 / 20%) 0px 3px 1px -2px,
     rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px;
-  padding: 10px;
+  padding: 10px 20px;
   border-radius: 10px;
   background-color: white;
 
   .icon {
-    width: 20px;
-    height: 20px;
+    font-size: 12px;
   }
   :last-child {
     cursor: pointer;
@@ -46,7 +45,6 @@ const NavCard = styled.div`
 
 const NavLinkStyled = styled(NavLink)`
   text-decoration: none;
-  padding: 5px;
   border-radius: 10px;
   color: #6b6b6b;
 `;
@@ -56,6 +54,10 @@ const Logout = styled.div`
   align-items: center;
   color: #ff6a6a;
   gap: 10px;
+
+  path {
+    font-size: 5px;
+  }
 `;
 const ContentWrapper = styled.div`
   @media (max-width: 600px) {
@@ -79,13 +81,13 @@ const Profile = ({ setIsAuthenticated }) => {
       <ProfileLayout>
         <Navigation>
           <NavCard>
-            <NavLinkStyled to='settings'>Configuraciones</NavLinkStyled>
+            <NavLinkStyled to="settings">Configuraciones</NavLinkStyled>
           </NavCard>
           <NavCard onClick={handleLogout}>
             <Logout>
               <FontAwesomeIcon
                 icon={faShareFromSquare}
-                className='icon logout'
+                className="icon logout"
               />
               <p>Logout</p>
             </Logout>

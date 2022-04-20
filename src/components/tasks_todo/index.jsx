@@ -24,7 +24,7 @@ const TasksBox = styled.div`
   .tasksTitle {
     background: linear-gradient(40deg, #00b7b8, #595295);
     padding: 20px;
-    box-shadow: 0px 10px 40px -20px grey;
+    box-shadow: 2px 1px 7px #00000057;
     border-radius: 15px;
     letter-spacing: 2px;
     text-align: left;
@@ -81,7 +81,7 @@ const Task = styled.section`
   border-radius: 10px;
   border: solid 1px #99e2e3;
   background-color: #fff;
-  box-shadow: 0px 10px 40px -20px grey;
+  box-shadow: 2px 1px 7px #00000057;
 
   .task {
     display: flex;
