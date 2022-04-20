@@ -231,7 +231,13 @@ const Index = (props) => {
         <div className="grow"></div>
         <ProfileBox>
           <div className="imageProfile" onClick={handleMenu}>
-            <img src={Profile} alt="" />
+            <img
+              src={
+                `${process.env.REACT_APP_BASE_URL}${props.profilePicture}` ||
+                Profile
+              }
+              alt=""
+            />
           </div>
           <div className="menu_hide" ref={refMenu}>
             {openMenu && (

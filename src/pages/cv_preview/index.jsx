@@ -324,6 +324,7 @@ const CV_preview = () => {
         right={dataNotLoaded ? null : <TasksTodo cvId={cvData.cv.id} />}
         menu={<UserMenu />}
         name={`${user.name} ${user.paternal_surname}`}
+        profilePicture={`${user.image}`}
       />
 
       <HelpCont onClick={handleSidebarHelp}>

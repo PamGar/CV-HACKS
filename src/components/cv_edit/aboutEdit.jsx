@@ -44,6 +44,7 @@ const AboutEdit = (props) => {
   const myToken = window.localStorage.getItem('authToken');
   const myId = window.localStorage.getItem('id');
   const [itemsList, setItemsList] = useState([]);
+  const refForm = useRef();
 
   console.log(item);
 
@@ -119,8 +120,15 @@ const AboutEdit = (props) => {
   };
 
   const handleFileChange = (e) => {
-    setItem({ ...item, [e.target.name]: e.target.files[0] });
-    UploadImageInfo();
+    setItem({
+      ...item,
+      user: {
+        ...item.user,
+        image: profileImageRef.current.files[0],
+      },
+    });
+    /* setItem({ ...item, image: profileImageRef.current.files[0] }); */
+    UploadImageInfo(e);
   };
 
   const toggleAccordeonHandle = () => {
@@ -204,8 +212,7 @@ const AboutEdit = (props) => {
   const updateLanguage = async (event, id) => {
     event.preventDefault();
 
-    const formData = new FormData(item);
-    formData.append();
+    const formData = new FormData(refForm.current);
 
     try {
       const { data } = await axios.put(URL, item, {
@@ -233,6 +240,7 @@ const AboutEdit = (props) => {
         address_update: false,
       });
       /* getItemsList(); */
+      console.log('data send');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
@@ -280,124 +288,124 @@ const AboutEdit = (props) => {
               height: `${childBodyHeight}px`,
             }}
           >
-            <div>
-              <div className="addPicture">
+            <form ref={refForm} onSubmit={updateLanguage}>
+              <div>
+                <div className="addPicture">
+                  <p>
+                    Carga una foto para tu CV
+                    <hr />
+                    <span className="fieldRecomendation">Recomendado</span>
+                  </p>
+                  <label htmlFor="image">+</label>
+                  <input
+                    ref={profileImageRef}
+                    type="file"
+                    id="image"
+                    name="image"
+                    autoComplete="off"
+                    onChange={handleFileChange}
+                  />
+                  <p className="fileName">
+                    {profileImageInfo}
+                    {profileImageInfo !== '' ? (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          profileImageRef.current.value = '';
+                          setProfileImageInfo('');
+                        }}
+                      >
+                        Eliminar
+                      </button>
+                    ) : null}
+                  </p>
+                </div>
                 <p>
-                  Carga una foto para tu CV
-                  <hr />
-                  <span className="fieldRecomendation">Recomendado</span>
+                  <label htmlFor="name">
+                    Nombre
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={item.user.name}
+                    placeholder="Escribe tu nombre"
+                    autoComplete="off"
+                    onChange={handleDataChange}
+                    required
+                  />
                 </p>
-                <label htmlFor="image">+</label>
-                <input
-                  ref={profileImageRef}
-                  type="file"
-                  id="image"
-                  name="image"
-                  value={item.user.image}
-                  autoComplete="off"
-                  /* onChange={handleFileChange} */
-                />
-                <p className="fileName">
-                  {profileImageInfo}
-                  {profileImageInfo !== '' ? (
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        profileImageRef.current.value = '';
-                        setProfileImageInfo('');
-                      }}
-                    >
-                      Eliminar
-                    </button>
-                  ) : null}
+                <p>
+                  <label htmlFor="paternal_surname">
+                    Apellido
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="surname"
+                    name="paternal_surname"
+                    value={item.user.paternal_surname}
+                    placeholder="Escribe tu apellido"
+                    autoComplete="off"
+                    onChange={handleDataChange}
+                    required
+                  />
                 </p>
-              </div>
-              <p>
-                <label htmlFor="name">
-                  Nombre
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={item.user.name}
-                  placeholder="Escribe tu nombre"
-                  autoComplete="off"
-                  onChange={handleDataChange}
-                  required
-                />
-              </p>
-              <p>
-                <label htmlFor="paternal_surname">
-                  Apellido
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  type="text"
-                  id="surname"
-                  name="paternal_surname"
-                  value={item.user.paternal_surname}
-                  placeholder="Escribe tu apellido"
-                  autoComplete="off"
-                  onChange={handleDataChange}
-                  required
-                />
-              </p>
-              <div className="twoColumns">
-                <div>
-                  <p>
-                    <label htmlFor="state">
-                      Estado en el que vives
-                      <span className="fieldRecomendation">Requerido</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="city"
-                      name="state"
-                      value={item.address.state}
-                      autoComplete="off"
-                      placeholder="Escribe el estado en el que vives"
-                      onChange={handleAddressChange}
-                      required
-                    />
-                  </p>
+                <div className="twoColumns">
+                  <div>
+                    <p>
+                      <label htmlFor="state">
+                        Estado en el que vives
+                        <span className="fieldRecomendation">Requerido</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="city"
+                        name="state"
+                        value={item.address.state}
+                        autoComplete="off"
+                        placeholder="Escribe el estado en el que vives"
+                        onChange={handleAddressChange}
+                        required
+                      />
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      <label htmlFor="country">
+                        Pais en el que vives
+                        <span className="fieldRecomendation">Requerido</span>
+                      </label>
+                      <input
+                        type="text"
+                        id="country"
+                        name="country"
+                        value={item.address.country}
+                        autoComplete="off"
+                        placeholder="Escribe el pais en el que vives"
+                        onChange={handleAddressChange}
+                        required
+                      />
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p>
-                    <label htmlFor="country">
-                      Pais en el que vives
-                      <span className="fieldRecomendation">Requerido</span>
-                    </label>
-                    <input
-                      type="text"
-                      id="country"
-                      name="country"
-                      value={item.address.country}
-                      autoComplete="off"
-                      placeholder="Escribe el pais en el que vives"
-                      onChange={handleAddressChange}
-                      required
-                    />
-                  </p>
-                </div>
-              </div>
-              <p>
-                <label htmlFor="about_me">
-                  Escribe un poco acerca de ti
-                  <span className="fieldRecomendation">Opcional</span>
-                </label>
-                <textarea
-                  rows="5"
-                  maxLength="200"
-                  name="about_me"
-                  value={item.user.about_me}
-                  autoComplete="off"
-                  placeholder="Escribe algo acerca de ti"
-                  onChange={handleDataChange}
-                ></textarea>
-              </p>
-              {/* <p>
+                <p>
+                  <label htmlFor="about_me">
+                    Escribe un poco acerca de ti
+                    <span className="fieldRecomendation">Opcional</span>
+                  </label>
+                  <textarea
+                    rows="5"
+                    maxLength="200"
+                    name="about_me"
+                    value={item.user.about_me}
+                    autoComplete="off"
+                    placeholder="Escribe algo acerca de ti"
+                    onChange={handleDataChange}
+                  ></textarea>
+                </p>
+                {/* <p>
                 <label htmlFor="softskills">
                   Nombra algunas de tus softskills
                   <span className="fieldRecomendation">Requerido</span>
@@ -431,47 +439,46 @@ const AboutEdit = (props) => {
                   disabled
                 />
               </p> */}
-              <p>
-                <label htmlFor="phone">
-                  Telefono
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  type="text"
-                  id="phone"
-                  name="phone"
-                  value={item.user.phone}
-                  autoComplete="off"
-                  placeholder="Escribe tu numero de telefono"
-                  onChange={handleDataChange}
-                  required
+                <p>
+                  <label htmlFor="phone">
+                    Telefono
+                    <span className="fieldRecomendation">Requerido</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    value={item.user.phone}
+                    autoComplete="off"
+                    placeholder="Escribe tu numero de telefono"
+                    onChange={handleDataChange}
+                    required
+                  />
+                </p>
+                <SocialEdit
+                  cvId={props.cvId}
+                  getHeight={getHeight}
+                  refreshCvData={props.refreshCvData}
                 />
-              </p>
-              <SocialEdit
-                cvId={props.cvId}
-                getHeight={getHeight}
-                refreshCvData={props.refreshCvData}
-              />
-              <ButtonBox>
-                {editItems ? (
-                  <>
-                    <Button type="button" onClick={cancelUpdate}>
-                      Cancelar
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={(event) => updateLanguage(event, item.id)}
-                    >
-                      Actualizar
-                    </Button>
-                  </>
-                ) : (
-                  <Button type="button" onClick={updateLanguage}>
-                    Guardar
-                  </Button>
-                )}
-              </ButtonBox>
-            </div>
+                <ButtonBox>
+                  {editItems ? (
+                    <>
+                      <Button type="button" onClick={cancelUpdate}>
+                        Cancelar
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={(event) => updateLanguage(event, item.id)}
+                      >
+                        Actualizar
+                      </Button>
+                    </>
+                  ) : (
+                    <Button type="button">Guardar</Button>
+                  )}
+                </ButtonBox>
+              </div>
+            </form>
           </div>
         </div>
       </AccordeonBox>
