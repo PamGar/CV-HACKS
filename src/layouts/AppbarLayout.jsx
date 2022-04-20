@@ -74,7 +74,6 @@ const AppBarMobile = styled.nav`
 const MainWrapper = styled.div`
   @media (max-width: 1000px) {
     padding: 0 20px;
-    width: 100vw;
   }
 `;
 
@@ -180,29 +179,29 @@ const AppbarLayout = ({ role }) => {
       <FlexWrapper>
         {clientWidth > 1000 && (
           <AppBarDesktop>
-            <StyledLink to="/">
-              <img src={HackademyIcon} className="HackademyIcon" />
+            <StyledLink to='/'>
+              <img src={HackademyIcon} className='HackademyIcon' />
             </StyledLink>
             {(role == 5 || role == 4 || role == 2) && (
               <StyledLink to={role == 5 || role == 4 ? '/resume' : '/resumes'}>
-                <FontAwesomeIcon icon={faAddressCard} className="Icon" />
+                <FontAwesomeIcon icon={faAddressCard} className='Icon' />
                 {role == 5 || role == 4 ? 'Mi CV' : 'CVs'}
               </StyledLink>
             )}
             {role == 2 && (
-              <StyledLink to="/job-offers">
-                <FontAwesomeIcon icon={faFileLines} className="Icon" />
+              <StyledLink to='/job-offers'>
+                <FontAwesomeIcon icon={faFileLines} className='Icon' />
                 Vacantes
               </StyledLink>
             )}
             {role == 2 && (
-              <StyledLink to="/register-company">
-                <FontAwesomeIcon icon={faBuilding} className="Icon" />
+              <StyledLink to='/register-company'>
+                <FontAwesomeIcon icon={faBuilding} className='Icon' />
                 Dar de alta
               </StyledLink>
             )}
-            <StyledLink to="/profile">
-              <FontAwesomeIcon icon={faUser} className="Icon" />
+            <StyledLink to='/profile'>
+              <FontAwesomeIcon icon={faUser} className='Icon' />
               Mi perfil
             </StyledLink>
           </AppBarDesktop>
@@ -212,31 +211,31 @@ const AppbarLayout = ({ role }) => {
             {clientWidth <= 800 && (
               <HamburgerIcon onClick={() => setOpenModal(true)} />
             )}
-            <StyledLink to="/">
-              <img src={HackademyIcon} className="HackademyIcon" />
+            <StyledLink to='/'>
+              <img src={HackademyIcon} className='HackademyIcon' />
             </StyledLink>
             {(role == 5 || role == 4 || role == 2) && clientWidth > 800 && (
               <StyledLink to={role == 5 || role == 4 ? '/resume' : '/resumes'}>
-                <FontAwesomeIcon icon={faAddressCard} className="Icon" />
+                <FontAwesomeIcon icon={faAddressCard} className='Icon' />
                 {role == 5 || role == 4 ? 'Mi CV' : 'CVs'}
               </StyledLink>
             )}
             {clientWidth > 800 && (
               <>
                 {role == 2 && (
-                  <StyledLink to="/job-offers">
-                    <FontAwesomeIcon icon={faFileLines} className="Icon" />
+                  <StyledLink to='/job-offers'>
+                    <FontAwesomeIcon icon={faFileLines} className='Icon' />
                     Vacantes
                   </StyledLink>
                 )}
                 {role == 2 && (
-                  <StyledLink to="/register-company">
-                    <FontAwesomeIcon icon={faBuilding} className="Icon" />
+                  <StyledLink to='/register-company'>
+                    <FontAwesomeIcon icon={faBuilding} className='Icon' />
                     Dar de alta
                   </StyledLink>
                 )}
-                <StyledLink to="/profile">
-                  <FontAwesomeIcon icon={faUser} className="Icon" />
+                <StyledLink to='/profile'>
+                  <FontAwesomeIcon icon={faUser} className='Icon' />
                   Mi perfil
                 </StyledLink>
               </>
@@ -257,27 +256,27 @@ const AppbarLayout = ({ role }) => {
                 to={role == 5 || role == 4 ? '/resume' : '/resumes'}
                 onClick={handleClickDrawer}
               >
-                <FontAwesomeIcon icon={faAddressCard} className="Icon " />
+                <FontAwesomeIcon icon={faAddressCard} className='Icon ' />
                 {role == 5 || role == 4 ? 'Mi CV' : 'CVs'}
               </StyledLinkMobile>
             )}
             {role == 2 && (
-              <StyledLinkMobile to="/job-offers" onClick={handleClickDrawer}>
-                <FontAwesomeIcon icon={faFileLines} className="Icon " />
+              <StyledLinkMobile to='/job-offers' onClick={handleClickDrawer}>
+                <FontAwesomeIcon icon={faFileLines} className='Icon ' />
                 Vacantes
               </StyledLinkMobile>
             )}
             {role == 2 && (
               <StyledLinkMobile
-                to="/register-company"
+                to='/register-company'
                 onClick={handleClickDrawer}
               >
-                <FontAwesomeIcon icon={faBuilding} className="Icon " />
+                <FontAwesomeIcon icon={faBuilding} className='Icon ' />
                 Dar de alta
               </StyledLinkMobile>
             )}
-            <StyledLinkMobile to="/profile" onClick={handleClickDrawer}>
-              <FontAwesomeIcon icon={faUser} className="Icon " />
+            <StyledLinkMobile to='/profile' onClick={handleClickDrawer}>
+              <FontAwesomeIcon icon={faUser} className='Icon ' />
               Mi perfil
             </StyledLinkMobile>
           </Drawer>

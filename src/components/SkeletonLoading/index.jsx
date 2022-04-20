@@ -12,7 +12,7 @@ const Skeleton = styled.div`
   background-color: rgba(0, 0, 0, 0.11);
   width: ${(props) => props.width || '30px'};
   height: ${(props) => props.height || '15px'};
-  border-radius: 4px / 6.7px;
+  border-radius: ${(props) => props.borderRadius || '4px / 6.7px'};
   position: relative;
   overflow: hidden;
 
@@ -31,8 +31,8 @@ const Skeleton = styled.div`
   }
 `;
 
-const SkeletonLoading = ({ height, width }) => {
-  return <Skeleton height={height} width={width} />;
+const SkeletonLoading = ({ height, width, borderRadius }) => {
+  return <Skeleton height={height} width={width} borderRadius={borderRadius} />;
 };
 
 export default SkeletonLoading;

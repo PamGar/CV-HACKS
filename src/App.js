@@ -1,17 +1,20 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
 import { GlobalStyles } from './styles/GlobalStyles';
 import Login from './pages/Login';
 import CV_preview from './pages/cv_preview';
-import AdminDashboard from './pages/AdminDashboard';
 import RegisterCompany from './pages/RegisterCompany';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import VacancyList from './pages/VacancyList';
 import AppbarLayout from './layouts/AppbarLayout';
 import Profile from './pages/Profile';
+import ResumeContextProvider from './pages/AdminDashboard/ResumeContextProvider';
+import ResumeList from './pages/AdminDashboard/ResumeList';
+import AddComment from './pages/AdminDashboard/AddComment';
+import ShareResume from './pages/AdminDashboard/ShareResume';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState({
@@ -54,7 +57,11 @@ const App = () => {
               <Route path='/resume' element={<CV_preview />} />
             )}
             {isAuthenticated.role == 2 && (
-              <Route path='/resumes' element={<AdminDashboard />} />
+              <Route path='/resumes' element={<ResumeContextProvider />}>
+                <Route index element={<ResumeList />} />
+                <Route path='comments' element={<AddComment />} />
+                <Route path='share' element={<ShareResume />} />
+              </Route>
             )}
             {isAuthenticated.role == 2 && (
               <Route path='/register-company' element={<RegisterCompany />} />
