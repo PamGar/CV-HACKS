@@ -1,8 +1,12 @@
-import NavDescriptionCard from '../../components/NavDescriptionCard';
-import Modal from '../../components/Modal';
+import NavDescriptionCard from '../../../components/NavDescriptionCard';
+import Modal from '../../../components/Modal';
 import styled from 'styled-components';
-import ModalLayout from '../../components/Modal/ModalLayout';
+import ModalLayout from '../../../components/Modal/ModalLayout';
 import { useRef } from 'react';
+import {
+  faPenToSquare,
+  faPaperPlane,
+} from '@fortawesome/free-regular-svg-icons';
 
 const Box = styled.div`
   width: 90vw;
@@ -16,13 +20,9 @@ const Box = styled.div`
   background-color: rgb(238, 238, 255);
 `;
 
-const NavModal = ({ openModal, setOpenModal, setShowMainContent }) => {
+const NavModal = ({ openModal, setOpenModal }) => {
   const ModalLayoutRef = useRef();
 
-  const handleShowMainContent = (content) => {
-    ModalLayoutRef.current.classList.add('fadeOut');
-    setTimeout(() => setShowMainContent(content), 250);
-  };
   return (
     <Modal
       isOpen={openModal}
@@ -35,28 +35,24 @@ const NavModal = ({ openModal, setOpenModal, setShowMainContent }) => {
           <Box>
             <NavDescriptionCard
               description='Escribe algun comentario sobre el CV seleccionado'
-              icon='icono'
-              onClick={() => {
-                handleShowMainContent('comments');
-              }}
+              icon={faPenToSquare}
+              path='comments'
+              onClick={() => ModalLayoutRef.current.classList.add('fadeOut')}
             >
               Escribir comentarios
             </NavDescriptionCard>
-            <NavDescriptionCard
+            {/* <NavDescriptionCard
               description='Agrega información al CV seleccionado'
               icon='icono'
-              onClick={() => {
-                handleShowMainContent('edit');
-              }}
+              path='edit'
             >
               Editar CV
-            </NavDescriptionCard>
+            </NavDescriptionCard> */}
             <NavDescriptionCard
               description='Compartir CVs a las empresas'
-              icon='icono'
-              onClick={() => {
-                handleShowMainContent('share');
-              }}
+              icon={faPaperPlane}
+              path='share'
+              onClick={() => ModalLayoutRef.current.classList.add('fadeOut')}
             >
               Compartir
             </NavDescriptionCard>

@@ -1,13 +1,16 @@
-import React from 'react';
 import styled from 'styled-components';
 import MainContentWrapper from '../../../components/MainContentWrapper';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext, useLayoutEffect } from 'react';
 import axios from 'axios';
 import EditCommentModal from './EditCommentModal';
 import ConfirmDeleteComentModal from './ConfirmDeleteComentModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { toast } from 'react-toastify';
+import MainAndRightLayout from '../../../layouts/MainAndRightLayout';
+import { ResumeContext } from '../ResumeContextProvider';
+import { useNavigate } from 'react-router-dom';
+import SkeletonCommentCard from './SkeletonCommentCard';
 
 const Textarea = styled.textarea`
   max-width: 100%;
@@ -99,7 +102,7 @@ const IconButton = styled.button`
   }
 `;
 
-const AddCommentCV = ({ setShowMainContent, userSelectedId }) => {
+const AddComment = () => {
   const [comment, setComment] = useState({
     comment: '',
     description: 'Informacion Personal',
@@ -110,12 +113,16 @@ const AddCommentCV = ({ setShowMainContent, userSelectedId }) => {
   const [openConfirmDeleteComentModal, setOpenConfirmDeleteComentModal] =
     useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
   const [pageCounter, setPageCounter] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const { userSelectedId, setUserSelectedId, resumeData, setResumeData } =
+    useContext(ResumeContext);
   const handleChange = (e) => {
     setComment((prev) => ({ ...prev, comment: e.target.value }));
   };
   const token = localStorage.getItem('authToken');
+  const navigate = useNavigate();
 
   const PAGE_SIZE = 4;
 
@@ -151,6 +158,8 @@ const AddCommentCV = ({ setShowMainContent, userSelectedId }) => {
       console.log(data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoadingData(false);
     }
   };
 
@@ -175,102 +184,122 @@ const AddCommentCV = ({ setShowMainContent, userSelectedId }) => {
 
   useEffect(() => {
     getListOfComments();
+    if (!userSelectedId) navigate(-1);
   }, []);
 
   return (
-    <>
-      <MainContentWrapper
-        onClickLoadingButton={WriteAComment}
-        onClickOutlinedButton={() => setShowMainContent('CVlist')}
-        loadingButtonTitle='Agregar correción'
-        disableButton={!comment.comment || loading}
-        loading={loading}
-        dataLength={commentList.length}
-        next={fetchMoreData}
-        hasMore={hasMore}
-        loader={<p>loading..</p>}
-      >
-        <h2>Agregar correción</h2>
-        <Textarea
-          rows='3'
-          columns='15'
-          onChange={handleChange}
-          value={comment.comment}
-          autoFocus
-        ></Textarea>
-        <Select
-          onChange={(e) =>
-            setComment((prev) => ({ ...prev, description: e.target.value }))
-          }
-        >
-          <option value='Informacion Personal'>Informacion Personal</option>
-          <option value='Estudios'>Estudios</option>
-          <option value='Experiencia'>Experiencia</option>
-          <option value='Cursos'>Cursos</option>
-        </Select>
-        <h3>Lista de comentarios</h3>
-        {commentList.map(({ comment, id, description }) => (
-          <CommentContainer key={id}>
-            <IconContainer>
-              <IconButton
-                onClick={(e) => {
-                  e.preventDefault();
-                  setOpenEditCommentModal(true);
-                  setCommentSelectedID(id);
-                }}
-              >
-                <FontAwesomeIcon icon={faPenToSquare} className='icon' />
-              </IconButton>
-              <IconButton
-                onClick={(e) => {
-                  e.preventDefault();
-                  setOpenConfirmDeleteComentModal(true);
-                  setCommentSelectedID(id);
-                }}
-              >
-                <FontAwesomeIcon icon={faTrashCan} className='icon' />
-              </IconButton>
-            </IconContainer>
-            <AreaContainer>
-              <p>Area:</p>
-              <p>{description}</p>
-            </AreaContainer>
-            <AreaContainer>
-              <p>Status:</p>
-              {/* <AlertMessage
+    <MainAndRightLayout
+      main={
+        <>
+          <MainContentWrapper
+            onClickLoadingButton={WriteAComment}
+            onClickOutlinedButton={() => navigate(-1)}
+            loadingButtonTitle='Agregar correción'
+            disableButton={!comment.comment || loading}
+            loading={loading}
+            dataLength={commentList.length}
+            next={fetchMoreData}
+            hasMore={hasMore}
+            loader={
+              <>
+                <SkeletonCommentCard />
+                <SkeletonCommentCard />
+                <SkeletonCommentCard />
+              </>
+            }
+          >
+            <h2>Agregar correción</h2>
+            <Textarea
+              rows='3'
+              columns='15'
+              onChange={handleChange}
+              value={comment.comment}
+              autoFocus
+            ></Textarea>
+            <Select
+              onChange={(e) =>
+                setComment((prev) => ({ ...prev, description: e.target.value }))
+              }
+            >
+              <option value='Informacion Personal'>Informacion Personal</option>
+              <option value='Estudios'>Estudios</option>
+              <option value='Experiencia'>Experiencia</option>
+              <option value='Cursos'>Cursos</option>
+            </Select>
+            <h3>Lista de comentarios</h3>
+            {loadingData && (
+              <>
+                <SkeletonCommentCard />
+                <SkeletonCommentCard />
+                <SkeletonCommentCard />
+              </>
+            )}
+            <SkeletonCommentCard />
+            {commentList.map(({ comment, id, description }) => (
+              <CommentContainer key={id}>
+                <IconContainer>
+                  <IconButton
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenEditCommentModal(true);
+                      setCommentSelectedID(id);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faPenToSquare} className='icon' />
+                  </IconButton>
+                  <IconButton
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenConfirmDeleteComentModal(true);
+                      setCommentSelectedID(id);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={faTrashCan} className='icon' />
+                  </IconButton>
+                </IconContainer>
+                <AreaContainer>
+                  <p>Area:</p>
+                  <p>{description}</p>
+                </AreaContainer>
+                <AreaContainer>
+                  <p>Status:</p>
+                  {/* <AlertMessage
               fullWidth
               info={comment.status === 1 ? true : false}
               success={comment.status === 1 ? false : true}
             >
               {comment.status === 1 ? 'enviado' : 'terminado'}
             </AlertMessage> */}
-            </AreaContainer>
-            <p>Correción:</p>
-            <p className='comment'>{comment}</p>
-          </CommentContainer>
-        ))}
-      </MainContentWrapper>
-      {openEditCommentModal && (
-        <EditCommentModal
-          openEditCommentModal={openEditCommentModal}
-          setOpenEditCommentModal={setOpenEditCommentModal}
-          commentID={commentSelectedID}
-          commentList={commentList}
-          setCommentList={setCommentList}
-          userSelectedId={userSelectedId}
-        />
-      )}
-      {openConfirmDeleteComentModal && (
-        <ConfirmDeleteComentModal
-          openConfirmDeleteComentModal={openConfirmDeleteComentModal}
-          setOpenConfirmDeleteComentModal={setOpenConfirmDeleteComentModal}
-          commentID={commentSelectedID}
-          setCommentList={setCommentList}
-          userSelectedId={userSelectedId}
-        />
-      )}
-    </>
+                </AreaContainer>
+                <p>Correción:</p>
+                <p className='comment'>{comment}</p>
+              </CommentContainer>
+            ))}
+          </MainContentWrapper>
+          {openEditCommentModal && (
+            <EditCommentModal
+              openEditCommentModal={openEditCommentModal}
+              setOpenEditCommentModal={setOpenEditCommentModal}
+              commentID={commentSelectedID}
+              commentList={commentList}
+              setCommentList={setCommentList}
+              userSelectedId={userSelectedId}
+            />
+          )}
+          {openConfirmDeleteComentModal && (
+            <ConfirmDeleteComentModal
+              openConfirmDeleteComentModal={openConfirmDeleteComentModal}
+              setOpenConfirmDeleteComentModal={setOpenConfirmDeleteComentModal}
+              commentID={commentSelectedID}
+              setCommentList={setCommentList}
+              userSelectedId={userSelectedId}
+            />
+          )}
+        </>
+      }
+      right={<div>cv</div>}
+    />
   );
 };
 
-export default AddCommentCV;
+export default AddComment;
