@@ -234,7 +234,6 @@ const AddComment = () => {
                 <SkeletonCommentCard />
               </>
             )}
-            <SkeletonCommentCard />
             {commentList.map(({ comment, id, description }) => (
               <CommentContainer key={id}>
                 <IconContainer>
