@@ -247,27 +247,18 @@ const CV_preview = () => {
       setCvData(data);
       setDataNotLoaded(false);
     } catch (error) {
-      const invalidToken = error.response.data.message;
-      toast.error(invalidToken);
-      if (invalidToken === 'Token invalido') {
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('id');
-        localStorage.removeItem('role');
-        navigate('/');
-      } else {
-        return;
-      }
+      console.error('errorData', error.message);
+      toast.error(error.response.data.message);
     }
   };
 
   const refreshCvData = () => {
-    /* 
-    getUserData(); */
+    getUserData();
     getCV();
   };
 
   useEffect(() => {
-    /* getUserData(); */
+    getUserData();
     getCV();
   }, []);
 
