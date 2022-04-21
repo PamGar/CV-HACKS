@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShareFromSquare } from '@fortawesome/free-regular-svg-icons';
+import { faGear, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
 const Wrapper = styled.div`
   display: flex;
@@ -31,12 +32,12 @@ const NavCard = styled.div`
   flex-direction: column;
   box-shadow: rgb(0 0 0 / 20%) 0px 3px 1px -2px,
     rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px;
-  padding: 10px 20px;
+  padding: 20px;
   border-radius: 10px;
   background-color: white;
 
   .icon {
-    font-size: 12px;
+    font-size: 16px;
   }
   :last-child {
     cursor: pointer;
@@ -59,6 +60,11 @@ const Logout = styled.div`
     font-size: 5px;
   }
 `;
+
+const ButtonsIcons = styled(Logout)`
+  color: #565696;
+`;
+
 const ContentWrapper = styled.div`
   @media (max-width: 600px) {
     display: none;
@@ -81,12 +87,15 @@ const Profile = ({ setIsAuthenticated }) => {
       <ProfileLayout>
         <Navigation>
           <NavCard>
-            <NavLinkStyled to="settings">Configuraciones</NavLinkStyled>
+            <ButtonsIcons>
+              <FontAwesomeIcon icon={faGear} className="icon logout" />
+              <NavLinkStyled to="settings">Configuraciones</NavLinkStyled>
+            </ButtonsIcons>
           </NavCard>
           <NavCard onClick={handleLogout}>
             <Logout>
               <FontAwesomeIcon
-                icon={faShareFromSquare}
+                icon={faRightFromBracket}
                 className="icon logout"
               />
               <p>Logout</p>

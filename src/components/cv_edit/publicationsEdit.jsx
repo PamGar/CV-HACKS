@@ -8,6 +8,7 @@ import {
   faEyeSlash,
   faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
+import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
@@ -230,7 +231,10 @@ const PublicationsEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Publicaciones
+            <div>
+              <FontAwesomeIcon icon={faNewspaper} className="iconAccordeon" />
+              Publicaciones
+            </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>

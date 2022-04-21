@@ -5,13 +5,7 @@ import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { Form, AccordeonBox, ButtonBox } from './EditStyledComponents';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faTrashCan,
-  faPenToSquare,
-  faEye,
-  faEyeSlash,
-  faUser,
-} from '@fortawesome/free-regular-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 
 const AboutEdit = (props) => {
@@ -45,8 +39,6 @@ const AboutEdit = (props) => {
   const myId = window.localStorage.getItem('id');
   const [itemsList, setItemsList] = useState([]);
   const refForm = useRef();
-
-  console.log(item);
 
   const getItemsList = async () => {
     try {
@@ -120,15 +112,32 @@ const AboutEdit = (props) => {
   };
 
   const handleFileChange = (e) => {
-    setItem({
+    const { files } = e.target;
+
+    var reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = function () {
+      let base64 = reader.result.toString();
+      setItem({
+        ...item,
+        user: {
+          ...item.user,
+          image: base64,
+        },
+      });
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
+    /* setItem({
       ...item,
       user: {
         ...item.user,
         image: profileImageRef.current.files[0],
       },
-    });
+    }); */
     /* setItem({ ...item, image: profileImageRef.current.files[0] }); */
-    UploadImageInfo(e);
+    /* UploadImageInfo(e); */
   };
 
   const toggleAccordeonHandle = () => {
@@ -212,34 +221,13 @@ const AboutEdit = (props) => {
   const updateLanguage = async (event, id) => {
     event.preventDefault();
 
-    const formData = new FormData(refForm.current);
-
     try {
       const { data } = await axios.put(URL, item, {
         headers: {
           authorization: `Token ${myToken}`,
         },
-      }); /* 
-      setEditItems(false); */
-      setItem({
-        user: {
-          about_me: '',
-          name: '',
-          paternal_surname: '',
-          mothers_maiden_name: '0',
-          birthdate: '2020-06-21',
-          gender: '0',
-          subscribed: false,
-          phone: '',
-        },
-        address: {
-          state: '',
-          country: '',
-        },
-        address_update: false,
       });
-      /* getItemsList(); */
-      console.log('data send');
+      toast.success('Perfil actualizado');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
@@ -290,7 +278,7 @@ const AboutEdit = (props) => {
             <form ref={refForm} onSubmit={updateLanguage}>
               <div>
                 <div className="addPicture">
-                  {/* <p>
+                  <p>
                     Carga una foto para tu CV
                     <hr />
                     <span className="fieldRecomendation">Recomendado</span>
@@ -301,6 +289,7 @@ const AboutEdit = (props) => {
                     type="file"
                     id="image"
                     name="image"
+                    accept="image/x-png,image/gif,image/jpeg"
                     autoComplete="off"
                     onChange={handleFileChange}
                   />
@@ -317,7 +306,7 @@ const AboutEdit = (props) => {
                         Eliminar
                       </button>
                     ) : null}
-                  </p> */}
+                  </p>
                 </div>
                 <p>
                   <label htmlFor="name">

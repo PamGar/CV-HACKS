@@ -6,7 +6,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import styled from 'styled-components';
 
 const TasksBox = styled.div`
-  padding: 20px;
+  padding: 10px;
   margin-bottom: 30px;
   text-align: center;
   width: 95%;

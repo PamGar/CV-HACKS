@@ -8,6 +8,7 @@ import {
   faEyeSlash,
   faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
+import { faScroll } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
@@ -70,7 +71,6 @@ const CoursesEdit = (props) => {
           },
         }
       );
-      console.log(data.data);
       setItemsList(data.data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
@@ -314,7 +314,10 @@ const CoursesEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Cursos
+            <div>
+              <FontAwesomeIcon icon={faScroll} className="iconAccordeon" />
+              Cursos
+            </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>

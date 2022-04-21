@@ -6,9 +6,9 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
-  faChessPawn,
   faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
+import { faChessPawn } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';

@@ -8,6 +8,7 @@ import {
   faEyeSlash,
   faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
+import { faSuitcase } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { BoxColumn, AccordeonBox, ButtonBox } from './EditStyledComponents';
@@ -316,7 +317,10 @@ const JobEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Experiencia laboral
+            <div>
+              <FontAwesomeIcon icon={faSuitcase} className="iconAccordeon" />
+              Experiencia laboral
+            </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>

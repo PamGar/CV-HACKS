@@ -243,6 +243,7 @@ const CV_preview = () => {
         }
       );
       console.log(data);
+      getUserData();
       setCvData(data);
       setDataNotLoaded(false);
     } catch (error) {
@@ -252,12 +253,13 @@ const CV_preview = () => {
   };
 
   const refreshCvData = () => {
-    getUserData();
+    /* 
+    getUserData(); */
     getCV();
   };
 
   useEffect(() => {
-    getUserData();
+    /* getUserData(); */
     getCV();
   }, []);
 

@@ -7,7 +7,7 @@ import ModalLayout from '../components/Modal/ModalLayout';
 
 const Layout = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 30px;
   @media (max-width: 1000px) {
     display: block;
