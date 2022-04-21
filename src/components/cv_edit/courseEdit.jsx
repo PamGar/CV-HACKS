@@ -70,6 +70,7 @@ const CoursesEdit = (props) => {
           },
         }
       );
+      console.log(data.data);
       setItemsList(data.data);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
@@ -357,7 +358,7 @@ const CoursesEdit = (props) => {
                             visibility(event, !item.public, item.id, index);
                           }}
                         >
-                          {item.public ? (
+                          {!item.public ? (
                             <FontAwesomeIcon
                               icon={faEyeSlash}
                               className="editBox_hide"
