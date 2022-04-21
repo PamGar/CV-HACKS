@@ -7,6 +7,7 @@ import { faBuilding } from '@fortawesome/free-regular-svg-icons';
 import LoadingButton from '../../components/Buttons/LoadingButton';
 import OutlinedButton from '../../components/Buttons/OutlinedButton';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const FontAwesomeIconStyled = styled(FontAwesomeIcon)`
   color: #6a6aff;
@@ -51,8 +52,14 @@ const ConfirmRegisterCompanyModal = ({
   const postEmailList = async () => {
     setLoading(true);
     try {
-      const data = await new Promise((resolve, reject) =>
-        setTimeout(() => resolve('respuesta'), 2000)
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/company/`,
+        { companies: emailList },
+        {
+          headers: {
+            authorization: `Token ${localStorage.getItem('authToken')}`,
+          },
+        }
       );
       console.log(data);
       ModalLayoutRef.current.classList.add('fadeOut');
@@ -60,8 +67,14 @@ const ConfirmRegisterCompanyModal = ({
       setEmailList([]);
       setTimeout(() => setOpenModal(false), 250);
     } catch (err) {
-      console.log(err);
-      toast.error('opps ha ocurrido un error, no se pudo enviar los correos');
+      if (err.response.status === 400) {
+        toast.error(
+          `${err.response.data.message}, eliminalo e intenta enviarlo de nuevo`,
+          { autoClose: 4000 }
+        );
+      } else {
+        toast.error('opps ha ocurrido un error, no se pudo enviar los correos');
+      }
       setLoading(false);
     }
   };
