@@ -176,6 +176,10 @@ const BoxColumn = styled.div`
   padding: 15px 10px;
   text-align: left;
 
+  & > div {
+    margin-bottom: 15px;
+  }
+
   img {
     width: 25px;
   }
@@ -240,6 +244,7 @@ const Header = styled(BoxFlex)`
 
   div {
     max-width: unset;
+    margin-bottom: 0;
   }
 
   .profileImage {
