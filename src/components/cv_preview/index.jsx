@@ -149,10 +149,12 @@ const ButtonBox = styled.div`
 `;
 
 const Wrapper = styled.div`
+  background-color: #fff;
   text-align: center;
   box-shadow: 2px 1px 7px #00000057;
   padding: 20px 30px;
   border-radius: 15px;
+  margin-bottom: 20px;
 
   h2 {
     font-size: 16px;
@@ -165,7 +167,7 @@ const Wrapper = styled.div`
 
   @media (max-width: 820px) {
     box-shadow: unset;
-    margin: 0;
+    background-color: unset;
     padding: 10px;
   }
 `;
@@ -223,9 +225,35 @@ const BoxFlex = styled(BoxColumn)`
   flex-wrap: wrap;
   justify-content: space-evenly;
 
-  div {
+  & > div {
     max-width: 50%;
     margin: 10px 0;
+  }
+`;
+
+const Header = styled(BoxFlex)`
+  align-items: center;
+
+  p {
+    margin: 0 5px;
+  }
+
+  div {
+    max-width: unset;
+  }
+
+  .profileImage {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 0px 10px #a0a0cc5c;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 `;
 
@@ -411,7 +439,40 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
         </div>
       </Page> */}
       <Wrapper ref={printRef}>
-        <h1>
+        <Header>
+          {userData.image ? (
+            <div className="profileImage">
+              <img
+                src={`${process.env.REACT_APP_BASE_URL}${userData.image}`}
+                alt=""
+              />
+            </div>
+          ) : null}
+          <div>
+            <BoxColumn
+              style={{
+                textAlign: 'center',
+                padding: '0',
+              }}
+            >
+              <h1>
+                {userData.name} {userData.paternal_surname}
+              </h1>
+              <BoxFlex
+                style={{
+                  paddingTop: `0`,
+                }}
+              >
+                <p>
+                  {userData.address.country ? userData.address.country : null}
+                </p>
+                <p>{userData.email ? userData.email : null}</p>
+                <p>{userData.phone ? userData.phone : null}</p>
+              </BoxFlex>
+            </BoxColumn>
+          </div>
+        </Header>
+        {/* <h1>
           {userData.name} {userData.paternal_surname}
         </h1>
         <BoxColumn
@@ -424,12 +485,12 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
               paddingTop: `0`,
             }}
           >
-            {/* <p>{userData.address.country}</p> */}
+            <p>{userData.address.country}</p>
             <p>{userData.email}</p>
             <p>{userData.phone}</p>
           </BoxFlex>
           <p>{userData.about_me}</p>
-        </BoxColumn>
+        </BoxColumn> */}
         {cvData.urls.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
@@ -452,7 +513,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
         {cvData.educations.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Educations</h2>
+            <h2>Educación</h2>
             <BoxColumn>
               {cvData.educations
                 .sort((a, b) => {
@@ -474,7 +535,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         />{' '}
                         {item.start_date}
                         {' • '}
-                        {item.end_date}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -525,7 +586,8 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                           icon={faCalendar}
                           className="calendar"
                         />{' '}
-                        {item.start_date} {' • '} {item.end_date}
+                        {item.start_date} {' • '}{' '}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -560,7 +622,9 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         />{' '}
                         {item.expedition_date}
                         {' • '}
-                        {item.expiry_date}
+                        {item.expiry_date === null
+                          ? 'Actualmente'
+                          : item.expiry_date}
                       </p>
                     </div>
                   ) : null;
@@ -593,7 +657,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         />{' '}
                         {item.start_date}
                         {' • '}
-                        {item.end_date}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -626,7 +690,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         />{' '}
                         {item.start_date}
                         {' • '}
-                        {item.end_date}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -661,7 +725,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         />{' '}
                         {item.start_date}
                         {' • '}
-                        {item.end_date}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                     </div>
                   ) : null;

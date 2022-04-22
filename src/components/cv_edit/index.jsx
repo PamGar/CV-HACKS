@@ -17,7 +17,7 @@ import JobEdit from './jobEdit';
 import ProjectsEdit from './projectsEdit';
 
 const Wrapper = styled.div`
-  padding: 10px;
+  padding: 20px;
   background-color: #fff;
   border-radius: 15px;
   box-shadow: 2px 1px 7px #00000057;

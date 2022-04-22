@@ -114,6 +114,8 @@ const AboutEdit = (props) => {
   const handleFileChange = (e) => {
     const { files } = e.target;
 
+    UploadImageInfo(e);
+
     var reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = function () {
@@ -129,15 +131,6 @@ const AboutEdit = (props) => {
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
-    /* setItem({
-      ...item,
-      user: {
-        ...item.user,
-        image: profileImageRef.current.files[0],
-      },
-    }); */
-    /* setItem({ ...item, image: profileImageRef.current.files[0] }); */
-    /* UploadImageInfo(e); */
   };
 
   const toggleAccordeonHandle = () => {
@@ -146,76 +139,9 @@ const AboutEdit = (props) => {
   };
 
   const getHeight = () => {
-    console.log('getHeight');
-    /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
     setTimeout(() => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
-    }, 1000);
-  };
-
-  const addItem = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}`,
-        item,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      setItem({
-        name: '',
-        company: '',
-        expedition_date: '',
-        expiry_date: null,
-        credential_id: null,
-        credential_url: '',
-      });
-      getItemsList();
-      props.refreshCvData();
-    } catch (error) {
-      console.error('error', error);
-    }
-  };
-
-  const removeLanguage = async (event, id) => {
-    event.preventDefault();
-
-    try {
-      const { data } = await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}/${id}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      getItemsList();
-      props.refreshCvData();
-    } catch (error) {
-      console.error('error', error);
-    }
-  };
-
-  const getLanguage = async (event, id) => {
-    event.preventDefault();
-
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}/${id}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      setItem(data);
-      setEditItems(true);
-    } catch (error) {
-      console.error('error', error);
-    }
+    }, 500);
   };
 
   const updateLanguage = async (event, id) => {
@@ -230,7 +156,8 @@ const AboutEdit = (props) => {
       toast.success('Perfil actualizado');
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
+      toast.error('Algo ocurrio, intenta de nuevo');
+      console.log('errorAbout', error);
     }
   };
 

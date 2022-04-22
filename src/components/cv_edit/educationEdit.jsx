@@ -53,8 +53,8 @@ const EducationEdit = (props) => {
   const addButtonRef = useRef();
   const getHeightRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
+  const [disabledEndDate, setDisabledEndDate] = useState(false);
   const myToken = window.localStorage.getItem('authToken');
-
   const [itemsList, setItemsList] = useState([]);
 
   const toggleAccordeonHandle = () => {
@@ -77,9 +77,12 @@ const EducationEdit = (props) => {
         },
       });
       setItemsList(data.data);
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setTimeout(() => {
+        setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      }, 100);
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -112,10 +115,11 @@ const EducationEdit = (props) => {
         },
         address_update: false,
       });
+      toast.success('Agregado con exito');
       getItemsList();
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
       props.refreshCvData();
     } catch (error) {
       toast.error(error.response.data.message);
@@ -133,8 +137,11 @@ const EducationEdit = (props) => {
         },
       });
       getItemsList();
+      toast.success('Eliminado con exito');
+      /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
       props.refreshCvData();
     } catch (error) {
+      toast.error('Oops, ocurrio algo inesperado');
       console.error('error', error);
     }
   };
@@ -154,7 +161,7 @@ const EducationEdit = (props) => {
           academic_discipline: 'empty',
           degree: data.degree,
           start_date: data.start_date,
-          end_date: data.end_date,
+          end_date: data.end_date === null ? '' : data.end_date,
           description: data.description,
         },
         address: {
@@ -171,13 +178,15 @@ const EducationEdit = (props) => {
         id: data.id,
         address_id: data.address.id,
       });
+      setDisabledEndDate(data.end_date === null ? true : false);
       setEditItems(true);
-      formRef.current.classList.toggle('unhide');
-      addButtonRef.current.classList.toggle('hide');
+      formRef.current.classList.add('unhide');
+      addButtonRef.current.classList.add('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -213,17 +222,20 @@ const EducationEdit = (props) => {
         address_update: false,
       });
       getItemsList();
+      toast.success('Actualizado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
   const cancelUpdate = (event) => {
     event.preventDefault();
+    setDisabledEndDate(false);
     setEditItems(false);
     formRef.current.classList.toggle('unhide');
     addButtonRef.current.classList.toggle('hide');
@@ -276,6 +288,19 @@ const EducationEdit = (props) => {
         [name]: value,
       },
     });
+  };
+
+  const handleCheck = (event) => {
+    const checked = event.target.checked;
+
+    setItem({
+      ...item,
+      data: {
+        ...item.data,
+        end_date: checked ? null : '',
+      },
+    });
+    setDisabledEndDate(!disabledEndDate);
   };
 
   const visibility = async (event, visibility, id, index) => {
@@ -357,7 +382,7 @@ const EducationEdit = (props) => {
                         />{' '}
                         {item.start_date}
                         {' • '}
-                        {item.end_date}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                       <div className="editBox">
                         <button
@@ -492,7 +517,7 @@ const EducationEdit = (props) => {
                   </div>
                   <div>
                     <p>
-                      <label htmlFor="expiry_date">
+                      <label htmlFor="end_date">
                         Fecha de culminación
                         <span className="fieldRecomendation">Requerido</span>
                       </label>
@@ -502,25 +527,26 @@ const EducationEdit = (props) => {
                         value={item.data.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
+                        disabled={disabledEndDate}
                         required
                       />
                     </p>
                     <div className="check_data">
                       <input
                         type="checkbox"
-                        name="expiry_date"
-                        value={item.data.end_date}
+                        name="end_date"
+                        checked={disabledEndDate}
                         autoComplete="off"
-                        onChange={handleDataChange}
+                        onChange={handleCheck}
                       />
                       <label htmlFor="expiry_date">Presente (Actualidad)</label>
                     </div>
                   </div>
                 </div>
                 <p>
-                  <label htmlFor="credential_id">
+                  <label htmlFor="description">
                     Descripción
-                    <span className="fieldRecomendation">Requerido</span>
+                    <span className="description">Requerido</span>
                   </label>
                   <textarea
                     type="text"
@@ -548,7 +574,7 @@ const EducationEdit = (props) => {
                     </>
                   ) : (
                     <>
-                      <Button type="button" onClick={handleForm}>
+                      <Button type="button" onClick={cancelUpdate}>
                         Cancelar
                       </Button>
                       <Button type="submit" /* onClick={addItem} */>

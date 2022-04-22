@@ -6,7 +6,7 @@ import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import styled from 'styled-components';
 
 const TasksBox = styled.div`
-  padding: 10px;
+  padding: 20px;
   margin-bottom: 30px;
   text-align: center;
   width: 95%;
@@ -17,6 +17,10 @@ const TasksBox = styled.div`
   border-radius: 15px;
   box-shadow: 2px 1px 7px #00000057;
 
+  @media (max-width: 1000px) {
+    padding: 10px;
+  }
+
   .hide + div {
     display: none;
   }
@@ -25,7 +29,7 @@ const TasksBox = styled.div`
     background: linear-gradient(40deg, #00b7b8, #595295);
     padding: 20px;
     box-shadow: 2px 1px 7px #00000057;
-    border-radius: 15px;
+    border-radius: 10px;
     letter-spacing: 2px;
     text-align: left;
     display: flex;

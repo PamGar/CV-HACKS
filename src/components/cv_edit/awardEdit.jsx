@@ -68,7 +68,6 @@ const AwardEdit = (props) => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       toast.error(error.response.data.message);
-      console.error('error', error);
     }
   };
 
@@ -88,12 +87,14 @@ const AwardEdit = (props) => {
         description: '',
       });
       getItemsList();
+      toast.success('Premio agregado');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
+      console.log('errorAward', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -107,9 +108,11 @@ const AwardEdit = (props) => {
         },
       });
       getItemsList();
+      toast.success('Premio eliminado con exito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -130,6 +133,7 @@ const AwardEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -160,6 +164,7 @@ const AwardEdit = (props) => {
         description: '',
       });
       getItemsList();
+      toast.success('Premio actualizado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);

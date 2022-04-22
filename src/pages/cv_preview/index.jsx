@@ -216,7 +216,6 @@ const CV_preview = () => {
         }
       );
       setUser(data);
-      console.log('user', data);
       data.name === null ? setFirstData(true) : setFirstData(false);
     } catch (error) {
       const invalidToken = error.response.data.message;
@@ -242,7 +241,6 @@ const CV_preview = () => {
           },
         }
       );
-      console.log(data);
       getUserData();
       setCvData(data);
       setDataNotLoaded(false);

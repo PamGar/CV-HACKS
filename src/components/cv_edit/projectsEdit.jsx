@@ -12,6 +12,7 @@ import { faLaptopCode } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
+import { toast } from 'react-toastify';
 
 const ProjectsEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/projects/${props.cvId}`;
@@ -35,6 +36,17 @@ const ProjectsEdit = (props) => {
   const addButtonRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
+  const [disabledEndDate, setDisabledEndDate] = useState(false);
+
+  const handleCheck = (event) => {
+    const checked = event.target.checked;
+
+    setItem({
+      ...item,
+      end_date: checked ? null : '',
+    });
+    setDisabledEndDate(!disabledEndDate);
+  };
 
   const [itemsList, setItemsList] = useState([]);
 
@@ -66,9 +78,12 @@ const ProjectsEdit = (props) => {
         },
       });
       setItemsList(data.data);
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setTimeout(() => {
+        setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      }, 100);
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -91,12 +106,14 @@ const ProjectsEdit = (props) => {
         technologies: 'empty',
       });
       getItemsList();
+      toast.success('Agregado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -110,9 +127,11 @@ const ProjectsEdit = (props) => {
         },
       });
       getItemsList();
+      toast.success('Eliminado con exito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -130,17 +149,19 @@ const ProjectsEdit = (props) => {
         title: data.title,
         additional_information: data.additional_information,
         start_date: data.start_date,
-        end_date: data.end_date,
+        end_date: data.end_date === null ? '' : data.end_date,
         description: data.description,
         tools: 'empty',
         technologies: 'empty',
       });
       setEditItems(true);
-      formRef.current.classList.toggle('unhide');
-      addButtonRef.current.classList.toggle('hide');
+      setDisabledEndDate(data.end_date === null ? true : false);
+      formRef.current.classList.add('unhide');
+      addButtonRef.current.classList.add('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -165,17 +186,20 @@ const ProjectsEdit = (props) => {
         technologies: 'empty',
       });
       getItemsList();
+      toast.success('Actualizado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
   const cancelUpdate = (event) => {
     event.preventDefault();
+    setDisabledEndDate(false);
     setItem({
       id: '',
       title: '',
@@ -270,7 +294,7 @@ const ProjectsEdit = (props) => {
                         />{' '}
                         {item.start_date}
                         {' • '}
-                        {item.end_date}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                       <div className="editBox">
                         <button
@@ -380,15 +404,16 @@ const ProjectsEdit = (props) => {
                         value={item.end_date}
                         autoComplete="off"
                         onChange={handleChange}
-                        required
+                        disabled={disabledEndDate}
                       />
                     </p>
                     <div className="check_data">
                       <input
                         type="checkbox"
-                        name="expiry_date"
+                        name="end_date"
+                        checked={disabledEndDate}
                         autoComplete="off"
-                        onChange={handleChange}
+                        onChange={handleCheck}
                       />
                       <label htmlFor="expiry_date">Presente (Actualidad)</label>
                     </div>
