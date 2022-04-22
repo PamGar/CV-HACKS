@@ -170,7 +170,7 @@ const CoursesEdit = (props) => {
           title: data.title,
           subtitle: data.subtitle,
           start_date: data.start_date,
-          end_date: data.end_date === null ? '' : data.end_date,
+          end_date: data.end_date,
           description: data.description,
         },
         address: {
@@ -506,14 +506,14 @@ const CoursesEdit = (props) => {
                   </div>
                   <div>
                     <p>
-                      <label htmlFor="expiry_date">
+                      <label htmlFor="end_date">
                         Fecha de culminación
                         <span className="fieldRecomendation">Requerido</span>
                       </label>
                       <input
                         type="date"
                         name="end_date"
-                        value={item.data.end_date}
+                        value={item.end_date === null ? '' : item.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
                         disabled={disabledEndDate}

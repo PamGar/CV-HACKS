@@ -154,7 +154,7 @@ const CertificationsEdit = (props) => {
         name: data.name,
         company: data.company,
         expedition_date: data.expedition_date,
-        expiry_date: data.expiry_date === null ? '' : data.expiry_date,
+        expiry_date: data.expiry_date,
         credential_id: data.credential_id,
         credential_url: data.credential_url,
       });
@@ -412,7 +412,9 @@ const CertificationsEdit = (props) => {
                         type="date"
                         id="expiry_date"
                         name="expiry_date"
-                        value={item.expiry_date}
+                        value={
+                          item.expiry_date === null ? '' : item.expiry_date
+                        }
                         autoComplete="off"
                         onChange={handleChange}
                         disabled={disabledEndDate}

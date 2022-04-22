@@ -149,7 +149,7 @@ const ProjectsEdit = (props) => {
         title: data.title,
         additional_information: data.additional_information,
         start_date: data.start_date,
-        end_date: data.end_date === null ? '' : data.end_date,
+        end_date: data.end_date,
         description: data.description,
         tools: 'empty',
         technologies: 'empty',
@@ -401,7 +401,7 @@ const ProjectsEdit = (props) => {
                       <input
                         type="date"
                         name="end_date"
-                        value={item.end_date}
+                        value={item.end_date === null ? '' : item.end_date}
                         autoComplete="off"
                         onChange={handleChange}
                         disabled={disabledEndDate}

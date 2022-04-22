@@ -65,7 +65,9 @@ const AwardEdit = (props) => {
         }
       );
       setItemsList(data.data);
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setTimeout(() => {
+        setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      }, 100);
     } catch (error) {
       toast.error(error.response.data.message);
     }

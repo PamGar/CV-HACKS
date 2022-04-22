@@ -66,7 +66,9 @@ const SkillsEdit = (props) => {
         }
       );
       setItemsList(data.data);
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setTimeout(() => {
+        setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      }, 100);
     } catch (error) {
       console.error('error', error);
       toast.error('Oops, ocurrio algo inesperado');

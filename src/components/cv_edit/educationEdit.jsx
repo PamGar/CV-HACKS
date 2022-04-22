@@ -161,7 +161,7 @@ const EducationEdit = (props) => {
           academic_discipline: 'empty',
           degree: data.degree,
           start_date: data.start_date,
-          end_date: data.end_date === null ? '' : data.end_date,
+          end_date: data.end_date,
           description: data.description,
         },
         address: {
@@ -524,7 +524,9 @@ const EducationEdit = (props) => {
                       <input
                         type="date"
                         name="end_date"
-                        value={item.data.end_date}
+                        value={
+                          item.data.end_date === null ? '' : item.data.end_date
+                        }
                         autoComplete="off"
                         onChange={handleDataChange}
                         disabled={disabledEndDate}

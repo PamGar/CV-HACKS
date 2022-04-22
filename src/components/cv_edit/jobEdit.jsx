@@ -172,7 +172,7 @@ const JobEdit = (props) => {
           company_name: data.company_name,
           area: data.area,
           start_date: data.start_date,
-          end_date: data.end_date === null ? '' : data.end_date,
+          end_date: data.end_date,
           description: data.description,
         },
         address: {
@@ -512,14 +512,14 @@ const JobEdit = (props) => {
                   </div>
                   <div>
                     <p>
-                      <label htmlFor="expiry_date">
+                      <label htmlFor="end_date">
                         Fecha de culminación
                         <span className="fieldRecomendation">Requerido</span>
                       </label>
                       <input
                         type="date"
                         name="end_date"
-                        value={item.data.end_date}
+                        value={item.end_date === null ? '' : item.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
                         disabled={disabledEndDate}

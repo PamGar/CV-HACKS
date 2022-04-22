@@ -170,7 +170,7 @@ const OrganisationEdit = (props) => {
           title: data.title,
           subtitle: data.subtitle,
           start_date: data.start_date,
-          end_date: data.end_date === null ? '' : data.end_date,
+          end_date: data.end_date,
           description: data.description,
         },
         address: {
@@ -513,7 +513,7 @@ const OrganisationEdit = (props) => {
                       <input
                         type="date"
                         name="end_date"
-                        value={item.data.end_date}
+                        value={item.end_date === null ? '' : item.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
                         disabled={disabledEndDate}
