@@ -4,7 +4,7 @@ import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import Button from '../Buttons/LoadingButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import { faCalendar, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import Github from '../../assets/icons/Github.svg';
 import Gitlab from '../../assets/icons/Gitlab.svg';
 import Instagram from '../../assets/icons/Instagram.svg';
@@ -237,6 +237,7 @@ const BoxFlex = styled(BoxColumn)`
 
 const Header = styled(BoxFlex)`
   align-items: center;
+  margin-bottom: 20px;
 
   p {
     margin: 0 5px;
@@ -837,7 +838,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
       </Wrapper>
       <ButtonBox>
         <Button type="button" onClick={editButton} disabled={dataLoaded}>
-          Editar
+          <FontAwesomeIcon icon={faPenToSquare} className="calendar" /> Editar
         </Button>
         {/* <Button type="button" onClick={handleDownloadPdf} disabled={dataLoaded}>
           Descargar

@@ -24,6 +24,7 @@ const CertificationsEdit = (props) => {
     expiry_date: '',
     credential_id: '',
     credential_url: '',
+    id: '',
   });
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
@@ -104,6 +105,7 @@ const CertificationsEdit = (props) => {
         expiry_date: null,
         credential_id: null,
         credential_url: '',
+        id: '',
       });
       getItemsList();
       toast.success('Certificado agregado con exito');
@@ -157,6 +159,7 @@ const CertificationsEdit = (props) => {
         expiry_date: data.expiry_date,
         credential_id: data.credential_id,
         credential_url: data.credential_url,
+        id: data.id,
       });
       setDisabledEndDate(data.expiry_date === null ? true : false);
       setEditItems(true);
@@ -191,6 +194,7 @@ const CertificationsEdit = (props) => {
         expiry_date: null,
         credential_id: null,
         credential_url: '',
+        id: '',
       });
       getItemsList();
       toast.success('Certificado actualizado con exito');
@@ -218,6 +222,7 @@ const CertificationsEdit = (props) => {
       expiry_date: '',
       credential_id: '',
       credential_url: '',
+      id: '',
     });
   };
 
@@ -288,9 +293,9 @@ const CertificationsEdit = (props) => {
                       <p className="first">
                         {item.company}
                         {' • '}
-                        <span className="second">{item.company}</span>
+                        <span className="second">{item.name}</span>
                       </p>
-                      <p className="second">{item.description}</p>
+                      <p className="second">{item.company}</p>
 
                       <p className="third">
                         <FontAwesomeIcon

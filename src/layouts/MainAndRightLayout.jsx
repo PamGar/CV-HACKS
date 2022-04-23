@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faNoteSticky } from '@fortawesome/free-regular-svg-icons';
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import Modal from '../components/Modal';
 import ModalLayout from '../components/Modal/ModalLayout';
 
@@ -50,20 +51,19 @@ const FloatIcons = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%),
-        0px 2px 5px 0px rgb(0 0 0 / 14%), 0px 1px 8px 0px rgb(0 0 0 / 12%);
+      box-shadow: 2px 1px 7px #00000057;
     }
 
     .icon {
       width: 30px;
       height: 30px;
-      color: rgb(236, 225, 209);
+      color: #fff;
     }
   }
 `;
 
 const ModalContainer = styled.div`
-  width: 80%;
+  width: 90%;
   & > * {
     margin: 10% 0;
   }
@@ -79,7 +79,7 @@ const MainAndRightLayout = ({ main, right }) => {
       <Right>{right}</Right>
       <FloatIcons openModal={openModal}>
         <button onClick={() => setOpenModal(true)}>
-          <FontAwesomeIcon icon={faNoteSticky} className="icon" />
+          <FontAwesomeIcon icon={faEllipsisVertical} className="icon" />
         </button>
       </FloatIcons>
       <Modal
