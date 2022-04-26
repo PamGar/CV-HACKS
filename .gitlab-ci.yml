@@ -1,0 +1,58 @@
+# Official docker image.
+image: docker:latest
+
+stages:
+  - build
+  - failure
+
+services:
+  - docker:dind
+
+build-main:
+  stage: build
+  before_script:
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker build --pull --build-arg REACT_APP_BASE_URL=$REACT_APP_BASE_URL -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA" -t "$CI_REGISTRY_IMAGE:latest" .
+    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA"
+    - docker push "$CI_REGISTRY_IMAGE:latest"
+  only:
+    - main
+
+build-develop:
+  stage: build
+  before_script:
+  - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
+  script:
+    - docker build --pull --build-arg REACT_APP_BASE_URL=$REACT_APP_BASE_URL_DEV -t "$CI_REGISTRY_IMAGE:DEV-$CI_COMMIT_SHORT_SHA" -t "$CI_REGISTRY_IMAGE:DEV" .
+    - docker push "$CI_REGISTRY_IMAGE:DEV-$CI_COMMIT_SHORT_SHA"
+    - docker push "$CI_REGISTRY_IMAGE:DEV"
+  only:
+    - development
+
+failure:
+  image: curlimages/curl:latest
+  stage: failure
+  script:
+    - curl -X "POST" --url "$DISCORDWEBHOOK" --header "Content-Type:application/json" -d '{"username":"CI-test User", "avatar_url":"", "content":"Falló el Build de CV Front :( "}'
+  when: on_failure
+
+success:
+  image: curlimages/curl:latest
+  stage: build
+  needs: [build-main]
+  script:
+    - curl -X "POST" --url "$DISCORDWEBHOOK" --header "Content-Type:application/json" -d '{"username":"CI-test User", "avatar_url":"", "content":"Se hizo el Build de CV Front !"}'
+  when: on_success
+  only:
+    - main
+
+successdev:
+  image: curlimages/curl:latest
+  stage: build
+  needs: [build-develop]
+  script:
+    - curl -X "POST" --url "$DISCORDWEBHOOK" --header "Content-Type:application/json" -d '{"username":"CI-test User", "avatar_url":"", "content":"Se hizo el Build de CV front dev !"}'
+  when: on_success
+  only:
+    - development
