@@ -12,12 +12,18 @@ export const GlobalStyles = createGlobalStyle`
     font-weight: 500;
 }
 
-h1,h2,h3,h4,h5,h6,p,span,strong,em,blockquote,code,pre,ul,li,ol,dl,dt,mark,ins,del,sup,sub,small,i,b{
+h1,h2,h3,h4,h5,h6,p,span,strong,em,blockquote,code,pre,ul,li,ol,dl,dt,mark,ins,del,sup,sub,small,i,b,label{
     color:#5e5e5e;
 }
 
 body {
     background-color: #f3f4f6;
+    -ms-overflow-style: none;  
+    scrollbar-width: none; 
+}
+
+body::-webkit-scrollbar{
+    display:none;
 }
 
 h1, h2, h3, label {    
