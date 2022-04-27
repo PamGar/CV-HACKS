@@ -32,7 +32,7 @@ const Wrapper = styled.div`
   p {
     display: flex;
     flex-direction: column;
-    margin-top: 5px;
+    margin-top: 15px;
   }
 
   label {
@@ -45,7 +45,7 @@ const Wrapper = styled.div`
   }
 
   input {
-    border-radius: 10px;
+    border-radius: 15px;
     padding: 15px 10px;
     background-color: #ededed;
   }

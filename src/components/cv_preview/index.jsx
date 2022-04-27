@@ -1,10 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useReactToPrint } from 'react-to-print';
 import styled from 'styled-components';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import Button from '../Buttons/LoadingButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCalendar,
+  faPenToSquare,
+  faFileArrowDown,
+} from '@fortawesome/free-solid-svg-icons';
 import Github from '../../assets/icons/Github.svg';
 import Gitlab from '../../assets/icons/Gitlab.svg';
 import Instagram from '../../assets/icons/Instagram.svg';
@@ -264,6 +269,11 @@ const Header = styled(BoxFlex)`
 `;
 
 const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   const printRef = useRef();
   /* const [width, setWidth] = useState(0); */
   /* const widthRef = useRef(); */
@@ -305,6 +315,10 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
       default:
         break;
     }
+  };
+
+  const getPageMargins = () => {
+    return `@page { margin: ${'50px'} ${'50px'} ${'50px'} ${'50px'} !important; }`;
   };
 
   /* useEffect(() => {
@@ -444,7 +458,8 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           </div>
         </div>
       </Page> */}
-      <Wrapper ref={printRef}>
+      <Wrapper /* ref={printRef} */ ref={componentRef}>
+        <style>{getPageMargins()}</style>
         <Header>
           {userData.image ? (
             <div className="profileImage">
@@ -840,9 +855,14 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
         <Button type="button" onClick={editButton} disabled={dataLoaded}>
           <FontAwesomeIcon icon={faPenToSquare} className="calendar" /> Editar
         </Button>
-        {/* <Button type="button" onClick={handleDownloadPdf} disabled={dataLoaded}>
+        <Button
+          type="button"
+          /* onClick={handleDownloadPdf} */ onClick={handlePrint}
+          disabled={dataLoaded}
+        >
+          <FontAwesomeIcon icon={faFileArrowDown} className="calendar" />{' '}
           Descargar
-        </Button> */}
+        </Button>
       </ButtonBox>
     </>
   );
