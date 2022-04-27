@@ -148,7 +148,7 @@ const ButtonBox = styled.div`
   justify-content: center;
 
   button {
-    margin: 0 30px;
+    margin: 0 10px;
     background-color: #565696;
   }
 `;
