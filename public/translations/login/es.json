@@ -1,0 +1,10 @@
+{
+  "login": "Ingresar",
+  "login_instructions_label": "Ingrese su correo electrónico y recibirá un código de acceso",
+  "email_error": "Ingrese un correo electrónico válido",
+  "submit_email": "Obtener código de acceso",
+  "we_have_sent_you_a_email": "Revise su correo electrónico, enviamos un código de acceso a :",
+  "login_code_duration_info": "El código de acceso es válido por 15 minutos",
+  "invalid_login_code": "El código de acceso es inválido o ha expirado. Intente solicitar uno nuevo",
+  "error_500": "Opss, ha ocurrido un error"
+}
