@@ -6,8 +6,9 @@ import {
   faFileLines,
   faBuilding,
   faAddressCard,
-  faUser,
+  faIdCard,
 } from '@fortawesome/free-regular-svg-icons';
+import { faFilePen, faUser } from '@fortawesome/free-solid-svg-icons';
 import HackademyIcon from '../assets/images/logo_white.png';
 import Modal from '../components/Modal';
 import Drawer from './Drawer';
@@ -182,16 +183,28 @@ const AppbarLayout = ({ role }) => {
             <StyledLink to='/'>
               <img src={HackademyIcon} className='HackademyIcon' />
             </StyledLink>
+            {role == 3 && (
+              <StyledLink to='/candidates'>
+                <FontAwesomeIcon icon={faIdCard} className='Icon' />
+                Candidatos
+              </StyledLink>
+            )}
             {(role == 5 || role == 4 || role == 2) && (
               <StyledLink to={role == 5 || role == 4 ? '/resume' : '/resumes'}>
                 <FontAwesomeIcon icon={faAddressCard} className='Icon' />
                 {role == 5 || role == 4 ? 'Mi CV' : 'CVs'}
               </StyledLink>
             )}
-            {role == 2 && (
+            {(role == 2 || role == 3) && (
               <StyledLink to='/job-offers'>
                 <FontAwesomeIcon icon={faFileLines} className='Icon' />
-                Vacantes
+                {role == 2 ? 'Vacantes' : 'Mis Vacantes'}
+              </StyledLink>
+            )}
+            {role == 3 && (
+              <StyledLink to='/create-job-offer'>
+                <FontAwesomeIcon icon={faFilePen} className='Icon' />
+                Crear Vacante
               </StyledLink>
             )}
             {role == 2 && (
@@ -222,10 +235,22 @@ const AppbarLayout = ({ role }) => {
             )}
             {clientWidth > 800 && (
               <>
-                {role == 2 && (
+                {role == 3 && (
+                  <StyledLink to='/candidates'>
+                    <FontAwesomeIcon icon={faIdCard} className='Icon' />
+                    Candidatos
+                  </StyledLink>
+                )}
+                {(role == 2 || role == 3) && (
                   <StyledLink to='/job-offers'>
                     <FontAwesomeIcon icon={faFileLines} className='Icon' />
-                    Vacantes
+                    {role == 2 ? 'Vacantes' : 'Mis Vacantes'}
+                  </StyledLink>
+                )}
+                {role == 3 && (
+                  <StyledLink to='/create-job-offer'>
+                    <FontAwesomeIcon icon={faFilePen} className='Icon' />
+                    Crear Vacante
                   </StyledLink>
                 )}
                 {role == 2 && (
@@ -251,6 +276,12 @@ const AppbarLayout = ({ role }) => {
             ref={DrawerRef}
             activateFade={activateFade}
           >
+            {role == 3 && (
+              <StyledLinkMobile to='/candidates'>
+                <FontAwesomeIcon icon={faIdCard} className='Icon' />
+                Candidatos
+              </StyledLinkMobile>
+            )}
             {(role == 5 || role == 4 || role == 2) && (
               <StyledLinkMobile
                 to={role == 5 || role == 4 ? '/resume' : '/resumes'}
@@ -260,10 +291,16 @@ const AppbarLayout = ({ role }) => {
                 {role == 5 || role == 4 ? 'Mi CV' : 'CVs'}
               </StyledLinkMobile>
             )}
-            {role == 2 && (
+            {(role == 2 || role == 3) && (
               <StyledLinkMobile to='/job-offers' onClick={handleClickDrawer}>
                 <FontAwesomeIcon icon={faFileLines} className='Icon ' />
-                Vacantes
+                {role == 2 ? 'Vacantes' : 'Mis Vacantes'}
+              </StyledLinkMobile>
+            )}
+            {role == 3 && (
+              <StyledLinkMobile to='/create-job-offer'>
+                <FontAwesomeIcon icon={faFilePen} className='Icon' />
+                Crear Vacante
               </StyledLinkMobile>
             )}
             {role == 2 && (

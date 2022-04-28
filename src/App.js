@@ -15,6 +15,9 @@ import ResumeContextProvider from './pages/AdminDashboard/ResumeContextProvider'
 import ResumeList from './pages/AdminDashboard/ResumeList';
 import AddComment from './pages/AdminDashboard/AddComment';
 import ShareResume from './pages/AdminDashboard/ShareResume';
+import CandidatesCompany from './pages/CandidatesCompany';
+import JobOffersCompany from './pages/JobOffersCompany';
+import CreateJobOfferCompany from './pages/CreateJobOfferCompany';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState({
@@ -66,8 +69,26 @@ const App = () => {
             {isAuthenticated.role == 2 && (
               <Route path='/register-company' element={<RegisterCompany />} />
             )}
-            {isAuthenticated.role == 2 && (
-              <Route path='/job-offers' element={<VacancyList />} />
+            {(isAuthenticated.role == 2 || isAuthenticated.role == 3) && (
+              <Route
+                path='/job-offers'
+                element={
+                  isAuthenticated.role == 2 ? (
+                    <VacancyList />
+                  ) : (
+                    <JobOffersCompany />
+                  )
+                }
+              />
+            )}
+            {isAuthenticated.role == 3 && (
+              <Route path='/candidates' element={<CandidatesCompany />} />
+            )}
+            {isAuthenticated.role == 3 && (
+              <Route
+                path='/create-job-offer'
+                element={<CreateJobOfferCompany />}
+              />
             )}
             <Route
               path='/profile'

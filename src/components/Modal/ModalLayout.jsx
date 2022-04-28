@@ -10,6 +10,12 @@ const ModalWrapper = styled.div`
   z-index: 100;
   opacity: 1;
   overflow-y: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 
   &[class~='fadeOut'] {
     opacity: 0;
@@ -46,6 +52,7 @@ const ModalLayout = forwardRef(
   ({ children, myOwnContainer, setOpenModal }, ref) => {
     useLayoutEffect(() => {
       ref.current.classList.add('fadeIn');
+      document.body.style = 'overflow:hidden;';
 
       return () => {
         document.body.removeAttribute('style');
