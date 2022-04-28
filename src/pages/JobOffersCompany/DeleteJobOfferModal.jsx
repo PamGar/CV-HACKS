@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Modal from '../../components/Modal';
 import ModalLayout from '../../components/Modal/ModalLayout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,9 +20,11 @@ const DeleteJobOfferConfirmModal = ({
   setOpenModal,
   setJobOfferData,
 }) => {
+  const [loading, setLoading] = useState(false);
   const ModalLayoutRef = useRef();
 
   const DeleteJobOffer = async () => {
+    setLoading(true);
     try {
       const { data } = await axios.delete(
         `${process.env.REACT_APP_BASE_URL}/company/vacancy/${id}`,
@@ -39,6 +41,8 @@ const DeleteJobOfferConfirmModal = ({
     } catch (err) {
       console.log(err);
       toast.error('opps no se pudo eliminar la vacante, intente de nuevo');
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -49,7 +53,12 @@ const DeleteJobOfferConfirmModal = ({
           <FontAwesomeIconStyled icon={faTrashCan} />
           <h1>¿Estás seguro?</h1>
           <p>Elminiras la vacante y no podrás recuperarla</p>
-          <LoadingButton onClick={DeleteJobOffer} fullWidth>
+          <LoadingButton
+            onClick={DeleteJobOffer}
+            fullWidth
+            loading={loading}
+            disabled={loading}
+          >
             Confirmar
           </LoadingButton>
         </ModalLayout>
