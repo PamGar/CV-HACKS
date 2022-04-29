@@ -86,7 +86,7 @@ const ButtonBox = styled.div`
 const Wrapper = styled.div`
   background-color: #fff;
   text-align: center;
-  box-shadow: 2px 1px 7px #00000057;
+  /* box-shadow: 2px 1px 7px #00000057; */
   padding: 20px 30px;
   border-radius: 15px;
   margin-bottom: 20px;
@@ -242,7 +242,13 @@ const BoxFlexCV = styled(BoxFlex)`
   }
 `;
 
-const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
+const CV_preview = ({
+  editButton,
+  dataLoaded,
+  cvData,
+  userData,
+  displayButtons,
+}) => {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -295,7 +301,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
 
   return (
     <>
-      <Page /* style={{ display: 'none' }} */>
+      <Page style={{ display: 'none' }}>
         <div className="page_container" ref={widthRef}>
           <div className="page" ref={componentRef}>
             <style>{getPageMargins()}</style>
@@ -1022,7 +1028,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           </div>
         )}
       </Wrapper>
-      <ButtonBox>
+      <ButtonBox style={{ display: displayButtons }}>
         <Button type="button" onClick={editButton} disabled={dataLoaded}>
           <FontAwesomeIcon icon={faPenToSquare} className="calendar" /> Editar
         </Button>

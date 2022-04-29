@@ -23,7 +23,7 @@ const TasksBox = styled.div`
   margin-right: auto;
   background-color: #fff;
   border-radius: 15px;
-  box-shadow: 2px 1px 7px #00000057;
+  /* box-shadow: 2px 1px 7px #00000057; */
 
   @media (max-width: 1000px) {
     padding: 10px;
