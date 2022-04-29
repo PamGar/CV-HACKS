@@ -213,9 +213,29 @@ const Header = styled(BoxFlex)`
   }
 `;
 
-const BoxColumnCV = styled(BoxColumn)``;
+const BoxColumnCV = styled(BoxColumn)`
+  h2 {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 10px;
+  }
+`;
 const BoxFlexCV = styled(BoxFlex)`
   justify-content: space-between;
+
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  li {
+    margin-top: 10px;
+  }
+
+  .center {
+    text-align: center;
+  }
 
   & > div {
     width: 48%;
@@ -275,7 +295,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
 
   return (
     <>
-      <Page style={{ display: 'none' }}>
+      <Page /* style={{ display: 'none' }} */>
         <div className="page_container" ref={widthRef}>
           <div className="page" ref={componentRef}>
             <style>{getPageMargins()}</style>
@@ -295,7 +315,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                     padding: '0',
                   }}
                 >
-                  <h1>
+                  <h1 style={{ fontFamily: 'Poppins', fontWeight: '700' }}>
                     {userData.name} {userData.paternal_surname}
                   </h1>
                   <BoxFlex
@@ -431,38 +451,36 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                 .length === 0 ? null : (
                 <div>
                   <h2>Certificaciones</h2>
-                  <BoxFlexCV>
-                    {cvData.certifications
-                      .sort((a, b) => {
-                        return (
-                          new Date(b.expedition_date) -
-                          new Date(a.expedition_date)
-                        );
-                      })
-                      .map((item) => {
-                        return item.public ? (
-                          <div key={item.id} style={{ padding: '0' }}>
-                            <p className="first">{item.name}</p>
-                            <p className="third">{item.company}</p>
-                            <p className="second">
-                              <span className="first">{'id: '}</span>
-                              {item.credential_id}
-                            </p>
-                            <p className="third">
-                              <FontAwesomeIcon
-                                icon={faCalendar}
-                                className="calendar"
-                              />{' '}
-                              {item.expedition_date}
-                              {' • '}
-                              {item.expiry_date === null
-                                ? 'Actualmente'
-                                : item.expiry_date}
-                            </p>
-                          </div>
-                        ) : null;
-                      })}
-                  </BoxFlexCV>
+                  {cvData.certifications
+                    .sort((a, b) => {
+                      return (
+                        new Date(b.expedition_date) -
+                        new Date(a.expedition_date)
+                      );
+                    })
+                    .map((item) => {
+                      return item.public ? (
+                        <div key={item.id} style={{ padding: '0' }}>
+                          <p className="first">{item.name}</p>
+                          <p className="third">{item.company}</p>
+                          <p className="second">
+                            <span className="first">{'id: '}</span>
+                            {item.credential_id}
+                          </p>
+                          <p className="third">
+                            <FontAwesomeIcon
+                              icon={faCalendar}
+                              className="calendar"
+                            />{' '}
+                            {item.expedition_date}
+                            {' • '}
+                            {item.expiry_date === null
+                              ? 'Actualmente'
+                              : item.expiry_date}
+                          </p>
+                        </div>
+                      ) : null;
+                    })}
                 </div>
               )}
             </BoxColumnCV>
@@ -541,7 +559,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             <BoxFlexCV>
               {cvData.publications.filter((item) => item.public === true)
                 .length === 0 ? null : (
-                <div>
+                <div className="center">
                   <h2>Publicaciones</h2>
                   {cvData.publications
                     .sort((a, b) => {
@@ -550,8 +568,11 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                     .map((item) => {
                       return item.public ? (
                         <div key={item.id}>
-                          <p className="first">{item.title}</p>
-                          <p className="second">{item.subtitle}</p>
+                          <p className="first">
+                            {item.title}
+                            {' • '}
+                            <span className="second">{item.subtitle}</span>
+                          </p>
                           <p className="third">
                             <FontAwesomeIcon
                               icon={faCalendar}
@@ -566,7 +587,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
               )}
               {cvData.awards.filter((item) => item.public === true).length ===
               0 ? null : (
-                <div>
+                <div className="center">
                   <h2>Premios</h2>
                   {cvData.awards
                     .sort((a, b) => {
@@ -575,10 +596,11 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                     .map((item) => {
                       return item.public ? (
                         <div key={item.id} className="item">
-                          <div className="header">
-                            <p className="first">{item.title}</p>
-                          </div>
-                          <p className="second">{item.subtitle}</p>
+                          <p className="first">
+                            {item.title}
+                            {' • '}
+                            <span className="second">{item.subtitle}</span>
+                          </p>
                           <p className="third">
                             <FontAwesomeIcon
                               icon={faCalendar}
@@ -595,7 +617,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
             <BoxFlexCV>
               {cvData.skills.filter((item) => item.public === true).length ===
               0 ? null : (
-                <div>
+                <div className="center">
                   <h2>Skills</h2>
                   <ul className="item">
                     {cvData.skills.map((item) => {
@@ -610,7 +632,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
               )}
               {cvData.intersts.filter((item) => item.public === true).length ===
               0 ? null : (
-                <div>
+                <div className="center">
                   <h2>Intereses</h2>
                   <ul className="item">
                     {cvData.intersts.map((item) => {
