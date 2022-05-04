@@ -14,7 +14,7 @@ import Modal from '../components/Modal';
 import Drawer from './Drawer';
 
 const Layout = styled.div`
-  padding: 30px 30px 0;
+  padding: 0 30px;
   min-height: 100vh;
   display: grid;
   grid-template-columns: 120px 1fr;
