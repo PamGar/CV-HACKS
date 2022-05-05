@@ -269,8 +269,8 @@ const TasksTodo = (props) => {
     setTasks(updatedList); // set state to new object with updated list
   };
 
-  const tasksDone = tasks.filter((item) => item.done === true).length;
-  const tasksUndone = tasks.filter((item) => item.done === false).length;
+  const tasksDone = tasks.filter((item) => item.done === true);
+  const tasksUndone = tasks.filter((item) => item.done === false);
 
   useEffect(() => {
     getItemsList();
@@ -283,8 +283,8 @@ const TasksTodo = (props) => {
           <div className="tasksTitle">
             <h2>Correcciones recomendadas</h2>
           </div>
-          {tasksUndone !== 0 ? (
-            tasks.map((currentValue) => {
+          {tasksUndone.length !== 0 ? (
+            tasksUndone.map((currentValue) => {
               return (
                 <Task key={currentValue.id}>
                   <div className="task">
@@ -325,8 +325,8 @@ const TasksTodo = (props) => {
             </button>
           </div>
           <div>
-            {tasksDone !== 0 ? (
-              tasks.map((currentValue) => {
+            {tasksDone.length !== 0 ? (
+              tasksDone.map((currentValue) => {
                 if (!currentValue.state) {
                   return (
                     <Task key={currentValue.id}>

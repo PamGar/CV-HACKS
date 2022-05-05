@@ -10,6 +10,7 @@ import RegisterCompany from './pages/RegisterCompany';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import VacancyList from './pages/VacancyList';
+import Landing from './pages/landing';
 import AppbarLayout from './layouts/AppbarLayout';
 import Profile from './pages/Profile';
 
@@ -21,7 +22,7 @@ const App = () => {
   return (
     <Router>
       <ToastContainer
-        position='top-right'
+        position="top-right"
         autoClose={3000}
         hideProgressBar
         newestOnTop={false}
@@ -41,35 +42,35 @@ const App = () => {
             />
           }
         >
-          <Route path='/' element={<h1>landing</h1>} />
+          <Route path="/" element={<Landing />} />
           <Route
-            path='/login'
+            path="/login"
             element={<Login setIsAuthenticated={setIsAuthenticated} />}
           />
-          <Route path='/login/company' element={<Login company />} />
+          <Route path="/login/company" element={<Login company />} />
         </Route>
         <Route element={<PrivateRoute isAuth={isAuthenticated.isAuth} />}>
           <Route element={<AppbarLayout role={isAuthenticated.role} />}>
             {(isAuthenticated.role == 5 || isAuthenticated.role == 4) && (
-              <Route path='/resume' element={<CV_preview />} />
+              <Route path="/resume" element={<CV_preview />} />
             )}
             {isAuthenticated.role == 2 && (
-              <Route path='/resumes' element={<AdminDashboard />} />
+              <Route path="/resumes" element={<AdminDashboard />} />
             )}
             {isAuthenticated.role == 2 && (
-              <Route path='/register-company' element={<RegisterCompany />} />
+              <Route path="/register-company" element={<RegisterCompany />} />
             )}
             {isAuthenticated.role == 2 && (
-              <Route path='/job-offers' element={<VacancyList />} />
+              <Route path="/job-offers" element={<VacancyList />} />
             )}
             <Route
-              path='/profile'
+              path="/profile"
               element={<Profile setIsAuthenticated={setIsAuthenticated} />}
             >
-              <Route path='settings' element={<p>configuracion generales</p>} />
+              <Route path="settings" element={<p>configuracion generales</p>} />
               <Route index element={<p>pagina de configuracion</p>} />
             </Route>
-            <Route path='*' element={<h1>not found</h1>} />
+            <Route path="*" element={<h1>not found</h1>} />
           </Route>
         </Route>
       </Routes>
