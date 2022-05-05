@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
 import PublicRoute from './components/PublicRoute';
@@ -18,6 +18,8 @@ import ShareResume from './pages/AdminDashboard/ShareResume';
 import CandidatesCompany from './pages/CandidatesCompany';
 import JobOffersCompany from './pages/JobOffersCompany';
 import CreateJobOfferCompany from './pages/CreateJobOfferCompany';
+import UserResumeById from './pages/AdminDashboard/ResumeList/UserResumeById';
+import ResumePlaceholder from './pages/AdminDashboard/ResumeList/ResumePlaceholder';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState({
@@ -60,10 +62,13 @@ const App = () => {
               <Route path='/resume' element={<CV_preview />} />
             )}
             {isAuthenticated.role == 2 && (
-              <Route path='/resumes' element={<ResumeContextProvider />}>
-                <Route index element={<ResumeList />} />
-                <Route path='comments' element={<AddComment />} />
-                <Route path='share' element={<ShareResume />} />
+              <Route element={<ResumeContextProvider />}>
+                <Route path='/resumes' element={<ResumeList />}>
+                  <Route index element={<ResumePlaceholder />} />
+                  <Route path=':id' element={<UserResumeById />} />
+                </Route>
+                <Route path='/resumes/:id/comments' element={<AddComment />} />
+                <Route path='/resumes/:id/share' element={<ShareResume />} />
               </Route>
             )}
             {isAuthenticated.role == 2 && (
@@ -97,7 +102,10 @@ const App = () => {
               <Route path='settings' element={<p>configuracion generales</p>} />
               <Route index element={<p>pagina de configuracion</p>} />
             </Route>
-            <Route path='*' element={<h1>not found</h1>} />
+            <Route
+              path='*'
+              element={<h1 style={{ paddingTop: '30px' }}>not found</h1>}
+            />
           </Route>
         </Route>
       </Routes>
