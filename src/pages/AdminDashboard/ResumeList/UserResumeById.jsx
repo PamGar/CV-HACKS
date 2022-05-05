@@ -8,9 +8,15 @@ import { ResumeContext } from '../ResumeContextProvider';
 
 const UserResumeById = () => {
   const { id } = useParams();
-  const [loadingResume, setLoadingResume] = useState(true);
-  const { userData, resumeData, setResumeData, setUserData } =
-    useContext(ResumeContext);
+  const {
+    userSelectedId,
+    setUserSelectedId,
+    userData,
+    resumeData,
+    setResumeData,
+    setUserData,
+  } = useContext(ResumeContext);
+  const [loadingResume, setLoadingResume] = useState(resumeData ? false : true);
   let controller = new AbortController();
 
   const GetCV = () => {
@@ -31,7 +37,7 @@ const UserResumeById = () => {
     });
   };
 
-  const test = async () => {
+  const GetBoth = async () => {
     setLoadingResume(true);
     try {
       const data = await Promise.all([GetCV(), GetUserData()]);
@@ -47,11 +53,14 @@ const UserResumeById = () => {
     }
   };
   useEffect(() => {
-    test();
+    !resumeData && GetBoth();
+    resumeData && userData.id != id && GetBoth();
+    !userSelectedId && setUserSelectedId(+id);
     return () => {
       controller.abort();
     };
   }, [id]);
+
   return (
     <>
       {loadingResume && <ResumeSkeleton />}
