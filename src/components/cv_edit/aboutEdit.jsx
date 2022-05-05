@@ -5,13 +5,7 @@ import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { Form, AccordeonBox, ButtonBox } from './EditStyledComponents';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faTrashCan,
-  faPenToSquare,
-  faEye,
-  faEyeSlash,
-  faUser,
-} from '@fortawesome/free-regular-svg-icons';
+import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 
 const AboutEdit = (props) => {
@@ -45,8 +39,6 @@ const AboutEdit = (props) => {
   const myId = window.localStorage.getItem('id');
   const [itemsList, setItemsList] = useState([]);
   const refForm = useRef();
-
-  console.log(item);
 
   const getItemsList = async () => {
     try {
@@ -120,15 +112,25 @@ const AboutEdit = (props) => {
   };
 
   const handleFileChange = (e) => {
-    setItem({
-      ...item,
-      user: {
-        ...item.user,
-        image: profileImageRef.current.files[0],
-      },
-    });
-    /* setItem({ ...item, image: profileImageRef.current.files[0] }); */
+    const { files } = e.target;
+
     UploadImageInfo(e);
+
+    var reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = function () {
+      let base64 = reader.result.toString();
+      setItem({
+        ...item,
+        user: {
+          ...item.user,
+          image: base64,
+        },
+      });
+    };
+    reader.onerror = function (error) {
+      console.log('Error: ', error);
+    };
   };
 
   const toggleAccordeonHandle = () => {
@@ -137,113 +139,25 @@ const AboutEdit = (props) => {
   };
 
   const getHeight = () => {
-    console.log('getHeight');
-    /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
     setTimeout(() => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
-    }, 1000);
-  };
-
-  const addItem = async (e) => {
-    e.preventDefault();
-    try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}`,
-        item,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      setItem({
-        name: '',
-        company: '',
-        expedition_date: '',
-        expiry_date: null,
-        credential_id: null,
-        credential_url: '',
-      });
-      getItemsList();
-      props.refreshCvData();
-    } catch (error) {
-      console.error('error', error);
-    }
-  };
-
-  const removeLanguage = async (event, id) => {
-    event.preventDefault();
-
-    try {
-      const { data } = await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}/${id}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      getItemsList();
-      props.refreshCvData();
-    } catch (error) {
-      console.error('error', error);
-    }
-  };
-
-  const getLanguage = async (event, id) => {
-    event.preventDefault();
-
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-certifications/${props.cvId}/${id}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      setItem(data);
-      setEditItems(true);
-    } catch (error) {
-      console.error('error', error);
-    }
+    }, 500);
   };
 
   const updateLanguage = async (event, id) => {
     event.preventDefault();
 
-    const formData = new FormData(refForm.current);
-
     try {
       const { data } = await axios.put(URL, item, {
         headers: {
           authorization: `Token ${myToken}`,
-          'Content-Type': 'multipart/form-data',
         },
-      }); /* 
-      setEditItems(false); */
-      setItem({
-        user: {
-          about_me: '',
-          name: '',
-          paternal_surname: '',
-          mothers_maiden_name: '0',
-          birthdate: '2020-06-21',
-          gender: '0',
-          subscribed: false,
-          phone: '',
-        },
-        address: {
-          state: '',
-          country: '',
-        },
-        address_update: false,
       });
-      /* getItemsList(); */
-      console.log('data send');
+      toast.success('Perfil actualizado');
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
+      toast.error('Algo ocurrio, intenta de nuevo');
+      console.log('errorAbout', error);
     }
   };
 
@@ -302,6 +216,7 @@ const AboutEdit = (props) => {
                     type="file"
                     id="image"
                     name="image"
+                    accept="image/x-png,image/gif,image/jpeg"
                     autoComplete="off"
                     onChange={handleFileChange}
                   />
@@ -455,11 +370,6 @@ const AboutEdit = (props) => {
                     required
                   />
                 </p>
-                <SocialEdit
-                  cvId={props.cvId}
-                  getHeight={getHeight}
-                  refreshCvData={props.refreshCvData}
-                />
                 <ButtonBox>
                   {editItems ? (
                     <>
@@ -477,6 +387,11 @@ const AboutEdit = (props) => {
                     <Button type="button">Guardar</Button>
                   )}
                 </ButtonBox>
+                <SocialEdit
+                  cvId={props.cvId}
+                  getHeight={getHeight}
+                  refreshCvData={props.refreshCvData}
+                />
               </div>
             </form>
           </div>

@@ -9,6 +9,7 @@ import RegisterCompany from './pages/RegisterCompany';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import VacancyList from './pages/VacancyList';
+import Landing from './pages/landing';
 import AppbarLayout from './layouts/AppbarLayout';
 import Profile from './pages/Profile';
 import ResumeContextProvider from './pages/AdminDashboard/ResumeContextProvider';
@@ -29,7 +30,7 @@ const App = () => {
   return (
     <Router>
       <ToastContainer
-        position='top-right'
+        position="top-right"
         autoClose={3000}
         hideProgressBar
         newestOnTop={false}
@@ -49,17 +50,17 @@ const App = () => {
             />
           }
         >
-          <Route path='/' element={<h1>landing</h1>} />
+          <Route path="/" element={<Landing />} />
           <Route
-            path='/login'
+            path="/login"
             element={<Login setIsAuthenticated={setIsAuthenticated} />}
           />
-          <Route path='/login/company' element={<Login company />} />
+          <Route path="/login/company" element={<Login company />} />
         </Route>
         <Route element={<PrivateRoute isAuth={isAuthenticated.isAuth} />}>
           <Route element={<AppbarLayout role={isAuthenticated.role} />}>
             {(isAuthenticated.role == 5 || isAuthenticated.role == 4) && (
-              <Route path='/resume' element={<CV_preview />} />
+              <Route path="/resume" element={<CV_preview />} />
             )}
             {isAuthenticated.role == 2 && (
               <Route element={<ResumeContextProvider />}>
@@ -72,11 +73,11 @@ const App = () => {
               </Route>
             )}
             {isAuthenticated.role == 2 && (
-              <Route path='/register-company' element={<RegisterCompany />} />
+              <Route path="/register-company" element={<RegisterCompany />} />
             )}
             {(isAuthenticated.role == 2 || isAuthenticated.role == 3) && (
               <Route
-                path='/job-offers'
+                path="/job-offers"
                 element={
                   isAuthenticated.role == 2 ? (
                     <VacancyList />
@@ -87,19 +88,19 @@ const App = () => {
               />
             )}
             {isAuthenticated.role == 3 && (
-              <Route path='/candidates' element={<CandidatesCompany />} />
+              <Route path="/candidates" element={<CandidatesCompany />} />
             )}
             {isAuthenticated.role == 3 && (
               <Route
-                path='/create-job-offer'
+                path="/create-job-offer"
                 element={<CreateJobOfferCompany />}
               />
             )}
             <Route
-              path='/profile'
+              path="/profile"
               element={<Profile setIsAuthenticated={setIsAuthenticated} />}
             >
-              <Route path='settings' element={<p>configuracion generales</p>} />
+              <Route path="settings" element={<p>configuracion generales</p>} />
               <Route index element={<p>pagina de configuracion</p>} />
             </Route>
             <Route

@@ -27,9 +27,11 @@ const HelpCont = styled.button`
   padding: 0 20px;
   background: none;
   cursor: pointer;
+  z-index: 10;
 
   p {
-    background-color: #99e2e3;
+    background-color: #545796;
+    color: #fff;
     padding: 10px 0;
     border-radius: 5px;
     font-weight: 700;
@@ -195,6 +197,7 @@ const CV_preview = () => {
   };
 
   const handleSidebarHelp = () => {
+    console.log('help');
     if (sidebarHelpWidth === 0) {
       setSidebarHelpWidth(-100);
     } else {
@@ -216,7 +219,7 @@ const CV_preview = () => {
         }
       );
       setUser(data);
-      console.log('user', data);
+      console.log(data);
       data.name === null ? setFirstData(true) : setFirstData(false);
     } catch (error) {
       const invalidToken = error.response.data.message;
@@ -242,7 +245,7 @@ const CV_preview = () => {
           },
         }
       );
-      console.log(data);
+      getUserData();
       setCvData(data);
       setDataNotLoaded(false);
     } catch (error) {
@@ -328,10 +331,12 @@ const CV_preview = () => {
         profilePicture={`${user.image}`}
       />
 
-      <HelpCont onClick={handleSidebarHelp}>
-        <p>¿Ayuda necesitas?</p>
-        <img src={Hacky} alt="" />
-      </HelpCont>
+      {
+        <HelpCont onClick={handleSidebarHelp}>
+          <p>¿Ayuda necesitas?</p>
+          <img src={Hacky} alt="" />
+        </HelpCont>
+      }
       {/* <FloatBox>
         <button className="tasks" onClick={handleSidebarTask}>
           <img src={TasksButton} alt="" />

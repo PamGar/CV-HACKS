@@ -8,9 +8,11 @@ import {
   faEyeSlash,
   faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
+import { faCertificate } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
+import { toast } from 'react-toastify';
 
 const CertificationsEdit = (props) => {
   const [hide, setHide] = useState(false);
@@ -19,9 +21,10 @@ const CertificationsEdit = (props) => {
     name: '',
     company: '',
     expedition_date: '',
-    expiry_date: null,
-    credential_id: null,
+    expiry_date: '',
+    credential_id: '',
     credential_url: '',
+    id: '',
   });
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
@@ -30,8 +33,18 @@ const CertificationsEdit = (props) => {
   const getHeightRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
-
   const [itemsList, setItemsList] = useState([]);
+  const [disabledEndDate, setDisabledEndDate] = useState(false);
+
+  const handleCheck = (event) => {
+    const checked = event.target.checked;
+
+    setItem({
+      ...item,
+      expiry_date: checked ? null : '',
+    });
+    setDisabledEndDate(!disabledEndDate);
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -64,14 +77,16 @@ const CertificationsEdit = (props) => {
         }
       );
       setItemsList(data.data);
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setTimeout(() => {
+        setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      }, 100);
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
   const addItem = async (e) => {
-    console.log('hi');
     e.preventDefault();
     try {
       const { data } = await axios.post(
@@ -90,14 +105,17 @@ const CertificationsEdit = (props) => {
         expiry_date: null,
         credential_id: null,
         credential_url: '',
+        id: '',
       });
       getItemsList();
+      toast.success('Certificado agregado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -114,9 +132,11 @@ const CertificationsEdit = (props) => {
         }
       );
       getItemsList();
+      toast.success('Certificado eliminado con exito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -132,14 +152,24 @@ const CertificationsEdit = (props) => {
           },
         }
       );
-      setItem(data);
+      setItem({
+        name: data.name,
+        company: data.company,
+        expedition_date: data.expedition_date,
+        expiry_date: data.expiry_date,
+        credential_id: data.credential_id,
+        credential_url: data.credential_url,
+        id: data.id,
+      });
+      setDisabledEndDate(data.expiry_date === null ? true : false);
       setEditItems(true);
-      formRef.current.classList.toggle('unhide');
-      addButtonRef.current.classList.toggle('hide');
+      formRef.current.classList.add('unhide');
+      addButtonRef.current.classList.add('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -164,19 +194,23 @@ const CertificationsEdit = (props) => {
         expiry_date: null,
         credential_id: null,
         credential_url: '',
+        id: '',
       });
       getItemsList();
+      toast.success('Certificado actualizado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
   const cancelUpdate = (event) => {
     event.preventDefault();
+    setDisabledEndDate(false);
     setEditItems(false);
     formRef.current.classList.toggle('unhide');
     addButtonRef.current.classList.toggle('hide');
@@ -185,9 +219,10 @@ const CertificationsEdit = (props) => {
       name: '',
       company: '',
       expedition_date: '',
-      expiry_date: null,
-      credential_id: null,
+      expiry_date: '',
+      credential_id: '',
       credential_url: '',
+      id: '',
     });
   };
 
@@ -231,7 +266,10 @@ const CertificationsEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Certificados
+            <div>
+              <FontAwesomeIcon icon={faCertificate} className="iconAccordeon" />
+              Certificados
+            </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>
@@ -255,9 +293,9 @@ const CertificationsEdit = (props) => {
                       <p className="first">
                         {item.company}
                         {' • '}
-                        <span className="second">{item.company}</span>
+                        <span className="second">{item.name}</span>
                       </p>
-                      <p className="second">{item.description}</p>
+                      <p className="second">{item.company}</p>
 
                       <p className="third">
                         <FontAwesomeIcon
@@ -266,7 +304,9 @@ const CertificationsEdit = (props) => {
                         />{' '}
                         {item.expedition_date}
                         {' • '}
-                        {item.expiry_date}
+                        {item.expiry_date === null
+                          ? 'Actualmente'
+                          : item.expiry_date}
                       </p>
 
                       <a href="http://">{item.credential_url}</a>
@@ -377,10 +417,12 @@ const CertificationsEdit = (props) => {
                         type="date"
                         id="expiry_date"
                         name="expiry_date"
-                        value={item.expiry_date}
+                        value={
+                          item.expiry_date === null ? '' : item.expiry_date
+                        }
                         autoComplete="off"
                         onChange={handleChange}
-                        required
+                        disabled={disabledEndDate}
                       />
                     </p>
                     <div className="check_data">
@@ -388,9 +430,9 @@ const CertificationsEdit = (props) => {
                         type="checkbox"
                         id="expiry_date"
                         name="expiry_date"
-                        value={item.expiry_date}
+                        checked={disabledEndDate}
                         autoComplete="off"
-                        onChange={handleChange}
+                        onChange={handleCheck}
                       />
                       <label htmlFor="expiry_date">Presente (Actualidad)</label>
                     </div>
@@ -441,7 +483,7 @@ const CertificationsEdit = (props) => {
                     </>
                   ) : (
                     <>
-                      <Button type="button" onClick={handleForm}>
+                      <Button type="button" onClick={cancelUpdate}>
                         Cancelar
                       </Button>
                       <Button type="button">Guardar</Button>

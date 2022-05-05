@@ -6,11 +6,12 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
-  faComments,
 } from '@fortawesome/free-regular-svg-icons';
+import { faLanguage } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
+import { toast } from 'react-toastify';
 
 const LanguagesEdit = (props) => {
   const [hide, setHide] = useState(false);
@@ -28,7 +29,6 @@ const LanguagesEdit = (props) => {
   const addButtonRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
-
   const [languagesList, setLanguagesList] = useState([]);
 
   const handleChange = (event) => {
@@ -70,12 +70,14 @@ const LanguagesEdit = (props) => {
         type: 'Language',
       });
       getLanguagesList();
+      toast.success('Agregado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -92,9 +94,11 @@ const LanguagesEdit = (props) => {
         }
       );
       getLanguagesList();
+      toast.success('Eliminado con exito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -118,6 +122,7 @@ const LanguagesEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -146,12 +151,14 @@ const LanguagesEdit = (props) => {
         type: 'Language',
       });
       getLanguagesList();
+      toast.success('Actualizado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -180,7 +187,9 @@ const LanguagesEdit = (props) => {
         }
       );
       setLanguagesList(data.data);
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setTimeout(() => {
+        setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      }, 100);
     } catch (error) {
       console.error('error', error);
     }
@@ -227,7 +236,7 @@ const LanguagesEdit = (props) => {
             onClick={toggleAccordeonHandle}
           >
             <div>
-              <FontAwesomeIcon icon={faComments} className="iconAccordeon" />
+              <FontAwesomeIcon icon={faLanguage} className="iconAccordeon" />
               Idiomas
             </div>
             <div className="openClose">

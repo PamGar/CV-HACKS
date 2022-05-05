@@ -11,7 +11,7 @@ export const AccordeonBox = styled.div`
 
     .iconAccordeon {
       font-size: 18px;
-      margin-right: 10px;
+      margin-right: 25px;
 
       path {
         color: #fff;
@@ -263,7 +263,8 @@ export const AccordeonBox = styled.div`
 
         label {
           margin: 0 0 0 5px;
-          font-weight: 500;
+          color: #5e5e5e;
+          font-size: 12px;
         }
       }
     }

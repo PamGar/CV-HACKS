@@ -8,9 +8,11 @@ import {
   faEyeSlash,
   faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
+import { faSuitcase } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { BoxColumn, AccordeonBox, ButtonBox } from './EditStyledComponents';
+import { toast } from 'react-toastify';
 
 const JobEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/experience/${props.cvId}`;
@@ -48,6 +50,20 @@ const JobEdit = (props) => {
   const getHeightRef = useRef();
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const myToken = window.localStorage.getItem('authToken');
+  const [disabledEndDate, setDisabledEndDate] = useState(false);
+
+  const handleCheck = (event) => {
+    const checked = event.target.checked;
+
+    setItem({
+      ...item,
+      data: {
+        ...item.data,
+        end_date: checked ? null : '',
+      },
+    });
+    setDisabledEndDate(!disabledEndDate);
+  };
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
@@ -69,9 +85,12 @@ const JobEdit = (props) => {
         },
       });
       setItemsList(data.data);
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setTimeout(() => {
+        setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      }, 100);
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -108,12 +127,14 @@ const JobEdit = (props) => {
         address_id: '',
       });
       getItemsList();
+      toast.success('Agregado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -127,9 +148,11 @@ const JobEdit = (props) => {
         },
       });
       getItemsList();
+      toast.success('Eliminado con exito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -149,7 +172,7 @@ const JobEdit = (props) => {
           company_name: data.company_name,
           area: data.area,
           start_date: data.start_date,
-          end_date: data.start_date,
+          end_date: data.end_date,
           description: data.description,
         },
         address: {
@@ -167,12 +190,14 @@ const JobEdit = (props) => {
         address_id: data.address.id,
       });
       setEditItems(true);
-      formRef.current.classList.toggle('unhide');
-      addButtonRef.current.classList.toggle('hide');
+      setDisabledEndDate(data.end_date === null ? true : false);
+      formRef.current.classList.add('unhide');
+      addButtonRef.current.classList.add('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -210,17 +235,20 @@ const JobEdit = (props) => {
         id: '',
       });
       getItemsList();
+      toast.success('Actualizado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
   const cancelUpdate = (event) => {
     event.preventDefault();
+    setDisabledEndDate(false);
     setEditItems(false);
     formRef.current.classList.toggle('unhide');
     addButtonRef.current.classList.toggle('hide');
@@ -316,7 +344,10 @@ const JobEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Experiencia laboral
+            <div>
+              <FontAwesomeIcon icon={faSuitcase} className="iconAccordeon" />
+              Experiencia laboral
+            </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>
@@ -350,7 +381,7 @@ const JobEdit = (props) => {
                         />{' '}
                         {item.start_date}
                         {' • '}
-                        {item.end_date}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                       <div className="editBox">
                         <button onClick={(event) => getItem(event, item.id)}>
@@ -481,26 +512,26 @@ const JobEdit = (props) => {
                   </div>
                   <div>
                     <p>
-                      <label htmlFor="expiry_date">
+                      <label htmlFor="end_date">
                         Fecha de culminación
                         <span className="fieldRecomendation">Requerido</span>
                       </label>
                       <input
                         type="date"
                         name="end_date"
-                        value={item.data.end_date}
+                        value={item.end_date === null ? '' : item.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
-                        required
+                        disabled={disabledEndDate}
                       />
                     </p>
                     <div className="check_data">
                       <input
                         type="checkbox"
                         name="expiry_date"
-                        value={item.data.end_date}
+                        checked={disabledEndDate}
                         autoComplete="off"
-                        onChange={handleDataChange}
+                        onChange={handleCheck}
                       />
                       <label htmlFor="expiry_date">Presente (Actualidad)</label>
                     </div>

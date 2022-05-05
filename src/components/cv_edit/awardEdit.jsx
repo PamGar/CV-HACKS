@@ -6,9 +6,9 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
-  faStar,
   faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
+import { faAward } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
@@ -65,10 +65,11 @@ const AwardEdit = (props) => {
         }
       );
       setItemsList(data.data);
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setTimeout(() => {
+        setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      }, 100);
     } catch (error) {
       toast.error(error.response.data.message);
-      console.error('error', error);
     }
   };
 
@@ -88,12 +89,14 @@ const AwardEdit = (props) => {
         description: '',
       });
       getItemsList();
+      toast.success('Premio agregado');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
+      console.log('errorAward', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -107,9 +110,11 @@ const AwardEdit = (props) => {
         },
       });
       getItemsList();
+      toast.success('Premio eliminado con exito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -130,6 +135,7 @@ const AwardEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -160,6 +166,7 @@ const AwardEdit = (props) => {
         description: '',
       });
       getItemsList();
+      toast.success('Premio actualizado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
@@ -225,7 +232,7 @@ const AwardEdit = (props) => {
             onClick={toggleAccordeonHandle}
           >
             <div>
-              <FontAwesomeIcon icon={faStar} className="iconAccordeon" />
+              <FontAwesomeIcon icon={faAward} className="iconAccordeon" />
               Premios
             </div>
             <div className="openClose">

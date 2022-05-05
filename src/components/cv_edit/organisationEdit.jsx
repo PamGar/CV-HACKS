@@ -6,12 +6,13 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
-  faHandshake,
   faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
+import { faHandshake } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
+import { toast } from 'react-toastify';
 
 const OrganisationEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/formnormals/${props.cvId}`;
@@ -47,6 +48,20 @@ const OrganisationEdit = (props) => {
   const [childBodyHeight, setChildBodyHeight] = useState(0);
   const toggleAccordeonRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
+  const [disabledEndDate, setDisabledEndDate] = useState(false);
+
+  const handleCheck = (event) => {
+    const checked = event.target.checked;
+
+    setItem({
+      ...item,
+      data: {
+        ...item.data,
+        end_date: checked ? null : '',
+      },
+    });
+    setDisabledEndDate(!disabledEndDate);
+  };
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
@@ -71,9 +86,12 @@ const OrganisationEdit = (props) => {
         }
       );
       setItemsList(data.data);
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setTimeout(() => {
+        setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      }, 100);
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -107,12 +125,14 @@ const OrganisationEdit = (props) => {
         address_update: false,
       });
       getItemsList();
+      toast.success('Agregado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -126,9 +146,11 @@ const OrganisationEdit = (props) => {
         },
       });
       getItemsList();
+      toast.success('Eliminado con exito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -165,12 +187,14 @@ const OrganisationEdit = (props) => {
         id: data.id,
       });
       setEditItems(true);
-      formRef.current.classList.toggle('unhide');
-      addButtonRef.current.classList.toggle('hide');
+      setDisabledEndDate(data.end_date === null ? true : false);
+      formRef.current.classList.add('unhide');
+      addButtonRef.current.classList.add('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -207,17 +231,20 @@ const OrganisationEdit = (props) => {
         id: '',
       });
       getItemsList();
+      toast.success('Actualizado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
   const cancelUpdate = (event) => {
     event.preventDefault();
+    setDisabledEndDate(false);
     setEditItems(false);
     formRef.current.classList.toggle('unhide');
     addButtonRef.current.classList.toggle('hide');
@@ -348,7 +375,7 @@ const OrganisationEdit = (props) => {
                         />{' '}
                         {item.start_date}
                         {' • '}
-                        {item.end_date}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                       <div className="editBox">
                         <button onClick={(event) => getItem(event, item.id)}>
@@ -479,28 +506,28 @@ const OrganisationEdit = (props) => {
                   </div>
                   <div>
                     <p>
-                      <label htmlFor="expiry_date">
+                      <label htmlFor="end_date">
                         Fecha de culminación
                         <span className="fieldRecomendation">Requerido</span>
                       </label>
                       <input
                         type="date"
                         name="end_date"
-                        value={item.data.end_date}
+                        value={item.end_date === null ? '' : item.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
-                        required
+                        disabled={disabledEndDate}
                       />
                     </p>
                     <div className="check_data">
                       <input
                         type="checkbox"
                         name="expiry_date"
-                        value={item.data.end_date}
+                        checked={disabledEndDate}
                         autoComplete="off"
-                        onChange={handleDataChange}
+                        onChange={handleCheck}
                       />
-                      <label htmlFor="expiry_date">Presente (Actualidad)</label>
+                      <label htmlFor="end_date">Presente (Actualidad)</label>
                     </div>
                   </div>
                 </div>
