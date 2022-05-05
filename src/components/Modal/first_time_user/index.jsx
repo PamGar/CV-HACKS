@@ -251,7 +251,6 @@ const FirstTime = ({ closeModal, isOpen }) => {
   /*Manejar el envio del formulario*/
   const handleSubmit = (e) => {
     e.preventDefault();
-
     const postData = async () => {
       try {
         const { data } = await axios.put(
@@ -391,7 +390,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
                 />
               </p>
             </div>
-            <div className="multiBox">
+            {/*  <div className="multiBox">
               <p>
                 <label htmlFor="address/town">
                   <span>Ciudad</span>
@@ -498,7 +497,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
                   required
                 />
               </p>
-            </div>
+            </div> */}
           </fieldset>
           <section>
             <Input

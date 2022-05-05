@@ -2,6 +2,8 @@ import React, { useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import LanguagesEdit from './languagesEdit';
 import { ButtonBox, ButtonBoxSticky } from './EditStyledComponents';
 import CertificationsEdit from './certificationsEdit';
@@ -17,10 +19,11 @@ import JobEdit from './jobEdit';
 import ProjectsEdit from './projectsEdit';
 
 const Wrapper = styled.div`
-  padding: 10px;
+  padding: 20px;
   background-color: #fff;
   border-radius: 15px;
   box-shadow: 2px 1px 7px #00000057;
+  margin-bottom: 20px;
 
   input::placeholder {
     color: #888;
@@ -29,7 +32,7 @@ const Wrapper = styled.div`
   p {
     display: flex;
     flex-direction: column;
-    margin-top: 5px;
+    margin-top: 15px;
   }
 
   label {
@@ -42,7 +45,7 @@ const Wrapper = styled.div`
   }
 
   input {
-    border-radius: 10px;
+    border-radius: 15px;
     padding: 15px 10px;
     background-color: #ededed;
   }
@@ -51,6 +54,19 @@ const Wrapper = styled.div`
     outline: none !important;
     border-color: #63b2b3;
     box-shadow: 0 0 10px #63b2b3;
+  }
+
+  button {
+    background-color: #08adb4;
+
+    &:hover {
+      background-color: #08adb4;
+      opacity: 0.5;
+    }
+
+    &:active {
+      background-color: #07949b;
+    }
   }
 
   @media (max-width: 820px) {
@@ -80,6 +96,7 @@ const EditCV = ({ editButton, cvId, refreshCvData }) => {
       </Wrapper>
       <ButtonBoxSticky>
         <Button type="button" onClick={editButton}>
+          <FontAwesomeIcon icon={faArrowLeft} className="calendar" />
           Volver
         </Button>
       </ButtonBoxSticky>

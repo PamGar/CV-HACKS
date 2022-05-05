@@ -8,9 +8,11 @@ import {
   faEyeSlash,
   faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
+import { faScroll } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
+import { toast } from 'react-toastify';
 
 const CoursesEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/formnormals/${props.cvId}`;
@@ -47,6 +49,20 @@ const CoursesEdit = (props) => {
   const formRef = useRef();
   const addButtonRef = useRef();
   const myToken = window.localStorage.getItem('authToken');
+  const [disabledEndDate, setDisabledEndDate] = useState(false);
+
+  const handleCheck = (event) => {
+    const checked = event.target.checked;
+
+    setItem({
+      ...item,
+      data: {
+        ...item.data,
+        end_date: checked ? null : '',
+      },
+    });
+    setDisabledEndDate(!disabledEndDate);
+  };
 
   const toggleAccordeonHandle = () => {
     toggleAccordeonRef.current.classList.toggle('hide');
@@ -71,9 +87,12 @@ const CoursesEdit = (props) => {
         }
       );
       setItemsList(data.data);
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setTimeout(() => {
+        setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      }, 100);
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -108,12 +127,14 @@ const CoursesEdit = (props) => {
         id: '',
       });
       getItemsList();
+      toast.success('Curso agregado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -127,9 +148,11 @@ const CoursesEdit = (props) => {
         },
       });
       getItemsList();
+      toast.success('Curso eliminado con exito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -165,12 +188,14 @@ const CoursesEdit = (props) => {
         address_id: data.address.id,
       });
       setEditItems(true);
-      formRef.current.classList.toggle('unhide');
-      addButtonRef.current.classList.toggle('hide');
+      setDisabledEndDate(data.end_date === null ? true : false);
+      formRef.current.classList.add('unhide');
+      addButtonRef.current.classList.add('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -207,17 +232,20 @@ const CoursesEdit = (props) => {
         id: '',
       });
       getItemsList();
+      toast.success('Curso actualizado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
   const cancelUpdate = (event) => {
     event.preventDefault();
+    setDisabledEndDate(false);
     setEditItems(false);
     formRef.current.classList.toggle('unhide');
     addButtonRef.current.classList.toggle('hide');
@@ -313,7 +341,10 @@ const CoursesEdit = (props) => {
             ref={toggleAccordeonRef}
             onClick={toggleAccordeonHandle}
           >
-            Cursos
+            <div>
+              <FontAwesomeIcon icon={faScroll} className="iconAccordeon" />
+              Cursos
+            </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
             </div>
@@ -343,7 +374,8 @@ const CoursesEdit = (props) => {
                           icon={faCalendar}
                           className="calendar"
                         />{' '}
-                        {item.start_date} {' • '} {item.end_date}
+                        {item.start_date} {' • '}{' '}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                       <div className="editBox">
                         <button onClick={(event) => getItem(event, item.id)}>
@@ -357,7 +389,7 @@ const CoursesEdit = (props) => {
                             visibility(event, !item.public, item.id, index);
                           }}
                         >
-                          {item.public ? (
+                          {!item.public ? (
                             <FontAwesomeIcon
                               icon={faEyeSlash}
                               className="editBox_hide"
@@ -474,26 +506,26 @@ const CoursesEdit = (props) => {
                   </div>
                   <div>
                     <p>
-                      <label htmlFor="expiry_date">
+                      <label htmlFor="end_date">
                         Fecha de culminación
                         <span className="fieldRecomendation">Requerido</span>
                       </label>
                       <input
                         type="date"
                         name="end_date"
-                        value={item.data.end_date}
+                        value={item.end_date === null ? '' : item.end_date}
                         autoComplete="off"
                         onChange={handleDataChange}
-                        required
+                        disabled={disabledEndDate}
                       />
                     </p>
                     <div className="check_data">
                       <input
                         type="checkbox"
                         name="expiry_date"
-                        value={item.data.end_date}
+                        checked={disabledEndDate}
                         autoComplete="off"
-                        onChange={handleDataChange}
+                        onChange={handleCheck}
                       />
                       <label htmlFor="expiry_date">Presente (Actualidad)</label>
                     </div>

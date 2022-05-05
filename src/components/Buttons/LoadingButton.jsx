@@ -5,7 +5,7 @@ const Button = styled.button`
   border: none;
   background-color: ${(props) => (props.disabled ? '#c7c7c7' : '#565696')};
   color: ${(props) => (props.disabled ? '#888888' : 'white')};
-  border-radius: 15px;
+  border-radius: 50px;
   width: ${(props) => (props.fullWidth ? '100%' : 'max-content')};
   box-shadow: 0 1px 4px #888888;
   font-size: 0.875rem;
@@ -15,6 +15,13 @@ const Button = styled.button`
   display: flex;
   justify-content: center;
   text-transform: uppercase;
+
+  svg {
+    margin-right: 10px;
+    font-size: 14px;
+    position: relative;
+    top: 1px;
+  }
 
   &::after {
     content: '';
