@@ -3,12 +3,15 @@ import MainContentWrapper from '../../../components/MainContentWrapper';
 import styled from 'styled-components';
 import MultipleEmail from '../../../components/MultipleEmail';
 import MainAndRightLayout from '../../../layouts/MainAndRightLayout';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import UserResumeById from '../ResumeList/UserResumeById';
 
-const ShareResume = ({ setShowMainContent }) => {
+const ShareResume = () => {
   const [emailList, setEmailList] = useState([]);
   const [loading, setLoading] = useState({ loading: false, disable: false });
   const navigate = useNavigate();
+  const { id } = useParams();
+  console.log(id);
 
   const postEmailList = async () => {
     setLoading((prev) => ({ loading: true, disable: true }));
@@ -38,7 +41,7 @@ const ShareResume = ({ setShowMainContent }) => {
           <MultipleEmail emailList={emailList} setEmailList={setEmailList} />
         </MainContentWrapper>
       }
-      right={<h1>cv</h1>}
+      right={<UserResumeById />}
     />
   );
 };
