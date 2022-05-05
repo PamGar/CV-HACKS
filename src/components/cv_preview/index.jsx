@@ -302,15 +302,15 @@ const CV_preview = ({
   return (
     <>
       <Page style={{ display: 'none' }}>
-        <div className="page_container" ref={widthRef}>
-          <div className="page" ref={componentRef}>
+        <div className='page_container' ref={widthRef}>
+          <div className='page' ref={componentRef}>
             <style>{getPageMargins()}</style>
             <Header>
               {userData.image ? (
-                <div className="profileImage">
+                <div className='profileImage'>
                   <img
                     src={`${process.env.REACT_APP_BASE_URL}${userData.image}`}
-                    alt=""
+                    alt=''
                   />
                 </div>
               ) : null}
@@ -330,16 +330,16 @@ const CV_preview = ({
                     }}
                   >
                     <p>
-                      {userData.address.country
+                      {/* {userData.address.country
                         ? userData.address.country
-                        : null}
+                        : null} */}
                     </p>
                     <p>{userData.email ? userData.email : null}</p>
                     <p>{userData.phone ? userData.phone : null}</p>
                   </BoxFlex>
                 </BoxColumn>
               </div>
-              <div className="logoHackademy">
+              <div className='logoHackademy'>
                 <img src={Logo} />
               </div>
             </Header>
@@ -348,7 +348,7 @@ const CV_preview = ({
                 <h2>Sobre mi</h2>
                 <p>{userData.about_me}</p>
               </div>
-              <div className="section_study">
+              <div className='section_study'>
                 <h2>Estudios</h2>
                 {cvData.educations.filter((item) => item.public === true)
                   .length === 0 ? null : (
@@ -360,15 +360,15 @@ const CV_preview = ({
                       .map((item) => {
                         return item.public ? (
                           <div key={item.id}>
-                            <p className="first">
+                            <p className='first'>
                               {item.major}
                               {' • '}
-                              <span className="third">{item.degree}</span>
+                              <span className='third'>{item.degree}</span>
                             </p>
-                            <p className="third">
+                            <p className='third'>
                               <FontAwesomeIcon
                                 icon={faCalendar}
-                                className="calendar"
+                                className='calendar'
                               />{' '}
                               {item.start_date}
                               {' • '}
@@ -395,16 +395,16 @@ const CV_preview = ({
                     .map((item) => {
                       return item.public ? (
                         <div key={item.id}>
-                          <p className="first">
+                          <p className='first'>
                             {item.role}
                             {' • '}
-                            <span className="third">{item.company_name}</span>
+                            <span className='third'>{item.company_name}</span>
                           </p>
-                          <p className="Second">{item.description}</p>
-                          <p className="third">
+                          <p className='Second'>{item.description}</p>
+                          <p className='third'>
                             <FontAwesomeIcon
                               icon={faCalendar}
-                              className="calendar"
+                              className='calendar'
                             />{' '}
                             {item.start_date}
                             {' • '}
@@ -430,16 +430,16 @@ const CV_preview = ({
                     .map((item) => {
                       return item.public ? (
                         <div key={item.id}>
-                          <p className="first">
+                          <p className='first'>
                             {item.title}
                             {' • '}
-                            <span className="third">{item.subtitle}</span>
+                            <span className='third'>{item.subtitle}</span>
                           </p>
-                          <p className="second">{item.description}</p>
-                          <p className="third">
+                          <p className='second'>{item.description}</p>
+                          <p className='third'>
                             <FontAwesomeIcon
                               icon={faCalendar}
-                              className="calendar"
+                              className='calendar'
                             />{' '}
                             {item.start_date} {' • '}{' '}
                             {item.end_date === null
@@ -467,16 +467,16 @@ const CV_preview = ({
                     .map((item) => {
                       return item.public ? (
                         <div key={item.id} style={{ padding: '0' }}>
-                          <p className="first">{item.name}</p>
-                          <p className="third">{item.company}</p>
-                          <p className="second">
-                            <span className="first">{'id: '}</span>
+                          <p className='first'>{item.name}</p>
+                          <p className='third'>{item.company}</p>
+                          <p className='second'>
+                            <span className='first'>{'id: '}</span>
                             {item.credential_id}
                           </p>
-                          <p className="third">
+                          <p className='third'>
                             <FontAwesomeIcon
                               icon={faCalendar}
-                              className="calendar"
+                              className='calendar'
                             />{' '}
                             {item.expedition_date}
                             {' • '}
@@ -502,16 +502,16 @@ const CV_preview = ({
                     .map((item) => {
                       return item.public ? (
                         <div key={item.id}>
-                          <p className="first">
+                          <p className='first'>
                             {item.title}
                             {' • '}
-                            <span className="third">{item.subtitle}</span>
+                            <span className='third'>{item.subtitle}</span>
                           </p>
-                          <p className="second">{item.description}</p>
-                          <p className="third">
+                          <p className='second'>{item.description}</p>
+                          <p className='third'>
                             <FontAwesomeIcon
                               icon={faCalendar}
-                              className="calendar"
+                              className='calendar'
                             />{' '}
                             {item.start_date}
                             {' • '}
@@ -537,18 +537,18 @@ const CV_preview = ({
                     .map((item) => {
                       return item.public ? (
                         <div key={item.id}>
-                          <p className="first">
+                          <p className='first'>
                             {item.title}
                             {' • '}
-                            <span className="third">
+                            <span className='third'>
                               {item.additional_information}
                             </span>
                           </p>
-                          <p className="second">{item.description}</p>
-                          <p className="third">
+                          <p className='second'>{item.description}</p>
+                          <p className='third'>
                             <FontAwesomeIcon
                               icon={faCalendar}
-                              className="calendar"
+                              className='calendar'
                             />{' '}
                             {item.start_date}
                             {' • '}
@@ -565,7 +565,7 @@ const CV_preview = ({
             <BoxFlexCV>
               {cvData.publications.filter((item) => item.public === true)
                 .length === 0 ? null : (
-                <div className="center">
+                <div className='center'>
                   <h2>Publicaciones</h2>
                   {cvData.publications
                     .sort((a, b) => {
@@ -574,15 +574,15 @@ const CV_preview = ({
                     .map((item) => {
                       return item.public ? (
                         <div key={item.id}>
-                          <p className="first">
+                          <p className='first'>
                             {item.title}
                             {' • '}
-                            <span className="second">{item.subtitle}</span>
+                            <span className='second'>{item.subtitle}</span>
                           </p>
-                          <p className="third">
+                          <p className='third'>
                             <FontAwesomeIcon
                               icon={faCalendar}
-                              className="calendar"
+                              className='calendar'
                             />{' '}
                             {item.date}
                           </p>
@@ -593,7 +593,7 @@ const CV_preview = ({
               )}
               {cvData.awards.filter((item) => item.public === true).length ===
               0 ? null : (
-                <div className="center">
+                <div className='center'>
                   <h2>Premios</h2>
                   {cvData.awards
                     .sort((a, b) => {
@@ -601,16 +601,16 @@ const CV_preview = ({
                     })
                     .map((item) => {
                       return item.public ? (
-                        <div key={item.id} className="item">
-                          <p className="first">
+                        <div key={item.id} className='item'>
+                          <p className='first'>
                             {item.title}
                             {' • '}
-                            <span className="second">{item.subtitle}</span>
+                            <span className='second'>{item.subtitle}</span>
                           </p>
-                          <p className="third">
+                          <p className='third'>
                             <FontAwesomeIcon
                               icon={faCalendar}
-                              className="calendar"
+                              className='calendar'
                             />{' '}
                             {item.date}
                           </p>
@@ -623,12 +623,12 @@ const CV_preview = ({
             <BoxFlexCV>
               {cvData.skills.filter((item) => item.public === true).length ===
               0 ? null : (
-                <div className="center">
+                <div className='center'>
                   <h2>Skills</h2>
-                  <ul className="item">
+                  <ul className='item'>
                     {cvData.skills.map((item) => {
                       return item.public ? (
-                        <li key={item.id} className="second">
+                        <li key={item.id} className='second'>
                           {item.title}
                         </li>
                       ) : null;
@@ -638,12 +638,12 @@ const CV_preview = ({
               )}
               {cvData.intersts.filter((item) => item.public === true).length ===
               0 ? null : (
-                <div className="center">
+                <div className='center'>
                   <h2>Intereses</h2>
-                  <ul className="item">
+                  <ul className='item'>
                     {cvData.intersts.map((item) => {
                       return item.public ? (
-                        <li key={item.id} className="second">
+                        <li key={item.id} className='second'>
                           {item.title}
                         </li>
                       ) : null;
@@ -658,10 +658,10 @@ const CV_preview = ({
       <Wrapper>
         <Header>
           {userData.image ? (
-            <div className="profileImage">
+            <div className='profileImage'>
               <img
                 src={`${process.env.REACT_APP_BASE_URL}${userData.image}`}
-                alt=""
+                alt=''
               />
             </div>
           ) : null}
@@ -681,7 +681,7 @@ const CV_preview = ({
                 }}
               >
                 <p>
-                  {userData.address.country ? userData.address.country : null}
+                  {/* {userData.address.country ? userData.address.country : null} */}
                 </p>
                 <p>{userData.email ? userData.email : null}</p>
                 <p>{userData.phone ? userData.phone : null}</p>
@@ -696,11 +696,11 @@ const CV_preview = ({
             <BoxFlex>
               {cvData.urls.map((item) => {
                 return item.public ? (
-                  <div key={item.id} className="center">
-                    <a href={item.description} target="_blank" rel="noreferrer">
+                  <div key={item.id} className='center'>
+                    <a href={item.description} target='_blank' rel='noreferrer'>
                       <img src={iconRedesSociales(item.type)} alt={item.type} />
-                      <p className="first">{item.type}</p>
-                      <p className="second">{item.url}</p>
+                      <p className='first'>{item.type}</p>
+                      <p className='second'>{item.url}</p>
                     </a>
                   </div>
                 ) : null;
@@ -720,16 +720,16 @@ const CV_preview = ({
                 .map((item) => {
                   return item.public ? (
                     <div key={item.id}>
-                      <p className="first">
+                      <p className='first'>
                         {item.major}
                         {' • '}
-                        <span className="third">{item.degree}</span>
+                        <span className='third'>{item.degree}</span>
                       </p>
                       <p>{item.description}</p>
-                      <p className="third">
+                      <p className='third'>
                         <FontAwesomeIcon
                           icon={faCalendar}
-                          className="calendar"
+                          className='calendar'
                         />{' '}
                         {item.start_date}
                         {' • '}
@@ -748,13 +748,13 @@ const CV_preview = ({
             <BoxFlex>
               {cvData.languages.map((item) => {
                 return item.public ? (
-                  <div key={item.id} className="center">
-                    <p className="first">
+                  <div key={item.id} className='center'>
+                    <p className='first'>
                       {item.title}
                       {' • '}
-                      <span className="third">{item.level}</span>
+                      <span className='third'>{item.level}</span>
                     </p>
-                    <p className="second">{item.subtitle}</p>
+                    <p className='second'>{item.subtitle}</p>
                   </div>
                 ) : null;
               })}
@@ -773,16 +773,16 @@ const CV_preview = ({
                 .map((item) => {
                   return item.public ? (
                     <div key={item.id}>
-                      <p className="first">
+                      <p className='first'>
                         {item.title}
                         {' • '}
-                        <span className="third">{item.subtitle}</span>
+                        <span className='third'>{item.subtitle}</span>
                       </p>
-                      <p className="second">{item.description}</p>
-                      <p className="third">
+                      <p className='second'>{item.description}</p>
+                      <p className='third'>
                         <FontAwesomeIcon
                           icon={faCalendar}
-                          className="calendar"
+                          className='calendar'
                         />{' '}
                         {item.start_date} {' • '}{' '}
                         {item.end_date === null ? 'Actualmente' : item.end_date}
@@ -806,17 +806,17 @@ const CV_preview = ({
                 })
                 .map((item) => {
                   return item.public ? (
-                    <div key={item.id} className="center">
-                      <p className="first">{item.name}</p>
-                      <p className="third">{item.company}</p>
-                      <p className="second">
-                        <span className="first">{'id: '}</span>
+                    <div key={item.id} className='center'>
+                      <p className='first'>{item.name}</p>
+                      <p className='third'>{item.company}</p>
+                      <p className='second'>
+                        <span className='first'>{'id: '}</span>
                         {item.credential_id}
                       </p>
-                      <p className="third">
+                      <p className='third'>
                         <FontAwesomeIcon
                           icon={faCalendar}
-                          className="calendar"
+                          className='calendar'
                         />{' '}
                         {item.expedition_date}
                         {' • '}
@@ -842,16 +842,16 @@ const CV_preview = ({
                 .map((item) => {
                   return item.public ? (
                     <div key={item.id}>
-                      <p className="first">
+                      <p className='first'>
                         {item.role}
                         {' • '}
-                        <span className="third">{item.company_name}</span>
+                        <span className='third'>{item.company_name}</span>
                       </p>
-                      <p className="Second">{item.description}</p>
-                      <p className="third">
+                      <p className='Second'>{item.description}</p>
+                      <p className='third'>
                         <FontAwesomeIcon
                           icon={faCalendar}
-                          className="calendar"
+                          className='calendar'
                         />{' '}
                         {item.start_date}
                         {' • '}
@@ -875,16 +875,16 @@ const CV_preview = ({
                 .map((item) => {
                   return item.public ? (
                     <div key={item.id}>
-                      <p className="first">
+                      <p className='first'>
                         {item.title}
                         {' • '}
-                        <span className="third">{item.subtitle}</span>
+                        <span className='third'>{item.subtitle}</span>
                       </p>
-                      <p className="second">{item.description}</p>
-                      <p className="third">
+                      <p className='second'>{item.description}</p>
+                      <p className='third'>
                         <FontAwesomeIcon
                           icon={faCalendar}
-                          className="calendar"
+                          className='calendar'
                         />{' '}
                         {item.start_date}
                         {' • '}
@@ -908,18 +908,18 @@ const CV_preview = ({
                 .map((item) => {
                   return item.public ? (
                     <div key={item.id}>
-                      <p className="first">
+                      <p className='first'>
                         {item.title}
                         {' • '}
-                        <span className="third">
+                        <span className='third'>
                           {item.additional_information}
                         </span>
                       </p>
-                      <p className="second">{item.description}</p>
-                      <p className="third">
+                      <p className='second'>{item.description}</p>
+                      <p className='third'>
                         <FontAwesomeIcon
                           icon={faCalendar}
-                          className="calendar"
+                          className='calendar'
                         />{' '}
                         {item.start_date}
                         {' • '}
@@ -943,16 +943,16 @@ const CV_preview = ({
                 .map((item) => {
                   return item.public ? (
                     <div key={item.id}>
-                      <p className="first">
+                      <p className='first'>
                         {item.title}
                         {' • '}
-                        <span className="third">{item.subtitle}</span>
+                        <span className='third'>{item.subtitle}</span>
                       </p>
-                      <p className="second">{item.description}</p>
-                      <p className="third">
+                      <p className='second'>{item.description}</p>
+                      <p className='third'>
                         <FontAwesomeIcon
                           icon={faCalendar}
-                          className="calendar"
+                          className='calendar'
                         />{' '}
                         {item.date}
                       </p>
@@ -973,19 +973,19 @@ const CV_preview = ({
                 })
                 .map((item) => {
                   return item.public ? (
-                    <div key={item.id} className="item">
-                      <div className="header">
-                        <p className="first">
+                    <div key={item.id} className='item'>
+                      <div className='header'>
+                        <p className='first'>
                           {item.title}
                           {' • '}
-                          <span className="third">{item.subtitle}</span>
+                          <span className='third'>{item.subtitle}</span>
                         </p>
                       </div>
-                      <p className="second">{item.description}</p>
-                      <p className="third">
+                      <p className='second'>{item.description}</p>
+                      <p className='third'>
                         <FontAwesomeIcon
                           icon={faCalendar}
-                          className="calendar"
+                          className='calendar'
                         />{' '}
                         {item.date}
                       </p>
@@ -1002,9 +1002,9 @@ const CV_preview = ({
             <BoxColumn>
               {cvData.skills.map((item) => {
                 return item.public ? (
-                  <div key={item.id} className="item">
-                    <p className="first">{item.title}</p>
-                    <p className="second">{item.subtitle}</p>
+                  <div key={item.id} className='item'>
+                    <p className='first'>{item.title}</p>
+                    <p className='second'>{item.subtitle}</p>
                   </div>
                 ) : null;
               })}
@@ -1018,9 +1018,9 @@ const CV_preview = ({
             <BoxColumn>
               {cvData.intersts.map((item) => {
                 return item.public ? (
-                  <div key={item.id} className="item">
-                    <p className="first">{item.title}</p>
-                    <p className="second">{item.subtitle}</p>
+                  <div key={item.id} className='item'>
+                    <p className='first'>{item.title}</p>
+                    <p className='second'>{item.subtitle}</p>
                   </div>
                 ) : null;
               })}
@@ -1029,15 +1029,15 @@ const CV_preview = ({
         )}
       </Wrapper>
       <ButtonBox style={{ display: displayButtons }}>
-        <Button type="button" onClick={editButton} disabled={dataLoaded}>
-          <FontAwesomeIcon icon={faPenToSquare} className="calendar" /> Editar
+        <Button type='button' onClick={editButton} disabled={dataLoaded}>
+          <FontAwesomeIcon icon={faPenToSquare} className='calendar' /> Editar
         </Button>
         <Button
-          type="button"
+          type='button'
           /* onClick={handleDownloadPdf} */ onClick={handlePrint}
           disabled={dataLoaded}
         >
-          <FontAwesomeIcon icon={faFileArrowDown} className="calendar" />{' '}
+          <FontAwesomeIcon icon={faFileArrowDown} className='calendar' />{' '}
           Descargar
         </Button>
       </ButtonBox>
