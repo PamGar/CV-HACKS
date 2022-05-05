@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
-import AlertMessage from '../../components/AlertMessage';
-import LoadingButton from '../Buttons/LoadingButton';
-import ConfirmChangeStatusModal from '../../pages/AdminDashboard/ConfirmChangeStatusModal';
+import AlertMessage from '../../../components/AlertMessage';
+import LoadingButton from '../../../components/Buttons/LoadingButton';
+import ConfirmChangeStatusModal from '../ConfirmChangeStatusModal';
+import { ResumeContext } from '../ResumeContextProvider';
 
 const UserCardContainer = styled.div`
   padding: 10px;
@@ -10,14 +12,14 @@ const UserCardContainer = styled.div`
   border-radius: 3px;
   display: grid;
   grid-template-areas: 'name area isHired';
-  grid-template-columns: 2fr 1fr 1.5fr;
+  grid-template-columns: 1.5fr 1.5fr 1.4fr;
   text-align: center;
   place-items: center;
   color: #171717;
-  box-shadow: rgb(0 0 0 / 20%) 0px 3px 1px -2px,
-    rgb(0 0 0 / 14%) 0px 2px 2px 0px, rgb(0 0 0 / 12%) 0px 1px 5px 0px;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   cursor: pointer;
+  position: relative;
+  transition: box-shadow 250ms ease;
 
   :hover {
     box-shadow: 0px 3px 1px -1px rgb(0 0 0 / 20%),
@@ -25,6 +27,7 @@ const UserCardContainer = styled.div`
   }
 `;
 const Name = styled.p`
+  font-size: 1.2rem;
   grid-area: name;
   justify-self: start;
   color: ${(props) => (props.isSelected ? 'white' : '#171717')};
@@ -56,12 +59,16 @@ to{opacity:0}
 `;
 
 const TooltipContainer = styled.div`
+  /* border: 1px solid red; */
   position: absolute;
-  left: auto;
+  /* left: auto;
   right: calc(100%);
   top: 50%;
-  transform: translateX(0) translateY(-50%);
+  transform: translateX(0) translateY(-50%); */
+  top: -110px;
+  left: -100px;
   display: ${(props) => (props.showTooltip ? 'block' : 'none')};
+  /* display: block; */
 
   &[class~='fadeIn'] {
     animation: ${fadeIn} 250ms;
@@ -86,14 +93,22 @@ const ToolTip = styled.div`
   box-shadow: 0px 3px 1px -1px rgb(0 0 0 / 20%),
     0px 2px 4px 0px rgb(0 0 0 / 14%), 0px 1px 7px 0px rgb(0 0 0 / 12%);
   padding: 15px;
-  margin-right: 20px;
+  /* margin-right: 20px; */
+  margin-bottom: 30px;
 `;
+
+const StyledNavLink = styled(NavLink)`
+  text-decoration: none;
+  .active {
+    color: #565696;
+  }
+`;
+
 const UserCard = ({
   name,
+  paternal_surname,
   area,
   isHired,
-  userSelectedId,
-  setUserSelectedId,
   id,
   setDisableButton,
   data,
@@ -101,6 +116,7 @@ const UserCard = ({
 }) => {
   const UserCardContainerRef = useRef();
   const TooltipContainerRef = useRef();
+  const { userSelectedId, setUserSelectedId } = useContext(ResumeContext);
   const [showTooltip, setShowTooltip] = useState(null);
   const [openChangeStatusModal, setOpenChangeStatusModal] = useState(false);
 
@@ -109,48 +125,60 @@ const UserCard = ({
     setShowTooltip(id);
   };
 
+  useEffect(() => {
+    userSelectedId === id && setDisableButton(false);
+  }, []);
+
   return (
     <>
-      <UserCardContainer
-        onClick={() => {
-          setUserSelectedId(id);
-          setDisableButton(false);
-        }}
-        isSelected={userSelectedId === id}
-        ref={UserCardContainerRef}
-      >
-        <Name isSelected={userSelectedId === id}>{name}</Name>
-        <Area isSelected={userSelectedId === id}>{area}</Area>
-        <ShowTooltipContainer
-          onMouseLeave={() => {
-            TooltipContainerRef.current.classList.replace('fadeIn', 'fadeOut');
-            setTimeout(() => setShowTooltip(null), 230);
+      <StyledNavLink to={`${id}`}>
+        <UserCardContainer
+          onClick={() => {
+            setUserSelectedId(id);
+            setDisableButton(false);
           }}
-          onClick={handleTooltipTransition}
-          onMouseEnter={handleTooltipTransition}
-          onMouseMove={() =>
-            TooltipContainerRef.current.classList.add('fadeIn')
-          }
+          isSelected={userSelectedId === id}
+          ref={UserCardContainerRef}
         >
-          <AlertMessage success={isHired} info={!isHired} fullWidth>
-            {isHired ? 'contratado' : 'Looking for a job'}
-          </AlertMessage>
-          <TooltipContainer
-            showTooltip={showTooltip === id}
-            ref={TooltipContainerRef}
+          <Name isSelected={userSelectedId === id}>
+            {name} {paternal_surname}
+          </Name>
+          <Area isSelected={userSelectedId === id}>{area}</Area>
+          <ShowTooltipContainer
+            onMouseLeave={() => {
+              TooltipContainerRef.current.classList.replace(
+                'fadeIn',
+                'fadeOut'
+              );
+              setTimeout(() => setShowTooltip(null), 230);
+            }}
+            onClick={handleTooltipTransition}
+            onMouseEnter={handleTooltipTransition}
+            onMouseMove={() => {
+              // console.log(TooltipContainerRef);
+              TooltipContainerRef.current.classList.add('fadeIn');
+            }}
           >
-            <ToolTip>
-              <h3>Cambiar Status:</h3>
-              <LoadingButton
-                fullWidth
-                onClick={() => setOpenChangeStatusModal(true)}
-              >
-                {isHired ? 'Looking for a job' : 'contratado'}
-              </LoadingButton>
-            </ToolTip>
-          </TooltipContainer>
-        </ShowTooltipContainer>
-      </UserCardContainer>
+            <AlertMessage success={isHired} info={!isHired} fullWidth>
+              {isHired ? 'contratado' : 'Looking for a job'}
+            </AlertMessage>
+            <TooltipContainer
+              showTooltip={showTooltip === id}
+              ref={TooltipContainerRef}
+            >
+              {/* <ToolTip>
+                <h3>Cambiar Status:</h3>
+                <LoadingButton
+                  fullWidth
+                  onClick={() => setOpenChangeStatusModal(true)}
+                >
+                  {isHired ? 'Looking for a job' : 'contratado'}
+                </LoadingButton>
+              </ToolTip> */}
+            </TooltipContainer>
+          </ShowTooltipContainer>
+        </UserCardContainer>
+      </StyledNavLink>
       {openChangeStatusModal && (
         <ConfirmChangeStatusModal
           openChangeStatusModal={openChangeStatusModal}
