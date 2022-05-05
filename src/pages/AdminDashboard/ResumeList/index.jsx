@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import UserCard from '../../../components/UserCard';
+import UserCard from './UserCard';
 import NavModal from '../NavModal';
 import styled from 'styled-components';
 import axios from 'axios';
@@ -7,6 +7,8 @@ import MainContentWrapper from '../../../components/MainContentWrapper';
 import MainAndRightLayout from '../../../layouts/MainAndRightLayout';
 import { ResumeContext } from '../ResumeContextProvider';
 import SkeletonLoading from '../../../components/SkeletonLoading';
+import { Outlet } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -24,12 +26,17 @@ const SearchUserInput = styled.input`
 `;
 
 const ResumeList = () => {
-  const [data, setData] = useState([]);
-  const [hasMore, setHasMore] = useState(null);
-  const [pageCounter, setPageCounter] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const { userSelectedId, setUserSelectedId, resumeData, setResumeData } =
-    useContext(ResumeContext);
+  const {
+    userSelectedId,
+    dataResumeList,
+    setDataResumeList,
+    hasMoreResumeList,
+    setHasMoreResumeList,
+    pageCounterResumeList,
+    setPageCounterResumeList,
+    loadingResumeList,
+    setLoadingResumeList,
+  } = useContext(ResumeContext);
   const [disableButton, setDisableButton] = useState(!userSelectedId);
   const [openModal, setOpenModal] = useState(false);
 
@@ -38,44 +45,43 @@ const ResumeList = () => {
   const getCVlist = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-all?page_number=${pageCounter}&page_size=${PAGE_SIZE}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-all?page_number=${pageCounterResumeList}&page_size=${PAGE_SIZE}`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
           },
         }
       );
-      setData([...data.data]);
-      setHasMore(data.next_page);
-      setPageCounter((prev) => prev + 1);
-      console.log(data);
+      setDataResumeList([...data.data]);
+      setHasMoreResumeList(data.next_page);
+      setPageCounterResumeList((prev) => prev + 1);
     } catch (err) {
-      console.log(err);
+      toast.error('Opps ha ocurrido un error, no se pudo obtener los datos');
     } finally {
-      setLoading(false);
+      setLoadingResumeList(false);
     }
   };
 
   const fetchMoreData = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-all?page_number=${pageCounter}&page_size=${PAGE_SIZE}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-all?page_number=${pageCounterResumeList}&page_size=${PAGE_SIZE}`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
           },
         }
       );
-      setData((prev) => [...prev, ...data.data]);
-      setPageCounter((prev) => prev + 1);
-      setHasMore(data.next_page);
-      console.log(data);
+      setDataResumeList((prev) => [...prev, ...data.data]);
+      setPageCounterResumeList((prev) => prev + 1);
+      setHasMoreResumeList(data.next_page);
     } catch (err) {
-      console.log(err);
+      toast.error('Opps ha ocurrido un error, no se pudo actulizar la lista');
     }
   };
+
   useEffect(() => {
-    getCVlist();
+    dataResumeList.length <= 0 && getCVlist();
   }, []);
 
   return (
@@ -83,8 +89,8 @@ const ResumeList = () => {
       main={
         <Wrapper>
           <MainContentWrapper
-            dataLength={data.length}
-            hasMore={hasMore}
+            dataLength={dataResumeList.length}
+            hasMore={hasMoreResumeList}
             next={fetchMoreData}
             loader={
               <>
@@ -102,7 +108,7 @@ const ResumeList = () => {
           >
             <h1>Listado de CVs</h1>
             <SearchUserInput type='text' placeholder='buscar usuario' />
-            {loading && (
+            {loadingResumeList && (
               <>
                 <SkeletonLoading width='100%' height='78px' />
                 <SkeletonLoading width='100%' height='78px' />
@@ -110,27 +116,30 @@ const ResumeList = () => {
                 <SkeletonLoading width='100%' height='78px' />
               </>
             )}
-            {data.map(({ name, area, isHired, id }) => (
+            {dataResumeList.map(({ area, isHired, id, user }) => (
               <UserCard
-                name={name}
+                name={user.name}
+                paternal_surname={user.paternal_surname}
                 area={area}
                 isHired={isHired}
-                userSelectedId={userSelectedId}
-                setUserSelectedId={setUserSelectedId}
                 setDisableButton={setDisableButton}
                 id={id}
                 key={id}
-                data={data}
-                setData={setData}
+                data={dataResumeList}
+                setData={setDataResumeList}
               />
             ))}
             {openModal && (
-              <NavModal openModal={openModal} setOpenModal={setOpenModal} />
+              <NavModal
+                openModal={openModal}
+                setOpenModal={setOpenModal}
+                userId={userSelectedId}
+              />
             )}
           </MainContentWrapper>
         </Wrapper>
       }
-      right={<div>cv</div>}
+      right={<Outlet />}
     />
   );
 };
