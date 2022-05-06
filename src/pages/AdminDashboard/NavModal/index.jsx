@@ -20,7 +20,7 @@ const Box = styled.div`
   background-color: rgb(238, 238, 255);
 `;
 
-const NavModal = ({ openModal, setOpenModal }) => {
+const NavModal = ({ openModal, setOpenModal, userId }) => {
   const ModalLayoutRef = useRef();
 
   return (
@@ -36,7 +36,7 @@ const NavModal = ({ openModal, setOpenModal }) => {
             <NavDescriptionCard
               description='Escribe algun comentario sobre el CV seleccionado'
               icon={faPenToSquare}
-              path='comments'
+              path={`/resumes/${userId}/comments`}
               onClick={() => ModalLayoutRef.current.classList.add('fadeOut')}
             >
               Escribir comentarios
@@ -51,7 +51,7 @@ const NavModal = ({ openModal, setOpenModal }) => {
             <NavDescriptionCard
               description='Compartir CVs a las empresas'
               icon={faPaperPlane}
-              path='share'
+              path={`/resumes/${userId}/share`}
               onClick={() => ModalLayoutRef.current.classList.add('fadeOut')}
             >
               Compartir

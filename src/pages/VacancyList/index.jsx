@@ -1,15 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Layout from '../../layouts/navigation';
 import MainContentWrapper from '../../components/MainContentWrapper';
 import styled from 'styled-components';
 import MainAndRightLayout from '../../layouts/MainAndRightLayout';
-
-const arrMock = [
-  { company: 'empresa1', title: 'front-end developer', id: 1 },
-  { company: 'empresa2', title: 'back-end developer', id: 2 },
-  { company: 'empresa3', title: 'djando developer', id: 3 },
-  { company: 'empresa4', title: 'UX/UI', id: 4 },
-];
+import axios from 'axios';
 
 const VacancyCard = styled.div`
   display: grid;
@@ -29,29 +23,52 @@ const VacancyCard = styled.div`
   }
 `;
 const VacancyList = () => {
+  const [data, setData] = useState([]);
   const [selectedVacancyID, setSelectedVacancyID] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
+  const PAGE_SIZE = 5;
+
+  const abortController = new AbortController();
+
+  const getVacancyList = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/company/cv-vacancies-admin?page_size=${PAGE_SIZE}&&page_number=${pageNumber}`,
+        {
+          headers: {
+            authorization: `Token ${localStorage.getItem('authToken')}`,
+          },
+          signal: abortController.signal,
+        }
+      );
+      setData(data.data);
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getVacancyList();
+    return () => abortController.abort();
+  }, []);
   return (
     <MainAndRightLayout
       main={
         <MainContentWrapper noButton>
           <h1>Lista de Vacantes</h1>
-          {arrMock.map((vacancy) => (
+          {data.map((vacancy) => (
             <VacancyCard
-              key={vacancy.company}
-              onClick={() => setSelectedVacancyID(vacancy.id)}
+              key={vacancy.id}
+              onClick={() => setSelectedVacancyID(vacancy.coordinate)}
             >
-              <p>{vacancy.company}</p>
+              <p>{vacancy.name || `compañia ${vacancy.id}`}</p>
               <p>{vacancy.title}</p>
             </VacancyCard>
           ))}
         </MainContentWrapper>
       }
-      right={
-        <MainContentWrapper noButton>
-          <h1>Descripción de vacante</h1>
-          <p>{selectedVacancyID}</p>
-        </MainContentWrapper>
-      }
+      right={<h1>vacantes</h1>}
     />
   );
 };

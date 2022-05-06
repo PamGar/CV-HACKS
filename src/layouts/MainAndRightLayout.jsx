@@ -17,13 +17,15 @@ const Layout = styled.div`
   position: relative;
 `;
 
-const Main = styled.div``;
+const Main = styled.div`
+  padding-top: 30px;
+`;
 
 const Right = styled.div`
   position: sticky;
-  top: 30px;
-  padding-bottom: 30px;
-  height: calc(100vh - 30px);
+  top: 0;
+  padding-top: 30px;
+  height: 100vh;
   overflow-y: scroll;
   z-index: 10;
 
