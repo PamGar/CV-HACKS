@@ -81,8 +81,8 @@ const Landing = () => {
       <Body>
         <div>
           <h1>
-            Encuentra el trabajo
-            <br /> de tus sueños
+            Ingresa a la plataforma y<br />
+            comienza ya a crear tu CV
           </h1>
           <NavLink to="/login" style={{ marginTop: '10px' }}>
             <Button>Ingresar</Button>

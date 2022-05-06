@@ -197,7 +197,6 @@ const CV_preview = () => {
   };
 
   const handleSidebarHelp = () => {
-    console.log('help');
     if (sidebarHelpWidth === 0) {
       setSidebarHelpWidth(-100);
     } else {
@@ -300,6 +299,7 @@ const CV_preview = () => {
           isOpen={openLoginModal}
           element={
             <FirstTime
+              refreshCvData={refreshCvData}
               closeModal={() => {
                 setOpenLoginModal(!openLoginModal);
               }}

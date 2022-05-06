@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import SocialEdit from './socialEdit';
+import MultipleChoice from '../MultipleChoice';
 import axios from 'axios';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
@@ -10,6 +11,7 @@ import { toast } from 'react-toastify';
 
 const AboutEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/user/profile/`;
+  const [technologies, setTechnologies] = useState([]);
   const [hide, setHide] = useState(false);
   const [profileImageInfo, setProfileImageInfo] = useState('');
   const [editItems, setEditItems] = useState(false);
@@ -24,6 +26,7 @@ const AboutEdit = (props) => {
       subscribed: false,
       phone: '',
       image: '',
+      technologies: technologies,
     },
     address: {
       state: '',
@@ -39,6 +42,8 @@ const AboutEdit = (props) => {
   const myId = window.localStorage.getItem('id');
   const [itemsList, setItemsList] = useState([]);
   const refForm = useRef();
+
+  console.log(item);
 
   const getItemsList = async () => {
     try {
@@ -60,6 +65,7 @@ const AboutEdit = (props) => {
           gender: data.gender,
           subscribed: data.subscribed,
           phone: data.phone,
+          technologies: data.technologies,
         },
         address: {
           state: data.address.state,
@@ -320,40 +326,14 @@ const AboutEdit = (props) => {
                     onChange={handleDataChange}
                   ></textarea>
                 </p>
-                {/* <p>
-                <label htmlFor="softskills">
-                  Nombra algunas de tus softskills
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  type="text"
-                  id="softskills"
-                  name="softskills"
-                  value={item.softskills}
-                  autoComplete="off"
-                  placeholder="Por ejemplo: empatia, puntualidad"
-                  onChange={handleDataChange}
-                  required
-                  disabled
+                <MultipleChoice
+                  choiceList={technologies}
+                  setChoiceList={setTechnologies}
+                  placeholder="Ingresa las tecnologias y herramientas que mas usas"
+                  name="tecnologies"
+                  title="Tecnologias"
+                  resizeContainer={getHeight}
                 />
-              </p>
-              <p>
-                <label htmlFor="technologies">
-                  Tecnologias y herramientas que mas usas
-                  <span className="fieldRecomendation">Requerido</span>
-                </label>
-                <input
-                  type="text"
-                  id="technologies"
-                  name="technologies"
-                  value={item.technologies}
-                  autoComplete="off"
-                  placeholder="Por ejemplo: python, react, git"
-                  onChange={handleDataChange}
-                  required
-                  disabled
-                />
-              </p> */}
                 <p>
                   <label htmlFor="phone">
                     Telefono
@@ -387,11 +367,11 @@ const AboutEdit = (props) => {
                     <Button type="button">Guardar</Button>
                   )}
                 </ButtonBox>
-                <SocialEdit
+                {/* <SocialEdit
                   cvId={props.cvId}
                   getHeight={getHeight}
                   refreshCvData={props.refreshCvData}
-                />
+                /> */}
               </div>
             </form>
           </div>

@@ -13,6 +13,7 @@
     "axios": "^0.26.1",
     "dotenv": "^16.0.0",
     "html2canvas": "^1.4.1",
+    "html2pdf.js": "^0.10.1",
     "i18next": "^21.6.14",
     "i18next-http-backend": "^1.4.0",
     "jspdf": "^2.5.1",

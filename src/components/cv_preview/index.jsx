@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { useReactToPrint } from 'react-to-print';
+import { useReactToPrint, generateAndSavePDF } from 'react-to-print';
 import styled from 'styled-components';
 import html2canvas from 'html2canvas';
+import html2pdf from 'html2pdf.js';
 import { jsPDF } from 'jspdf';
 import Button from '../Buttons/LoadingButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -329,7 +330,11 @@ const CV_preview = ({
                       paddingTop: `0`,
                     }}
                   >
-                    <p>{userData.address ? userData.address.country : null}</p>
+                    <p>
+                      {userData.address?.country
+                        ? userData.address?.country
+                        : null}
+                    </p>
                     <p>{userData.email ? userData.email : null}</p>
                     <p>{userData.phone ? userData.phone : null}</p>
                   </BoxFlex>
@@ -676,7 +681,9 @@ const CV_preview = ({
                   paddingTop: `0`,
                 }}
               >
-                <p>{userData.address ? userData.address.country : null}</p>
+                <p>
+                  {userData.address?.country ? userData.address?.country : null}
+                </p>
                 <p>{userData.email ? userData.email : null}</p>
                 <p>{userData.phone ? userData.phone : null}</p>
               </BoxFlex>

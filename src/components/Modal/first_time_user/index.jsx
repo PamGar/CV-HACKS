@@ -207,7 +207,7 @@ const Input = styled.input`
   }
 `;
 
-const FirstTime = ({ closeModal, isOpen }) => {
+const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
   const [user, setUser] = useState({
     address_update: false,
   });
@@ -263,6 +263,7 @@ const FirstTime = ({ closeModal, isOpen }) => {
           }
         );
         closeModal();
+        refreshCvData();
       } catch (error) {
         console.error('error', error);
       }

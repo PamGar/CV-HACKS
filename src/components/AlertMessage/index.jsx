@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Message = styled.div`
   color: ${(props) =>
     props.error
-      ? '#D8000C'
+      ? '#fff'
       : props.success
       ? '#62b30b'
       : props.warning
@@ -13,7 +13,7 @@ const Message = styled.div`
       : 'none'};
   background-color: ${(props) =>
     props.error
-      ? '#FFD2D2'
+      ? '#e37676'
       : props.success
       ? '#d3eea5'
       : props.warning
@@ -24,6 +24,7 @@ const Message = styled.div`
   display: ${(props) => (props.hide ? 'none' : 'block')};
   width: ${(props) => (props.fullWidth ? '100%' : 'auto')};
   padding: 9px;
+  margin-top: 10px;
   border-radius: 5px;
   text-align: center;
   text-transform: uppercase;
