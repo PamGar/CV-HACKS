@@ -127,6 +127,7 @@ const JobOffersCompany = () => {
     <>
       <MainContentWrapper
         noButton
+        paddingTop
         dataLength={jobOfferData.length}
         next={NextPage}
         hasMore={hasMore}

@@ -7,6 +7,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 30px;
+  padding-top: ${(props) => (props.paddingTop ? '30px' : '0px')};
 `;
 
 const Content = styled.div`
@@ -71,9 +72,10 @@ const MainContentWrapper = ({
   hasMore,
   next,
   loader,
+  paddingTop,
 }) => {
   return (
-    <Wrapper>
+    <Wrapper paddingTop={paddingTop}>
       {dataLength ? (
         <InfiniteScrollStyled
           dataLength={dataLength}
