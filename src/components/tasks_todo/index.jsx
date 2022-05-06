@@ -314,9 +314,13 @@ const TasksTodo = (props) => {
           )}
         </TasksBox>
         <TasksBox>
-          <div className="tasksTitle hide" ref={hideTasksRef}>
+          <div
+            className="tasksTitle hide"
+            ref={hideTasksRef}
+            onClick={hideTasksHandle}
+          >
             <h2>Correcciones completadas</h2>
-            <button onClick={hideTasksHandle}>
+            <button>
               {hideTasks ? (
                 <FontAwesomeIcon icon={faEyeSlash} className="editBox_hide" />
               ) : (

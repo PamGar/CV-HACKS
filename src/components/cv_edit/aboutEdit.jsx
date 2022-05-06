@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import SocialEdit from './socialEdit';
+import MultipleChoice from '../MultipleChoice';
 import axios from 'axios';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
@@ -10,6 +11,7 @@ import { toast } from 'react-toastify';
 
 const AboutEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/user/profile/`;
+  const [technologies, setTechnologies] = useState([]);
   const [hide, setHide] = useState(false);
   const [profileImageInfo, setProfileImageInfo] = useState('');
   const [editItems, setEditItems] = useState(false);
@@ -39,6 +41,8 @@ const AboutEdit = (props) => {
   const myId = window.localStorage.getItem('id');
   const [itemsList, setItemsList] = useState([]);
   const refForm = useRef();
+
+  console.log(technologies);
 
   const getItemsList = async () => {
     try {
@@ -320,6 +324,13 @@ const AboutEdit = (props) => {
                     onChange={handleDataChange}
                   ></textarea>
                 </p>
+                <MultipleChoice
+                  choiceList={technologies}
+                  setChoiceList={setTechnologies}
+                  placeholder="Ingresa las tecnologias y herramientas que mas usas"
+                  name="tecnologies"
+                  title="Tecnologias"
+                />
                 {/* <p>
                 <label htmlFor="softskills">
                   Nombra algunas de tus softskills

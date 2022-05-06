@@ -192,6 +192,7 @@ export const AccordeonBox = styled.div`
     height: 0 !important;
     padding-top: 0;
     padding-bottom: 0;
+    overflow: hidden;
   }
 
   .hide .openClose {

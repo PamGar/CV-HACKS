@@ -300,6 +300,7 @@ const CV_preview = () => {
           isOpen={openLoginModal}
           element={
             <FirstTime
+              refreshCvData={refreshCvData}
               closeModal={() => {
                 setOpenLoginModal(!openLoginModal);
               }}
