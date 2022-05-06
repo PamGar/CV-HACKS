@@ -10,14 +10,13 @@ const Container = styled.div`
 
 const Gap = styled.div`
   display: flex;
-  gap: 10px;
   flex-wrap: wrap;
 `;
 
 const EmailCard = styled.span`
   background-color: #a0a0cc;
   color: #fff;
-  margin-top: 10px;
+  margin: 10px 10px 0 0;
   padding: 5px 10px;
   display: flex;
   justify-content: center;
@@ -54,6 +53,7 @@ const MultipleChoice = ({
   placeholder,
   name,
   title,
+  resizeContainer,
 }) => {
   const [email, setEmail] = useState('');
   const [invalidEmailError, setInvalidEmailError] = useState('');
@@ -78,16 +78,17 @@ const MultipleChoice = ({
 
   const handleKeyDown = (e) => {
     const email = e.target.value;
-    if (['Tab', ',', 'Enter'].includes(e.key)) {
+    if (['Tab', ',', 'Enter', ' '].includes(e.key)) {
       e.preventDefault();
       if (!checkEmail(email)) {
         setChoiceList((prev) => [...prev, email]);
         setEmail('');
       }
     }
+    resizeContainer();
   };
 
-  const handlePaste = (e) => {
+  /* const handlePaste = (e) => {
     e.preventDefault();
     const email = e.clipboardData.getData('text');
     setEmail('');
@@ -98,7 +99,7 @@ const MultipleChoice = ({
       setInvalidEmailError('');
       setChoiceList((prev) => [...prev, email]);
     }
-  };
+  }; */
 
   return (
     <p>
@@ -113,11 +114,11 @@ const MultipleChoice = ({
         value={email}
         onChange={handleChange}
         onKeyDown={handleKeyDown}
-        onPaste={handlePaste}
+        /* onPaste={handlePaste} */
         autoFocus
       />
       {invalidEmailError && (
-        <AlertMessage error fullWidth>
+        <AlertMessage error fullWidth style={{ marginTop: '10px' }}>
           {invalidEmailError}
         </AlertMessage>
       )}

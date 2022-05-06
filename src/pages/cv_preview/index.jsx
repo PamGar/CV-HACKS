@@ -197,7 +197,6 @@ const CV_preview = () => {
   };
 
   const handleSidebarHelp = () => {
-    console.log('help');
     if (sidebarHelpWidth === 0) {
       setSidebarHelpWidth(-100);
     } else {
