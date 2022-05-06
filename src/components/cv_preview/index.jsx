@@ -329,11 +329,7 @@ const CV_preview = ({
                       paddingTop: `0`,
                     }}
                   >
-                    <p>
-                      {/* {userData.address.country
-                        ? userData.address.country
-                        : null} */}
-                    </p>
+                    <p>{userData.address ? userData.address.country : null}</p>
                     <p>{userData.email ? userData.email : null}</p>
                     <p>{userData.phone ? userData.phone : null}</p>
                   </BoxFlex>
@@ -680,9 +676,7 @@ const CV_preview = ({
                   paddingTop: `0`,
                 }}
               >
-                <p>
-                  {/* {userData.address.country ? userData.address.country : null} */}
-                </p>
+                <p>{userData.address ? userData.address.country : null}</p>
                 <p>{userData.email ? userData.email : null}</p>
                 <p>{userData.phone ? userData.phone : null}</p>
               </BoxFlex>
