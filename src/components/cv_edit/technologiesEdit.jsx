@@ -51,10 +51,6 @@ const MultipleChoice = (props) => {
   const [invalidEmailError, setInvalidEmailError] = useState('');
   const myToken = window.localStorage.getItem('authToken');
   const myId = window.localStorage.getItem('id');
-  const handleChange = (e) => {
-    setEmail(e.target.value.trim());
-    setInvalidEmailError('');
-  };
 
   const getTechnologies = async (event) => {
     /* event.preventDefault(); */
@@ -130,9 +126,11 @@ const MultipleChoice = (props) => {
     return error;
   };
 
-  const handleKeyDown = (e) => {
-    const email = e.target.value;
-    if (['Tab', ',', 'Enter', ' '].includes(e.key)) {
+  const handleChange = (e) => {
+    setEmail(e.target.value);
+    setInvalidEmailError('');
+
+    if (e.target.value.includes(',')) {
       e.preventDefault();
       if (!checkEmail(email)) {
         setChoiceList((prev) => [
@@ -145,6 +143,42 @@ const MultipleChoice = (props) => {
         setEmail('');
       }
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!checkEmail(email)) {
+      setChoiceList((prev) => [
+        ...prev,
+        {
+          name: email,
+        },
+      ]);
+      addItem(e, email);
+      setEmail('');
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    const email = e.target.value;
+
+    if (new RegExp(/[,]$/g).test(e.target.value)) {
+      e.preventDefault();
+      if (!checkEmail(email)) {
+        setChoiceList((prev) => [
+          ...prev,
+          {
+            name: email,
+          },
+        ]);
+        addItem(e, email);
+        setEmail('');
+      }
+    } /* else {
+      setEmail(e.target.value.trim());
+      setInvalidEmailError('');
+    } */
     props.getHeight();
   };
 
@@ -166,18 +200,19 @@ const MultipleChoice = (props) => {
   }, []);
 
   return (
-    <p>
+    <p /* onSubmit={handleSubmit} */>
       <label htmlFor="technologies">
-        Tecnologias
+        Tecnologias y herramientas
         <span className="fieldRecomendation">Requerido</span>
       </label>
       <Input
+        type="text"
         name="technologies"
         error={invalidEmailError}
-        placeholder="Ingresa las tecnologias y herramientas que mas usas"
+        placeholder="Ingresalas separadas por una coma"
         value={email}
         onChange={handleChange}
-        onKeyDown={handleKeyDown}
+        /* onKeyDown={handleKeyDown} */
         autoFocus
       />
       {invalidEmailError && (
