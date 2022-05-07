@@ -213,7 +213,7 @@ const MultipleChoice = (props) => {
         value={email}
         onChange={handleChange}
         /* onKeyDown={handleKeyDown} */
-        autoFocus
+        autoComplete="off"
       />
       {invalidEmailError && (
         <AlertMessage error fullWidth style={{ marginTop: '10px' }}>
