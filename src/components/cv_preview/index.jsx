@@ -345,15 +345,17 @@ const CV_preview = ({
               </div>
             </Header>
             <BoxFlexCV>
-              <div>
-                <h2>Sobre mi</h2>
-                <p>{userData.about_me}</p>
-              </div>
+              {userData.about_me && (
+                <div>
+                  <h2>Sobre mi</h2>
+                  <p>{userData.about_me}</p>
+                </div>
+              )}
               <div className="section_study">
-                <h2>Estudios</h2>
                 {cvData.educations.filter((item) => item.public === true)
                   .length === 0 ? null : (
                   <div>
+                    <h2>Estudios</h2>
                     {cvData.educations
                       .sort((a, b) => {
                         return new Date(b.start_date) - new Date(a.start_date);
