@@ -22,7 +22,7 @@ const AwardEdit = (props) => {
     type: 'Award',
     title: '',
     subtitle: '',
-    date: null,
+    date: '',
     description: '',
   });
   const [itemsList, setItemsList] = useState([]);
@@ -85,7 +85,7 @@ const AwardEdit = (props) => {
         type: 'Award',
         title: '',
         subtitle: '',
-        date: null,
+        date: '',
         description: '',
       });
       getItemsList();
@@ -129,7 +129,7 @@ const AwardEdit = (props) => {
       });
       setItem(data);
       setEditItems(true);
-      formRef.current.classList.toggle('unhide');
+      formRef.current.classList.add('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
@@ -162,7 +162,7 @@ const AwardEdit = (props) => {
         type: 'Award',
         title: '',
         subtitle: '',
-        date: null,
+        date: '',
         description: '',
       });
       getItemsList();
@@ -186,7 +186,7 @@ const AwardEdit = (props) => {
       type: 'Award',
       title: '',
       subtitle: '',
-      date: null,
+      date: '',
       description: '',
     });
   };

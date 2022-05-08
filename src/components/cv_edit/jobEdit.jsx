@@ -519,7 +519,9 @@ const JobEdit = (props) => {
                       <input
                         type="date"
                         name="end_date"
-                        value={item.end_date === null ? '' : item.end_date}
+                        value={
+                          item.data.end_date === null ? '' : item.data.end_date
+                        }
                         autoComplete="off"
                         onChange={handleDataChange}
                         disabled={disabledEndDate}

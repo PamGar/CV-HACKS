@@ -86,6 +86,7 @@ const OrganisationEdit = (props) => {
         }
       );
       setItemsList(data.data);
+      console.log(data.data);
       setTimeout(() => {
         setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       }, 100);
@@ -513,7 +514,9 @@ const OrganisationEdit = (props) => {
                       <input
                         type="date"
                         name="end_date"
-                        value={item.end_date === null ? '' : item.end_date}
+                        value={
+                          item.data.end_date === null ? '' : item.data.end_date
+                        }
                         autoComplete="off"
                         onChange={handleDataChange}
                         disabled={disabledEndDate}
@@ -540,7 +543,7 @@ const OrganisationEdit = (props) => {
                     type="text"
                     name="description"
                     rows="5"
-                    value={item.description}
+                    value={item.data.description}
                     placeholder="Escribe una breve descripcion de la organización"
                     autoComplete="off"
                     onChange={handleDataChange}
