@@ -177,7 +177,6 @@ const BoxFlex = styled(BoxColumn)`
 
 const Header = styled(BoxFlex)`
   align-items: center;
-  margin-bottom: 20px;
 
   p {
     margin: 0 5px;
@@ -692,6 +691,7 @@ const CV_preview = ({
             </BoxColumn>
           </div>
         </Header>
+        <BoxColumn>{userData.about_me}</BoxColumn>
         {cvData.urls.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>

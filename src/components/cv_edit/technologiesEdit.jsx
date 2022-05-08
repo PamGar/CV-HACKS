@@ -200,7 +200,7 @@ const MultipleChoice = (props) => {
   }, []);
 
   return (
-    <p /* onSubmit={handleSubmit} */>
+    <p>
       <label htmlFor="technologies">
         Tecnologias y herramientas
         <span className="fieldRecomendation">Requerido</span>
