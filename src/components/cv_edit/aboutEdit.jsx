@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import SocialEdit from './socialEdit';
 import MultipleChoice from '../MultipleChoice';
+import TechnologiesEdit from './technologiesEdit';
 import axios from 'axios';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
@@ -11,7 +12,6 @@ import { toast } from 'react-toastify';
 
 const AboutEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/user/profile/`;
-  const [technologies, setTechnologies] = useState([]);
   const [hide, setHide] = useState(false);
   const [profileImageInfo, setProfileImageInfo] = useState('');
   const [editItems, setEditItems] = useState(false);
@@ -26,7 +26,6 @@ const AboutEdit = (props) => {
       subscribed: false,
       phone: '',
       image: '',
-      technologies: technologies,
     },
     address: {
       state: '',
@@ -42,8 +41,23 @@ const AboutEdit = (props) => {
   const myId = window.localStorage.getItem('id');
   const [itemsList, setItemsList] = useState([]);
   const refForm = useRef();
+  const [technologies, setTechnologies] = useState([]);
 
-  console.log(item);
+  const updateItem = async (event, id) => {
+    event.preventDefault();
+
+    try {
+      const { data } = await axios.put(`${URL}/${id}`, technologies, {
+        headers: {
+          authorization: `Token ${myToken}`,
+        },
+      });
+      props.refreshCvData();
+    } catch (error) {
+      console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
+    }
+  };
 
   const getItemsList = async () => {
     try {
@@ -65,7 +79,7 @@ const AboutEdit = (props) => {
           gender: data.gender,
           subscribed: data.subscribed,
           phone: data.phone,
-          technologies: data.technologies,
+          technologies: ['javascript', 'java'],
         },
         address: {
           state: data.address.state,
@@ -326,13 +340,9 @@ const AboutEdit = (props) => {
                     onChange={handleDataChange}
                   ></textarea>
                 </p>
-                <MultipleChoice
-                  choiceList={technologies}
-                  setChoiceList={setTechnologies}
-                  placeholder="Ingresa las tecnologias y herramientas que mas usas"
-                  name="tecnologies"
-                  title="Tecnologias"
-                  resizeContainer={getHeight}
+                <TechnologiesEdit
+                  getHeight={getHeight}
+                  refreshCvData={props.refreshCvData}
                 />
                 <p>
                   <label htmlFor="phone">
@@ -367,11 +377,11 @@ const AboutEdit = (props) => {
                     <Button type="button">Guardar</Button>
                   )}
                 </ButtonBox>
-                {/* <SocialEdit
+                <SocialEdit
                   cvId={props.cvId}
                   getHeight={getHeight}
                   refreshCvData={props.refreshCvData}
-                /> */}
+                />
               </div>
             </form>
           </div>

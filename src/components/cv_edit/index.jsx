@@ -57,15 +57,14 @@ const Wrapper = styled.div`
   }
 
   button {
-    background-color: #08adb4;
+    cursor: pointer;
 
     &:hover {
-      background-color: #08adb4;
-      opacity: 0.5;
+      opacity: 0.4;
     }
 
     &:active {
-      background-color: #07949b;
+      opacity: 0.8;
     }
   }
 

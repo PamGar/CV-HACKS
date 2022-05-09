@@ -137,7 +137,7 @@ const InterestEdit = (props) => {
         level: '0',
       });
       setEditItems(true);
-      formRef.current.classList.toggle('unhide');
+      formRef.current.classList.add('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
