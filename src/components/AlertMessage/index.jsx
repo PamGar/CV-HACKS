@@ -24,7 +24,6 @@ const Message = styled.div`
   display: ${(props) => (props.hide ? 'none' : 'block')};
   width: ${(props) => (props.fullWidth ? '100%' : 'auto')};
   padding: 9px;
-  margin-top: 10px;
   border-radius: 5px;
   text-align: center;
   text-transform: uppercase;
