@@ -123,7 +123,7 @@ const ResumeList = () => {
                 area={area}
                 isHired={isHired}
                 setDisableButton={setDisableButton}
-                id={id}
+                id={user.id}
                 key={id}
                 data={dataResumeList}
                 setData={setDataResumeList}
