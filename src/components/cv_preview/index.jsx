@@ -1,35 +1,33 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { useReactToPrint, generateAndSavePDF } from 'react-to-print';
 import styled from 'styled-components';
 import html2canvas from 'html2canvas';
+import html2pdf from 'html2pdf.js';
 import { jsPDF } from 'jspdf';
 import Button from '../Buttons/LoadingButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendar } from '@fortawesome/free-regular-svg-icons';
+import {
+  faCalendar,
+  faPenToSquare,
+  faFileArrowDown,
+} from '@fortawesome/free-solid-svg-icons';
 import Github from '../../assets/icons/Github.svg';
 import Gitlab from '../../assets/icons/Gitlab.svg';
 import Instagram from '../../assets/icons/Instagram.svg';
 import LinkedIn from '../../assets/icons/LinkedIn.svg';
 import Twitter from '../../assets/icons/Twitter.svg';
 import Stackoverflow from '../../assets/icons/Stackoverflow.svg';
+import Logo from '../../assets/images/logo_color.png';
 
 const Page = styled.div`
-  width: 100%;
-  box-sizing: border-box;
+  width: 800px;
   padding: 20px;
-  display: flex;
-  justify-content: center;
-  aspect-ratio: 3 / 4;
 
   .page_container {
-    width: 100%;
-    box-shadow: 0px 10px 40px -20px grey;
     background-color: #fff;
   }
 
   .page {
-    width: 640px;
-    aspect-ratio: 3 / 4;
-    transform-origin: top left;
     padding: 20px;
     box-sizing: border-box;
     text-align: center;
@@ -70,68 +68,6 @@ const Page = styled.div`
         text-align: left;
       }
     }
-
-    .section_study {
-      div {
-        width: 100%;
-        margin: 10px 0;
-      }
-    }
-  }
-
-  div {
-    margin: 5px;
-  }
-`;
-
-const Experience = styled.div`
-  .box_experience {
-    display: flex;
-    text-align: left;
-
-    .date_experience {
-      width: 20%;
-    }
-
-    .info_experience {
-      width: 80%;
-    }
-
-    span {
-      font-weight: 700;
-    }
-
-    ul {
-      padding-left: 15px;
-    }
-  }
-`;
-
-const Skills = styled.div`
-  .skills_box {
-    display: flex;
-
-    div {
-      width: 50%;
-    }
-
-    li {
-      list-style: none;
-    }
-  }
-`;
-
-const CourseLang = styled.div`
-  .skills_box {
-    display: flex;
-
-    div {
-      width: 50%;
-    }
-
-    li {
-      list-style: none;
-    }
   }
 `;
 
@@ -143,16 +79,18 @@ const ButtonBox = styled.div`
   justify-content: center;
 
   button {
-    margin: 0 30px;
+    margin: 0 10px;
     background-color: #565696;
   }
 `;
 
 const Wrapper = styled.div`
+  background-color: #fff;
   text-align: center;
-  box-shadow: 2px 1px 7px #00000057;
+  /* box-shadow: 2px 1px 7px #00000057; */
   padding: 20px 30px;
   border-radius: 15px;
+  margin-bottom: 20px;
 
   h2 {
     font-size: 16px;
@@ -165,14 +103,18 @@ const Wrapper = styled.div`
 
   @media (max-width: 820px) {
     box-shadow: unset;
-    margin: 0;
+    background-color: unset;
     padding: 10px;
   }
 `;
 
 const BoxColumn = styled.div`
-  padding: 15px 0;
+  padding: 15px 10px;
   text-align: left;
+
+  & > div {
+    margin-bottom: 15px;
+  }
 
   img {
     width: 25px;
@@ -216,6 +158,10 @@ const BoxColumn = styled.div`
   .center {
     text-align: center;
   }
+
+  li {
+    list-style-type: none;
+  }
 `;
 
 const BoxFlex = styled(BoxColumn)`
@@ -223,30 +169,94 @@ const BoxFlex = styled(BoxColumn)`
   flex-wrap: wrap;
   justify-content: space-evenly;
 
-  div {
+  & > div {
     max-width: 50%;
     margin: 10px 0;
   }
 `;
 
-const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
+const Header = styled(BoxFlex)`
+  align-items: center;
+
+  p {
+    margin: 0 5px;
+  }
+
+  div {
+    max-width: unset;
+    margin-bottom: 0;
+  }
+
+  .profileImage {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 0px 10px #a0a0cc5c;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .logoHackademy {
+    width: 80px;
+    height: 80px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+`;
+
+const BoxColumnCV = styled(BoxColumn)`
+  h2 {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    margin-bottom: 10px;
+  }
+`;
+const BoxFlexCV = styled(BoxFlex)`
+  justify-content: space-between;
+
+  h2 {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  li {
+    margin-top: 10px;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  & > div {
+    width: 48%;
+  }
+`;
+
+const CV_preview = ({
+  editButton,
+  dataLoaded,
+  cvData,
+  userData,
+  displayButtons,
+}) => {
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   const printRef = useRef();
-  /* const [width, setWidth] = useState(0); */
-  /* const widthRef = useRef(); */
-
-  const handleDownloadPdf = async () => {
-    const element = printRef.current;
-    const canvas = await html2canvas(element);
-    const data = canvas.toDataURL('image/png');
-
-    const pdf = new jsPDF();
-    const imgProperties = pdf.getImageProperties(data);
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
-
-    pdf.addImage(data, 'PNG', 0, 0, pdfWidth, pdfHeight);
-    pdf.save('MyCV.pdf');
-  };
+  const [width, setWidth] = useState(0);
+  const widthRef = useRef();
 
   const iconRedesSociales = (value) => {
     switch (value) {
@@ -273,6 +283,10 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
     }
   };
 
+  const getPageMargins = () => {
+    return `@page { margin: ${'50px'} ${'50px'} ${'50px'} ${'50px'} !important; }`;
+  };
+
   /* useEffect(() => {
     setWidth(widthRef.current.clientWidth);
   }, []); */
@@ -287,149 +301,397 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
 
   return (
     <>
-      {/* <Page>
+      <Page style={{ display: 'none' }}>
         <div className="page_container" ref={widthRef}>
-          <div
-            className="page"
-            ref={printRef}
-            style={{ transform: `scale(${width / 640})` }}
-          >
-            <div className="header">
-              <h1>Alexis Salcedo</h1>
-              <p>Desarrolador Frontend</p>
-              <div className="header_sub">
-                <p>0415-589-2615</p>
-                <p>alestark@gmail.com</p>
-                <p>@alisark71</p>
-                <p>Chicago</p>
-              </div>
-            </div>
-            <div className="section1">
+          <div className="page" ref={componentRef}>
+            <style>{getPageMargins()}</style>
+            <Header>
+              {userData.image ? (
+                <div className="profileImage">
+                  <img
+                    src={`${process.env.REACT_APP_BASE_URL}${userData.image}`}
+                    alt=""
+                  />
+                </div>
+              ) : null}
               <div>
-                <h2>Sobre mi</h2>
-                <p>
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Praesentium unde error porro nam vel beatae assumenda omnis
-                  animi quaerat! Earum dolores voluptatum doloribus. Autem?
-                </p>
+                <BoxColumn
+                  style={{
+                    textAlign: 'center',
+                    padding: '0',
+                  }}
+                >
+                  <h1 style={{ fontFamily: 'Poppins', fontWeight: '700' }}>
+                    {userData.name} {userData.paternal_surname}
+                  </h1>
+                  <BoxFlex
+                    style={{
+                      paddingTop: `0`,
+                    }}
+                  >
+                    <p>
+                      {userData.address?.country
+                        ? userData.address?.country
+                        : null}
+                    </p>
+                    <p>{userData.email ? userData.email : null}</p>
+                    <p>{userData.phone ? userData.phone : null}</p>
+                  </BoxFlex>
+                </BoxColumn>
               </div>
+              <div className="logoHackademy">
+                <img src={Logo} />
+              </div>
+            </Header>
+            <BoxFlexCV>
+              {userData.about_me && (
+                <div>
+                  <h2>Sobre mi</h2>
+                  <p>{userData.about_me}</p>
+                </div>
+              )}
               <div className="section_study">
-                <h2>Estudios</h2>
-                <div>
-                  <p>2013 - 2017 | Universidad de Valencia</p>
-                  <p>Lic. en artes multimedia</p>
-                </div>
-                <div>
-                  <p>2013 - 2017 | Universidad de Valencia</p>
-                  <p>Lic. en artes multimedia</p>
-                </div>
+                {cvData.educations.filter((item) => item.public === true)
+                  .length === 0 ? null : (
+                  <div>
+                    <h2>Estudios</h2>
+                    {cvData.educations
+                      .sort((a, b) => {
+                        return new Date(b.start_date) - new Date(a.start_date);
+                      })
+                      .map((item) => {
+                        return item.public ? (
+                          <div key={item.id}>
+                            <p className="first">
+                              {item.major}
+                              {' • '}
+                              <span className="third">{item.degree}</span>
+                            </p>
+                            <p className="third">
+                              <FontAwesomeIcon
+                                icon={faCalendar}
+                                className="calendar"
+                              />{' '}
+                              {item.start_date}
+                              {' • '}
+                              {item.end_date === null
+                                ? 'Actualmente'
+                                : item.end_date}
+                            </p>
+                          </div>
+                        ) : null;
+                      })}
+                  </div>
+                )}
               </div>
-            </div>
-            <Experience>
-              <h2>Experiencia</h2>
-              <div className="box_experience">
-                <div className="date_experience">1987 - 1990</div>
-                <div className="info_experience">
-                  <span>Lorem ipsum dolor sit amet.</span>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </p>
-                  <ul>
-                    <li>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </li>
-                    <li>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </li>
-                    <li>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div className="box_experience">
-                <div className="date_experience">1987 - 1990</div>
-                <div className="info_experience">
-                  <span>Lorem ipsum dolor sit amet.</span>
-                  <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  </p>
-                  <ul>
-                    <li>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </li>
-                    <li>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </li>
-                    <li>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </Experience>
-            <Skills>
-              <div className="skills_box">
+            </BoxFlexCV>
+            <BoxColumnCV>
+              {cvData.experiences.filter((item) => item.public === true)
+                .length === 0 ? null : (
                 <div>
-                  <h2>Skills</h2>
-                  <ul>
-                    <li>Diseño grafico</li>
-                    <li>Ilustracion</li>
-                    <li>Fotografia</li>
-                  </ul>
+                  <h2>Experiencia</h2>
+                  {cvData.experiences
+                    .sort((a, b) => {
+                      return new Date(b.start_date) - new Date(a.start_date);
+                    })
+                    .map((item) => {
+                      return item.public ? (
+                        <div key={item.id}>
+                          <p className="first">
+                            {item.role}
+                            {' • '}
+                            <span className="third">{item.company_name}</span>
+                          </p>
+                          <p className="Second">{item.description}</p>
+                          <p className="third">
+                            <FontAwesomeIcon
+                              icon={faCalendar}
+                              className="calendar"
+                            />{' '}
+                            {item.start_date}
+                            {' • '}
+                            {item.end_date === null
+                              ? 'Actualmente'
+                              : item.end_date}
+                          </p>
+                        </div>
+                      ) : null;
+                    })}
                 </div>
-                <div>
-                  <h2>Soft skills</h2>
-                  <ul>
-                    <li>Composicion</li>
-                    <li>Videografia</li>
-                    <li>Graficos dinamicos</li>
-                  </ul>
-                </div>
-              </div>
-            </Skills>
-            <CourseLang>
-              <div className="skills_box">
+              )}
+            </BoxColumnCV>
+            <BoxColumnCV>
+              {cvData.courses.filter((item) => item.public === true).length ===
+              0 ? null : (
                 <div>
                   <h2>Cursos</h2>
-                  <ul>
-                    <li>UX/UI design</li>
-                    <li>Scrum master</li>
-                  </ul>
+                  {cvData.courses
+                    .sort((a, b) => {
+                      return new Date(b.start_date) - new Date(a.start_date);
+                    })
+                    .map((item) => {
+                      return item.public ? (
+                        <div key={item.id}>
+                          <p className="first">
+                            {item.title}
+                            {' • '}
+                            <span className="third">{item.subtitle}</span>
+                          </p>
+                          <p className="second">{item.description}</p>
+                          <p className="third">
+                            <FontAwesomeIcon
+                              icon={faCalendar}
+                              className="calendar"
+                            />{' '}
+                            {item.start_date} {' • '}{' '}
+                            {item.end_date === null
+                              ? 'Actualmente'
+                              : item.end_date}
+                          </p>
+                        </div>
+                      ) : null;
+                    })}
                 </div>
+              )}
+            </BoxColumnCV>
+            <BoxColumnCV>
+              {cvData.certifications.filter((item) => item.public === true)
+                .length === 0 ? null : (
                 <div>
-                  <h2>Lenguajes</h2>
-                  <ul>
-                    <li>Ingles</li>
-                    <li>Frances</li>
-                    <li>Chino mandarin</li>
+                  <h2>Certificaciones</h2>
+                  {cvData.certifications
+                    .sort((a, b) => {
+                      return (
+                        new Date(b.expedition_date) -
+                        new Date(a.expedition_date)
+                      );
+                    })
+                    .map((item) => {
+                      return item.public ? (
+                        <div key={item.id} style={{ padding: '0' }}>
+                          <p className="first">{item.name}</p>
+                          <p className="third">{item.company}</p>
+                          <p className="second">
+                            <span className="first">{'id: '}</span>
+                            {item.credential_id}
+                          </p>
+                          <p className="third">
+                            <FontAwesomeIcon
+                              icon={faCalendar}
+                              className="calendar"
+                            />{' '}
+                            {item.expedition_date}
+                            {' • '}
+                            {item.expiry_date === null
+                              ? 'Actualmente'
+                              : item.expiry_date}
+                          </p>
+                        </div>
+                      ) : null;
+                    })}
+                </div>
+              )}
+            </BoxColumnCV>
+            <BoxColumnCV>
+              {cvData.organisations.filter((item) => item.public === true)
+                .length === 0 ? null : (
+                <div>
+                  <h2>Organizaciones</h2>
+                  {cvData.organisations
+                    .sort((a, b) => {
+                      return new Date(b.start_date) - new Date(a.start_date);
+                    })
+                    .map((item) => {
+                      return item.public ? (
+                        <div key={item.id}>
+                          <p className="first">
+                            {item.title}
+                            {' • '}
+                            <span className="third">{item.subtitle}</span>
+                          </p>
+                          <p className="second">{item.description}</p>
+                          <p className="third">
+                            <FontAwesomeIcon
+                              icon={faCalendar}
+                              className="calendar"
+                            />{' '}
+                            {item.start_date}
+                            {' • '}
+                            {item.end_date === null
+                              ? 'Actualmente'
+                              : item.end_date}
+                          </p>
+                        </div>
+                      ) : null;
+                    })}
+                </div>
+              )}
+            </BoxColumnCV>
+            <BoxColumnCV>
+              {cvData.projects.filter((item) => item.public === true).length ===
+              0 ? null : (
+                <div>
+                  <h2>Proyectos</h2>
+                  {cvData.projects
+                    .sort((a, b) => {
+                      return new Date(b.start_date) - new Date(a.start_date);
+                    })
+                    .map((item) => {
+                      return item.public ? (
+                        <div key={item.id}>
+                          <p className="first">
+                            {item.title}
+                            {' • '}
+                            <span className="third">
+                              {item.additional_information}
+                            </span>
+                          </p>
+                          <p className="second">{item.description}</p>
+                          <p className="third">
+                            <FontAwesomeIcon
+                              icon={faCalendar}
+                              className="calendar"
+                            />{' '}
+                            {item.start_date}
+                            {' • '}
+                            {item.end_date === null
+                              ? 'Actualmente'
+                              : item.end_date}
+                          </p>
+                        </div>
+                      ) : null;
+                    })}
+                </div>
+              )}
+            </BoxColumnCV>
+            <BoxFlexCV>
+              {cvData.publications.filter((item) => item.public === true)
+                .length === 0 ? null : (
+                <div className="center">
+                  <h2>Publicaciones</h2>
+                  {cvData.publications
+                    .sort((a, b) => {
+                      return new Date(b.date) - new Date(a.date);
+                    })
+                    .map((item) => {
+                      return item.public ? (
+                        <div key={item.id}>
+                          <p className="first">
+                            {item.title}
+                            {' • '}
+                            <span className="second">{item.subtitle}</span>
+                          </p>
+                          <p className="third">
+                            <FontAwesomeIcon
+                              icon={faCalendar}
+                              className="calendar"
+                            />{' '}
+                            {item.date}
+                          </p>
+                        </div>
+                      ) : null;
+                    })}
+                </div>
+              )}
+              {cvData.awards.filter((item) => item.public === true).length ===
+              0 ? null : (
+                <div className="center">
+                  <h2>Premios</h2>
+                  {cvData.awards
+                    .sort((a, b) => {
+                      return new Date(b.date) - new Date(a.date);
+                    })
+                    .map((item) => {
+                      return item.public ? (
+                        <div key={item.id} className="item">
+                          <p className="first">
+                            {item.title}
+                            {' • '}
+                            <span className="second">{item.subtitle}</span>
+                          </p>
+                          <p className="third">
+                            <FontAwesomeIcon
+                              icon={faCalendar}
+                              className="calendar"
+                            />{' '}
+                            {item.date}
+                          </p>
+                        </div>
+                      ) : null;
+                    })}
+                </div>
+              )}
+            </BoxFlexCV>
+            <BoxFlexCV>
+              {cvData.skills.filter((item) => item.public === true).length ===
+              0 ? null : (
+                <div className="center">
+                  <h2>Skills</h2>
+                  <ul className="item">
+                    {cvData.skills.map((item) => {
+                      return item.public ? (
+                        <li key={item.id} className="second">
+                          {item.title}
+                        </li>
+                      ) : null;
+                    })}
                   </ul>
                 </div>
-              </div>
-            </CourseLang>
+              )}
+              {cvData.intersts.filter((item) => item.public === true).length ===
+              0 ? null : (
+                <div className="center">
+                  <h2>Intereses</h2>
+                  <ul className="item">
+                    {cvData.intersts.map((item) => {
+                      return item.public ? (
+                        <li key={item.id} className="second">
+                          {item.title}
+                        </li>
+                      ) : null;
+                    })}
+                  </ul>
+                </div>
+              )}
+            </BoxFlexCV>
           </div>
         </div>
-      </Page> */}
-      <Wrapper ref={printRef}>
-        <h1>
-          {userData.name} {userData.paternal_surname}
-        </h1>
-        <BoxColumn
-          style={{
-            textAlign: 'center',
-          }}
-        >
-          <BoxFlex
-            style={{
-              paddingTop: `0`,
-            }}
-          >
-            {/* <p>{userData.address.country}</p> */}
-            <p>{userData.email}</p>
-            <p>{userData.phone}</p>
-          </BoxFlex>
-          <p>{userData.about_me}</p>
-        </BoxColumn>
+      </Page>
+      <Wrapper>
+        <Header>
+          {userData.image ? (
+            <div className="profileImage">
+              <img
+                src={`${process.env.REACT_APP_BASE_URL}${userData.image}`}
+                alt=""
+              />
+            </div>
+          ) : null}
+          <div>
+            <BoxColumn
+              style={{
+                textAlign: 'center',
+                padding: '0',
+              }}
+            >
+              <h1>
+                {userData.name} {userData.paternal_surname}
+              </h1>
+              <BoxFlex
+                style={{
+                  paddingTop: `0`,
+                }}
+              >
+                <p>
+                  {userData.address?.country ? userData.address?.country : null}
+                </p>
+                <p>{userData.email ? userData.email : null}</p>
+                <p>{userData.phone ? userData.phone : null}</p>
+              </BoxFlex>
+            </BoxColumn>
+          </div>
+        </Header>
+        <BoxColumn>{userData.about_me}</BoxColumn>
         {cvData.urls.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
@@ -452,7 +714,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
         {cvData.educations.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Educations</h2>
+            <h2>Educación</h2>
             <BoxColumn>
               {cvData.educations
                 .sort((a, b) => {
@@ -474,7 +736,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         />{' '}
                         {item.start_date}
                         {' • '}
-                        {item.end_date}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -525,7 +787,8 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                           icon={faCalendar}
                           className="calendar"
                         />{' '}
-                        {item.start_date} {' • '} {item.end_date}
+                        {item.start_date} {' • '}{' '}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -560,7 +823,9 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         />{' '}
                         {item.expedition_date}
                         {' • '}
-                        {item.expiry_date}
+                        {item.expiry_date === null
+                          ? 'Actualmente'
+                          : item.expiry_date}
                       </p>
                     </div>
                   ) : null;
@@ -593,7 +858,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         />{' '}
                         {item.start_date}
                         {' • '}
-                        {item.end_date}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -626,7 +891,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         />{' '}
                         {item.start_date}
                         {' • '}
-                        {item.end_date}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -661,7 +926,7 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
                         />{' '}
                         {item.start_date}
                         {' • '}
-                        {item.end_date}
+                        {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -766,13 +1031,18 @@ const CV_preview = ({ editButton, dataLoaded, cvData, userData }) => {
           </div>
         )}
       </Wrapper>
-      <ButtonBox>
+      <ButtonBox style={{ display: displayButtons }}>
         <Button type="button" onClick={editButton} disabled={dataLoaded}>
-          Editar
+          <FontAwesomeIcon icon={faPenToSquare} className="calendar" /> Editar
         </Button>
-        {/* <Button type="button" onClick={handleDownloadPdf} disabled={dataLoaded}>
+        <Button
+          type="button"
+          /* onClick={handleDownloadPdf} */ onClick={handlePrint}
+          disabled={dataLoaded}
+        >
+          <FontAwesomeIcon icon={faFileArrowDown} className="calendar" />{' '}
           Descargar
-        </Button> */}
+        </Button>
       </ButtonBox>
     </>
   );

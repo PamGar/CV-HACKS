@@ -9,6 +9,7 @@ import {
   faCircleCheck,
   faCircleXmark,
 } from '@fortawesome/free-regular-svg-icons';
+import { toast } from 'react-toastify';
 
 const SocialEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-urls/${props.cvId}`;
@@ -46,6 +47,7 @@ const SocialEdit = (props) => {
       setItemsList(data.data);
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -64,10 +66,12 @@ const SocialEdit = (props) => {
         description: '',
       });
       getItemsList();
+      toast.success('Agregado con exito');
       props.refreshCvData();
       props.getHeight();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -81,10 +85,12 @@ const SocialEdit = (props) => {
         },
       });
       getItemsList();
+      toast.success('Eliminado con exito');
       props.refreshCvData();
       props.getHeight();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -107,6 +113,7 @@ const SocialEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -127,9 +134,11 @@ const SocialEdit = (props) => {
         description: '',
       });
       getItemsList();
+      toast.success('Actualizado con exito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 

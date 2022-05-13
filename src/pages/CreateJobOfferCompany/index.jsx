@@ -89,10 +89,11 @@ const CreateJobOfferCompany = () => {
   const today =
     date.getFullYear() +
     '-' +
-    '0' +
-    (date.getMonth() + 1) +
+    (date.getMonth() + 1 < 10
+      ? '0' + (date.getMonth() + 1)
+      : date.getMonth() + 1) +
     '-' +
-    date.getDate();
+    (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -158,6 +159,7 @@ const CreateJobOfferCompany = () => {
   return (
     <>
       <MainContentWrapper
+        paddingTop
         singleButton
         loadingButtonTitle='crear vacante'
         onClickLoadingButton={(e) => {

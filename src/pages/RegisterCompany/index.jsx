@@ -5,6 +5,7 @@ import ConfirmRegisterCompanyModal from './ConfirmRegisterCompanyModal';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
+  padding-top: 30px;
   max-width: 500px;
   @media (max-width: 1000px) {
     max-width: 100%;

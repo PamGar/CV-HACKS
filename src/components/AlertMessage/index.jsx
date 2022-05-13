@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Message = styled.div`
   color: ${(props) =>
     props.error
-      ? '#D8000C'
+      ? '#fff'
       : props.success
       ? '#62b30b'
       : props.warning
@@ -13,7 +13,7 @@ const Message = styled.div`
       : 'none'};
   background-color: ${(props) =>
     props.error
-      ? '#FFD2D2'
+      ? '#e37676'
       : props.success
       ? '#d3eea5'
       : props.warning

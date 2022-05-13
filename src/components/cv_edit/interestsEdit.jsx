@@ -6,12 +6,13 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
-  faFutbol,
   faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
+import { faFutbol } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
+import { toast } from 'react-toastify';
 
 const InterestEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formskills/${props.cvId}`;
@@ -66,9 +67,12 @@ const InterestEdit = (props) => {
         }
       );
       setItemsList(data.data);
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setTimeout(() => {
+        setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      }, 100);
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -87,12 +91,14 @@ const InterestEdit = (props) => {
         level: '0',
       });
       getItemsList();
+      toast.success('Agregado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -106,9 +112,11 @@ const InterestEdit = (props) => {
         },
       });
       getItemsList();
+      toast.success('Eliminado con exito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -129,12 +137,13 @@ const InterestEdit = (props) => {
         level: '0',
       });
       setEditItems(true);
-      formRef.current.classList.toggle('unhide');
+      formRef.current.classList.add('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -162,12 +171,14 @@ const InterestEdit = (props) => {
         level: '0',
       });
       getItemsList();
+      toast.success('Actualizado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 

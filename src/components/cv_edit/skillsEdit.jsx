@@ -6,12 +6,13 @@ import {
   faPenToSquare,
   faEye,
   faEyeSlash,
-  faChessPawn,
   faCalendar,
 } from '@fortawesome/free-regular-svg-icons';
+import { faChessPawn } from '@fortawesome/free-solid-svg-icons';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
+import { toast } from 'react-toastify';
 
 const SkillsEdit = (props) => {
   const URL = `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-formskills/${props.cvId}`;
@@ -65,9 +66,12 @@ const SkillsEdit = (props) => {
         }
       );
       setItemsList(data.data);
-      setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setTimeout(() => {
+        setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      }, 100);
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -86,12 +90,14 @@ const SkillsEdit = (props) => {
         level: '0',
       });
       getItemsList();
+      toast.success('Agregado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -105,9 +111,11 @@ const SkillsEdit = (props) => {
         },
       });
       getItemsList();
+      toast.success('Eliminado con exito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -128,12 +136,13 @@ const SkillsEdit = (props) => {
         level: '0',
       });
       setEditItems(true);
-      formRef.current.classList.toggle('unhide');
+      formRef.current.classList.add('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 
@@ -161,12 +170,14 @@ const SkillsEdit = (props) => {
         level: '0',
       });
       getItemsList();
+      toast.success('Actualizado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('Oops, ocurrio algo inesperado');
     }
   };
 

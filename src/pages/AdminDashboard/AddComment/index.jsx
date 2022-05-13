@@ -1,6 +1,6 @@
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import MainContentWrapper from '../../../components/MainContentWrapper';
-import { useState, useEffect, useContext, useLayoutEffect } from 'react';
 import axios from 'axios';
 import EditCommentModal from './EditCommentModal';
 import ConfirmDeleteComentModal from './ConfirmDeleteComentModal';
@@ -8,9 +8,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { toast } from 'react-toastify';
 import MainAndRightLayout from '../../../layouts/MainAndRightLayout';
-import { ResumeContext } from '../ResumeContextProvider';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import SkeletonCommentCard from './SkeletonCommentCard';
+import UserResumeById from '../ResumeList/UserResumeById';
 
 const Textarea = styled.textarea`
   max-width: 100%;
@@ -33,9 +33,8 @@ const CommentContainer = styled.div`
   gap: 10px;
   border-radius: 15px;
   padding: 15px;
-  box-shadow: rgb(0 0 0 / 20%) 0px 2px 1px -1px,
-    rgb(0 0 0 / 14%) 0px 1px 1px 0px, rgb(0 0 0 / 12%) 0px 1px 3px 0px;
   position: relative;
+  background-color: #f3f4f6;
 
   ::after {
     content: '';
@@ -116,48 +115,47 @@ const AddComment = () => {
   const [loadingData, setLoadingData] = useState(true);
   const [pageCounter, setPageCounter] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const { userSelectedId, setUserSelectedId, resumeData, setResumeData } =
-    useContext(ResumeContext);
   const handleChange = (e) => {
     setComment((prev) => ({ ...prev, comment: e.target.value }));
   };
   const token = localStorage.getItem('authToken');
+  const { id } = useParams();
   const navigate = useNavigate();
 
   const PAGE_SIZE = 4;
-
   const WriteAComment = async () => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${userSelectedId}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${id}`,
         comment,
         { headers: { authorization: `Token ${token}` } }
       );
-      console.log(data);
       toast.success('¡Correción agregada!');
       setComment({
         comment: '',
         description: 'Informacion Personal',
       });
-      setLoading(false);
+      if (!hasMore) setCommentList((prev) => [data, ...prev]);
     } catch (err) {
       toast.error('No se a podido agregar la correción');
+    } finally {
       setLoading(false);
     }
   };
   const getListOfComments = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${userSelectedId}?page_number=${pageCounter}&page_size=${PAGE_SIZE}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${id}?page_number=${pageCounter}&page_size=${PAGE_SIZE}`,
         { headers: { authorization: `Token ${token}` } }
       );
       setCommentList([...data.data]);
       setPageCounter((prev) => prev + 1);
       setHasMore(data.next_page);
-      console.log(data);
     } catch (err) {
-      console.log(err);
+      toast.error(
+        'Opps ha ocurrido un error, no se logró cargar la lista de comentarios'
+      );
     } finally {
       setLoadingData(false);
     }
@@ -166,7 +164,7 @@ const AddComment = () => {
   const fetchMoreData = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${userSelectedId}?page_number=${pageCounter}&page_size=${PAGE_SIZE}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${id}?page_number=${pageCounter}&page_size=${PAGE_SIZE}`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
@@ -176,15 +174,15 @@ const AddComment = () => {
       setCommentList((prev) => [...prev, ...data.data]);
       setPageCounter((prev) => prev + 1);
       setHasMore(data.next_page);
-      console.log(data);
     } catch (err) {
-      console.log(err);
+      toast.error(
+        'Opps ha ocurrido un error, no se logró cargar nuevos comentarios'
+      );
     }
   };
 
   useEffect(() => {
     getListOfComments();
-    if (!userSelectedId) navigate(-1);
   }, []);
 
   return (
@@ -222,9 +220,18 @@ const AddComment = () => {
               }
             >
               <option value='Informacion Personal'>Informacion Personal</option>
-              <option value='Estudios'>Estudios</option>
-              <option value='Experiencia'>Experiencia</option>
+              <option value='Redes Sociales'>Redes Sociales</option>
+              <option value='Educación'>Educación</option>
+              <option value='Idiomas'>Idiomas</option>
               <option value='Cursos'>Cursos</option>
+              <option value='Certificaciones'>Certificaciones</option>
+              <option value='Experiencia'>Experiencia</option>
+              <option value='Organizaciones'>Organizaciones</option>
+              <option value='Proyectos'>Proyectos</option>
+              <option value='Publicaciones'>Publicaciones</option>
+              <option value='Premios'>Premios</option>
+              <option value='Habilidades'>Habilidades</option>
+              <option value='Intereses'>Intereses</option>
             </Select>
             <h3>Lista de comentarios</h3>
             {loadingData && (
@@ -282,7 +289,7 @@ const AddComment = () => {
               commentID={commentSelectedID}
               commentList={commentList}
               setCommentList={setCommentList}
-              userSelectedId={userSelectedId}
+              userSelectedId={id}
             />
           )}
           {openConfirmDeleteComentModal && (
@@ -291,12 +298,12 @@ const AddComment = () => {
               setOpenConfirmDeleteComentModal={setOpenConfirmDeleteComentModal}
               commentID={commentSelectedID}
               setCommentList={setCommentList}
-              userSelectedId={userSelectedId}
+              userSelectedId={id}
             />
           )}
         </>
       }
-      right={<div>cv</div>}
+      right={<UserResumeById />}
     />
   );
 };

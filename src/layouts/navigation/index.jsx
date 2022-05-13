@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+/* import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import Logo from '../../assets/images/logo_white.png';
 import Profile from '../../assets/images/profile.jpg';
@@ -272,3 +272,4 @@ const Index = (props) => {
 };
 
 export default Index;
+ */

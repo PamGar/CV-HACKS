@@ -14,14 +14,14 @@ import Modal from '../components/Modal';
 import Drawer from './Drawer';
 
 const Layout = styled.div`
-  padding: 30px 30px 0;
+  padding: 0 30px;
   min-height: 100vh;
   display: grid;
   grid-template-columns: 120px 1fr;
   gap: 30px;
   @media (max-width: 1000px) {
     grid-template-columns: 1fr;
-    grid-template-rows: 70px 1fr;
+    grid-template-rows: 80px 1fr;
     padding: 0;
     gap: 20px;
   }
@@ -55,26 +55,26 @@ const AppBarDesktop = styled.nav`
   align-items: center;
   gap: 10px;
   padding: 30px 0;
-
-  box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
-    0px 1px 8px 0px rgb(0 0 0 / 12%);
+  box-shadow: 2px 1px 7px #00000057;
 `;
 
 const AppBarMobile = styled.nav`
   background-color: #a0a0cc;
   display: flex;
+  flex-direction: row-reverse;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  gap: 20px;
-
-  box-shadow: 0px 3px 5px 0px rgb(0 0 0 / 20%), 0px 2px 5px 0px rgb(0 0 0 / 14%),
-    0px 1px 8px 0px rgb(0 0 0 / 12%);
+  padding: 20px;
+  box-shadow: 0px 5px 10px #00000057;
+  border-radius: 15px;
+  margin: 5px;
 `;
 
 const MainWrapper = styled.div`
   @media (max-width: 1000px) {
     padding: 0 20px;
+    width: 100vw;
   }
 `;
 
@@ -84,7 +84,7 @@ const StyledLink = styled(NavLink)`
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  color: rgb(236, 225, 209);
+  color: #ffffff;
   width: 80%;
   border-radius: 15px;
   padding: 10px 0;
@@ -95,8 +95,11 @@ const StyledLink = styled(NavLink)`
   }
 
   .HackademyIcon {
-    height: 50px;
     width: 50px;
+
+    @media (max-width: 1000px) {
+      width: 45px;
+    }
   }
 
   @media (max-width: 1000px) {
@@ -106,7 +109,6 @@ const StyledLink = styled(NavLink)`
 
   @media (max-width: 800px) {
     width: 50px;
-    margin-right: 20px;
     color: #6b6b6b;
   }
 `;
@@ -120,8 +122,7 @@ const StyledLinkMobile = styled(StyledLink)`
 `;
 
 const HamburgerIcon = styled.div`
-  border: 3px solid rgb(236, 225, 209);
-  margin-left: 20px;
+  border: 3px solid #f3f4f6;
   width: 40px;
   height: 40px;
   border-radius: 15px;
@@ -135,7 +136,7 @@ const HamburgerIcon = styled.div`
     left: 7px;
     width: 20px;
     height: 5px;
-    background-color: rgb(236, 225, 209);
+    background-color: #f3f4f6;
     border-radius: 15px;
   }
   ::before {
@@ -145,7 +146,7 @@ const HamburgerIcon = styled.div`
     left: 7px;
     width: 20px;
     height: 5px;
-    background-color: rgb(236, 225, 209);
+    background-color: #f3f4f6;
     border-radius: 15px;
   }
 `;
@@ -180,41 +181,41 @@ const AppbarLayout = ({ role }) => {
       <FlexWrapper>
         {clientWidth > 1000 && (
           <AppBarDesktop>
-            <StyledLink to='/'>
-              <img src={HackademyIcon} className='HackademyIcon' />
+            <StyledLink to="/">
+              <img src={HackademyIcon} className="HackademyIcon" />
             </StyledLink>
             {role == 3 && (
-              <StyledLink to='/candidates'>
-                <FontAwesomeIcon icon={faIdCard} className='Icon' />
+              <StyledLink to="/candidates">
+                <FontAwesomeIcon icon={faIdCard} className="Icon" />
                 Candidatos
               </StyledLink>
             )}
             {(role == 5 || role == 4 || role == 2) && (
               <StyledLink to={role == 5 || role == 4 ? '/resume' : '/resumes'}>
-                <FontAwesomeIcon icon={faAddressCard} className='Icon' />
+                <FontAwesomeIcon icon={faAddressCard} className="Icon" />
                 {role == 5 || role == 4 ? 'Mi CV' : 'CVs'}
               </StyledLink>
             )}
             {(role == 2 || role == 3) && (
-              <StyledLink to='/job-offers'>
-                <FontAwesomeIcon icon={faFileLines} className='Icon' />
+              <StyledLink to="/job-offers">
+                <FontAwesomeIcon icon={faFileLines} className="Icon" />
                 {role == 2 ? 'Vacantes' : 'Mis Vacantes'}
               </StyledLink>
             )}
             {role == 3 && (
-              <StyledLink to='/create-job-offer'>
-                <FontAwesomeIcon icon={faFilePen} className='Icon' />
+              <StyledLink to="/create-job-offer">
+                <FontAwesomeIcon icon={faFilePen} className="Icon" />
                 Crear Vacante
               </StyledLink>
             )}
             {role == 2 && (
-              <StyledLink to='/register-company'>
-                <FontAwesomeIcon icon={faBuilding} className='Icon' />
+              <StyledLink to="/register-company">
+                <FontAwesomeIcon icon={faBuilding} className="Icon" />
                 Dar de alta
               </StyledLink>
             )}
-            <StyledLink to='/profile'>
-              <FontAwesomeIcon icon={faUser} className='Icon' />
+            <StyledLink to="/profile">
+              <FontAwesomeIcon icon={faUser} className="Icon" />
               Mi perfil
             </StyledLink>
           </AppBarDesktop>
@@ -224,43 +225,43 @@ const AppbarLayout = ({ role }) => {
             {clientWidth <= 800 && (
               <HamburgerIcon onClick={() => setOpenModal(true)} />
             )}
-            <StyledLink to='/'>
-              <img src={HackademyIcon} className='HackademyIcon' />
+            <StyledLink to="/">
+              <img src={HackademyIcon} className="HackademyIcon" />
             </StyledLink>
             {(role == 5 || role == 4 || role == 2) && clientWidth > 800 && (
               <StyledLink to={role == 5 || role == 4 ? '/resume' : '/resumes'}>
-                <FontAwesomeIcon icon={faAddressCard} className='Icon' />
+                <FontAwesomeIcon icon={faAddressCard} className="Icon" />
                 {role == 5 || role == 4 ? 'Mi CV' : 'CVs'}
               </StyledLink>
             )}
             {clientWidth > 800 && (
               <>
                 {role == 3 && (
-                  <StyledLink to='/candidates'>
-                    <FontAwesomeIcon icon={faIdCard} className='Icon' />
+                  <StyledLink to="/candidates">
+                    <FontAwesomeIcon icon={faIdCard} className="Icon" />
                     Candidatos
                   </StyledLink>
                 )}
                 {(role == 2 || role == 3) && (
-                  <StyledLink to='/job-offers'>
-                    <FontAwesomeIcon icon={faFileLines} className='Icon' />
+                  <StyledLink to="/job-offers">
+                    <FontAwesomeIcon icon={faFileLines} className="Icon" />
                     {role == 2 ? 'Vacantes' : 'Mis Vacantes'}
                   </StyledLink>
                 )}
                 {role == 3 && (
-                  <StyledLink to='/create-job-offer'>
-                    <FontAwesomeIcon icon={faFilePen} className='Icon' />
+                  <StyledLink to="/create-job-offer">
+                    <FontAwesomeIcon icon={faFilePen} className="Icon" />
                     Crear Vacante
                   </StyledLink>
                 )}
                 {role == 2 && (
-                  <StyledLink to='/register-company'>
-                    <FontAwesomeIcon icon={faBuilding} className='Icon' />
+                  <StyledLink to="/register-company">
+                    <FontAwesomeIcon icon={faBuilding} className="Icon" />
                     Dar de alta
                   </StyledLink>
                 )}
-                <StyledLink to='/profile'>
-                  <FontAwesomeIcon icon={faUser} className='Icon' />
+                <StyledLink to="/profile">
+                  <FontAwesomeIcon icon={faUser} className="Icon" />
                   Mi perfil
                 </StyledLink>
               </>
@@ -277,8 +278,8 @@ const AppbarLayout = ({ role }) => {
             activateFade={activateFade}
           >
             {role == 3 && (
-              <StyledLinkMobile to='/candidates'>
-                <FontAwesomeIcon icon={faIdCard} className='Icon' />
+              <StyledLinkMobile to="/candidates">
+                <FontAwesomeIcon icon={faIdCard} className="Icon" />
                 Candidatos
               </StyledLinkMobile>
             )}
@@ -287,33 +288,33 @@ const AppbarLayout = ({ role }) => {
                 to={role == 5 || role == 4 ? '/resume' : '/resumes'}
                 onClick={handleClickDrawer}
               >
-                <FontAwesomeIcon icon={faAddressCard} className='Icon ' />
+                <FontAwesomeIcon icon={faAddressCard} className="Icon " />
                 {role == 5 || role == 4 ? 'Mi CV' : 'CVs'}
               </StyledLinkMobile>
             )}
             {(role == 2 || role == 3) && (
-              <StyledLinkMobile to='/job-offers' onClick={handleClickDrawer}>
-                <FontAwesomeIcon icon={faFileLines} className='Icon ' />
+              <StyledLinkMobile to="/job-offers" onClick={handleClickDrawer}>
+                <FontAwesomeIcon icon={faFileLines} className="Icon " />
                 {role == 2 ? 'Vacantes' : 'Mis Vacantes'}
               </StyledLinkMobile>
             )}
             {role == 3 && (
-              <StyledLinkMobile to='/create-job-offer'>
-                <FontAwesomeIcon icon={faFilePen} className='Icon' />
+              <StyledLinkMobile to="/create-job-offer">
+                <FontAwesomeIcon icon={faFilePen} className="Icon" />
                 Crear Vacante
               </StyledLinkMobile>
             )}
             {role == 2 && (
               <StyledLinkMobile
-                to='/register-company'
+                to="/register-company"
                 onClick={handleClickDrawer}
               >
-                <FontAwesomeIcon icon={faBuilding} className='Icon ' />
+                <FontAwesomeIcon icon={faBuilding} className="Icon " />
                 Dar de alta
               </StyledLinkMobile>
             )}
-            <StyledLinkMobile to='/profile' onClick={handleClickDrawer}>
-              <FontAwesomeIcon icon={faUser} className='Icon ' />
+            <StyledLinkMobile to="/profile" onClick={handleClickDrawer}>
+              <FontAwesomeIcon icon={faUser} className="Icon " />
               Mi perfil
             </StyledLinkMobile>
           </Drawer>

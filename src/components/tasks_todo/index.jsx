@@ -5,6 +5,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-regular-svg-icons';
 import styled from 'styled-components';
 
+const TasksWrapper = styled.div`
+  @media (max-width: 1000px) {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 15px;
+  }
+`;
+
 const TasksBox = styled.div`
   padding: 20px;
   margin-bottom: 30px;
@@ -15,7 +23,12 @@ const TasksBox = styled.div`
   margin-right: auto;
   background-color: #fff;
   border-radius: 15px;
-  box-shadow: 2px 1px 7px #00000057;
+  /* box-shadow: 2px 1px 7px #00000057; */
+
+  @media (max-width: 1000px) {
+    padding: 10px;
+    box-shadow: unset;
+  }
 
   .hide + div {
     display: none;
@@ -24,8 +37,8 @@ const TasksBox = styled.div`
   .tasksTitle {
     background: linear-gradient(40deg, #00b7b8, #595295);
     padding: 20px;
-    box-shadow: 0px 10px 40px -20px grey;
-    border-radius: 15px;
+    box-shadow: 2px 1px 7px #00000057;
+    border-radius: 10px;
     letter-spacing: 2px;
     text-align: left;
     display: flex;
@@ -81,7 +94,7 @@ const Task = styled.section`
   border-radius: 10px;
   border: solid 1px #99e2e3;
   background-color: #fff;
-  box-shadow: 0px 10px 40px -20px grey;
+  box-shadow: 2px 1px 7px #00000057;
 
   .task {
     display: flex;
@@ -256,8 +269,8 @@ const TasksTodo = (props) => {
     setTasks(updatedList); // set state to new object with updated list
   };
 
-  const tasksDone = tasks.filter((item) => item.done === true).length;
-  const tasksUndone = tasks.filter((item) => item.done === false).length;
+  const tasksDone = tasks.filter((item) => item.done === true);
+  const tasksUndone = tasks.filter((item) => item.done === false);
 
   useEffect(() => {
     getItemsList();
@@ -265,91 +278,99 @@ const TasksTodo = (props) => {
 
   return (
     <>
-      <TasksBox>
-        <div className="tasksTitle">
-          <h2>Correcciones recomendadas</h2>
-        </div>
-        {tasksUndone !== 0 ? (
-          tasks.map((currentValue) => {
-            return (
-              <Task key={currentValue.id}>
-                <div className="task">
-                  <Input
-                    type="checkbox"
-                    id="checkbox"
-                    name={`task${currentValue.id}`}
-                    onChange={() => toggleDone(currentValue.id)}
-                  />
-                  <label for={`task${currentValue.id} form-control`}>
-                    {currentValue.comment}
-                  </label>
-                </div>
-                <div className="taskInfo">
-                  <p>
-                    {currentValue.admin.name}{' '}
-                    {currentValue.admin.paternal_surname}
-                  </p>
-                  <p>{currentValue.description}</p>
-                  <p>{format(currentValue.created_date)}</p>
-                </div>
-              </Task>
-            );
-          })
-        ) : (
-          <p className="tasks_0">No tienes correcciones pendientes</p>
-        )}
-      </TasksBox>
-      <TasksBox>
-        <div className="tasksTitle hide" ref={hideTasksRef}>
-          <h2>Correcciones completadas</h2>
-          <button onClick={hideTasksHandle}>
-            {hideTasks ? (
-              <FontAwesomeIcon icon={faEyeSlash} className="editBox_hide" />
-            ) : (
-              <FontAwesomeIcon icon={faEye} className="editBox_unhide" />
-            )}
-          </button>
-        </div>
-        <div>
-          {tasksDone !== 0 ? (
-            tasks.map((currentValue) => {
-              if (!currentValue.state) {
-                return (
-                  <Task key={currentValue.id}>
-                    <div className="task">
-                      <Input
-                        type="checkbox"
-                        id="checkbox"
-                        name="checkbox"
-                        onChange={() => toggleDone(currentValue.id)}
-                        checked
-                      />
-                      <label
-                        className="form-control--disabled"
-                        for="checkbox form-control"
-                      >
-                        {currentValue.comment}
-                      </label>
-                    </div>
-                    <div className="taskInfo">
-                      <p>
-                        {currentValue.admin.name}{' '}
-                        {currentValue.admin.paternal_surname}
-                      </p>
-                      <p>{currentValue.description}</p>
-                      <p>{format(currentValue.created_date)}</p>
-                    </div>
-                  </Task>
-                );
-              } else {
-                return null;
-              }
+      <TasksWrapper>
+        <TasksBox>
+          <div className="tasksTitle">
+            <h2>Correcciones recomendadas</h2>
+          </div>
+          {tasksUndone.length !== 0 ? (
+            tasksUndone.map((currentValue) => {
+              return (
+                <Task key={currentValue.id}>
+                  <div className="task">
+                    <Input
+                      type="checkbox"
+                      id="checkbox"
+                      name={`task${currentValue.id}`}
+                      onChange={() => toggleDone(currentValue.id)}
+                    />
+                    <label for={`task${currentValue.id} form-control`}>
+                      {currentValue.comment}
+                    </label>
+                  </div>
+                  <div className="taskInfo">
+                    <p>
+                      {currentValue.admin.name}{' '}
+                      {currentValue.admin.paternal_surname}
+                    </p>
+                    <p>{currentValue.description}</p>
+                    <p>{format(currentValue.created_date)}</p>
+                  </div>
+                </Task>
+              );
             })
           ) : (
-            <p className="tasks_0">Aun no has completado ninguna correccion</p>
+            <p className="tasks_0">No tienes correcciones pendientes</p>
           )}
-        </div>
-      </TasksBox>
+        </TasksBox>
+        <TasksBox>
+          <div
+            className="tasksTitle hide"
+            ref={hideTasksRef}
+            onClick={hideTasksHandle}
+          >
+            <h2>Correcciones completadas</h2>
+            <button>
+              {hideTasks ? (
+                <FontAwesomeIcon icon={faEyeSlash} className="editBox_hide" />
+              ) : (
+                <FontAwesomeIcon icon={faEye} className="editBox_unhide" />
+              )}
+            </button>
+          </div>
+          <div>
+            {tasksDone.length !== 0 ? (
+              tasksDone.map((currentValue) => {
+                if (!currentValue.state) {
+                  return (
+                    <Task key={currentValue.id}>
+                      <div className="task">
+                        <Input
+                          type="checkbox"
+                          id="checkbox"
+                          name="checkbox"
+                          onChange={() => toggleDone(currentValue.id)}
+                          checked
+                        />
+                        <label
+                          className="form-control--disabled"
+                          for="checkbox form-control"
+                        >
+                          {currentValue.comment}
+                        </label>
+                      </div>
+                      <div className="taskInfo">
+                        <p>
+                          {currentValue.admin.name}{' '}
+                          {currentValue.admin.paternal_surname}
+                        </p>
+                        <p>{currentValue.description}</p>
+                        <p>{format(currentValue.created_date)}</p>
+                      </div>
+                    </Task>
+                  );
+                } else {
+                  return null;
+                }
+              })
+            ) : (
+              <p className="tasks_0">
+                Aun no has completado ninguna correccion
+              </p>
+            )}
+          </div>
+        </TasksBox>
+      </TasksWrapper>
     </>
   );
 };
