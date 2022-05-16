@@ -116,11 +116,11 @@ const ResumeList = () => {
                 <SkeletonLoading width='100%' height='78px' />
               </>
             )}
-            {dataResumeList.map(({ area, isHired, id, user }) => (
+            {dataResumeList.map(({ isHired, id, user }) => (
               <UserCard
                 name={user.name}
+                userPhoto={user.image}
                 paternal_surname={user.paternal_surname}
-                area={area}
                 isHired={isHired}
                 setDisableButton={setDisableButton}
                 id={user.id}
