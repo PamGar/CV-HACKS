@@ -173,6 +173,10 @@ const Header = styled(BoxFlex)`
   display: flex;
   flex-wrap: wrap;
 
+  h1 {
+    margin: 20px;
+  }
+
   p {
     margin: 0 5px;
   }
@@ -183,8 +187,8 @@ const Header = styled(BoxFlex)`
   }
 
   .profileImage {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 0 0px 10px #a0a0cc5c;
@@ -198,10 +202,11 @@ const Header = styled(BoxFlex)`
 `;
 
 const HeaderCV = styled(Header)`
+  justify-content: space-between;
   flex-wrap: nowrap;
 
   .profileImage {
-    flex: 0 0 100px;
+    flex: 0 0 80px;
   }
 
   .logoHackademy {
@@ -310,7 +315,7 @@ const CV_preview = ({
           <div className="page" ref={componentRef}>
             <style>{getPageMargins()}</style>
             <HeaderCV>
-              {userData.image ? (
+              {userData.image !== '/media/default.jpg' ? (
                 <div className="profileImage">
                   <img
                     src={`${process.env.REACT_APP_BASE_URL}${userData.image}`}
@@ -669,7 +674,7 @@ const CV_preview = ({
       </Page>
       <Wrapper>
         <Header>
-          {userData.image ? (
+          {userData.image !== '/media/default.jpg' ? (
             <div className="profileImage">
               <img
                 src={`${process.env.REACT_APP_BASE_URL}${userData.image}`}
