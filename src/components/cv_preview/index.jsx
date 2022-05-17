@@ -132,12 +132,6 @@ const BoxColumn = styled.div`
     margin-bottom: 20px;
   }
 
-  .header {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
   .first {
     font-size: 14px;
     font-weight: bold;
@@ -177,6 +171,8 @@ const BoxFlex = styled(BoxColumn)`
 
 const Header = styled(BoxFlex)`
   align-items: center;
+  display: flex;
+  flex-wrap: wrap;
 
   p {
     margin: 0 5px;
@@ -200,10 +196,19 @@ const Header = styled(BoxFlex)`
       object-fit: cover;
     }
   }
+`;
+
+const HeaderCV = styled(Header)`
+  flex-wrap: nowrap;
+
+  .profileImage {
+    flex: 0 0 100px;
+  }
 
   .logoHackademy {
     width: 80px;
     height: 80px;
+    flex: 0 0 80px;
 
     img {
       width: 100%;
@@ -238,7 +243,7 @@ const BoxFlexCV = styled(BoxFlex)`
   }
 
   & > div {
-    width: 48%;
+    width: 100%;
   }
 `;
 
@@ -301,11 +306,11 @@ const CV_preview = ({
 
   return (
     <>
-      <Page style={{ display: 'none' }}>
+      <Page /* style={{ display: 'none' }} */>
         <div className="page_container" ref={widthRef}>
           <div className="page" ref={componentRef}>
             <style>{getPageMargins()}</style>
-            <Header>
+            <HeaderCV>
               {userData.image ? (
                 <div className="profileImage">
                   <img
@@ -321,7 +326,14 @@ const CV_preview = ({
                     padding: '0',
                   }}
                 >
-                  <h1 style={{ fontFamily: 'Poppins', fontWeight: '700' }}>
+                  <h1
+                    style={{
+                      fontFamily: 'Poppins',
+                      fontWeight: '700',
+                      lineHeight: '32px',
+                      marginBottom: '5px',
+                    }}
+                  >
                     {userData.name} {userData.paternal_surname}
                   </h1>
                   <BoxFlex
@@ -342,7 +354,7 @@ const CV_preview = ({
               <div className="logoHackademy">
                 <img src={Logo} />
               </div>
-            </Header>
+            </HeaderCV>
             <BoxFlexCV>
               {userData.about_me && (
                 <div>
