@@ -305,7 +305,7 @@ const CV_preview = ({
 
   return (
     <>
-      <Page /* style={{ display: 'none' }} */>
+      <Page style={{ display: 'none' }}>
         <div className="page_container" ref={widthRef}>
           <div className="page" ref={componentRef}>
             <style>{getPageMargins()}</style>
