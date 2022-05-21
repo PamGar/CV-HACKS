@@ -296,18 +296,20 @@ const CertificationsEdit = (props) => {
                         <span className="second">{item.name}</span>
                       </p>
                       <p className="second">{item.company}</p>
-
-                      <p className="third">
-                        <FontAwesomeIcon
-                          icon={faCalendar}
-                          className="calendar"
-                        />{' '}
-                        {item.expedition_date}
-                        {' • '}
-                        {item.expiry_date === null
-                          ? 'Actualmente'
-                          : item.expiry_date}
-                      </p>
+                      {item.expedition_date ? (
+                        <p className="third">
+                          <FontAwesomeIcon
+                            icon={faCalendar}
+                            className="calendar"
+                          />{' '}
+                          {item.expedition_date}
+                        </p>
+                      ) : null}
+                      {item.expiry_date === null ? (
+                        <p>No expira</p>
+                      ) : (
+                        item.expiry_date
+                      )}
 
                       <a href="http://">{item.credential_url}</a>
                       <div className="editBox">

@@ -282,7 +282,6 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
           `${process.env.REACT_APP_BASE_URL}/cv/`,
           {
             description: 'Mi primer CV',
-            area: user.user.dev_area,
           },
           {
             headers: {
