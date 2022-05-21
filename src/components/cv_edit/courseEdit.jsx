@@ -26,16 +26,16 @@ const CoursesEdit = (props) => {
       subtitle: '',
       start_date: '',
       end_date: '',
-      description: '',
+      description: null,
     },
     address: {
       street: '0',
       num_int: 0,
       num_ext: 0,
       suburb: '0',
-      town: '',
+      town: null,
       state: '0',
-      country: '',
+      country: null,
       zip_code: '0',
     },
     address_update: false,
@@ -111,16 +111,16 @@ const CoursesEdit = (props) => {
           subtitle: '',
           start_date: '',
           end_date: '',
-          description: '',
+          description: null,
         },
         address: {
           street: '0',
           num_int: 0,
           num_ext: 0,
           suburb: '0',
-          town: '',
+          town: null,
           state: '0',
-          country: '',
+          country: null,
           zip_code: '0',
         },
         address_update: false,
@@ -216,16 +216,16 @@ const CoursesEdit = (props) => {
           subtitle: '',
           start_date: '',
           end_date: '',
-          description: '',
+          description: null,
         },
         address: {
           street: '0',
           num_int: 0,
           num_ext: 0,
           suburb: '0',
-          town: '',
+          town: null,
           state: '0',
-          country: '',
+          country: null,
           zip_code: '0',
         },
         address_update: false,
@@ -257,16 +257,16 @@ const CoursesEdit = (props) => {
         subtitle: '',
         start_date: '',
         end_date: '',
-        description: '',
+        description: null,
       },
       address: {
         street: '0',
         num_int: 0,
         num_ext: 0,
         suburb: '0',
-        town: '',
+        town: null,
         state: '0',
-        country: '',
+        country: null,
         zip_code: '0',
       },
       address_update: false,
@@ -283,7 +283,7 @@ const CoursesEdit = (props) => {
       address_update: true,
       address: {
         ...item.address,
-        [name]: value,
+        [name]: value === '' ? null : value,
       },
     });
   };
@@ -296,7 +296,7 @@ const CoursesEdit = (props) => {
       ...item,
       data: {
         ...item.data,
-        [name]: value,
+        [name]: value === '' ? null : value,
       },
     });
   };
@@ -465,7 +465,6 @@ const CoursesEdit = (props) => {
                         autoComplete="off"
                         placeholder="Escribe la ciudad donde realizaste el curso"
                         onChange={handleAddressChange}
-                        required
                       />
                     </p>
                   </div>
@@ -482,7 +481,6 @@ const CoursesEdit = (props) => {
                         autoComplete="off"
                         placeholder="Escribe el pais donde realizaste el curso"
                         onChange={handleAddressChange}
-                        required
                       />
                     </p>
                   </div>
@@ -532,7 +530,7 @@ const CoursesEdit = (props) => {
                   </div>
                 </div>
                 <p>
-                  <label htmlFor="credential_id">
+                  <label htmlFor="description">
                     Descripción
                     <span className="fieldRecomendation">Requerido</span>
                   </label>
@@ -544,7 +542,6 @@ const CoursesEdit = (props) => {
                     placeholder="Escribe una breve descripcion del curso realizado"
                     autoComplete="off"
                     onChange={handleDataChange}
-                    required
                   ></textarea>
                 </p>
                 <ButtonBox>

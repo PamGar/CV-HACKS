@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { useRoutes } from 'react-router-dom';
 
 const FirstTimeModal = styled.div`
   position: fixed;
@@ -281,6 +282,7 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
           `${process.env.REACT_APP_BASE_URL}/cv/`,
           {
             description: 'Mi primer CV',
+            area: user.user.dev_area,
           },
           {
             headers: {
@@ -340,7 +342,7 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
               />
             </p>
           </div>
-          <p>
+          {/*  <p>
             <label htmlFor="user/dev_area">
               <span>Area</span>
             </label>
@@ -350,9 +352,9 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
               name="user/dev_area"
               placeholder="Escribe tu area (Frontend, backend, mobile, etc)"
               autoComplete="off"
-              // onChange={handleChange}
+              onChange={handleChange}
             />
-          </p>
+          </p> */}
           <fieldset>
             <h3>Direccion</h3>
             <div className="multiBox">

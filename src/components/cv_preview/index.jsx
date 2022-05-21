@@ -350,8 +350,14 @@ const CV_preview = ({
                         ? userData.address?.country
                         : null}
                     </p>
-                    <p>{userData.email ? userData.email : null}</p>
-                    <p>{userData.phone ? userData.phone : null}</p>
+
+                    {userData.email ? (
+                      userData.email.includes('hackademy.mx') ? null : (
+                        <p>{userData.email}</p>
+                      )
+                    ) : null}
+
+                    {userData.phone ? <p>{userData.phone}</p> : null}
                   </BoxFlex>
                 </BoxColumn>
               </div>
@@ -700,8 +706,12 @@ const CV_preview = ({
                 <p>
                   {userData.address?.country ? userData.address?.country : null}
                 </p>
-                <p>{userData.email ? userData.email : null}</p>
-                <p>{userData.phone ? userData.phone : null}</p>
+                {userData.email ? (
+                  userData.email.includes('hackademy.mx') ? null : (
+                    <p>{userData.email}</p>
+                  )
+                ) : null}
+                {userData.phone ? <p>userData.phone</p> : null}
               </BoxFlex>
             </BoxColumn>
           </div>

@@ -101,7 +101,7 @@ const AboutEdit = (props) => {
       address_update: true,
       address: {
         ...item.address,
-        [name]: value,
+        [name]: value === '' ? null : value,
       },
     });
   };
@@ -114,7 +114,7 @@ const AboutEdit = (props) => {
       ...item,
       user: {
         ...item.user,
-        [name]: value,
+        [name]: value === '' ? null : value,
       },
     });
   };
@@ -128,7 +128,11 @@ const AboutEdit = (props) => {
     const fileSize = (size / 1000).toFixed(2);
     // Set the text content
     const fileNameAndSize = `${fileName} - ${fileSize}KB`;
-    setProfileImageInfo(fileNameAndSize);
+    fileSize > 2048
+      ? toast.warning(
+          'La imagen es demasiado grande, intenta con otra menor a 2 Mb'
+        )
+      : setProfileImageInfo(fileNameAndSize);
   };
 
   const handleFileChange = (e) => {
@@ -228,7 +232,9 @@ const AboutEdit = (props) => {
                   <p>
                     Carga una foto para tu CV
                     <hr />
-                    <span className="fieldRecomendation">Recomendado</span>
+                    <span className="fieldRecomendation">
+                      Recomendado - Max. Size 2Mb
+                    </span>
                   </p>
                   <label htmlFor="image">+</label>
                   <input
@@ -237,6 +243,7 @@ const AboutEdit = (props) => {
                     id="image"
                     name="image"
                     accept="image/x-png,image/gif,image/jpeg"
+                    max-file-size="2048"
                     autoComplete="off"
                     onChange={handleFileChange}
                   />

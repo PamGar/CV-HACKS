@@ -285,7 +285,7 @@ const EducationEdit = (props) => {
       ...item,
       data: {
         ...item.data,
-        [name]: value,
+        [name]: value === '' ? null : value,
       },
     });
   };
@@ -548,7 +548,7 @@ const EducationEdit = (props) => {
                 <p>
                   <label htmlFor="description">
                     Descripción
-                    <span className="description">Requerido</span>
+                    <span className="description"> Opcional</span>
                   </label>
                   <textarea
                     type="text"
@@ -558,7 +558,6 @@ const EducationEdit = (props) => {
                     placeholder="Escribe una breve descripcion del titulo obtenido"
                     autoComplete="off"
                     onChange={handleDataChange}
-                    required
                   ></textarea>
                 </p>
                 <ButtonBox>
