@@ -293,7 +293,7 @@ const CV_preview = ({
   };
 
   const getPageMargins = () => {
-    return `@page { margin: ${'50px'} ${'50px'} ${'50px'} ${'50px'} !important; }`;
+    return `@page { margin: ${'20px'} ${'50px'} ${'50px'} ${'50px'} !important; }`;
   };
 
   /* useEffect(() => {
@@ -340,6 +340,7 @@ const CV_preview = ({
                   >
                     {userData.name} {userData.paternal_surname}
                   </h1>
+                  <h2>{cvData.cv.area}</h2>
                   <BoxFlex
                     style={{
                       paddingTop: `0`,
@@ -695,9 +696,10 @@ const CV_preview = ({
                 padding: '0',
               }}
             >
-              <h1>
+              <h1 style={{ marginBottom: '0' }}>
                 {userData.name} {userData.paternal_surname}
               </h1>
+              <h3>{cvData.cv.area}</h3>{' '}
               <BoxFlex
                 style={{
                   paddingTop: `0`,
@@ -711,7 +713,7 @@ const CV_preview = ({
                     <p>{userData.email}</p>
                   )
                 ) : null}
-                {userData.phone ? <p>userData.phone</p> : null}
+                {userData.phone ? <p>{userData.phone}</p> : null}
               </BoxFlex>
             </BoxColumn>
           </div>
