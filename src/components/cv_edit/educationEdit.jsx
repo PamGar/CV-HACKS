@@ -30,7 +30,7 @@ const EducationEdit = (props) => {
       degree: '',
       start_date: '',
       end_date: null,
-      description: '',
+      description: null,
     },
     address: {
       street: 'empty',
@@ -101,7 +101,7 @@ const EducationEdit = (props) => {
           degree: '',
           start_date: '',
           end_date: '',
-          description: '',
+          description: null,
         },
         address: {
           street: 'empty',
@@ -207,7 +207,7 @@ const EducationEdit = (props) => {
           degree: '',
           start_date: '',
           end_date: '',
-          description: '',
+          description: null,
         },
         address: {
           street: 'empty',
@@ -247,7 +247,7 @@ const EducationEdit = (props) => {
         degree: '',
         start_date: '',
         end_date: null,
-        description: '',
+        description: null,
       },
       address: {
         street: 'empty',
