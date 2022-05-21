@@ -33,6 +33,8 @@ const AboutEdit = (props) => {
     },
     address_update: false,
   });
+
+  console.log('about', item);
   const profileImageRef = useRef();
   const getHeightRef = useRef();
   const toggleAccordeonRef = useRef();
@@ -119,26 +121,8 @@ const AboutEdit = (props) => {
     });
   };
 
-  const UploadImageInfo = (e) => {
-    // Get the selected file
-    const [file] = e.target.files;
-    // Get the file name and size
-    const { name: fileName, size } = file;
-    // Convert size in bytes to kilo bytes
-    const fileSize = (size / 1000).toFixed(2);
-    // Set the text content
-    const fileNameAndSize = `${fileName} - ${fileSize}KB`;
-    fileSize > 2048
-      ? toast.warning(
-          'La imagen es demasiado grande, intenta con otra menor a 2 Mb'
-        )
-      : setProfileImageInfo(fileNameAndSize);
-  };
-
   const handleFileChange = (e) => {
     const { files } = e.target;
-
-    UploadImageInfo(e);
 
     var reader = new FileReader();
     reader.readAsDataURL(files[0]);
@@ -155,6 +139,33 @@ const AboutEdit = (props) => {
     reader.onerror = function (error) {
       console.log('Error: ', error);
     };
+  };
+
+  const UploadImageInfo = (e) => {
+    // Get the selected file
+    const [file] = e.target.files;
+    // Get the file name and size
+    const { name: fileName, size } = file;
+    // Convert size in bytes to kilo bytes
+    const fileSize = (size / 1000).toFixed(2);
+    // Set the text content
+    const fileNameAndSize = `${fileName} - ${fileSize}KB`;
+    // test if the file exceded the size
+    if (fileSize > 2048) {
+      toast.warning(
+        'La imagen es demasiado grande, intenta con otra menor a 2 Mb'
+      );
+    } else {
+      // test if the file is an image
+      if (fileName.match(/(jpe?g|png)/g)) {
+        // Show the name and size of the file
+        setProfileImageInfo(fileNameAndSize);
+        // trigger the image load
+        handleFileChange(e);
+      } else {
+        toast.warning('El archivo que has subido no es una imagen');
+      }
+    }
   };
 
   const toggleAccordeonHandle = () => {
@@ -178,6 +189,7 @@ const AboutEdit = (props) => {
         },
       });
       toast.success('Perfil actualizado');
+      toggleAccordeonRef.current.classList.toggle('hide');
       props.refreshCvData();
     } catch (error) {
       toast.error('Algo ocurrio, intenta de nuevo');
@@ -242,10 +254,10 @@ const AboutEdit = (props) => {
                     type="file"
                     id="image"
                     name="image"
-                    accept="image/x-png,image/gif,image/jpeg"
+                    accept="image/x-png,image/jpeg"
                     max-file-size="2048"
                     autoComplete="off"
-                    onChange={handleFileChange}
+                    onChange={UploadImageInfo}
                   />
                   <p className="fileName">
                     {profileImageInfo}
@@ -255,6 +267,11 @@ const AboutEdit = (props) => {
                           e.preventDefault();
                           profileImageRef.current.value = '';
                           setProfileImageInfo('');
+                          setItem((current) => {
+                            const itemCopy = { ...current };
+                            delete itemCopy.user['image'];
+                            return itemCopy;
+                          });
                         }}
                       >
                         Eliminar

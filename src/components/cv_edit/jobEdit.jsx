@@ -525,6 +525,7 @@ const JobEdit = (props) => {
                         autoComplete="off"
                         onChange={handleDataChange}
                         disabled={disabledEndDate}
+                        required
                       />
                     </p>
                     <div className="check_data">
@@ -542,14 +543,14 @@ const JobEdit = (props) => {
                 <p>
                   <label htmlFor="description">
                     Descripción
-                    <span className="fieldRecomendation">Opcional</span>
+                    <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <textarea
                     type="text"
                     name="description"
                     rows="5"
                     value={item.data.description}
-                    placeholder="Escribe una breve descripcion de la organización"
+                    placeholder="Escribe que rol desempeñabas en la empresa, cuales eran tus tareas, en que proyectos trabajaste, que tecnologias y herramientas usaste"
                     autoComplete="off"
                     onChange={handleDataChange}
                     required

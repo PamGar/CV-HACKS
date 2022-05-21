@@ -555,7 +555,7 @@ const EducationEdit = (props) => {
                     rows="5"
                     name="description"
                     value={item.data.description}
-                    placeholder="Escribe una breve descripcion del titulo obtenido"
+                    placeholder="Escribe las herramientas que usaste, tecnologias que aprendiste, proyectos en los que trabajaste"
                     autoComplete="off"
                     onChange={handleDataChange}
                   ></textarea>

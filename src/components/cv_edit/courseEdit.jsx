@@ -465,6 +465,7 @@ const CoursesEdit = (props) => {
                         autoComplete="off"
                         placeholder="Escribe la ciudad donde realizaste el curso"
                         onChange={handleAddressChange}
+                        required
                       />
                     </p>
                   </div>
@@ -481,6 +482,7 @@ const CoursesEdit = (props) => {
                         autoComplete="off"
                         placeholder="Escribe el pais donde realizaste el curso"
                         onChange={handleAddressChange}
+                        required
                       />
                     </p>
                   </div>
@@ -532,14 +534,14 @@ const CoursesEdit = (props) => {
                 <p>
                   <label htmlFor="description">
                     Descripción
-                    <span className="fieldRecomendation">Requerido</span>
+                    <span className="fieldRecomendation">Opcional</span>
                   </label>
                   <textarea
                     type="text"
                     name="description"
                     rows="5"
                     value={item.data.description}
-                    placeholder="Escribe una breve descripcion del curso realizado"
+                    placeholder="Escribe las tecnologias aprendidas en el curso, que proyectos trabajaste, que herramientas usaste"
                     autoComplete="off"
                     onChange={handleDataChange}
                   ></textarea>

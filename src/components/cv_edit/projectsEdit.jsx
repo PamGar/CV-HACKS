@@ -22,10 +22,10 @@ const ProjectsEdit = (props) => {
   const [item, setItem] = useState({
     id: '',
     title: '',
-    additional_information: '',
+    additional_information: null,
     start_date: '',
     end_date: '',
-    description: '',
+    description: null,
     tools: 'empty',
     technologies: 'empty',
   });
@@ -54,7 +54,7 @@ const ProjectsEdit = (props) => {
     const { name, value } = event.target;
     setItem({
       ...item,
-      [name]: value,
+      [name]: value === '' ? null : value,
     });
   };
 
@@ -98,10 +98,10 @@ const ProjectsEdit = (props) => {
       setItem({
         id: '',
         title: '',
-        additional_information: '',
+        additional_information: null,
         start_date: '',
         end_date: '',
-        description: '',
+        description: null,
         tools: 'empty',
         technologies: 'empty',
       });
@@ -178,10 +178,10 @@ const ProjectsEdit = (props) => {
       setItem({
         id: '',
         title: '',
-        additional_information: '',
+        additional_information: null,
         start_date: '',
         end_date: '',
-        description: '',
+        description: null,
         tools: 'empty',
         technologies: 'empty',
       });
@@ -203,10 +203,10 @@ const ProjectsEdit = (props) => {
     setItem({
       id: '',
       title: '',
-      additional_information: '',
+      additional_information: null,
       start_date: '',
       end_date: '',
-      description: '',
+      description: null,
       tools: 'empty',
       technologies: 'empty',
     });
@@ -362,7 +362,7 @@ const ProjectsEdit = (props) => {
                 <p>
                   <label htmlFor="subtitle">
                     Subtitulo
-                    <span className="fieldRecomendation">Requerido</span>
+                    <span className="fieldRecomendation">Opcional</span>
                   </label>
                   <input
                     type="text"
@@ -372,7 +372,6 @@ const ProjectsEdit = (props) => {
                     placeholder="Escribe un subtitulo sobre el proyecto"
                     autoComplete="off"
                     onChange={handleChange}
-                    required
                   />
                 </p>
                 <div className="twoColumns">
@@ -405,6 +404,7 @@ const ProjectsEdit = (props) => {
                         autoComplete="off"
                         onChange={handleChange}
                         disabled={disabledEndDate}
+                        required
                       />
                     </p>
                     <div className="check_data">
@@ -422,7 +422,7 @@ const ProjectsEdit = (props) => {
                 <p>
                   <label htmlFor="description">
                     Descripción
-                    <span className="fieldRecomendation">Requerido</span>
+                    <span className="fieldRecomendation">Opcional</span>
                   </label>
                   <textarea
                     type="text"
@@ -430,10 +430,9 @@ const ProjectsEdit = (props) => {
                     name="description"
                     rows="5"
                     value={item.description}
-                    placeholder="Escribe una breve descripción del proyecto"
+                    placeholder="Escribe una breve descripción del proyecto, que tecnologias y/o herramientas usaste, cual fue el mayor reto del proyecto"
                     autoComplete="off"
                     onChange={handleChange}
-                    required
                   ></textarea>
                 </p>
                 <ButtonBox>
