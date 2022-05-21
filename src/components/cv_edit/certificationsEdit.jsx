@@ -22,8 +22,8 @@ const CertificationsEdit = (props) => {
     company: '',
     expedition_date: '',
     expiry_date: '',
-    credential_id: '',
-    credential_url: '',
+    credential_id: null,
+    credential_url: null,
     id: '',
   });
   const toggleAccordeonRef = useRef();
@@ -50,7 +50,7 @@ const CertificationsEdit = (props) => {
     const { name, value } = event.target;
     setItem({
       ...item,
-      [name]: value,
+      [name]: value === '' ? null : value,
     });
   };
 
@@ -102,9 +102,9 @@ const CertificationsEdit = (props) => {
         name: '',
         company: '',
         expedition_date: '',
-        expiry_date: null,
+        expiry_date: '',
         credential_id: null,
-        credential_url: '',
+        credential_url: null,
         id: '',
       });
       getItemsList();
@@ -191,9 +191,9 @@ const CertificationsEdit = (props) => {
         name: '',
         company: '',
         expedition_date: '',
-        expiry_date: null,
+        expiry_date: '',
         credential_id: null,
-        credential_url: '',
+        credential_url: null,
         id: '',
       });
       getItemsList();
@@ -220,8 +220,8 @@ const CertificationsEdit = (props) => {
       company: '',
       expedition_date: '',
       expiry_date: '',
-      credential_id: '',
-      credential_url: '',
+      credential_id: null,
+      credential_url: null,
       id: '',
     });
   };
@@ -423,6 +423,7 @@ const CertificationsEdit = (props) => {
                         autoComplete="off"
                         onChange={handleChange}
                         disabled={disabledEndDate}
+                        required
                       />
                     </p>
                     <div className="check_data">
@@ -434,14 +435,14 @@ const CertificationsEdit = (props) => {
                         autoComplete="off"
                         onChange={handleCheck}
                       />
-                      <label htmlFor="expiry_date">Presente (Actualidad)</label>
+                      <label htmlFor="expiry_date">No expira</label>
                     </div>
                   </div>
                 </div>
                 <p>
                   <label htmlFor="credential_id">
                     ID de la credencial
-                    <span className="fieldRecomendation">Requerido</span>
+                    <span className="fieldRecomendation">Recomendado</span>
                   </label>
                   <input
                     type="text"
@@ -450,13 +451,12 @@ const CertificationsEdit = (props) => {
                     placeholder="Escribe tus tareas en el cargo"
                     autoComplete="off"
                     onChange={handleChange}
-                    required
                   />
                 </p>
                 <p>
                   <label htmlFor="credential_url">
                     URL de la credencial
-                    <span className="fieldRecomendation">Requerido</span>
+                    <span className="fieldRecomendation">Recomendado</span>
                   </label>
                   <input
                     type="text"
@@ -465,7 +465,6 @@ const CertificationsEdit = (props) => {
                     placeholder="Escribe tus tareas en el cargo"
                     autoComplete="off"
                     onChange={handleChange}
-                    required
                   />
                 </p>
                 <ButtonBox>

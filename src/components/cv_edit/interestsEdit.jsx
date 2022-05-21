@@ -22,7 +22,7 @@ const InterestEdit = (props) => {
     id: null,
     type: 'Interest',
     title: '',
-    subtitle: '',
+    subtitle: null,
     level: '0',
   });
 
@@ -40,7 +40,7 @@ const InterestEdit = (props) => {
     const { name, value } = event.target;
     setItem({
       ...item,
-      [name]: value,
+      [name]: value === '' ? null : value,
     });
   };
 
@@ -87,7 +87,7 @@ const InterestEdit = (props) => {
       setItem({
         type: 'Interest',
         title: '',
-        subtitle: '',
+        subtitle: null,
         level: '0',
       });
       getItemsList();
@@ -167,7 +167,7 @@ const InterestEdit = (props) => {
       setItem({
         type: 'Interest',
         title: '',
-        subtitle: '',
+        subtitle: null,
         level: '0',
       });
       getItemsList();
@@ -191,7 +191,7 @@ const InterestEdit = (props) => {
     setItem({
       type: 'Interest',
       title: '',
-      subtitle: '',
+      subtitle: null,
       level: '0',
     });
   };
@@ -334,10 +334,9 @@ const InterestEdit = (props) => {
                     name="subtitle"
                     value={item.subtitle}
                     rows="5"
-                    placeholder="Escribe una breve descripcion de tu interes"
+                    placeholder="Escribe una breve descripcion de este interes"
                     autoComplete="off"
                     onChange={handleChange}
-                    required
                   ></textarea>
                 </p>
                 <ButtonBox>

@@ -22,7 +22,7 @@ const SkillsEdit = (props) => {
     id: null,
     type: 'Skill',
     title: '',
-    subtitle: '',
+    subtitle: null,
     level: '0',
   });
   const getHeightRef = useRef();
@@ -39,7 +39,7 @@ const SkillsEdit = (props) => {
     const { name, value } = event.target;
     setItem({
       ...item,
-      [name]: value,
+      [name]: value === '' ? null : value,
     });
   };
 
@@ -86,7 +86,7 @@ const SkillsEdit = (props) => {
       setItem({
         type: 'Skill',
         title: '',
-        subtitle: '',
+        subtitle: null,
         level: '0',
       });
       getItemsList();
@@ -166,7 +166,7 @@ const SkillsEdit = (props) => {
       setItem({
         type: 'Skill',
         title: '',
-        subtitle: '',
+        subtitle: null,
         level: '0',
       });
       getItemsList();
@@ -190,7 +190,7 @@ const SkillsEdit = (props) => {
     setItem({
       type: 'Skill',
       title: '',
-      subtitle: '',
+      subtitle: null,
       level: '0',
     });
   };
@@ -324,17 +324,16 @@ const SkillsEdit = (props) => {
                 <p>
                   <label htmlFor="subtitle">
                     Descripcion
-                    <span className="fieldRecomendation">Requerido</span>
+                    <span className="fieldRecomendation">Opcional</span>
                   </label>
                   <textarea
                     type="text"
                     name="subtitle"
                     rows="5"
                     value={item.subtitle}
-                    placeholder="Escribe una breve descripcion de la skill"
+                    placeholder="Que tareas puedes hacer con esta skill"
                     autoComplete="off"
                     onChange={handleChange}
-                    required
                   ></textarea>
                 </p>
 

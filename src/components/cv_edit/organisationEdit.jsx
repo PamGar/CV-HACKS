@@ -26,7 +26,7 @@ const OrganisationEdit = (props) => {
       subtitle: '',
       start_date: '',
       end_date: '',
-      description: '',
+      description: null,
     },
     address: {
       street: '0',
@@ -111,7 +111,7 @@ const OrganisationEdit = (props) => {
           subtitle: '',
           start_date: '',
           end_date: '',
-          description: '',
+          description: null,
         },
         address: {
           street: '0',
@@ -216,7 +216,7 @@ const OrganisationEdit = (props) => {
           subtitle: '',
           start_date: '',
           end_date: '',
-          description: '',
+          description: null,
         },
         address: {
           street: '0',
@@ -295,7 +295,7 @@ const OrganisationEdit = (props) => {
       ...item,
       data: {
         ...item.data,
-        [name]: value,
+        [name]: value === '' ? null : value,
       },
     });
   };
@@ -520,6 +520,7 @@ const OrganisationEdit = (props) => {
                         autoComplete="off"
                         onChange={handleDataChange}
                         disabled={disabledEndDate}
+                        required
                       />
                     </p>
                     <div className="check_data">
@@ -544,10 +545,9 @@ const OrganisationEdit = (props) => {
                     name="description"
                     rows="5"
                     value={item.data.description}
-                    placeholder="Escribe una breve descripcion de la organización"
+                    placeholder="Escribe una breve descripcion de la organización, cual era tu cargo que rol desempeñabas, cuales eran tus actividades"
                     autoComplete="off"
                     onChange={handleDataChange}
-                    required
                   ></textarea>
                 </p>
                 <ButtonBox>

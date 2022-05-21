@@ -23,7 +23,7 @@ const AwardEdit = (props) => {
     title: '',
     subtitle: '',
     date: '',
-    description: '',
+    description: null,
   });
   const [itemsList, setItemsList] = useState([]);
   const toggleAccordeonRef = useRef();
@@ -351,7 +351,7 @@ const AwardEdit = (props) => {
                 <p>
                   <label htmlFor="date">
                     Fecha de expedición
-                    <span className="fieldRecomendation">Opcional</span>
+                    <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <input
                     type="date"
@@ -374,10 +374,9 @@ const AwardEdit = (props) => {
                     name="description"
                     rows="5"
                     value={item.description}
-                    placeholder="Escribe una breve descripcion"
+                    placeholder="Escribe una breve reseña de que te hizo merecedor del premio"
                     autoComplete="off"
                     onChange={handleChange}
-                    required
                   ></textarea>
                 </p>
                 <ButtonBox>

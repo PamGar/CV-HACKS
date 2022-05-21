@@ -19,8 +19,8 @@ const LanguagesEdit = (props) => {
   const [language, setLanguage] = useState({
     type: 'Language',
     title: '',
-    subtitle: '',
-    level: '',
+    subtitle: null,
+    level: null,
   });
   const toggleAccordeonRef = useRef();
   const getHeightRef = useRef();
@@ -35,7 +35,7 @@ const LanguagesEdit = (props) => {
     const { name, value } = event.target;
     setLanguage({
       ...language,
-      [name]: value,
+      [name]: value === '' ? null : value,
     });
   };
 
@@ -258,10 +258,12 @@ const LanguagesEdit = (props) => {
                   return (
                     <BoxColumn key={language.id}>
                       <p className="first">{language.title}</p>
-                      <p className="second">
-                        {language.subtitle} {' • '}
-                        <span className="third">{language.level}</span>
-                      </p>
+                      {language.subtitle ? (
+                        <p className="second">
+                          {language.subtitle} {' • '}
+                          <span className="third">{language.level}</span>
+                        </p>
+                      ) : null}
                       <div className="editBox">
                         <button
                           onClick={(event) => getLanguage(event, language.id)}
@@ -347,7 +349,6 @@ const LanguagesEdit = (props) => {
                     onChange={handleChange}
                     placeholder="Escribe el examen aprobado (IELTS, HSK, TOEFL, etc)"
                     autoComplete="off"
-                    required
                   />
                 </p>
                 <p>
@@ -362,7 +363,6 @@ const LanguagesEdit = (props) => {
                     onChange={handleChange}
                     placeholder="Escribe el nivel (Basico, Intermedio, Avanzado, etc)"
                     autoComplete="off"
-                    required
                   />
                 </p>
                 <ButtonBox>

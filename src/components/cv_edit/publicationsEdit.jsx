@@ -22,8 +22,8 @@ const PublicationsEdit = (props) => {
     type: 'Publication',
     title: '',
     subtitle: '',
-    date: '',
-    description: '',
+    date: null,
+    description: null,
   });
   const toggleAccordeonRef = useRef();
   const firstInputRef = useRef();
@@ -39,7 +39,7 @@ const PublicationsEdit = (props) => {
     const { name, value } = event.target;
     setItem({
       ...item,
-      [name]: value,
+      [name]: value === '' ? null : value,
     });
   };
 
@@ -91,8 +91,8 @@ const PublicationsEdit = (props) => {
         type: 'Publication',
         title: '',
         subtitle: '',
-        date: '',
-        description: '',
+        date: null,
+        description: null,
       });
       getItemsList();
       toast.success('Agregado con exito');
@@ -173,8 +173,8 @@ const PublicationsEdit = (props) => {
         type: 'Publication',
         title: '',
         subtitle: '',
-        date: '',
-        description: '',
+        date: null,
+        description: null,
       });
       getItemsList();
       toast.success('Actualizado con exito');
@@ -198,8 +198,8 @@ const PublicationsEdit = (props) => {
       type: 'Publication',
       title: '',
       subtitle: '',
-      date: '',
-      description: '',
+      date: null,
+      description: null,
     });
   };
   const visibility = async (event, visibility, id, index) => {
@@ -345,7 +345,7 @@ const PublicationsEdit = (props) => {
                 <p>
                   <label htmlFor="subtitle">
                     ¿Donde se publico?
-                    <span className="fieldRecomendation">Opcional</span>
+                    <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <input
                     type="text"
@@ -370,7 +370,6 @@ const PublicationsEdit = (props) => {
                     value={item.date}
                     autoComplete="off"
                     onChange={handleChange}
-                    required
                   />
                 </p>
                 <p>
@@ -384,10 +383,9 @@ const PublicationsEdit = (props) => {
                     name="description"
                     rows="5"
                     value={item.description}
-                    placeholder="Escribe una breve descripcion de la publicación"
+                    placeholder="Escribe una breve descripcion de la publicación, que herramientas y/o tecnologias usaste"
                     autoComplete="off"
                     onChange={handleChange}
-                    required
                   ></textarea>
                 </p>
                 <ButtonBox>
