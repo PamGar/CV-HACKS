@@ -169,7 +169,7 @@ const BoxFlex = styled(BoxColumn)`
 `;
 
 const Header = styled(BoxFlex)`
-  align-items: center;
+  align-items: flex-start;
   display: flex;
   flex-wrap: wrap;
 
