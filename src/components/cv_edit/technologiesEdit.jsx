@@ -163,7 +163,7 @@ const MultipleChoice = (props) => {
   const handleKeyDown = (e) => {
     const email = e.target.value;
 
-    if (new RegExp(/[,]$/g).test(e.target.value)) {
+    if (['Enter'].includes(e.key)) {
       e.preventDefault();
       if (!checkEmail(email)) {
         setChoiceList((prev) => [
@@ -202,17 +202,24 @@ const MultipleChoice = (props) => {
   return (
     <p>
       <label htmlFor="technologies">
-        Tecnologias y herramientas
+        Tecnologias y herramientas que dominas
         <span className="fieldRecomendation">Requerido</span>
       </label>
+      <span
+        className="fieldRecomendation"
+        style={{ marginBottom: '5px', marginLeft: '10px' }}
+      >
+        (Ingresalas separadas por una coma)
+      </span>
+
       <Input
         type="text"
         name="technologies"
         error={invalidEmailError}
-        placeholder="Ingresalas separadas por una coma"
+        placeholder="Javascript, Python, Node, Java, Ruby, etc."
         value={email}
         onChange={handleChange}
-        /* onKeyDown={handleKeyDown} */
+        onKeyDown={handleKeyDown}
         autoComplete="off"
       />
       {invalidEmailError && (

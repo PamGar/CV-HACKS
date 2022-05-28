@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import MainContentWrapper from '../../components/MainContentWrapper';
+import MainAndRightLayout from '../../layouts/MainAndRightLayout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faPencil } from '@fortawesome/free-solid-svg-icons';
 import DeleteJobOfferConfirmModal from './DeleteJobOfferModal';
@@ -125,7 +126,7 @@ const JobOffersCompany = () => {
 
   return (
     <>
-      <MainContentWrapper
+      <MainAndRightLayout
         noButton
         paddingTop
         dataLength={jobOfferData.length}
@@ -138,63 +139,66 @@ const JobOffersCompany = () => {
             <JobCardSkeleton />
           </>
         }
-      >
-        <h1>Mis vacantes</h1>
-        {loading && (
+        main={
           <>
-            <JobCardSkeleton />
-            <JobCardSkeleton />
-            <JobCardSkeleton />
+            <h1>Mis vacantes</h1>
+            {loading && (
+              <>
+                <JobCardSkeleton />
+                <JobCardSkeleton />
+                <JobCardSkeleton />
+              </>
+            )}
+            {jobOfferDataIsEmpty && <h3>No hay vacantes creadas</h3>}
+            {jobOfferData.map(
+              ({
+                name,
+                description,
+                area,
+                start_date,
+                end_date,
+                minimun_salary,
+                status,
+                id,
+              }) => (
+                <JobCard key={id}>
+                  <Title>
+                    <h2>{name}</h2>
+                    <h3>{area}</h3>
+                  </Title>
+                  <Status>
+                    <AlertMessage info>{status}</AlertMessage>
+                  </Status>
+                  <Description>{description}</Description>
+                  <p>MXN ${minimun_salary}</p>
+                  <Duration>
+                    <p>fecha de inicio: {start_date}</p>
+                    <p>{end_date && `fecha de finalización: ${end_date}`}</p>
+                  </Duration>
+                  <IconsContainer>
+                    <FontAwesomeIcon
+                      icon={faPencil}
+                      className="editIcon"
+                      onClick={() => {
+                        setSelectedJobOffer(id);
+                        setOpenModalEditJobOffer(true);
+                      }}
+                    />
+                    <FontAwesomeIcon
+                      icon={faTrashCan}
+                      className="deleteIcon"
+                      onClick={() => {
+                        setSelectedJobOffer(id);
+                        setOpenModalDeleteJobOffer(true);
+                      }}
+                    />
+                  </IconsContainer>
+                </JobCard>
+              )
+            )}
           </>
-        )}
-        {jobOfferDataIsEmpty && <h3>No hay vacantes creadas</h3>}
-        {jobOfferData.map(
-          ({
-            name,
-            description,
-            area,
-            start_date,
-            end_date,
-            minimun_salary,
-            status,
-            id,
-          }) => (
-            <JobCard key={id}>
-              <Title>
-                <h2>{name}</h2>
-                <h3>{area}</h3>
-              </Title>
-              <Status>
-                <AlertMessage info>{status}</AlertMessage>
-              </Status>
-              <Description>{description}</Description>
-              <p>MXN ${minimun_salary}</p>
-              <Duration>
-                <p>fecha de inicio: {start_date}</p>
-                <p>{end_date && `fecha de finalización: ${end_date}`}</p>
-              </Duration>
-              <IconsContainer>
-                <FontAwesomeIcon
-                  icon={faPencil}
-                  className='editIcon'
-                  onClick={() => {
-                    setSelectedJobOffer(id);
-                    setOpenModalEditJobOffer(true);
-                  }}
-                />
-                <FontAwesomeIcon
-                  icon={faTrashCan}
-                  className='deleteIcon'
-                  onClick={() => {
-                    setSelectedJobOffer(id);
-                    setOpenModalDeleteJobOffer(true);
-                  }}
-                />
-              </IconsContainer>
-            </JobCard>
-          )
-        )}
-      </MainContentWrapper>
+        }
+      />
       {openModalDeleteJobOffer && (
         <DeleteJobOfferConfirmModal
           setJobOfferData={setJobOfferData}
