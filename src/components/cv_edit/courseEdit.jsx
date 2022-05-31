@@ -33,9 +33,9 @@ const CoursesEdit = (props) => {
       num_int: 0,
       num_ext: 0,
       suburb: '0',
-      town: null,
+      town: '',
       state: '0',
-      country: null,
+      country: '',
       zip_code: '0',
     },
     address_update: false,
@@ -118,18 +118,20 @@ const CoursesEdit = (props) => {
           num_int: 0,
           num_ext: 0,
           suburb: '0',
-          town: null,
+          town: '',
           state: '0',
-          country: null,
+          country: '',
           zip_code: '0',
         },
         address_update: false,
         id: '',
+        address_id: '',
       });
       getItemsList();
       toast.success('Curso agregado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
+      setDisabledEndDate(false);
       /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
       props.refreshCvData();
     } catch (error) {
@@ -223,9 +225,9 @@ const CoursesEdit = (props) => {
           num_int: 0,
           num_ext: 0,
           suburb: '0',
-          town: null,
+          town: '',
           state: '0',
-          country: null,
+          country: '',
           zip_code: '0',
         },
         address_update: false,
@@ -236,6 +238,7 @@ const CoursesEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
@@ -264,13 +267,12 @@ const CoursesEdit = (props) => {
         num_int: 0,
         num_ext: 0,
         suburb: '0',
-        town: null,
+        town: '',
         state: '0',
-        country: null,
+        country: '',
         zip_code: '0',
       },
       address_update: false,
-      id: '',
     });
   };
 
@@ -513,7 +515,9 @@ const CoursesEdit = (props) => {
                       <input
                         type="date"
                         name="end_date"
-                        value={item.end_date === null ? '' : item.end_date}
+                        value={
+                          item.data.end_date === null ? '' : item.data.end_date
+                        }
                         autoComplete="off"
                         onChange={handleDataChange}
                         disabled={disabledEndDate}
@@ -540,7 +544,11 @@ const CoursesEdit = (props) => {
                     type="text"
                     name="description"
                     rows="5"
-                    value={item.data.description}
+                    value={
+                      item.data.description === null
+                        ? ''
+                        : item.data.description
+                    }
                     placeholder="Escribe las tecnologias aprendidas en el curso, que proyectos trabajaste, que herramientas usaste"
                     autoComplete="off"
                     onChange={handleDataChange}
@@ -561,7 +569,7 @@ const CoursesEdit = (props) => {
                     </>
                   ) : (
                     <>
-                      <Button type="button" onClick={handleForm}>
+                      <Button type="button" onClick={cancelUpdate}>
                         Cancelar
                       </Button>
                       <Button type="button">Guardar</Button>

@@ -14,14 +14,14 @@ import { AccordeonBox, ButtonBox, BoxColumn } from './EditStyledComponents';
 import { toast } from 'react-toastify';
 
 const LanguagesEdit = (props) => {
-  const [hide, setHide] = useState(false);
-  const [editLanguage, setEditLanguage] = useState(false);
   const [language, setLanguage] = useState({
-    type: 'Language',
     title: '',
     subtitle: null,
     level: null,
+    type: 'Language',
   });
+  const [hide, setHide] = useState(false);
+  const [editLanguage, setEditLanguage] = useState(false);
   const toggleAccordeonRef = useRef();
   const getHeightRef = useRef();
   const firstInputRef = useRef();
@@ -65,8 +65,8 @@ const LanguagesEdit = (props) => {
       );
       setLanguage({
         title: '',
-        subtitle: '',
-        level: '',
+        subtitle: null,
+        level: null,
         type: 'Language',
       });
       getLanguagesList();
@@ -79,6 +79,20 @@ const LanguagesEdit = (props) => {
       console.error('error', error);
       toast.error('Oops, ocurrio algo inesperado');
     }
+  };
+
+  const cancelUpdate = (event) => {
+    event.preventDefault();
+    setEditLanguage(false);
+    formRef.current.classList.toggle('unhide');
+    addButtonRef.current.classList.toggle('hide');
+    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+    setLanguage({
+      title: '',
+      subtitle: '',
+      level: '',
+      type: 'Language',
+    });
   };
 
   const removeLanguage = async (event, id) => {
@@ -146,8 +160,8 @@ const LanguagesEdit = (props) => {
       setEditLanguage(false);
       setLanguage({
         title: '',
-        subtitle: '',
-        level: '',
+        subtitle: null,
+        level: null,
         type: 'Language',
       });
       getLanguagesList();
@@ -160,20 +174,6 @@ const LanguagesEdit = (props) => {
       console.error('error', error);
       toast.error('Oops, ocurrio algo inesperado');
     }
-  };
-
-  const cancelUpdate = (event) => {
-    event.preventDefault();
-    setEditLanguage(false);
-    formRef.current.classList.toggle('unhide');
-    addButtonRef.current.classList.toggle('hide');
-    setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
-    setLanguage({
-      title: '',
-      subtitle: '',
-      level: '',
-      type: 'Language',
-    });
   };
 
   const getLanguagesList = async () => {
@@ -326,6 +326,7 @@ const LanguagesEdit = (props) => {
                     Title<span className="fieldRecomendation">Requerido</span>
                   </label>
                   <input
+                    ref={firstInputRef}
                     type="text"
                     id="title"
                     name="title"
@@ -345,7 +346,7 @@ const LanguagesEdit = (props) => {
                     type="text"
                     id="subtitle"
                     name="subtitle"
-                    value={language.subtitle}
+                    value={language.subtitle === null ? '' : language.subtitle}
                     onChange={handleChange}
                     placeholder="Escribe el examen aprobado (IELTS, HSK, TOEFL, etc)"
                     autoComplete="off"
@@ -359,7 +360,7 @@ const LanguagesEdit = (props) => {
                     type="level"
                     id="level"
                     name="level"
-                    value={language.level}
+                    value={language.level === null ? '' : language.level}
                     onChange={handleChange}
                     placeholder="Escribe el nivel (Basico, Intermedio, Avanzado, etc)"
                     autoComplete="off"
@@ -380,7 +381,7 @@ const LanguagesEdit = (props) => {
                     </>
                   ) : (
                     <>
-                      <Button type="button" onClick={handleForm}>
+                      <Button type="button" onClick={cancelUpdate}>
                         Cancelar
                       </Button>
                       <Button type="button">Guardar</Button>

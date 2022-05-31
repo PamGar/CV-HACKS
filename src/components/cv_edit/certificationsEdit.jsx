@@ -112,6 +112,7 @@ const CertificationsEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
@@ -201,6 +202,7 @@ const CertificationsEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
@@ -449,7 +451,9 @@ const CertificationsEdit = (props) => {
                   <input
                     type="text"
                     name="credential_id"
-                    value={item.credential_id}
+                    value={
+                      item.credential_id === null ? '' : item.credential_id
+                    }
                     placeholder="Escribe tus tareas en el cargo"
                     autoComplete="off"
                     onChange={handleChange}
@@ -463,7 +467,9 @@ const CertificationsEdit = (props) => {
                   <input
                     type="text"
                     name="credential_url"
-                    value={item.credential_url}
+                    value={
+                      item.credential_url === null ? '' : item.credential_url
+                    }
                     placeholder="Escribe tus tareas en el cargo"
                     autoComplete="off"
                     onChange={handleChange}
