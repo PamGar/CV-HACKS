@@ -118,9 +118,9 @@ const OrganisationEdit = (props) => {
           num_int: 0,
           num_ext: 0,
           suburb: '0',
-          town: '0',
+          town: '',
           state: '0',
-          country: '0',
+          country: '',
           zip_code: '0',
         },
         address_update: false,
@@ -130,6 +130,7 @@ const OrganisationEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
@@ -236,6 +237,7 @@ const OrganisationEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
@@ -257,7 +259,7 @@ const OrganisationEdit = (props) => {
         subtitle: '',
         start_date: '',
         end_date: '',
-        description: '',
+        description: null,
       },
       address: {
         street: '0',
@@ -544,7 +546,11 @@ const OrganisationEdit = (props) => {
                     type="text"
                     name="description"
                     rows="5"
-                    value={item.data.description}
+                    value={
+                      item.data.description === null
+                        ? ''
+                        : item.data.description
+                    }
                     placeholder="Escribe una breve descripcion de la organización, cual era tu cargo que rol desempeñabas, cuales eran tus actividades"
                     autoComplete="off"
                     onChange={handleDataChange}
@@ -565,7 +571,7 @@ const OrganisationEdit = (props) => {
                     </>
                   ) : (
                     <>
-                      <Button type="button" onClick={handleForm}>
+                      <Button type="button" onClick={cancelUpdate}>
                         Cancelar
                       </Button>
                       <Button type="button">Guardar</Button>

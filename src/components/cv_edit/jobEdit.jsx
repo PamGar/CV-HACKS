@@ -131,6 +131,7 @@ const JobEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
@@ -238,6 +239,7 @@ const JobEdit = (props) => {
       toast.success('Actualizado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
+      setDisabledEndDate(false);
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
@@ -571,7 +573,7 @@ const JobEdit = (props) => {
                     </>
                   ) : (
                     <>
-                      <Button type="button" onClick={handleForm}>
+                      <Button type="button" onClick={cancelUpdate}>
                         Cancelar
                       </Button>
                       <Button type="button">Guardar</Button>

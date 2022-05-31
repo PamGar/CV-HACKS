@@ -110,6 +110,7 @@ const ProjectsEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
@@ -190,6 +191,7 @@ const ProjectsEdit = (props) => {
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
+      setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
@@ -368,7 +370,11 @@ const ProjectsEdit = (props) => {
                     type="text"
                     id="subtitle"
                     name="additional_information"
-                    value={item.additional_information}
+                    value={
+                      item.additional_information === null
+                        ? ''
+                        : item.additional_information
+                    }
                     placeholder="Escribe un subtitulo sobre el proyecto"
                     autoComplete="off"
                     onChange={handleChange}
@@ -429,7 +435,7 @@ const ProjectsEdit = (props) => {
                     id="description"
                     name="description"
                     rows="5"
-                    value={item.description}
+                    value={item.description === null ? '' : item.description}
                     placeholder="Escribe una breve descripción del proyecto, que tecnologias y/o herramientas usaste, cual fue el mayor reto del proyecto"
                     autoComplete="off"
                     onChange={handleChange}
@@ -450,7 +456,7 @@ const ProjectsEdit = (props) => {
                     </>
                   ) : (
                     <>
-                      <Button type="button" onClick={handleForm}>
+                      <Button type="button" onClick={cancelUpdate}>
                         Cancelar
                       </Button>
                       <Button type="button">Guardar</Button>

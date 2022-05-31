@@ -330,7 +330,7 @@ const SkillsEdit = (props) => {
                     type="text"
                     name="subtitle"
                     rows="5"
-                    value={item.subtitle}
+                    value={item.subtitle === null ? '' : item.subtitle}
                     placeholder="Que tareas puedes hacer con esta skill"
                     autoComplete="off"
                     onChange={handleChange}
@@ -352,7 +352,7 @@ const SkillsEdit = (props) => {
                     </>
                   ) : (
                     <>
-                      <Button type="button" onClick={handleForm}>
+                      <Button type="button" onClick={cancelUpdate}>
                         Cancelar
                       </Button>
                       <Button type="button">Guardar</Button>

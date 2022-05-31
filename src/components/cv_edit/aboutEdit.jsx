@@ -34,7 +34,6 @@ const AboutEdit = (props) => {
     address_update: false,
   });
 
-  console.log('about', item);
   const profileImageRef = useRef();
   const getHeightRef = useRef();
   const toggleAccordeonRef = useRef();

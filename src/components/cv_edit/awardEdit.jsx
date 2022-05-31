@@ -86,7 +86,7 @@ const AwardEdit = (props) => {
         title: '',
         subtitle: '',
         date: '',
-        description: '',
+        description: null,
       });
       getItemsList();
       toast.success('Premio agregado');
@@ -95,7 +95,6 @@ const AwardEdit = (props) => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
-      console.log('errorAward', error);
       toast.error('Oops, ocurrio algo inesperado');
     }
   };
@@ -163,7 +162,7 @@ const AwardEdit = (props) => {
         title: '',
         subtitle: '',
         date: '',
-        description: '',
+        description: null,
       });
       getItemsList();
       toast.success('Premio actualizado con exito');
@@ -187,7 +186,7 @@ const AwardEdit = (props) => {
       title: '',
       subtitle: '',
       date: '',
-      description: '',
+      description: null,
     });
   };
 
@@ -373,7 +372,7 @@ const AwardEdit = (props) => {
                     id="description"
                     name="description"
                     rows="5"
-                    value={item.description}
+                    value={item.description === null ? '' : item.description}
                     placeholder="Escribe una breve reseña de que te hizo merecedor del premio"
                     autoComplete="off"
                     onChange={handleChange}
@@ -394,7 +393,7 @@ const AwardEdit = (props) => {
                     </>
                   ) : (
                     <>
-                      <Button type="button" onClick={handleForm}>
+                      <Button type="button" onClick={cancelUpdate}>
                         Cancelar
                       </Button>
                       <Button type="button">Guardar</Button>

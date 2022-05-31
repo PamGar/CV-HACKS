@@ -29,7 +29,7 @@ const EducationEdit = (props) => {
       academic_discipline: 'empty',
       degree: '',
       start_date: '',
-      end_date: null,
+      end_date: '',
       description: null,
     },
     address: {
@@ -119,6 +119,7 @@ const EducationEdit = (props) => {
       getItemsList();
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
+      setDisabledEndDate(false);
       /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
       props.refreshCvData();
     } catch (error) {
@@ -225,6 +226,7 @@ const EducationEdit = (props) => {
       toast.success('Actualizado con exito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
+      setDisabledEndDate(false);
       /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
       props.refreshCvData();
     } catch (error) {
@@ -246,7 +248,7 @@ const EducationEdit = (props) => {
         academic_discipline: 'empty',
         degree: '',
         start_date: '',
-        end_date: null,
+        end_date: '',
         description: null,
       },
       address: {
@@ -554,7 +556,11 @@ const EducationEdit = (props) => {
                     type="text"
                     rows="5"
                     name="description"
-                    value={item.data.description}
+                    value={
+                      item.data.description === null
+                        ? ''
+                        : item.data.description
+                    }
                     placeholder="Escribe las herramientas que usaste, tecnologias que aprendiste, proyectos en los que trabajaste"
                     autoComplete="off"
                     onChange={handleDataChange}

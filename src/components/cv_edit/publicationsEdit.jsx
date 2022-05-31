@@ -367,7 +367,7 @@ const PublicationsEdit = (props) => {
                     type="date"
                     id="date"
                     name="date"
-                    value={item.date}
+                    value={item.date === null ? '' : item.date}
                     autoComplete="off"
                     onChange={handleChange}
                   />
@@ -382,7 +382,7 @@ const PublicationsEdit = (props) => {
                     id="description"
                     name="description"
                     rows="5"
-                    value={item.description}
+                    value={item.description === null ? '' : item.description}
                     placeholder="Escribe una breve descripcion de la publicación, que herramientas y/o tecnologias usaste"
                     autoComplete="off"
                     onChange={handleChange}
@@ -403,7 +403,7 @@ const PublicationsEdit = (props) => {
                     </>
                   ) : (
                     <>
-                      <Button type="button" onClick={handleForm}>
+                      <Button type="button" onClick={cancelUpdate}>
                         Cancelar
                       </Button>
                       <Button type="button">Guardar</Button>

@@ -332,7 +332,7 @@ const InterestEdit = (props) => {
                   <textarea
                     type="text"
                     name="subtitle"
-                    value={item.subtitle}
+                    value={item.subtitle === null ? '' : item.subtitle}
                     rows="5"
                     placeholder="Escribe una breve descripcion de este interes"
                     autoComplete="off"
@@ -354,7 +354,7 @@ const InterestEdit = (props) => {
                     </>
                   ) : (
                     <>
-                      <Button type="button" onClick={handleForm}>
+                      <Button type="button" onClick={cancelUpdate}>
                         Cancelar
                       </Button>
                       <Button type="button">Guardar</Button>
