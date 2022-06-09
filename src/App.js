@@ -18,6 +18,7 @@ import AddComment from './pages/AdminDashboard/AddComment';
 import ShareResume from './pages/AdminDashboard/ShareResume';
 import CandidatesCompany from './pages/CandidatesCompany';
 import JobOffersCompany from './pages/JobOffersCompany';
+import SendError from './pages/SendError';
 import CreateJobOfferCompany from './pages/CreateJobOfferCompany';
 import UserResumeById from './pages/AdminDashboard/ResumeList/UserResumeById';
 import ResumePlaceholder from './pages/AdminDashboard/ResumeList/ResumePlaceholder';
@@ -70,6 +71,7 @@ const App = () => {
                 </Route>
                 <Route path='/resumes/:id/comments' element={<AddComment />} />
                 <Route path='/resumes/:id/share' element={<ShareResume />} />
+                
               </Route>
             )}
             {isAuthenticated.role == 2 && (
@@ -96,6 +98,7 @@ const App = () => {
                 element={<CreateJobOfferCompany />}
               />
             )}
+            <Route path='/send-error' element={<SendError />} />
             <Route
               path="/profile"
               element={<Profile setIsAuthenticated={setIsAuthenticated} />}
