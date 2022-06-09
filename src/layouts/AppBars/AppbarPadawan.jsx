@@ -55,6 +55,10 @@ const AppbarPadawan = () => {
             <FontAwesomeIcon icon={faUser} className='Icon' />
             Mi perfil
           </StyledLink>
+          <StyledLink to='/send-error'>
+                <FontAwesomeIcon icon={faIdCard} className='Icon' />
+                Reportar error
+              </StyledLink>
         </AppBarDesktop>
       )}
       {clientWidth <= 1000 && (
@@ -67,6 +71,10 @@ const AppbarPadawan = () => {
           </StyledLink>
           {clientWidth > 800 && (
             <>
+            <StyledLink to='/send-error'>
+                <FontAwesomeIcon icon={faIdCard} className='Icon' />
+                Reportar error
+              </StyledLink>
               <StyledLink to='/resume'>
                 <FontAwesomeIcon icon={faIdCard} className='Icon' />
                 Mi CV
@@ -95,6 +103,10 @@ const AppbarPadawan = () => {
               <FontAwesomeIcon icon={faUser} className='Icon' />
               Mi perfil
             </StyledLinkMobile>
+            <StyledLinkMobile to='/send-error' onClick={handleClickDrawer}>
+                <FontAwesomeIcon icon={faIdCard} className='Icon' />
+                Reportar error
+              </StyledLinkMobile>
           </Drawer>
         }
       />
