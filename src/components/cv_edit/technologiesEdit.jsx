@@ -76,7 +76,7 @@ const MultipleChoice = (props) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/cv/tags/${myId}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/tags/${props.cvId}`,
         {
           tags: [item],
         },
@@ -100,7 +100,7 @@ const MultipleChoice = (props) => {
 
     try {
       const { data } = await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/cv/tags/${myId}/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/tags/${props.cvId}/${id}`,
         {
           headers: {
             authorization: `Token ${myToken}`,

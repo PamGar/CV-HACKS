@@ -366,6 +366,7 @@ const AboutEdit = (props) => {
                 <TechnologiesEdit
                   getHeight={getHeight}
                   refreshCvData={props.refreshCvData}
+                  cvId={props.cvId}
                 />
                 <p>
                   <label htmlFor="phone">

@@ -77,8 +77,8 @@ const Wrapper = styled.div`
   }
 `;
 
-/* const EditCV = ({ editButton, cvId, refreshCvData }) => {
-  const [visible, setVisible] = useState({
+ const EditCV = ({ editButton, cvId, refreshCvData }) => {
+/*  const [visible, setVisible] = useState({
     EducationEdit : false,
     LanguagesEdit : false,
     CoursesEdit : false,
@@ -96,26 +96,26 @@ const Wrapper = styled.div`
       <Wrapper>
         <AboutEdit cvId={cvId} refreshCvData={refreshCvData} />
         <JobEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <EducationEdit cvId={cvId} refreshCvData={refreshCvData} visible={visible.EducationEdit}/>
-        <LanguagesEdit cvId={cvId} refreshCvData={refreshCvData} visible={visible.LanguagesEdit}/>
-        <CoursesEdit cvId={cvId} refreshCvData={refreshCvData} visible={visible.CoursesEdit}/>
-        <CertificationsEdit cvId={cvId} refreshCvData={refreshCvData} visible={visible.CertificationsEdit}/>
-        <OrganisationEdit cvId={cvId} refreshCvData={refreshCvData} visible={visible.OrganisationEdit}/>
-        <PublicationsEdit cvId={cvId} refreshCvData={refreshCvData} visible={visible.PublicationsEdit}/>
-        <ProjectsEdit cvId={cvId} refreshCvData={refreshCvData} visible={visible.ProjectsEdit}/>
-        <AwardEdit cvId={cvId} refreshCvData={refreshCvData} visible={visible.AwardEdit}/>
-        <SkillsEdit cvId={cvId} refreshCvData={refreshCvData} visible={visible.SkillsEdit}/>
-        <InterestEdit cvId={cvId} refreshCvData={refreshCvData} visible={visible.InterestEdit}/>
+        <EducationEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.EducationEdit} *//>
+        <LanguagesEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.LanguagesEdit} *//>
+        <CoursesEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.CoursesEdit} *//>
+        <CertificationsEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.CertificationsEdit} *//>
+        <OrganisationEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.OrganisationEdit} *//>
+        <PublicationsEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.PublicationsEdit} *//>
+        <ProjectsEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.ProjectsEdit} *//>
+        <AwardEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.AwardEdit} *//>
+        <SkillsEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.SkillsEdit} *//>
+        <InterestEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.InterestEdit} *//>
       </Wrapper>
       <ButtonBoxSticky>
         <Button type="button" onClick={editButton}>
           <FontAwesomeIcon icon={faArrowLeft} className="calendar" />
           Volver
         </Button>
-        <Button type="button" onClick={editButton}>
+        {/* <Button type="button" onClick={editButton}>
           <FontAwesomeIcon icon={faPlusSquare} className="calendar" />
           Agregar seccion
-        </Button>
+        </Button> */}
       </ButtonBoxSticky>
     </>
   );
