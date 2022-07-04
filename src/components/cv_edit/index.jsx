@@ -1,9 +1,10 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Button from '../Buttons/LoadingButton';
 import Chevron from '../../assets/icons/chevron-down.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faPlusSquare } from '@fortawesome/free-regular-svg-icons';
 import LanguagesEdit from './languagesEdit';
 import { ButtonBox, ButtonBoxSticky } from './EditStyledComponents';
 import CertificationsEdit from './certificationsEdit';
@@ -76,28 +77,45 @@ const Wrapper = styled.div`
   }
 `;
 
-const EditCV = ({ editButton, cvId, refreshCvData }) => {
+ const EditCV = ({ editButton, cvId, refreshCvData }) => {
+/*  const [visible, setVisible] = useState({
+    EducationEdit : false,
+    LanguagesEdit : false,
+    CoursesEdit : false,
+    CertificationsEdit : false,
+    OrganisationEdit : false,
+    PublicationsEdit : false,
+    ProjectsEdit : false,
+    AwardEdit : false,
+    SkillsEdit : false,
+    InterestEdit : false,
+  }) */
+
   return (
     <>
       <Wrapper>
         <AboutEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <EducationEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <LanguagesEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <CoursesEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <CertificationsEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <OrganisationEdit cvId={cvId} refreshCvData={refreshCvData} />
         <JobEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <PublicationsEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <ProjectsEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <AwardEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <SkillsEdit cvId={cvId} refreshCvData={refreshCvData} />
-        <InterestEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <EducationEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.EducationEdit} *//>
+        <LanguagesEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.LanguagesEdit} *//>
+        <CoursesEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.CoursesEdit} *//>
+        <CertificationsEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.CertificationsEdit} *//>
+        <OrganisationEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.OrganisationEdit} *//>
+        <PublicationsEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.PublicationsEdit} *//>
+        <ProjectsEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.ProjectsEdit} *//>
+        <AwardEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.AwardEdit} *//>
+        <SkillsEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.SkillsEdit} *//>
+        <InterestEdit cvId={cvId} refreshCvData={refreshCvData} /* visible={visible.InterestEdit} *//>
       </Wrapper>
       <ButtonBoxSticky>
         <Button type="button" onClick={editButton}>
           <FontAwesomeIcon icon={faArrowLeft} className="calendar" />
           Volver
         </Button>
+        {/* <Button type="button" onClick={editButton}>
+          <FontAwesomeIcon icon={faPlusSquare} className="calendar" />
+          Agregar seccion
+        </Button> */}
       </ButtonBoxSticky>
     </>
   );
