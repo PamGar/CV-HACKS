@@ -117,7 +117,7 @@ const LoginModal = ({ closeModal, isOpen, userEmail, setIsAuthenticated }) => {
       if (data.user.role.id == 5 || data.user.role.id == 4) navigate('/resume');
       if (data.user.role.id == 2) navigate('/resumes');
       if (data.user.role.id == 3) navigate('/candidates');
-      console.log(data);
+      // console.log(data);
     } catch (err) {
       err.response.status === 400
         ? setResponseErrorMessage(t('invalid_login_code'))

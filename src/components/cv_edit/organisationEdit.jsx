@@ -86,7 +86,6 @@ const OrganisationEdit = (props) => {
         }
       );
       setItemsList(data.data);
-      console.log(data.data);
       setTimeout(() => {
         setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       }, 100);
@@ -165,7 +164,6 @@ const OrganisationEdit = (props) => {
           authorization: `Token ${myToken}`,
         },
       });
-      console.log(data);
       setItem({
         data: {
           type: 'Organisation',
