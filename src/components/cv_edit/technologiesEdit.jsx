@@ -195,9 +195,9 @@ const MultipleChoice = (props) => {
     }
   }; */
 
-  useEffect(() => {
+  /* useEffect(() => {
     getTechnologies();
-  }, []);
+  }, []); */
 
   return (
     <p>

@@ -363,11 +363,11 @@ const AboutEdit = (props) => {
                     onChange={handleDataChange}
                   ></textarea>
                 </p>
-                <TechnologiesEdit
+                {/* <TechnologiesEdit
                   getHeight={getHeight}
                   refreshCvData={props.refreshCvData}
                   cvId={props.cvId}
-                />
+                /> */}
                 <p>
                   <label htmlFor="phone">
                     Telefono

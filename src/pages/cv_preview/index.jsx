@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Layout from '../../layouts/navigation/index';
 import CV from '../../components/cv_preview';
 import EditCV from '../../components/cv_edit';
-import Tasks from '../../components/tasks_list';
 import TasksTodo from '../../components/tasks_todo';
 import Hacky from '../../assets/images/Hacky.png';
 import styled from 'styled-components';
@@ -154,7 +152,7 @@ const CV_preview = () => {
   });
   const [cvData, setCvData] = useState({
     cv: {
-      id: null,
+      id: 0,
       created_date: '',
       description: '',
       status: '',
@@ -218,8 +216,9 @@ const CV_preview = () => {
         }
       );
       setUser(data);
-      console.log('user', data);
+      // console.log('user', data);
       data.name === null ? setFirstData(true) : setFirstData(false);
+      if (data.name !== null) { getCV()};
     } catch (error) {
       const invalidToken = error.response.data.message;
       toast.error(invalidToken);
@@ -244,9 +243,8 @@ const CV_preview = () => {
           },
         }
       );
-      getUserData();
       setCvData(data);
-      console.log('cv', data);
+      // console.log('cv', data);
       setDataNotLoaded(false);
     } catch (error) {
       console.error('errorData', error.message);
@@ -261,7 +259,6 @@ const CV_preview = () => {
 
   useEffect(() => {
     getUserData();
-    getCV();
   }, []);
 
   return (
