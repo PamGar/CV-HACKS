@@ -341,7 +341,7 @@ const OrganisationEdit = (props) => {
           >
             <div>
               <FontAwesomeIcon icon={faHandshake} className="iconAccordeon" />
-              Organización
+              Grupo o Club
             </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
@@ -357,7 +357,7 @@ const OrganisationEdit = (props) => {
             <div>
               {itemsList.length === 0 ? (
                 <p className="tasks_0">
-                  Aun no tienes ninguna organización guardado
+                  Aun no tienes ninguna grupo o club guardado
                 </p>
               ) : (
                 itemsList.map((item, index) => {
@@ -416,13 +416,13 @@ const OrganisationEdit = (props) => {
               <div className="separador"></div>
               <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
-                  <h3>Actualizar organización</h3>
+                  <h3>Actualizar grupo o club </h3>
                 ) : (
-                  <h3>Agregar nuevo organización</h3>
+                  <h3>Agregar nuevo grupo o club</h3>
                 )}
                 <p>
                   <label htmlFor="title">
-                    Nombre de la organización
+                    Nombre del grupo o club
                     <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <input
@@ -430,7 +430,7 @@ const OrganisationEdit = (props) => {
                     type="text"
                     name="title"
                     value={item.data.title}
-                    placeholder="Escribe el nombre de la organización"
+                    placeholder="Escribe el nombre del grupo o club al que perteneces"
                     autoComplete="off"
                     onChange={handleDataChange}
                     required
@@ -438,7 +438,7 @@ const OrganisationEdit = (props) => {
                 </p>
                 <p>
                   <label htmlFor="subtitle">
-                    Posición dentro de la organización
+                    Posición dentro del grupo o club
                     <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <input
@@ -446,7 +446,7 @@ const OrganisationEdit = (props) => {
                     id="company"
                     name="subtitle"
                     value={item.data.subtitle}
-                    placeholder="Escribe tu posicion dentro de la organización"
+                    placeholder="Escribe tu posicion dentro del grupo o club"
                     autoComplete="off"
                     onChange={handleDataChange}
                     required
@@ -464,7 +464,7 @@ const OrganisationEdit = (props) => {
                         name="town"
                         value={item.address.town}
                         autoComplete="off"
-                        placeholder="Escribe la ciudad donde se ubica la organizacion"
+                        placeholder="Escribe la ciudad donde se ubica"
                         onChange={handleAddressChange}
                         required
                       />
@@ -481,7 +481,7 @@ const OrganisationEdit = (props) => {
                         name="country"
                         value={item.address.country}
                         autoComplete="off"
-                        placeholder="Escribe el pais donde se ubica la organizacion"
+                        placeholder="Escribe el pais donde se ubica"
                         onChange={handleAddressChange}
                         required
                       />
@@ -492,7 +492,7 @@ const OrganisationEdit = (props) => {
                   <div>
                     <p>
                       <label htmlFor="expedition_date">
-                        Fecha de inicio
+                        Fecha de ingreso
                         <span className="fieldRecomendation">Requerido</span>
                       </label>
                       <input
@@ -508,7 +508,7 @@ const OrganisationEdit = (props) => {
                   <div>
                     <p>
                       <label htmlFor="end_date">
-                        Fecha de culminación
+                        Fecha de retiro
                         <span className="fieldRecomendation">Requerido</span>
                       </label>
                       <input
@@ -549,7 +549,7 @@ const OrganisationEdit = (props) => {
                         ? ''
                         : item.data.description
                     }
-                    placeholder="Escribe una breve descripcion de la organización, cual era tu cargo que rol desempeñabas, cuales eran tus actividades"
+                    placeholder="Escribe una breve descripcion del grupo o club, que rol desempeñabas, cuales eran tus actividades"
                     autoComplete="off"
                     onChange={handleDataChange}
                   ></textarea>
