@@ -216,7 +216,7 @@ const CV_preview = () => {
         }
       );
       setUser(data);
-      // console.log('user', data);
+      console.log('user', data);
       data.name === null ? setFirstData(true) : setFirstData(false);
       if (data.name !== null) { getCV()};
     } catch (error) {

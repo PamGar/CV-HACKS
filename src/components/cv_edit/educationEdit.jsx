@@ -337,7 +337,7 @@ const EducationEdit = (props) => {
 
   return (
     <div>
-      <AccordeonBox>
+      <AccordeonBox style={{ display: !props.visible ? 'none' : 'block' }}>
         <div className="acordeon">
           <div
             className="header hide"
