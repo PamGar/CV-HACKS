@@ -39,11 +39,10 @@ const ResumeList = () => {
   } = useContext(ResumeContext);
   const [disableButton, setDisableButton] = useState(!userSelectedId);
   const [openModal, setOpenModal] = useState(false);
+  const [search, setSearch] = useState('');
+  console.log(search);
 
   const PAGE_SIZE = 10;
-
-  console.log('list', dataResumeList);
-  console.log('User', userSelectedId);
 
   const getCVlist = async () => {
     try {
@@ -62,6 +61,28 @@ const ResumeList = () => {
       toast.error('Opps ha ocurrido un error, no se pudo obtener los datos');
     } finally {
       setLoadingResumeList(false);
+    }
+  };
+
+  const searchCVlist = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/cv/s/?search=${search.replace(
+          ' ',
+          '+'
+        )}`,
+        {
+          headers: {
+            authorization: `Token ${localStorage.getItem('authToken')}`,
+          },
+        }
+      );
+      console.log('my', data);
+      setDataResumeList(data);
+      /*setHasMoreResumeList(data.next_page);
+      setPageCounterResumeList((prev) => prev + 1); */
+    } catch (err) {
+      toast.error('Opps ha ocurrido un error, no se pudo obtener los datos');
     }
   };
 
@@ -110,7 +131,13 @@ const ResumeList = () => {
             disableButton={disableButton}
           >
             <h1>Listado de CVs</h1>
-            <SearchUserInput type="text" placeholder="buscar usuario" />
+            <SearchUserInput
+              type="text"
+              placeholder="Buscar usuario"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              onKeyDown={searchCVlist}
+            />
             {loadingResumeList && (
               <>
                 <SkeletonLoading width="100%" height="78px" />
