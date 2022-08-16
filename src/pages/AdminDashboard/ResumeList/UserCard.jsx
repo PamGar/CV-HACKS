@@ -61,6 +61,7 @@ const UserCard = ({
   paternal_surname,
   isHired,
   id,
+  cvId,
   setDisableButton,
   data,
   setData,
@@ -79,7 +80,7 @@ const UserCard = ({
       <StyledNavLink to={`${id}`}>
         <UserCardContainer
           onClick={() => {
-            setUserSelectedId(id);
+            setUserSelectedId(cvId);
             setDisableButton(false);
           }}
           isSelected={userSelectedId === id}
