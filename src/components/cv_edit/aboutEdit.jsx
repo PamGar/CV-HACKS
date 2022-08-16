@@ -143,6 +143,7 @@ const AboutEdit = (props) => {
   const UploadImageInfo = (e) => {
     // Get the selected file
     const [file] = e.target.files;
+    console.log('file',file);
     // Get the file name and size
     const { name: fileName, size } = file;
     // Convert size in bytes to kilo bytes

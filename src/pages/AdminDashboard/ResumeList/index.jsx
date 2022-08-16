@@ -1,14 +1,14 @@
-import { useState, useEffect, useContext } from "react";
-import UserCard from "./UserCard";
-import NavModal from "../NavModal";
-import styled from "styled-components";
-import axios from "axios";
-import MainContentWrapper from "../../../components/MainContentWrapper";
-import MainAndRightLayout from "../../../layouts/MainAndRightLayout";
-import { ResumeContext } from "../ResumeContextProvider";
-import SkeletonLoading from "../../../components/SkeletonLoading";
-import { Outlet } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useState, useEffect, useContext } from 'react';
+import UserCard from './UserCard';
+import NavModal from '../NavModal';
+import styled from 'styled-components';
+import axios from 'axios';
+import MainContentWrapper from '../../../components/MainContentWrapper';
+import MainAndRightLayout from '../../../layouts/MainAndRightLayout';
+import { ResumeContext } from '../ResumeContextProvider';
+import SkeletonLoading from '../../../components/SkeletonLoading';
+import { Outlet } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -40,7 +40,10 @@ const ResumeList = () => {
   const [disableButton, setDisableButton] = useState(!userSelectedId);
   const [openModal, setOpenModal] = useState(false);
 
-  const PAGE_SIZE = 5;
+  const PAGE_SIZE = 10;
+
+  console.log('list', dataResumeList);
+  console.log('User', userSelectedId);
 
   const getCVlist = async () => {
     try {
@@ -48,7 +51,7 @@ const ResumeList = () => {
         `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-all?page_number=${pageCounterResumeList}&page_size=${PAGE_SIZE}`,
         {
           headers: {
-            authorization: `Token ${localStorage.getItem("authToken")}`,
+            authorization: `Token ${localStorage.getItem('authToken')}`,
           },
         }
       );
@@ -56,7 +59,7 @@ const ResumeList = () => {
       setHasMoreResumeList(data.next_page);
       setPageCounterResumeList((prev) => prev + 1);
     } catch (err) {
-      toast.error("Opps ha ocurrido un error, no se pudo obtener los datos");
+      toast.error('Opps ha ocurrido un error, no se pudo obtener los datos');
     } finally {
       setLoadingResumeList(false);
     }
@@ -68,7 +71,7 @@ const ResumeList = () => {
         `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-all?page_number=${pageCounterResumeList}&page_size=${PAGE_SIZE}`,
         {
           headers: {
-            authorization: `Token ${localStorage.getItem("authToken")}`,
+            authorization: `Token ${localStorage.getItem('authToken')}`,
           },
         }
       );
@@ -76,7 +79,7 @@ const ResumeList = () => {
       setPageCounterResumeList((prev) => prev + 1);
       setHasMoreResumeList(data.next_page);
     } catch (err) {
-      toast.error("Opps ha ocurrido un error, no se pudo actulizar la lista");
+      toast.error('Opps ha ocurrido un error, no se pudo actulizar la lista');
     }
   };
 
@@ -123,8 +126,9 @@ const ResumeList = () => {
                 paternal_surname={user.paternal_surname}
                 isHired={isHired}
                 setDisableButton={setDisableButton}
-                id={id}
+                id={user.id}
                 key={id}
+                cvId={id}
                 data={dataResumeList}
                 setData={setDataResumeList}
               />
