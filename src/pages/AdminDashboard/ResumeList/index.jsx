@@ -17,11 +17,13 @@ export const Wrapper = styled.div`
 `;
 
 const SearchUserInput = styled.input`
-  outline: 1px solid #888888;
+  width: 100%;
+  outline: none;
   border-radius: 10px;
   padding: 10px;
+  background-color: #f3f4f6;
   :focus-visible {
-    outline: 1px solid #565696;
+    outline: 1px solid #ababab;
   }
 `;
 
@@ -40,23 +42,22 @@ const ResumeList = () => {
   const [disableButton, setDisableButton] = useState(!userSelectedId);
   const [openModal, setOpenModal] = useState(false);
   const [search, setSearch] = useState('');
-  console.log(search);
+  const [page, setPage] = useState(2);
 
   const PAGE_SIZE = 10;
 
   const getCVlist = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-all?page_number=${pageCounterResumeList}&page_size=${PAGE_SIZE}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/s/?search=&page_number=1&page_size=10`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
           },
         }
       );
-      setDataResumeList([...data.data]);
-      setHasMoreResumeList(data.next_page);
-      setPageCounterResumeList((prev) => prev + 1);
+      setDataResumeList(data);
+      setHasMoreResumeList(1);
     } catch (err) {
       toast.error('Opps ha ocurrido un error, no se pudo obtener los datos');
     } finally {
@@ -70,17 +71,16 @@ const ResumeList = () => {
         `${process.env.REACT_APP_BASE_URL}/cv/s/?search=${search.replace(
           ' ',
           '+'
-        )}`,
+        )}&page_number=1&page_size=${PAGE_SIZE}`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
           },
         }
       );
-      console.log('my', data);
       setDataResumeList(data);
-      /*setHasMoreResumeList(data.next_page);
-      setPageCounterResumeList((prev) => prev + 1); */
+      /*setHasMoreResumeList(data.next_page);*/
+      // setPageCounterResumeList(1);
     } catch (err) {
       toast.error('Opps ha ocurrido un error, no se pudo obtener los datos');
     }
@@ -89,16 +89,20 @@ const ResumeList = () => {
   const fetchMoreData = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-all?page_number=${pageCounterResumeList}&page_size=${PAGE_SIZE}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/s/?search=${search.replace(
+          ' ',
+          '+'
+        )}&page_number=${page}&page_size=${PAGE_SIZE}`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
           },
         }
       );
-      setDataResumeList((prev) => [...prev, ...data.data]);
-      setPageCounterResumeList((prev) => prev + 1);
-      setHasMoreResumeList(data.next_page);
+      setDataResumeList((prev) => [...prev, ...data]);
+      setPage(page + 1);
+      // setPageCounterResumeList((prev) => prev + 1);
+      // setHasMoreResumeList(data.next_page);
     } catch (err) {
       toast.error('Opps ha ocurrido un error, no se pudo actulizar la lista');
     }
@@ -131,13 +135,21 @@ const ResumeList = () => {
             disableButton={disableButton}
           >
             <h1>Listado de CVs</h1>
-            <SearchUserInput
-              type="text"
-              placeholder="Buscar usuario"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              onKeyDown={searchCVlist}
-            />
+            <div>
+              <SearchUserInput
+                type="text"
+                placeholder="Busca por nombre, area, o escribe una palabra clave"
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  searchCVlist();
+                }}
+              />
+              <p style={{ color: '#b1b1b1', fontSize: '12px', margin: '10px' }}>
+                Puedes escribir varios criterios de busqueda separados por un
+                espacio
+              </p>
+            </div>
             {loadingResumeList && (
               <>
                 <SkeletonLoading width="100%" height="78px" />
