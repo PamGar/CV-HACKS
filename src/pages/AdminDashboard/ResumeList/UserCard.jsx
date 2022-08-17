@@ -4,11 +4,13 @@ import styled from 'styled-components';
 import AlertMessage from '../../../components/AlertMessage';
 import ConfirmChangeStatusModal from '../ConfirmChangeStatusModal';
 import { ResumeContext } from '../ResumeContextProvider';
+import Hacky from '../../../assets/images/Marmota.png';
 
 const UserCardContainer = styled.div`
-  padding: 10px;
-  background-color: ${(props) => (props.isSelected ? '#8f9c9a' : '#f7f7f7')};
-  border-radius: 3px;
+  padding: 10px 0 10px 10px;
+  background-color: #f3f4f6;
+  background-color: ${(props) => (props.isSelected ? '#a0a0cc' : '#f3f4f6')};
+  border-radius: 10px;
   display: grid;
   grid-template-areas: 'userPhoto name isHired';
   grid-template-columns: 0.5fr 3fr 1fr;
@@ -20,6 +22,8 @@ const UserCardContainer = styled.div`
   position: relative;
   transition: box-shadow 250ms ease;
   gap: 10px;
+  overflow: hidden;
+  box-shadow: 0 12px 8px -8px #b9b9b9;
 
   :hover {
     box-shadow: 0px 3px 1px -1px rgb(0 0 0 / 20%),
@@ -46,7 +50,7 @@ const Name = styled.p`
   font-size: 1.2rem;
   grid-area: name;
   justify-self: start;
-  color: ${(props) => (props.isSelected ? 'white' : '#171717')};
+  color: ${(props) => (props.isSelected ? '#fff' : '#171717')};
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -87,14 +91,28 @@ const UserCard = ({
           ref={UserCardContainerRef}
         >
           <UserImage>
-            <img src={userPhoto} />
+            <img
+              src={
+                userPhoto === '/media/default.jpg'
+                  ? Hacky
+                  : `https://apicv.hackademy.lat${userPhoto}`
+              }
+            />
           </UserImage>
           <Name isSelected={userSelectedId === id}>
             {name} {paternal_surname}
           </Name>
-          <AlertMessage success={isHired} info={!isHired} fullWidth>
+
+          <div
+            style={{
+              backgroundColor: isHired === 'contratado' ? '#0bb484' : '#d1c36b',
+              color: '#fff',
+              padding: '5px',
+              borderRadius: '5px',
+            }}
+          >
             {isHired ? 'contratado' : 'En busqueda'}
-          </AlertMessage>
+          </div>
         </UserCardContainer>
       </StyledNavLink>
       {openChangeStatusModal && (
