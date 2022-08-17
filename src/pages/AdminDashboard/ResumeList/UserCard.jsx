@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import AlertMessage from '../../../components/AlertMessage';
 import ConfirmChangeStatusModal from '../ConfirmChangeStatusModal';
 import { ResumeContext } from '../ResumeContextProvider';
-import Hacky from '../../../assets/images/Marmota.png';
+import Hacky from '../../../assets/images/Hacky.png';
 
 const UserCardContainer = styled.div`
   padding: 10px 0 10px 10px;
