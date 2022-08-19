@@ -85,7 +85,7 @@ const LoginModal = ({ closeModal, isOpen, userEmail, setIsAuthenticated }) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setUser((prev) => ({ ...prev, [name]: value }));
+    setUser((prev) => ({ ...prev, [name]: value.trim() }));
     value.length >= 13
       ? setInputError((prev) => ({ ...prev, disabledButton: false }))
       : setInputError((prev) => ({ ...prev, disabledButton: true }));
@@ -157,14 +157,14 @@ const LoginModal = ({ closeModal, isOpen, userEmail, setIsAuthenticated }) => {
         <input
           onChange={handleChange}
           value={user.accessToken}
-          name='password'
+          name="password"
           required
         />
         <AlertMessage hide={inputError.hideErrorMessage} error>
           {responseErrorMessage}
         </AlertMessage>
         <LoadingButton
-          type='submit'
+          type="submit"
           fullWidth
           disabled={inputError.disabledButton}
           loading={inputError.loadingButton}
