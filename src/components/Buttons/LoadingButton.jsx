@@ -5,7 +5,7 @@ const Button = styled.button`
   border: none;
   background-color: ${(props) => (props.disabled ? '#c7c7c7' : '#565696')};
   color: ${(props) => (props.disabled ? '#888888' : 'white')};
-  border-radius: 50px;
+  border-radius: 10px;
   width: ${(props) => (props.fullWidth ? '100%' : 'max-content')};
   box-shadow: 0 1px 4px #888888;
   font-size: 0.875rem;
@@ -79,7 +79,7 @@ const Spinner = styled.div`
   border-top: 2px solid #888888;
   border-left: 2px solid #888888;
   border-right: 2px solid transparent;
-  border-radius: 50%;
+  border-radius: 5px;
   width: 15px;
   height: 15px;
   margin-left: 5px;

@@ -9,7 +9,7 @@ const TasksWrapper = styled.div`
   @media (max-width: 1000px) {
     background-color: #fff;
     padding: 10px;
-    border-radius: 15px;
+    border-radius: 10px;
   }
 `;
 
@@ -22,7 +22,7 @@ const TasksBox = styled.div`
   margin-left: auto;
   margin-right: auto;
   background-color: #fff;
-  border-radius: 15px;
+  border-radius: 10px;
   /* box-shadow: 2px 1px 7px #00000057; */
 
   @media (max-width: 1000px) {
@@ -198,7 +198,7 @@ const Input = styled.input`
   width: 100%;
   border: ${(props) =>
     props.error ? '1px solid #d8000c' : '1px solid #888888'};
-  border-radius: 5px;
+  border-radius: 10px;
   font-size: 0.875rem;
 
   &::placeholder {

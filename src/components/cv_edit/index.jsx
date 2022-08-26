@@ -22,7 +22,7 @@ import ProjectsEdit from './projectsEdit';
 const Wrapper = styled.div`
   padding: 20px;
   background-color: #fff;
-  border-radius: 15px;
+  border-radius: 10px;
   box-shadow: 2px 1px 7px #00000057;
   margin-bottom: 20px;
 
@@ -46,7 +46,7 @@ const Wrapper = styled.div`
   }
 
   input {
-    border-radius: 15px;
+    border-radius: 10px;
     padding: 15px 10px;
     background-color: #ededed;
   }

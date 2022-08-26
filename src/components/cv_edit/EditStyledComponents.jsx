@@ -4,7 +4,7 @@ export const AccordeonBox = styled.div`
   cursor: pointer;
 
   .acordeon {
-    border-radius: 15px;
+    border-radius: 10px;
     overflow: hidden;
     margin: 0 0 30px 0px;
     box-shadow: 2px 1px 7px #00000057;

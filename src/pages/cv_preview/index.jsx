@@ -226,13 +226,13 @@ const CV_preview = () => {
       const invalidToken = error.response.data.message;
       toast.error(`${invalidToken}, Por favor refresca la pagina`);
       if (invalidToken === 'Token invalido') {
-        localStorage.removeItem('authToken');
+        navigate('/');
+        /* localStorage.removeItem('authToken');
         localStorage.removeItem('id');
-        localStorage.removeItem('role');
+        localStorage.removeItem('role'); */
       } else {
         return;
       }
-      navigate('/');
     }
   };
 
