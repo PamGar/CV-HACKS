@@ -82,7 +82,7 @@ const EducationEdit = (props) => {
       }, 100);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -115,7 +115,7 @@ const EducationEdit = (props) => {
         },
         address_update: false,
       });
-      toast.success('Agregado con exito');
+      toast.success('Agregado con éxito');
       getItemsList();
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
@@ -138,11 +138,11 @@ const EducationEdit = (props) => {
         },
       });
       getItemsList();
-      toast.success('Eliminado con exito');
+      toast.success('Eliminado con éxito');
       /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
       props.refreshCvData();
     } catch (error) {
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
       console.error('error', error);
     }
   };
@@ -187,7 +187,7 @@ const EducationEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -223,7 +223,7 @@ const EducationEdit = (props) => {
         address_update: false,
       });
       getItemsList();
-      toast.success('Actualizado con exito');
+      toast.success('Actualizado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setDisabledEndDate(false);
@@ -231,7 +231,7 @@ const EducationEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -365,7 +365,7 @@ const EducationEdit = (props) => {
             <div>
               {itemsList.length === 0 ? (
                 <p className="tasks_0">
-                  Aun no tienes ninguna educacion guardada
+                  Aun no tienes ninguna educación guardada
                 </p>
               ) : (
                 itemsList.map((item, index) => {
@@ -458,7 +458,7 @@ const EducationEdit = (props) => {
                     id="company"
                     name="degree"
                     value={item.data.degree}
-                    placeholder="Preparatoria / Universidad / Institucion"
+                    placeholder="Preparatoria / Universidad / Institución"
                     autoComplete="off"
                     onChange={handleDataChange}
                     required
@@ -476,7 +476,7 @@ const EducationEdit = (props) => {
                         name="town"
                         value={item.address.town}
                         autoComplete="off"
-                        placeholder="Escribe la ciudad de la institucion"
+                        placeholder="Escribe la ciudad de la institución"
                         onChange={handleAddressChange}
                         required
                       />
@@ -493,7 +493,7 @@ const EducationEdit = (props) => {
                         name="country"
                         value={item.address.country}
                         autoComplete="off"
-                        placeholder="Escribe el pais de la institucion"
+                        placeholder="Escribe el país de la institución"
                         onChange={handleAddressChange}
                         required
                       />
@@ -561,7 +561,7 @@ const EducationEdit = (props) => {
                         ? ''
                         : item.data.description
                     }
-                    placeholder="Escribe las herramientas que usaste, tecnologias que aprendiste, proyectos en los que trabajaste"
+                    placeholder="Escribe las herramientas que usaste, tecnologías que aprendiste, proyectos en los que trabajaste"
                     autoComplete="off"
                     onChange={handleDataChange}
                   ></textarea>

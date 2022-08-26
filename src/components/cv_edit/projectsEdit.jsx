@@ -83,7 +83,7 @@ const ProjectsEdit = (props) => {
       }, 100);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -106,7 +106,7 @@ const ProjectsEdit = (props) => {
         technologies: 'empty',
       });
       getItemsList();
-      toast.success('Agregado con exito');
+      toast.success('Agregado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
@@ -114,7 +114,7 @@ const ProjectsEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -128,11 +128,11 @@ const ProjectsEdit = (props) => {
         },
       });
       getItemsList();
-      toast.success('Eliminado con exito');
+      toast.success('Eliminado con éxito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -162,7 +162,7 @@ const ProjectsEdit = (props) => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -187,7 +187,7 @@ const ProjectsEdit = (props) => {
         technologies: 'empty',
       });
       getItemsList();
-      toast.success('Actualizado con exito');
+      toast.success('Actualizado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
@@ -195,7 +195,7 @@ const ProjectsEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -275,7 +275,7 @@ const ProjectsEdit = (props) => {
             <div>
               {itemsList.length === 0 ? (
                 <p className="tasks_0">
-                  Aun no tienes ningun proyecto guardado
+                  Aun no tienes ningún proyecto guardado
                 </p>
               ) : (
                 itemsList.map((item, index) => {
@@ -436,7 +436,7 @@ const ProjectsEdit = (props) => {
                     name="description"
                     rows="5"
                     value={item.description === null ? '' : item.description}
-                    placeholder="Escribe una breve descripción del proyecto, que tecnologias y/o herramientas usaste, cual fue el mayor reto del proyecto"
+                    placeholder="Escribe una breve descripción del proyecto, que tecnologías y/o herramientas usaste, cual fue el mayor reto del proyecto"
                     autoComplete="off"
                     onChange={handleChange}
                   ></textarea>

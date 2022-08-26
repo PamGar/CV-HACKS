@@ -59,7 +59,7 @@ const HelpCV = () => {
         </li>
         <li>
           Hay frases que ya no sorprenden a los reclutadores: “trabajo en
-          equipo, orientado a resultados, proactivo”. Evítalas. Hay verbos con
+          equipo, orientado a resultados, proactivo”. Evitarlas. Hay verbos con
           los que sí puedes sorprenderlos: “mejoré, alcancé, resolví…”.
         </li>
         <li>

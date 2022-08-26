@@ -87,18 +87,18 @@ const EditCommentModal = ({
         },
         { headers: { authorization: `Token ${token}` } }
       );
-      //actuliza el array del component CVlist.jsx
+      //actualiza el array del component CVlist.jsx
       const arrCopy = [...commentList];
       arrCopy[commentPosition] = commentToBeChanged;
       setCommentList([...arrCopy]);
       ModalWrapperRef.current.classList.add('fadeOut');
-      toast.success('Correción editada');
+      toast.success('Corrección editada');
       setTimeout(() => setOpenEditCommentModal(false), 250);
     } catch (err) {
       console.log(err);
       setLoading(false);
       setDisabledButton(false);
-      toast.error('No se ha podido editar la correción');
+      toast.error('No se ha podido editar la corrección');
     }
   };
 
@@ -108,7 +108,7 @@ const EditCommentModal = ({
       element={
         <ModalLayout ref={ModalWrapperRef}>
           <FontAwesomeIconStyled icon={faPenToSquare} />
-          <h1>Editar correción</h1>
+          <h1>Editar corrección</h1>
           <Textarea
             value={commentToBeChanged.comment}
             onChange={handleChangeTextarea}
@@ -117,10 +117,10 @@ const EditCommentModal = ({
             onChange={handleChangeSelect}
             value={commentToBeChanged.description}
           >
-            <option value='Informacion Personal'>Informacion Personal</option>
-            <option value='Estudios'>Estudios</option>
-            <option value='Experiencia'>Experiencia</option>
-            <option value='Cursos'>Cursos</option>
+            <option value="Información Personal">Información Personal</option>
+            <option value="Estudios">Estudios</option>
+            <option value="Experiencia">Experiencia</option>
+            <option value="Cursos">Cursos</option>
           </Select>
           <ButtonContainer>
             <OutlinedButton

@@ -57,8 +57,8 @@ const Landing = () => {
   return (
     <LandingBox>
       <Nav>
-        <div className='logo'>
-          <img src={Logo} alt='' />
+        <div className="logo">
+          <img src={Logo} alt="" />
         </div>
         <div>
           <p style={{ color: '#595393', fontWeight: '700', fontSize: '18px' }}>
@@ -80,25 +80,25 @@ const Landing = () => {
             Ingresa a la plataforma y<br />
             comienza ya a crear tu CV
           </h1>
-          <NavLink to='/login' style={{ marginTop: '10px' }}>
+          <NavLink to="/login" style={{ marginTop: '10px' }}>
             <Button>Ingresar</Button>
           </NavLink>
           <p style={{ marginTop: '10px', fontSize: '14px' }}>
-            Si eres compañia ingresa{' '}
+            Si eres compañía ingresa{' '}
             <NavLink
-              to='/login/company'
+              to="/login/company"
               style={{
                 textDecoration: 'underline',
                 fontSize: '14px',
                 color: '#6363a8',
               }}
             >
-              aqui
+              aquí
             </NavLink>
           </p>
         </div>
         <div>
-          <img src={Coder} alt='' />
+          <img src={Coder} alt="" />
         </div>
       </Body>
     </LandingBox>

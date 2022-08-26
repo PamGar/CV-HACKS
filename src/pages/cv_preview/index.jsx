@@ -159,6 +159,7 @@ const CV_preview = () => {
       url_public: null,
       url_private: null,
       area: null,
+      tags: [],
     },
     comments: [],
     certifications: [],
@@ -218,18 +219,20 @@ const CV_preview = () => {
       setUser(data);
       console.log('user', data);
       data.name === null ? setFirstData(true) : setFirstData(false);
-      if (data.name !== null) { getCV()};
+      if (data.name !== null) {
+        getCV();
+      }
     } catch (error) {
       const invalidToken = error.response.data.message;
-      toast.error(invalidToken);
+      toast.error(`${invalidToken}, Por favor refresca la pagina`);
       if (invalidToken === 'Token invalido') {
         localStorage.removeItem('authToken');
         localStorage.removeItem('id');
         localStorage.removeItem('role');
-        navigate('/');
       } else {
         return;
       }
+      navigate('/');
     }
   };
 
@@ -310,6 +313,7 @@ const CV_preview = () => {
         main={
           isEdit ? (
             <EditCV
+              tagsData={cvData.cv.tags}
               cvId={cvData.cv.id}
               editButton={handleEdit}
               refreshCvData={refreshCvData}

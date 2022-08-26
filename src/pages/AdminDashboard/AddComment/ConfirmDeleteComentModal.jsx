@@ -42,7 +42,7 @@ const ConfirmDeleteComentModal = ({
           },
         }
       );
-      toast.success('Correción eliminada');
+      toast.success('Corrección eliminada');
       ModalWrapperRef.current.classList.add('fadeOut');
       setCommentList((prev) =>
         prev.filter((comment) => comment.id !== commentID)
@@ -50,7 +50,7 @@ const ConfirmDeleteComentModal = ({
       setTimeout(() => setOpenConfirmDeleteComentModal(false), 250);
     } catch (err) {
       console.log(err);
-      toast.error('No se ha podido eliminar la Correción.');
+      toast.error('No se ha podido eliminar la Corrección.');
       setLoading(false);
     }
   };

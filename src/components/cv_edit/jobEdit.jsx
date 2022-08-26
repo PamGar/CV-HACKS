@@ -90,7 +90,7 @@ const JobEdit = (props) => {
       }, 100);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -127,7 +127,7 @@ const JobEdit = (props) => {
         address_id: '',
       });
       getItemsList();
-      toast.success('Agregado con exito');
+      toast.success('Agregado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
@@ -135,7 +135,7 @@ const JobEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -149,11 +149,11 @@ const JobEdit = (props) => {
         },
       });
       getItemsList();
-      toast.success('Eliminado con exito');
+      toast.success('Eliminado con éxito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -198,7 +198,7 @@ const JobEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -236,7 +236,7 @@ const JobEdit = (props) => {
         id: '',
       });
       getItemsList();
-      toast.success('Actualizado con exito');
+      toast.success('Actualizado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setDisabledEndDate(false);
@@ -244,7 +244,7 @@ const JobEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -488,7 +488,7 @@ const JobEdit = (props) => {
                         name="country"
                         value={item.address.country}
                         autoComplete="off"
-                        placeholder="Escribe el pais donde esta la empresa"
+                        placeholder="Escribe el país donde esta la empresa"
                         onChange={handleAddressChange}
                         required
                       />
@@ -552,7 +552,7 @@ const JobEdit = (props) => {
                     name="description"
                     rows="5"
                     value={item.data.description}
-                    placeholder="Escribe que rol desempeñabas en la empresa, cuales eran tus tareas, en que proyectos trabajaste, que tecnologias y herramientas usaste"
+                    placeholder="Escribe que rol desempeñabas en la empresa, cuales eran tus tareas, en que proyectos trabajaste, que tecnologías y herramientas usaste"
                     autoComplete="off"
                     onChange={handleDataChange}
                     required

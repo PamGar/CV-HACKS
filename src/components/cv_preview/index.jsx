@@ -101,6 +101,13 @@ const Wrapper = styled.div`
     box-shadow: 2px 1px 7px #00000057;
   }
 
+  .tags {
+    background-color: #9d9dca;
+    padding: 5px;
+    border-radius: 5px;
+    color: #fff;
+  }
+
   @media (max-width: 820px) {
     box-shadow: unset;
     background-color: unset;
@@ -347,9 +354,12 @@ const CV_preview = ({
                     }}
                   >
                     <p>
-                      {userData.address?.country
-                        ? userData.address?.country
-                        : null}
+                      {userData.address?.state ? userData.address?.state : null}{' '}
+                      <span style={{ color: '#bfbfbf' }}>
+                        {userData.address?.country
+                          ? `(${userData.address?.country})`
+                          : null}
+                      </span>
                     </p>
 
                     {userData.email ? (
@@ -705,8 +715,14 @@ const CV_preview = ({
                   paddingTop: `0`,
                 }}
               >
-                <p>
-                  {userData.address?.country ? userData.address?.country : null}
+                <p style={{ textAlign: 'center' }}>
+                  {userData.address?.state ? userData.address?.state : null}
+                  <br />
+                  <span style={{ color: '#bfbfbf' }}>
+                    {userData.address?.country
+                      ? `(${userData.address?.country})`
+                      : null}
+                  </span>
                 </p>
                 {userData.email ? (
                   userData.email.includes('hackademy.mx') ? null : (
@@ -719,6 +735,20 @@ const CV_preview = ({
           </div>
         </Header>
         <BoxColumn>{userData.about_me}</BoxColumn>
+        {cvData.cv.tags.length === 0 ? null : (
+          <div>
+            <h2>Tecnologías y herramientas que maneja</h2>
+            <BoxFlex>
+              {cvData.cv.tags.map((item) => {
+                return (
+                  <div key={item.id} className="center">
+                    <p className="tags">{item.name}</p>
+                  </div>
+                );
+              })}
+            </BoxFlex>
+          </div>
+        )}
         {cvData.urls.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>

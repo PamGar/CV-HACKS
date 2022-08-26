@@ -92,7 +92,7 @@ const CoursesEdit = (props) => {
       }, 100);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -128,7 +128,7 @@ const CoursesEdit = (props) => {
         address_id: '',
       });
       getItemsList();
-      toast.success('Curso agregado con exito');
+      toast.success('Curso agregado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setDisabledEndDate(false);
@@ -136,7 +136,7 @@ const CoursesEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -150,11 +150,11 @@ const CoursesEdit = (props) => {
         },
       });
       getItemsList();
-      toast.success('Curso eliminado con exito');
+      toast.success('Curso eliminado con éxito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -197,7 +197,7 @@ const CoursesEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -234,7 +234,7 @@ const CoursesEdit = (props) => {
         id: '',
       });
       getItemsList();
-      toast.success('Curso actualizado con exito');
+      toast.success('Curso actualizado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
@@ -242,7 +242,7 @@ const CoursesEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -360,7 +360,7 @@ const CoursesEdit = (props) => {
           >
             <div>
               {itemsList.length === 0 ? (
-                <p className="tasks_0">Aun no tienes ningun curso guardado</p>
+                <p className="tasks_0">Aun no tienes ningún curso guardado</p>
               ) : (
                 itemsList.map((item, index) => {
                   return (
@@ -439,7 +439,7 @@ const CoursesEdit = (props) => {
                 </p>
                 <p>
                   <label htmlFor="subtitle">
-                    Institucion o plataforma
+                    Institución o plataforma
                     <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <input
@@ -447,7 +447,7 @@ const CoursesEdit = (props) => {
                     id="company"
                     name="subtitle"
                     value={item.data.subtitle}
-                    placeholder="Escribe el nombre de la institucion o plataforma"
+                    placeholder="Escribe el nombre de la institución o plataforma"
                     autoComplete="off"
                     onChange={handleDataChange}
                     required
@@ -474,7 +474,7 @@ const CoursesEdit = (props) => {
                   <div>
                     <p>
                       <label htmlFor="country">
-                        Pais
+                        País
                         <span className="fieldRecomendation">Requerido</span>
                       </label>
                       <input
@@ -482,7 +482,7 @@ const CoursesEdit = (props) => {
                         name="country"
                         value={item.address.country}
                         autoComplete="off"
-                        placeholder="Escribe el pais donde realizaste el curso"
+                        placeholder="Escribe el país donde realizaste el curso"
                         onChange={handleAddressChange}
                         required
                       />
@@ -549,7 +549,7 @@ const CoursesEdit = (props) => {
                         ? ''
                         : item.data.description
                     }
-                    placeholder="Escribe las tecnologias aprendidas en el curso, que proyectos trabajaste, que herramientas usaste"
+                    placeholder="Escribe las tecnologías aprendidas en el curso, que proyectos trabajaste, que herramientas usaste"
                     autoComplete="off"
                     onChange={handleDataChange}
                   ></textarea>

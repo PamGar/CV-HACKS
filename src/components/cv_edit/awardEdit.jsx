@@ -95,7 +95,7 @@ const AwardEdit = (props) => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -109,11 +109,11 @@ const AwardEdit = (props) => {
         },
       });
       getItemsList();
-      toast.success('Premio eliminado con exito');
+      toast.success('Premio eliminado con éxito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -134,7 +134,7 @@ const AwardEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -165,7 +165,7 @@ const AwardEdit = (props) => {
         description: null,
       });
       getItemsList();
-      toast.success('Premio actualizado con exito');
+      toast.success('Premio actualizado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
@@ -333,7 +333,7 @@ const AwardEdit = (props) => {
                 </p>
                 <p>
                   <label htmlFor="subtitle">
-                    Institucion que lo entrega
+                    Institución que lo entrega
                     <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <input
