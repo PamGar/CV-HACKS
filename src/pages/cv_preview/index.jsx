@@ -120,7 +120,7 @@ const SidebarHelp = styled(SidebarTasks)`
   text-align: center;
 `;
 
-const CV_preview = () => {
+const CV_preview = (props) => {
   const [user, setUser] = useState({
     id: null,
     address: {
@@ -229,10 +229,13 @@ const CV_preview = () => {
         localStorage.removeItem('authToken');
         localStorage.removeItem('id');
         localStorage.removeItem('role');
-      } else {
-        return;
+        localStorage.removeItem('user');
+        props.setAuth({
+          ...props.authData,
+          isAuth: '',
+        });
+        navigate('/');
       }
-      navigate('/');
     }
   };
 

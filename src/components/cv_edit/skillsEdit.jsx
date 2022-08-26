@@ -237,7 +237,7 @@ const SkillsEdit = (props) => {
           >
             <div>
               <FontAwesomeIcon icon={faChessPawn} className="iconAccordeon" />
-              Skills
+              Hard skills
             </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
@@ -252,7 +252,9 @@ const SkillsEdit = (props) => {
           >
             <div>
               {itemsList.length === 0 ? (
-                <p className="tasks_0">Aun no tienes ninguna skill guardada</p>
+                <p className="tasks_0">
+                  Aun no tienes ninguna hard skill guardada
+                </p>
               ) : (
                 itemsList.map((item, index) => {
                   return (
@@ -301,13 +303,13 @@ const SkillsEdit = (props) => {
               <div className="separador"></div>
               <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
-                  <h3>Actualizar skill</h3>
+                  <h3>Actualizar hard skill</h3>
                 ) : (
-                  <h3>Agregar nueva skill</h3>
+                  <h3>Agregar nueva hard skill</h3>
                 )}
                 <p>
                   <label htmlFor="title">
-                    Nombre de la skill
+                    Nombre de la hard skill
                     <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <input
@@ -315,7 +317,7 @@ const SkillsEdit = (props) => {
                     type="text"
                     name="title"
                     value={item.title}
-                    placeholder="Escribe el nombre de la skill"
+                    placeholder="Escribe el nombre de la hard skill"
                     autoComplete="off"
                     onChange={handleChange}
                     required
@@ -331,7 +333,7 @@ const SkillsEdit = (props) => {
                     name="subtitle"
                     rows="5"
                     value={item.subtitle === null ? '' : item.subtitle}
-                    placeholder="Que tareas puedes hacer con esta skill"
+                    placeholder="Que tareas puedes hacer con esta hard skill"
                     autoComplete="off"
                     onChange={handleChange}
                   ></textarea>

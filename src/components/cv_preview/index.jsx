@@ -89,7 +89,7 @@ const Wrapper = styled.div`
   text-align: center;
   /* box-shadow: 2px 1px 7px #00000057; */
   padding: 20px 30px;
-  border-radius: 15px;
+  border-radius: 10px;
   margin-bottom: 20px;
 
   h2 {
@@ -97,14 +97,14 @@ const Wrapper = styled.div`
     background-color: #0babb4;
     color: #fff;
     padding: 10px;
-    border-radius: 15px;
+    border-radius: 10px;
     box-shadow: 2px 1px 7px #00000057;
   }
 
   .tags {
-    background-color: #9d9dca;
-    padding: 5px;
-    border-radius: 5px;
+    background-color: #4b454f;
+    padding: 5px 10px;
+    border-radius: 10px;
     color: #fff;
   }
 
@@ -176,7 +176,7 @@ const BoxFlex = styled(BoxColumn)`
 `;
 
 const Header = styled(BoxFlex)`
-  align-items: flex-start;
+  align-items: center;
   display: flex;
   flex-wrap: wrap;
 
@@ -706,24 +706,15 @@ const CV_preview = ({
                 padding: '0',
               }}
             >
-              <h1 style={{ marginBottom: '0' }}>
+              <h1 style={{ margin: '0', lineHeight: '25px' }}>
                 {userData.name} {userData.paternal_surname}
               </h1>
-              <h3>{cvData.cv.area}</h3>{' '}
+              <h3>{cvData.cv.area}</h3>
               <BoxFlex
                 style={{
-                  paddingTop: `0`,
+                  padding: `0`,
                 }}
               >
-                <p style={{ textAlign: 'center' }}>
-                  {userData.address?.state ? userData.address?.state : null}
-                  <br />
-                  <span style={{ color: '#bfbfbf' }}>
-                    {userData.address?.country
-                      ? `(${userData.address?.country})`
-                      : null}
-                  </span>
-                </p>
                 {userData.email ? (
                   userData.email.includes('hackademy.mx') ? null : (
                     <p>{userData.email}</p>
@@ -731,6 +722,14 @@ const CV_preview = ({
                 ) : null}
                 {userData.phone ? <p>{userData.phone}</p> : null}
               </BoxFlex>
+              <p style={{ textAlign: 'center' }}>
+                {userData.address?.state ? userData.address?.state : null}{' '}
+                <span style={{ color: '#bfbfbf' }}>
+                  {userData.address?.country
+                    ? `(${userData.address?.country})`
+                    : null}
+                </span>
+              </p>
             </BoxColumn>
           </div>
         </Header>
@@ -738,7 +737,7 @@ const CV_preview = ({
         {cvData.cv.tags.length === 0 ? null : (
           <div>
             <h2>Tecnologías y herramientas que maneja</h2>
-            <BoxFlex>
+            <BoxFlex style={{ flexWrap: 'wrap' }}>
               {cvData.cv.tags.map((item) => {
                 return (
                   <div key={item.id} className="center">

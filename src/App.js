@@ -61,17 +61,24 @@ const App = () => {
         <Route element={<PrivateRoute isAuth={isAuthenticated.isAuth} />}>
           <Route element={<AppbarLayout role={isAuthenticated.role} />}>
             {(isAuthenticated.role == 5 || isAuthenticated.role == 4) && (
-              <Route path="/resume" element={<CV_preview />} />
+              <Route
+                path="/resume"
+                element={
+                  <CV_preview
+                    setAuth={setIsAuthenticated}
+                    authData={isAuthenticated}
+                  />
+                }
+              />
             )}
             {isAuthenticated.role == 2 && (
               <Route element={<ResumeContextProvider />}>
-                <Route path='/resumes' element={<ResumeList />}>
+                <Route path="/resumes" element={<ResumeList />}>
                   <Route index element={<ResumePlaceholder />} />
-                  <Route path=':id' element={<UserResumeById />} />
+                  <Route path=":id" element={<UserResumeById />} />
                 </Route>
-                <Route path='/resumes/:id/comments' element={<AddComment />} />
-                <Route path='/resumes/:id/share' element={<ShareResume />} />
-                
+                <Route path="/resumes/:id/comments" element={<AddComment />} />
+                <Route path="/resumes/:id/share" element={<ShareResume />} />
               </Route>
             )}
             {isAuthenticated.role == 2 && (
@@ -98,7 +105,7 @@ const App = () => {
                 element={<CreateJobOfferCompany />}
               />
             )}
-            <Route path='/send-error' element={<SendError />} />
+            <Route path="/send-error" element={<SendError />} />
             <Route
               path="/profile"
               element={<Profile setIsAuthenticated={setIsAuthenticated} />}
@@ -107,7 +114,7 @@ const App = () => {
               <Route index element={<p>pagina de configuracion</p>} />
             </Route>
             <Route
-              path='*'
+              path="*"
               element={<h1 style={{ paddingTop: '30px' }}>not found</h1>}
             />
           </Route>

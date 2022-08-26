@@ -5,7 +5,7 @@ const Button = styled.button`
   border: 1px solid;
   color: ${(props) => (props.disabled ? '#888888' : '#565696')};
   border-color: ${(props) => (props.disabled ? '#888888' : ' #565696')};
-  border-radius: 15px;
+  border-radius: 5px;
   cursor: ${(props) => (props.disabled ? 'auto' : 'pointer')};
   text-transform: uppercase;
   width: ${(props) => (props.fullWidth ? '100%' : 'max-content')};

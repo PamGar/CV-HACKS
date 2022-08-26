@@ -27,7 +27,8 @@ body::-webkit-scrollbar{
 }
 
 h1, h2, h3, label {    
-    font-family: 'Fredoka One', cursive;
+    font-family: 'Poppins', 'Fredoka One', cursive;
+    font-weight: 700;
 }
 
 h1 {
