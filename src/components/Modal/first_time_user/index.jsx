@@ -323,7 +323,7 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
       <div className="box">
         <p>
           Parece que aun no te has presentado, que tal si nos proporcionas
-          algunos datos basicos para empezar
+          algunos datos básicos para empezar
         </p>
         <form onSubmit={handleSubmit}>
           <h3>Datos personales</h3>
@@ -365,7 +365,7 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
           </div>
           <p>
             <label htmlFor="user/phone">
-              <span>Telefono</span>
+              <span>Teléfono</span>
               <strong>
                 <abbr title="required">*</abbr>
               </strong>
@@ -374,7 +374,7 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
               type="text"
               id="surname"
               name="user/phone"
-              placeholder="Escribe tu numero de telefono"
+              placeholder="Escribe tu numero de teléfono"
               autoComplete="off"
               onChange={handleChange}
               required
@@ -399,14 +399,16 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
               <option value="Fullstack"></option>
               <option value="Mobile"></option>
               <option value="UX/UI"></option>
+              <option value="Product owner"></option>
+              <option value="Scrum Master"></option>
             </datalist>
           </p>
           <fieldset>
-            <h3>Direccion</h3>
+            <h3>Dirección</h3>
             <div className="multiBox">
               <p>
                 <label htmlFor="address/country">
-                  <span>Pais</span>
+                  <span>País</span>
                   <strong>
                     <abbr title="required">*</abbr>
                   </strong>
@@ -416,7 +418,7 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
                   type="text"
                   id="country"
                   name="address/country"
-                  placeholder="Escribe el pais donde te encuentras"
+                  placeholder="Escribe el país donde te encuentras"
                   autoComplete="off"
                   onChange={handleChange}
                   required

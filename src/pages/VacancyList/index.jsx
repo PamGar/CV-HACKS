@@ -62,7 +62,7 @@ const VacancyList = () => {
               key={vacancy.id}
               onClick={() => setSelectedVacancyID(vacancy.coordinate)}
             >
-              <p>{vacancy.name || `compañia ${vacancy.id}`}</p>
+              <p>{vacancy.name || `compañía ${vacancy.id}`}</p>
               <p>{vacancy.title}</p>
             </VacancyCard>
           ))}

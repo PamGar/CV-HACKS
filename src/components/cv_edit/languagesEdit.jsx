@@ -70,14 +70,14 @@ const LanguagesEdit = (props) => {
         type: 'Language',
       });
       getLanguagesList();
-      toast.success('Agregado con exito');
+      toast.success('Agregado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -108,11 +108,11 @@ const LanguagesEdit = (props) => {
         }
       );
       getLanguagesList();
-      toast.success('Eliminado con exito');
+      toast.success('Eliminado con éxito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -136,7 +136,7 @@ const LanguagesEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -165,14 +165,14 @@ const LanguagesEdit = (props) => {
         type: 'Language',
       });
       getLanguagesList();
-      toast.success('Actualizado con exito');
+      toast.success('Actualizado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -252,7 +252,7 @@ const LanguagesEdit = (props) => {
           >
             <div>
               {languagesList.length === 0 ? (
-                <p className="tasks_0">Aun no tienes ningun idioma guardado</p>
+                <p className="tasks_0">Aun no tienes ningún idioma guardado</p>
               ) : (
                 languagesList.map((language, index) => {
                   return (
@@ -362,7 +362,7 @@ const LanguagesEdit = (props) => {
                     name="level"
                     value={language.level === null ? '' : language.level}
                     onChange={handleChange}
-                    placeholder="Escribe el nivel (Basico, Intermedio, Avanzado, etc)"
+                    placeholder="Escribe el nivel (Básico, Intermedio, Avanzado, etc)"
                     autoComplete="off"
                   />
                 </p>

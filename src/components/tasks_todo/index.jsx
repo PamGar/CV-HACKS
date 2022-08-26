@@ -294,7 +294,7 @@ const TasksTodo = (props) => {
                       name={`task${currentValue.id}`}
                       onChange={() => toggleDone(currentValue.id)}
                     />
-                    <label for={`task${currentValue.id} form-control`}>
+                    <label htmlFor={`task${currentValue.id} form-control`}>
                       {currentValue.comment}
                     </label>
                   </div>
@@ -344,7 +344,7 @@ const TasksTodo = (props) => {
                         />
                         <label
                           className="form-control--disabled"
-                          for="checkbox form-control"
+                          htmlFor="checkbox form-control"
                         >
                           {currentValue.comment}
                         </label>
@@ -365,7 +365,7 @@ const TasksTodo = (props) => {
               })
             ) : (
               <p className="tasks_0">
-                Aun no has completado ninguna correccion
+                Aun no has completado ninguna corrección
               </p>
             )}
           </div>

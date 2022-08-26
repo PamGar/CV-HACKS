@@ -115,7 +115,7 @@ const EditJobOfferModal = ({
       setTimeout(() => setOpenModalEditJobOffer(false), 250);
     } catch (err) {
       console.log(err);
-      toast.error('Opps no se pudo actulizar, intentalo de nuevo');
+      toast.error('Opps no se pudo actualizar, inténtalo de nuevo');
       setLoading(false);
     }
   };
@@ -135,16 +135,16 @@ const EditJobOfferModal = ({
             <Input
               fullWidth
               value={jobOfferToBeChanged.name}
-              name='name'
+              name="name"
               onChange={handleChange}
             />
           </InputContainer>
           <InputContainer>
             <label>description</label>
             <textarea
-              rows='7'
+              rows="7"
               value={jobOfferToBeChanged.description}
-              name='description'
+              name="description"
               onChange={handleChange}
             />
           </InputContainer>
@@ -153,7 +153,7 @@ const EditJobOfferModal = ({
             <Input
               fullWidth
               value={jobOfferToBeChanged.area}
-              name='area'
+              name="area"
               onChange={handleChange}
             />
           </InputContainer>
@@ -161,10 +161,10 @@ const EditJobOfferModal = ({
             <label>start_date</label>
             <Input
               fullWidth
-              type='date'
+              type="date"
               value={jobOfferToBeChanged.start_date}
               min={MIN_DATE}
-              name='start_date'
+              name="start_date"
               onChange={handleChange}
             />
           </InputContainer>
@@ -172,9 +172,9 @@ const EditJobOfferModal = ({
             <label>end_date</label>
             <Input
               fullWidth
-              type='date'
+              type="date"
               value={jobOfferToBeChanged.end_date || ''}
-              name='end_date'
+              name="end_date"
               onChange={handleChange}
             />
           </InputContainer>
@@ -183,9 +183,9 @@ const EditJobOfferModal = ({
             <Input
               fullWidth
               value={jobOfferToBeChanged.minimun_salary}
-              name='minimun_salary'
+              name="minimun_salary"
               onChange={handleChange}
-              type='number'
+              type="number"
             />
           </InputContainer>
           <LoadingButton

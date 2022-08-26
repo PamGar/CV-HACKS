@@ -77,7 +77,7 @@ const Wrapper = styled.div`
   }
 `;
 
-const EditCV = ({ editButton, cvId, refreshCvData }) => {
+const EditCV = ({ editButton, cvId, refreshCvData, tagsData }) => {
   const [visible, setVisible] = useState({
     EducationEdit: false,
     LanguagesEdit: false,
@@ -101,7 +101,11 @@ const EditCV = ({ editButton, cvId, refreshCvData }) => {
   return (
     <>
       <Wrapper>
-        <AboutEdit cvId={cvId} refreshCvData={refreshCvData} />
+        <AboutEdit
+          cvId={cvId}
+          refreshCvData={refreshCvData}
+          tagsData={tagsData}
+        />
         <JobEdit cvId={cvId} refreshCvData={refreshCvData} />
         <EducationEdit
           cvId={cvId}

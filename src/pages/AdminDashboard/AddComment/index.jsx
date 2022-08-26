@@ -104,7 +104,7 @@ const IconButton = styled.button`
 const AddComment = () => {
   const [comment, setComment] = useState({
     comment: '',
-    description: 'Informacion Personal',
+    description: 'Información Personal',
   });
   const [commentList, setCommentList] = useState([]);
   const [openEditCommentModal, setOpenEditCommentModal] = useState(false);
@@ -131,14 +131,14 @@ const AddComment = () => {
         comment,
         { headers: { authorization: `Token ${token}` } }
       );
-      toast.success('¡Correción agregada!');
+      toast.success('¡Corrección agregada!');
       setComment({
         comment: '',
-        description: 'Informacion Personal',
+        description: 'Información Personal',
       });
       if (!hasMore) setCommentList((prev) => [data, ...prev]);
     } catch (err) {
-      toast.error('No se a podido agregar la correción');
+      toast.error('No se a podido agregar la corrección');
     } finally {
       setLoading(false);
     }
@@ -192,7 +192,7 @@ const AddComment = () => {
           <MainContentWrapper
             onClickLoadingButton={WriteAComment}
             onClickOutlinedButton={() => navigate(-1)}
-            loadingButtonTitle='Agregar correción'
+            loadingButtonTitle="Agregar corrección"
             disableButton={!comment.comment || loading}
             loading={loading}
             dataLength={commentList.length}
@@ -206,10 +206,10 @@ const AddComment = () => {
               </>
             }
           >
-            <h2>Agregar correción</h2>
+            <h2>Agregar corrección</h2>
             <Textarea
-              rows='3'
-              columns='15'
+              rows="3"
+              columns="15"
               onChange={handleChange}
               value={comment.comment}
               autoFocus
@@ -219,19 +219,19 @@ const AddComment = () => {
                 setComment((prev) => ({ ...prev, description: e.target.value }))
               }
             >
-              <option value='Informacion Personal'>Informacion Personal</option>
-              <option value='Redes Sociales'>Redes Sociales</option>
-              <option value='Educación'>Educación</option>
-              <option value='Idiomas'>Idiomas</option>
-              <option value='Cursos'>Cursos</option>
-              <option value='Certificaciones'>Certificaciones</option>
-              <option value='Experiencia'>Experiencia</option>
-              <option value='Organizaciones'>Organizaciones</option>
-              <option value='Proyectos'>Proyectos</option>
-              <option value='Publicaciones'>Publicaciones</option>
-              <option value='Premios'>Premios</option>
-              <option value='Habilidades'>Habilidades</option>
-              <option value='Intereses'>Intereses</option>
+              <option value="Informacion Personal">Información Personal</option>
+              <option value="Redes Sociales">Redes Sociales</option>
+              <option value="Educación">Educación</option>
+              <option value="Idiomas">Idiomas</option>
+              <option value="Cursos">Cursos</option>
+              <option value="Certificaciones">Certificaciones</option>
+              <option value="Experiencia">Experiencia</option>
+              <option value="Organizaciones">Organizaciones</option>
+              <option value="Proyectos">Proyectos</option>
+              <option value="Publicaciones">Publicaciones</option>
+              <option value="Premios">Premios</option>
+              <option value="Habilidades">Habilidades</option>
+              <option value="Intereses">Intereses</option>
             </Select>
             <h3>Lista de comentarios</h3>
             {loadingData && (
@@ -251,7 +251,7 @@ const AddComment = () => {
                       setCommentSelectedID(id);
                     }}
                   >
-                    <FontAwesomeIcon icon={faPenToSquare} className='icon' />
+                    <FontAwesomeIcon icon={faPenToSquare} className="icon" />
                   </IconButton>
                   <IconButton
                     onClick={(e) => {
@@ -260,7 +260,7 @@ const AddComment = () => {
                       setCommentSelectedID(id);
                     }}
                   >
-                    <FontAwesomeIcon icon={faTrashCan} className='icon' />
+                    <FontAwesomeIcon icon={faTrashCan} className="icon" />
                   </IconButton>
                 </IconContainer>
                 <AreaContainer>
@@ -277,8 +277,8 @@ const AddComment = () => {
               {comment.status === 1 ? 'enviado' : 'terminado'}
             </AlertMessage> */}
                 </AreaContainer>
-                <p>Correción:</p>
-                <p className='comment'>{comment}</p>
+                <p>Corrección:</p>
+                <p className="comment">{comment}</p>
               </CommentContainer>
             ))}
           </MainContentWrapper>

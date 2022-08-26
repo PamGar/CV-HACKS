@@ -45,15 +45,15 @@ const Input = styled.input`
 `;
 
 const MultipleChoice = (props) => {
-  const [choiceList, setChoiceList] = useState([]);
+  const [choiceList, setChoiceList] = useState(props.tagsData);
   const [choicesAdded, setChoicesAdded] = useState([]);
   const [email, setEmail] = useState('');
   const [invalidEmailError, setInvalidEmailError] = useState('');
   const myToken = window.localStorage.getItem('authToken');
   const myId = window.localStorage.getItem('id');
 
-  const getTechnologies = async (event) => {
-    /* event.preventDefault(); */
+  /* const getTechnologies = async (event) => {
+    event.preventDefault();
 
     try {
       const { data } = await axios.get(
@@ -68,9 +68,9 @@ const MultipleChoice = (props) => {
       props.getHeight();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
-  };
+  }; */
 
   const addItem = async (e, item) => {
     e.preventDefault();
@@ -86,12 +86,12 @@ const MultipleChoice = (props) => {
           },
         }
       );
-      toast.success('Agregado con exito');
+      toast.success('Agregado con éxito');
       props.getHeight();
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -107,11 +107,11 @@ const MultipleChoice = (props) => {
           },
         }
       );
-      toast.success('Eliminado con exito');
+      toast.success('Eliminado con éxito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -202,14 +202,14 @@ const MultipleChoice = (props) => {
   return (
     <p>
       <label htmlFor="technologies">
-        Tecnologias y herramientas que dominas
+        Tecnologías y herramientas que dominas
         <span className="fieldRecomendation">Requerido</span>
       </label>
       <span
         className="fieldRecomendation"
         style={{ marginBottom: '5px', marginLeft: '10px' }}
       >
-        (Ingresalas separadas por una coma)
+        (Ingresarlas separadas por una coma)
       </span>
 
       <Input

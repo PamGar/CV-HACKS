@@ -69,7 +69,7 @@ const ConfirmRegisterCompanyModal = ({
     } catch (err) {
       if (err.response.status === 400) {
         toast.error(
-          `${err.response.data.message}, eliminalo e intenta enviarlo de nuevo`,
+          `${err.response.data.message}, elimínelo e intente enviarlo de nuevo`,
           { autoClose: 4000 }
         );
       } else {

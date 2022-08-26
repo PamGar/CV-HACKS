@@ -91,7 +91,7 @@ const OrganisationEdit = (props) => {
       }, 100);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -125,7 +125,7 @@ const OrganisationEdit = (props) => {
         address_update: false,
       });
       getItemsList();
-      toast.success('Agregado con exito');
+      toast.success('Agregado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
@@ -133,7 +133,7 @@ const OrganisationEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -147,11 +147,11 @@ const OrganisationEdit = (props) => {
         },
       });
       getItemsList();
-      toast.success('Eliminado con exito');
+      toast.success('Eliminado con éxito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -194,7 +194,7 @@ const OrganisationEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -231,7 +231,7 @@ const OrganisationEdit = (props) => {
         id: '',
       });
       getItemsList();
-      toast.success('Actualizado con exito');
+      toast.success('Actualizado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
@@ -239,7 +239,7 @@ const OrganisationEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -341,7 +341,8 @@ const OrganisationEdit = (props) => {
           >
             <div>
               <FontAwesomeIcon icon={faHandshake} className="iconAccordeon" />
-              Grupo o Club
+              Comunidad (Perteneces a alguna comunidad, grupo de estudio, club,
+              etc)
             </div>
             <div className="openClose">
               <img src={Chevron} alt="" />
@@ -357,7 +358,7 @@ const OrganisationEdit = (props) => {
             <div>
               {itemsList.length === 0 ? (
                 <p className="tasks_0">
-                  Aun no tienes ninguna grupo o club guardado
+                  Aun no tienes ninguna comunidad o grupo guardado
                 </p>
               ) : (
                 itemsList.map((item, index) => {
@@ -416,13 +417,13 @@ const OrganisationEdit = (props) => {
               <div className="separador"></div>
               <form onSubmit={addItem} className="wrapperForm" ref={formRef}>
                 {editItems ? (
-                  <h3>Actualizar grupo o club </h3>
+                  <h3>Actualizar comunidad o grupo </h3>
                 ) : (
-                  <h3>Agregar nuevo grupo o club</h3>
+                  <h3>Agregar nueva comunidad o grupo</h3>
                 )}
                 <p>
                   <label htmlFor="title">
-                    Nombre del grupo o club
+                    Nombre de la comunidad o grupo
                     <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <input
@@ -430,7 +431,7 @@ const OrganisationEdit = (props) => {
                     type="text"
                     name="title"
                     value={item.data.title}
-                    placeholder="Escribe el nombre del grupo o club al que perteneces"
+                    placeholder="Escribe el nombre de la comunidad o grupo al que perteneces"
                     autoComplete="off"
                     onChange={handleDataChange}
                     required
@@ -438,7 +439,7 @@ const OrganisationEdit = (props) => {
                 </p>
                 <p>
                   <label htmlFor="subtitle">
-                    Posición dentro del grupo o club
+                    Posición dentro de la comunidad o grupo
                     <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <input
@@ -446,7 +447,7 @@ const OrganisationEdit = (props) => {
                     id="company"
                     name="subtitle"
                     value={item.data.subtitle}
-                    placeholder="Escribe tu posicion dentro del grupo o club"
+                    placeholder="Escribe tu posición dentro de la comunidad o grupo"
                     autoComplete="off"
                     onChange={handleDataChange}
                     required
@@ -481,7 +482,7 @@ const OrganisationEdit = (props) => {
                         name="country"
                         value={item.address.country}
                         autoComplete="off"
-                        placeholder="Escribe el pais donde se ubica"
+                        placeholder="Escribe el país donde se ubica"
                         onChange={handleAddressChange}
                         required
                       />
@@ -549,7 +550,7 @@ const OrganisationEdit = (props) => {
                         ? ''
                         : item.data.description
                     }
-                    placeholder="Escribe una breve descripcion del grupo o club, que rol desempeñabas, cuales eran tus actividades"
+                    placeholder="Escribe una breve descripción de la comunidad o grupo, que rol desempeñabas, cuales eran o son tus actividades"
                     autoComplete="off"
                     onChange={handleDataChange}
                   ></textarea>

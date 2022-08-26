@@ -56,7 +56,7 @@ const AboutEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -143,7 +143,7 @@ const AboutEdit = (props) => {
   const UploadImageInfo = (e) => {
     // Get the selected file
     const [file] = e.target.files;
-    console.log('file',file);
+    console.log('file', file);
     // Get the file name and size
     const { name: fileName, size } = file;
     // Convert size in bytes to kilo bytes
@@ -192,7 +192,7 @@ const AboutEdit = (props) => {
       toggleAccordeonRef.current.classList.toggle('hide');
       props.refreshCvData();
     } catch (error) {
-      toast.error('Algo ocurrio, intenta de nuevo');
+      toast.error('Algo ocurrió, intenta de nuevo');
       console.log('errorAbout', error);
     }
   };
@@ -333,7 +333,7 @@ const AboutEdit = (props) => {
                   <div>
                     <p>
                       <label htmlFor="country">
-                        Pais en el que vives
+                        País en el que vives
                         <span className="fieldRecomendation">Requerido</span>
                       </label>
                       <input
@@ -342,7 +342,7 @@ const AboutEdit = (props) => {
                         name="country"
                         value={item.address.country}
                         autoComplete="off"
-                        placeholder="Escribe el pais en el que vives"
+                        placeholder="Escribe el país en el que vives"
                         onChange={handleAddressChange}
                         required
                       />
@@ -364,14 +364,15 @@ const AboutEdit = (props) => {
                     onChange={handleDataChange}
                   ></textarea>
                 </p>
-                {/* <TechnologiesEdit
+                <TechnologiesEdit
+                  tagsData={props.tagsData}
                   getHeight={getHeight}
                   refreshCvData={props.refreshCvData}
                   cvId={props.cvId}
-                /> */}
+                />
                 <p>
                   <label htmlFor="phone">
-                    Telefono
+                    Teléfono
                     <span className="fieldRecomendation">Requerido</span>
                   </label>
                   <input
@@ -380,7 +381,22 @@ const AboutEdit = (props) => {
                     name="phone"
                     value={item.user.phone}
                     autoComplete="off"
-                    placeholder="Escribe tu numero de telefono"
+                    placeholder="Escribe tu numero de teléfono"
+                    onChange={handleDataChange}
+                    required
+                  />
+                </p>
+                <p>
+                  <label htmlFor="secondary-mail">
+                    Otro correo electronico
+                    <span className="fieldRecomendation">Opcional</span>
+                  </label>
+                  <input
+                    type="text"
+                    name="secondary-mail"
+                    value={item.user.secondaryMail}
+                    autoComplete="off"
+                    placeholder="Escribe otro correo electrónico"
                     onChange={handleDataChange}
                     required
                   />

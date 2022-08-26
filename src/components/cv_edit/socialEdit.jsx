@@ -47,7 +47,7 @@ const SocialEdit = (props) => {
       setItemsList(data.data);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -66,12 +66,12 @@ const SocialEdit = (props) => {
         description: '',
       });
       getItemsList();
-      toast.success('Agregado con exito');
+      toast.success('Agregado con éxito');
       props.refreshCvData();
       props.getHeight();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -85,12 +85,12 @@ const SocialEdit = (props) => {
         },
       });
       getItemsList();
-      toast.success('Eliminado con exito');
+      toast.success('Eliminado con éxito');
       props.refreshCvData();
       props.getHeight();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -113,7 +113,7 @@ const SocialEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -134,11 +134,11 @@ const SocialEdit = (props) => {
         description: '',
       });
       getItemsList();
-      toast.success('Actualizado con exito');
+      toast.success('Actualizado con éxito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 

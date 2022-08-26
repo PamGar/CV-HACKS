@@ -82,7 +82,7 @@ const CertificationsEdit = (props) => {
       }, 100);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -108,7 +108,7 @@ const CertificationsEdit = (props) => {
         id: '',
       });
       getItemsList();
-      toast.success('Certificado agregado con exito');
+      toast.success('Certificado agregado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
@@ -116,7 +116,7 @@ const CertificationsEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -133,11 +133,11 @@ const CertificationsEdit = (props) => {
         }
       );
       getItemsList();
-      toast.success('Certificado eliminado con exito');
+      toast.success('Certificado eliminado con éxito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -170,7 +170,7 @@ const CertificationsEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -198,7 +198,7 @@ const CertificationsEdit = (props) => {
         id: '',
       });
       getItemsList();
-      toast.success('Certificado actualizado con exito');
+      toast.success('Certificado actualizado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
@@ -206,7 +206,7 @@ const CertificationsEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -286,7 +286,7 @@ const CertificationsEdit = (props) => {
             <div>
               {itemsList.length === 0 ? (
                 <p className="tasks_0">
-                  Aun no tienes ningun certificado guardado
+                  Aun no tienes ningún certificado guardado
                 </p>
               ) : (
                 itemsList.map((item, index) => {
@@ -371,7 +371,7 @@ const CertificationsEdit = (props) => {
                     id="name"
                     name="name"
                     value={item.name}
-                    placeholder="Escribe el nombre de la certificacion"
+                    placeholder="Escribe el nombre de la certificación"
                     autoComplete="off"
                     onChange={handleChange}
                     required

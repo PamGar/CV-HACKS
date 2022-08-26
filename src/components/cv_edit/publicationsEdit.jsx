@@ -71,7 +71,7 @@ const PublicationsEdit = (props) => {
       }, 100);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -95,14 +95,14 @@ const PublicationsEdit = (props) => {
         description: null,
       });
       getItemsList();
-      toast.success('Agregado con exito');
+      toast.success('Agregado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -119,11 +119,11 @@ const PublicationsEdit = (props) => {
         }
       );
       getItemsList();
-      toast.success('Eliminado con exito');
+      toast.success('Eliminado con éxito');
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -146,7 +146,7 @@ const PublicationsEdit = (props) => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -177,14 +177,14 @@ const PublicationsEdit = (props) => {
         description: null,
       });
       getItemsList();
-      toast.success('Actualizado con exito');
+      toast.success('Actualizado con éxito');
       formRef.current.classList.toggle('unhide');
       addButtonRef.current.classList.toggle('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrio algo inesperado');
+      toast.error('Oops, ocurrió algo inesperado');
     }
   };
 
@@ -260,7 +260,7 @@ const PublicationsEdit = (props) => {
             <div>
               {itemsList.length === 0 ? (
                 <p className="tasks_0">
-                  Aun no tienes ninguna publicacion guardada
+                  Aun no tienes ninguna publicación guardada
                 </p>
               ) : (
                 itemsList.map((item, index) => {
@@ -336,7 +336,7 @@ const PublicationsEdit = (props) => {
                     id="title"
                     name="title"
                     value={item.title}
-                    placeholder="Escribe el titulo de la publicacion"
+                    placeholder="Escribe el titulo de la publicación"
                     autoComplete="off"
                     onChange={handleChange}
                     required
@@ -383,7 +383,7 @@ const PublicationsEdit = (props) => {
                     name="description"
                     rows="5"
                     value={item.description === null ? '' : item.description}
-                    placeholder="Escribe una breve descripcion de la publicación, que herramientas y/o tecnologias usaste"
+                    placeholder="Escribe una breve descripción de la publicación, que herramientas y/o tecnologías usaste"
                     autoComplete="off"
                     onChange={handleChange}
                   ></textarea>

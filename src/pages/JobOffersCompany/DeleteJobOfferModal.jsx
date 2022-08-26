@@ -52,7 +52,7 @@ const DeleteJobOfferConfirmModal = ({
         <ModalLayout ref={ModalLayoutRef} setOpenModal={setOpenModal}>
           <FontAwesomeIconStyled icon={faTrashCan} />
           <h1>¿Estás seguro?</h1>
-          <p>Elminiras la vacante y no podrás recuperarla</p>
+          <p>Eliminaras la vacante y no podrás recuperarla</p>
           <LoadingButton
             onClick={DeleteJobOffer}
             fullWidth
