@@ -386,21 +386,21 @@ const AboutEdit = (props) => {
                     required
                   />
                 </p>
-                <p>
-                  <label htmlFor="secondary-mail">
+                {/* <p>
+                  <label htmlFor="email">
                     Otro correo electronico
                     <span className="fieldRecomendation">Opcional</span>
                   </label>
                   <input
                     type="text"
-                    name="secondary-mail"
-                    value={item.user.secondaryMail}
+                    name="email"
+                    value={item.user.email}
                     autoComplete="off"
                     placeholder="Escribe otro correo electrónico"
                     onChange={handleDataChange}
                     required
                   />
-                </p>
+                </p> */}
                 <ButtonBox>
                   {editItems ? (
                     <>
