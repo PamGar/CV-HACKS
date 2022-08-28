@@ -59,7 +59,7 @@ const Name = styled.p`
 `;
 
 const Email = styled.p`
-  color: #7a7a7a;
+  color: ${(props) => (props.isSelected ? "#cccccc" : "#7a7a7a")};
   text-align: start;
 `;
 
@@ -114,7 +114,7 @@ const UserCard = ({
             <Name isSelected={userSelectedId === id}>
               {name} {paternal_surname}
             </Name>
-            <Email>{email}</Email>
+            <Email isSelected={userSelectedId === id}>{email}</Email>
           </NameEmailContainer>
 
           <div
