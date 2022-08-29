@@ -323,7 +323,7 @@ const SkillsEdit = (props) => {
                     required
                   />
                 </p>
-                <p>
+                {/*<p>
                   <label htmlFor="subtitle">
                     Descripcion
                     <span className="fieldRecomendation">Opcional</span>
@@ -337,7 +337,7 @@ const SkillsEdit = (props) => {
                     autoComplete="off"
                     onChange={handleChange}
                   ></textarea>
-                </p>
+                </p>*/}
 
                 <ButtonBox>
                   {editItems ? (
