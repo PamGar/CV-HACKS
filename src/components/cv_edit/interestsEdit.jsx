@@ -324,7 +324,7 @@ const InterestEdit = (props) => {
                     required
                   />
                 </p>
-                <p>
+                {/*<p>
                   <label htmlFor="subtitle">
                     Descripcion
                     <span className="fieldRecomendation">Opcional</span>
@@ -338,7 +338,7 @@ const InterestEdit = (props) => {
                     autoComplete="off"
                     onChange={handleChange}
                   ></textarea>
-                </p>
+                </p>*/}
                 <ButtonBox>
                   {editItems ? (
                     <>
