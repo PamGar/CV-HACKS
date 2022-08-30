@@ -100,7 +100,7 @@ const MultipleChoice = (props) => {
 
     try {
       const { data } = await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/cv/tags/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/tag/${id}`,
         {
           headers: {
             authorization: `Token ${myToken}`,
