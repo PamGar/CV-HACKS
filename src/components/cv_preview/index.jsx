@@ -1,23 +1,23 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useReactToPrint, generateAndSavePDF } from 'react-to-print';
-import styled from 'styled-components';
-import html2canvas from 'html2canvas';
-import html2pdf from 'html2pdf.js';
-import { jsPDF } from 'jspdf';
-import Button from '../Buttons/LoadingButton';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useRef, useEffect, useState } from "react";
+import { useReactToPrint, generateAndSavePDF } from "react-to-print";
+import styled from "styled-components";
+import html2canvas from "html2canvas";
+import html2pdf from "html2pdf.js";
+import { jsPDF } from "jspdf";
+import Button from "../Buttons/LoadingButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendar,
   faPenToSquare,
   faFileArrowDown,
-} from '@fortawesome/free-solid-svg-icons';
-import Github from '../../assets/icons/Github.svg';
-import Gitlab from '../../assets/icons/Gitlab.svg';
-import Instagram from '../../assets/icons/Instagram.svg';
-import LinkedIn from '../../assets/icons/LinkedIn.svg';
-import Twitter from '../../assets/icons/Twitter.svg';
-import Stackoverflow from '../../assets/icons/Stackoverflow.svg';
-import Logo from '../../assets/images/logo_color.png';
+} from "@fortawesome/free-solid-svg-icons";
+import Github from "../../assets/icons/Github.svg";
+import Gitlab from "../../assets/icons/Gitlab.svg";
+import Instagram from "../../assets/icons/Instagram.svg";
+import LinkedIn from "../../assets/icons/LinkedIn.svg";
+import Twitter from "../../assets/icons/Twitter.svg";
+import Stackoverflow from "../../assets/icons/Stackoverflow.svg";
+import Logo from "../../assets/images/logo_color.png";
 
 const Page = styled.div`
   width: 800px;
@@ -38,7 +38,7 @@ const Page = styled.div`
   }
 
   h1:after {
-    content: '';
+    content: "";
     width: 80%;
     height: 20px;
     background-color: #ade8e8;
@@ -232,7 +232,7 @@ const HeaderCV = styled(Header)`
 const BoxColumnCV = styled(BoxColumn)`
   h2 {
     text-align: center;
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     margin-bottom: 10px;
   }
 `;
@@ -240,7 +240,7 @@ const BoxFlexCV = styled(BoxFlex)`
   justify-content: space-between;
 
   h2 {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Poppins", sans-serif;
     text-align: center;
     margin-bottom: 10px;
   }
@@ -264,6 +264,7 @@ const CV_preview = ({
   cvData,
   userData,
   displayButtons,
+  downloadAdmin,
 }) => {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -276,22 +277,22 @@ const CV_preview = ({
 
   const iconRedesSociales = (value) => {
     switch (value) {
-      case 'Github':
+      case "Github":
         return Github;
         break;
-      case 'Gitlab':
+      case "Gitlab":
         return Gitlab;
         break;
-      case 'Instagram':
+      case "Instagram":
         return Instagram;
         break;
-      case 'LinkedIn':
+      case "LinkedIn":
         return LinkedIn;
         break;
-      case 'Stackoverflow':
+      case "Stackoverflow":
         return Stackoverflow;
         break;
-      case 'Twitter':
+      case "Twitter":
         return Twitter;
         break;
       default:
@@ -300,7 +301,7 @@ const CV_preview = ({
   };
 
   const getPageMargins = () => {
-    return `@page { margin: ${'20px'} ${'50px'} ${'50px'} ${'50px'} !important; }`;
+    return `@page { margin: ${"20px"} ${"50px"} ${"50px"} ${"50px"} !important; }`;
   };
 
   /* useEffect(() => {
@@ -317,12 +318,12 @@ const CV_preview = ({
 
   return (
     <>
-      <Page style={{ display: 'none' }}>
+      <Page style={{ display: "none" }}>
         <div className="page_container" ref={widthRef}>
           <div className="page" ref={componentRef}>
             <style>{getPageMargins()}</style>
             <HeaderCV>
-              {userData.image !== '/media/default.jpg' ? (
+              {userData.image !== "/media/default.jpg" ? (
                 <div className="profileImage">
                   <img
                     src={`${process.env.REACT_APP_BASE_URL}${userData.image}`}
@@ -333,16 +334,16 @@ const CV_preview = ({
               <div>
                 <BoxColumn
                   style={{
-                    textAlign: 'center',
-                    padding: '0',
+                    textAlign: "center",
+                    padding: "0",
                   }}
                 >
                   <h1
                     style={{
-                      fontFamily: 'Poppins',
-                      fontWeight: '700',
-                      lineHeight: '32px',
-                      marginBottom: '5px',
+                      fontFamily: "Poppins",
+                      fontWeight: "700",
+                      lineHeight: "32px",
+                      marginBottom: "5px",
                     }}
                   >
                     {userData.name} {userData.paternal_surname}
@@ -354,8 +355,8 @@ const CV_preview = ({
                     }}
                   >
                     <p>
-                      {userData.address?.state ? userData.address?.state : null}{' '}
-                      <span style={{ color: '#bfbfbf' }}>
+                      {userData.address?.state ? userData.address?.state : null}{" "}
+                      <span style={{ color: "#bfbfbf" }}>
                         {userData.address?.country
                           ? `(${userData.address?.country})`
                           : null}
@@ -363,7 +364,7 @@ const CV_preview = ({
                     </p>
 
                     {userData.email ? (
-                      userData.email.includes('hackademy.mx') ? null : (
+                      userData.email.includes("hackademy.mx") ? null : (
                         <p>{userData.email}</p>
                       )
                     ) : null}
@@ -397,18 +398,18 @@ const CV_preview = ({
                         <div key={item.id}>
                           <p className="first">
                             {item.major}
-                            {' • '}
+                            {" • "}
                             <span className="third">{item.degree}</span>
                           </p>
                           <p className="third">
                             <FontAwesomeIcon
                               icon={faCalendar}
                               className="calendar"
-                            />{' '}
+                            />{" "}
                             {item.start_date}
-                            {' • '}
+                            {" • "}
                             {item.end_date === null
-                              ? 'Actualmente'
+                              ? "Actualmente"
                               : item.end_date}
                           </p>
                         </div>
@@ -431,7 +432,7 @@ const CV_preview = ({
                         <div key={item.id}>
                           <p className="first">
                             {item.role}
-                            {' • '}
+                            {" • "}
                             <span className="third">{item.company_name}</span>
                           </p>
                           <p className="Second">{item.description}</p>
@@ -439,11 +440,11 @@ const CV_preview = ({
                             <FontAwesomeIcon
                               icon={faCalendar}
                               className="calendar"
-                            />{' '}
+                            />{" "}
                             {item.start_date}
-                            {' • '}
+                            {" • "}
                             {item.end_date === null
-                              ? 'Actualmente'
+                              ? "Actualmente"
                               : item.end_date}
                           </p>
                         </div>
@@ -466,7 +467,7 @@ const CV_preview = ({
                         <div key={item.id}>
                           <p className="first">
                             {item.title}
-                            {' • '}
+                            {" • "}
                             <span className="third">{item.subtitle}</span>
                           </p>
                           <p className="second">{item.description}</p>
@@ -474,10 +475,10 @@ const CV_preview = ({
                             <FontAwesomeIcon
                               icon={faCalendar}
                               className="calendar"
-                            />{' '}
-                            {item.start_date} {' • '}{' '}
+                            />{" "}
+                            {item.start_date} {" • "}{" "}
                             {item.end_date === null
-                              ? 'Actualmente'
+                              ? "Actualmente"
                               : item.end_date}
                           </p>
                         </div>
@@ -500,7 +501,7 @@ const CV_preview = ({
                     })
                     .map((item) => {
                       return item.public ? (
-                        <div key={item.id} style={{ padding: '0' }}>
+                        <div key={item.id} style={{ padding: "0" }}>
                           <p className="first">{item.name}</p>
                           <p className="third">{item.company}</p>
                           {!item.credential_id ? null : (
@@ -513,11 +514,11 @@ const CV_preview = ({
                             <FontAwesomeIcon
                               icon={faCalendar}
                               className="calendar"
-                            />{' '}
+                            />{" "}
                             {item.expedition_date}
-                            {' • '}
+                            {" • "}
                             {item.expiry_date === null
-                              ? 'Actualmente'
+                              ? "Actualmente"
                               : item.expiry_date}
                           </p>
                         </div>
@@ -540,7 +541,7 @@ const CV_preview = ({
                         <div key={item.id}>
                           <p className="first">
                             {item.title}
-                            {' • '}
+                            {" • "}
                             <span className="third">{item.subtitle}</span>
                           </p>
                           <p className="second">{item.description}</p>
@@ -548,11 +549,11 @@ const CV_preview = ({
                             <FontAwesomeIcon
                               icon={faCalendar}
                               className="calendar"
-                            />{' '}
+                            />{" "}
                             {item.start_date}
-                            {' • '}
+                            {" • "}
                             {item.end_date === null
-                              ? 'Actualmente'
+                              ? "Actualmente"
                               : item.end_date}
                           </p>
                         </div>
@@ -575,7 +576,7 @@ const CV_preview = ({
                         <div key={item.id}>
                           <p className="first">
                             {item.title}
-                            {' • '}
+                            {" • "}
                             <span className="third">
                               {item.additional_information}
                             </span>
@@ -585,11 +586,11 @@ const CV_preview = ({
                             <FontAwesomeIcon
                               icon={faCalendar}
                               className="calendar"
-                            />{' '}
+                            />{" "}
                             {item.start_date}
-                            {' • '}
+                            {" • "}
                             {item.end_date === null
-                              ? 'Actualmente'
+                              ? "Actualmente"
                               : item.end_date}
                           </p>
                         </div>
@@ -612,14 +613,14 @@ const CV_preview = ({
                         <div key={item.id}>
                           <p className="first">
                             {item.title}
-                            {' • '}
+                            {" • "}
                             <span className="second">{item.subtitle}</span>
                           </p>
                           <p className="third">
                             <FontAwesomeIcon
                               icon={faCalendar}
                               className="calendar"
-                            />{' '}
+                            />{" "}
                             {item.date}
                           </p>
                         </div>
@@ -640,14 +641,14 @@ const CV_preview = ({
                         <div key={item.id} className="item">
                           <p className="first">
                             {item.title}
-                            {' • '}
+                            {" • "}
                             <span className="second">{item.subtitle}</span>
                           </p>
                           <p className="third">
                             <FontAwesomeIcon
                               icon={faCalendar}
                               className="calendar"
-                            />{' '}
+                            />{" "}
                             {item.date}
                           </p>
                         </div>
@@ -693,7 +694,7 @@ const CV_preview = ({
       </Page>
       <Wrapper>
         <Header>
-          {userData.image !== '/media/default.jpg' ? (
+          {userData.image !== "/media/default.jpg" ? (
             <div className="profileImage">
               <img
                 src={`${process.env.REACT_APP_BASE_URL}${userData.image}`}
@@ -704,11 +705,11 @@ const CV_preview = ({
           <div>
             <BoxColumn
               style={{
-                textAlign: 'center',
-                padding: '0',
+                textAlign: "center",
+                padding: "0",
               }}
             >
-              <h1 style={{ margin: '0', lineHeight: '25px' }}>
+              <h1 style={{ margin: "0", lineHeight: "25px" }}>
                 {userData.name} {userData.paternal_surname}
               </h1>
               <h3>{cvData.cv.area}</h3>
@@ -718,15 +719,15 @@ const CV_preview = ({
                 }}
               >
                 {userData.email ? (
-                  userData.email.includes('hackademy.mx') ? null : (
+                  userData.email.includes("hackademy.mx") ? null : (
                     <p>{userData.email}</p>
                   )
                 ) : null}
                 {userData.phone ? <p>{userData.phone}</p> : null}
               </BoxFlex>
-              <p style={{ textAlign: 'center' }}>
-                {userData.address?.state ? userData.address?.state : null}{' '}
-                <span style={{ color: '#bfbfbf' }}>
+              <p style={{ textAlign: "center" }}>
+                {userData.address?.state ? userData.address?.state : null}{" "}
+                <span style={{ color: "#bfbfbf" }}>
                   {userData.address?.country
                     ? `(${userData.address?.country})`
                     : null}
@@ -739,7 +740,7 @@ const CV_preview = ({
         {cvData.cv.tags.length === 0 ? null : (
           <div>
             <h2>Tecnologías y herramientas que maneja</h2>
-            <BoxFlex style={{ flexWrap: 'wrap' }}>
+            <BoxFlex style={{ flexWrap: "wrap" }}>
               {cvData.cv.tags.map((item) => {
                 return (
                   <div key={item.id} className="center">
@@ -783,7 +784,7 @@ const CV_preview = ({
                     <div key={item.id}>
                       <p className="first">
                         {item.major}
-                        {' • '}
+                        {" • "}
                         <span className="third">{item.degree}</span>
                       </p>
                       <p>{item.description}</p>
@@ -791,10 +792,10 @@ const CV_preview = ({
                         <FontAwesomeIcon
                           icon={faCalendar}
                           className="calendar"
-                        />{' '}
+                        />{" "}
                         {item.start_date}
-                        {' • '}
-                        {item.end_date === null ? 'Actualmente' : item.end_date}
+                        {" • "}
+                        {item.end_date === null ? "Actualmente" : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -812,7 +813,7 @@ const CV_preview = ({
                   <div key={item.id} className="center">
                     <p className="first">
                       {item.title}
-                      {' • '}
+                      {" • "}
                       <span className="third">{item.level}</span>
                     </p>
                     <p className="second">{item.subtitle}</p>
@@ -836,7 +837,7 @@ const CV_preview = ({
                     <div key={item.id}>
                       <p className="first">
                         {item.title}
-                        {' • '}
+                        {" • "}
                         <span className="third">{item.subtitle}</span>
                       </p>
                       <p className="second">{item.description}</p>
@@ -844,9 +845,9 @@ const CV_preview = ({
                         <FontAwesomeIcon
                           icon={faCalendar}
                           className="calendar"
-                        />{' '}
-                        {item.start_date} {' • '}{' '}
-                        {item.end_date === null ? 'Actualmente' : item.end_date}
+                        />{" "}
+                        {item.start_date} {" • "}{" "}
+                        {item.end_date === null ? "Actualmente" : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -883,11 +884,11 @@ const CV_preview = ({
                         <FontAwesomeIcon
                           icon={faCalendar}
                           className="calendar"
-                        />{' '}
+                        />{" "}
                         {item.expedition_date}
-                        {' • '}
+                        {" • "}
                         {item.expiry_date === null
-                          ? 'Actualmente'
+                          ? "Actualmente"
                           : item.expiry_date}
                       </p>
                     </div>
@@ -910,7 +911,7 @@ const CV_preview = ({
                     <div key={item.id}>
                       <p className="first">
                         {item.role}
-                        {' • '}
+                        {" • "}
                         <span className="third">{item.company_name}</span>
                       </p>
                       <p className="Second">{item.description}</p>
@@ -918,10 +919,10 @@ const CV_preview = ({
                         <FontAwesomeIcon
                           icon={faCalendar}
                           className="calendar"
-                        />{' '}
+                        />{" "}
                         {item.start_date}
-                        {' • '}
-                        {item.end_date === null ? 'Actualmente' : item.end_date}
+                        {" • "}
+                        {item.end_date === null ? "Actualmente" : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -943,7 +944,7 @@ const CV_preview = ({
                     <div key={item.id}>
                       <p className="first">
                         {item.title}
-                        {' • '}
+                        {" • "}
                         <span className="third">{item.subtitle}</span>
                       </p>
                       <p className="second">{item.description}</p>
@@ -951,10 +952,10 @@ const CV_preview = ({
                         <FontAwesomeIcon
                           icon={faCalendar}
                           className="calendar"
-                        />{' '}
+                        />{" "}
                         {item.start_date}
-                        {' • '}
-                        {item.end_date === null ? 'Actualmente' : item.end_date}
+                        {" • "}
+                        {item.end_date === null ? "Actualmente" : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -976,7 +977,7 @@ const CV_preview = ({
                     <div key={item.id}>
                       <p className="first">
                         {item.title}
-                        {' • '}
+                        {" • "}
                         <span className="third">
                           {item.additional_information}
                         </span>
@@ -986,10 +987,10 @@ const CV_preview = ({
                         <FontAwesomeIcon
                           icon={faCalendar}
                           className="calendar"
-                        />{' '}
+                        />{" "}
                         {item.start_date}
-                        {' • '}
-                        {item.end_date === null ? 'Actualmente' : item.end_date}
+                        {" • "}
+                        {item.end_date === null ? "Actualmente" : item.end_date}
                       </p>
                     </div>
                   ) : null;
@@ -1011,7 +1012,7 @@ const CV_preview = ({
                     <div key={item.id}>
                       <p className="first">
                         {item.title}
-                        {' • '}
+                        {" • "}
                         <span className="third">{item.subtitle}</span>
                       </p>
                       <p className="second">{item.description}</p>
@@ -1019,7 +1020,7 @@ const CV_preview = ({
                         <FontAwesomeIcon
                           icon={faCalendar}
                           className="calendar"
-                        />{' '}
+                        />{" "}
                         {item.date}
                       </p>
                     </div>
@@ -1043,7 +1044,7 @@ const CV_preview = ({
                       <div className="header">
                         <p className="first">
                           {item.title}
-                          {' • '}
+                          {" • "}
                           <span className="third">{item.subtitle}</span>
                         </p>
                       </div>
@@ -1052,7 +1053,7 @@ const CV_preview = ({
                         <FontAwesomeIcon
                           icon={faCalendar}
                           className="calendar"
-                        />{' '}
+                        />{" "}
                         {item.date}
                       </p>
                     </div>
@@ -1095,15 +1096,17 @@ const CV_preview = ({
         )}
       </Wrapper>
       <ButtonBox style={{ display: displayButtons }}>
-        <Button type="button" onClick={editButton} disabled={dataLoaded}>
-          <FontAwesomeIcon icon={faPenToSquare} className="calendar" /> Editar
-        </Button>
+        {!downloadAdmin && (
+          <Button type="button" onClick={editButton} disabled={dataLoaded}>
+            <FontAwesomeIcon icon={faPenToSquare} className="calendar" /> Editar
+          </Button>
+        )}
         <Button
           type="button"
           /* onClick={handleDownloadPdf} */ onClick={handlePrint}
           disabled={dataLoaded}
         >
-          <FontAwesomeIcon icon={faFileArrowDown} className="calendar" />{' '}
+          <FontAwesomeIcon icon={faFileArrowDown} className="calendar" />{" "}
           Descargar
         </Button>
       </ButtonBox>
