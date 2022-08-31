@@ -87,12 +87,12 @@ const Profile = ({ setIsAuthenticated }) => {
       <h1>Mi perfil</h1>
       <ProfileLayout>
         <Navigation>
-          <NavCard>
+          {/* <NavCard>
             <ButtonsIcons>
               <FontAwesomeIcon icon={faGear} className="icon logout" />
               <NavLinkStyled to="settings">Configuraciones</NavLinkStyled>
             </ButtonsIcons>
-          </NavCard>
+          </NavCard> */}
           <NavCard onClick={handleLogout}>
             <Logout>
               <FontAwesomeIcon

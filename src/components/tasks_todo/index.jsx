@@ -272,6 +272,8 @@ const TasksTodo = (props) => {
   const tasksDone = tasks.filter((item) => item.done === true);
   const tasksUndone = tasks.filter((item) => item.done === false);
 
+  console.log(tasksDone);
+
   useEffect(() => {
     getItemsList();
   }, []);
