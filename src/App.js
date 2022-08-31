@@ -111,7 +111,7 @@ const App = () => {
               element={<Profile setIsAuthenticated={setIsAuthenticated} />}
             >
               <Route path="settings" element={<p>configuracion generales</p>} />
-              <Route index element={<p>pagina de configuracion</p>} />
+              <Route index element={<p></p>} />
             </Route>
             <Route
               path="*"

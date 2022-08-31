@@ -167,7 +167,7 @@ const BoxColumn = styled.div`
 
 const BoxFlex = styled(BoxColumn)`
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: space-evenly;
 
   & > div {
@@ -504,10 +504,12 @@ const CV_preview = ({
                         <div key={item.id} style={{ padding: "0" }}>
                           <p className="first">{item.name}</p>
                           <p className="third">{item.company}</p>
-                          <p className="second">
-                            <span className="first">{"id: "}</span>
-                            {item.credential_id}
-                          </p>
+                          {!item.credential_id ? null : (
+                            <p className="second">
+                              <span className="first">{'id: '}</span>
+                              {item.credential_id}
+                            </p>
+                          )}
                           <p className="third">
                             <FontAwesomeIcon
                               icon={faCalendar}
@@ -866,13 +868,18 @@ const CV_preview = ({
                 })
                 .map((item) => {
                   return item.public ? (
-                    <div key={item.id} className="center">
+                    <div
+                      key={item.id}
+                      style={{ width: '300px', textAlign: 'left' }}
+                    >
                       <p className="first">{item.name}</p>
                       <p className="third">{item.company}</p>
-                      <p className="second">
-                        <span className="first">{"id: "}</span>
-                        {item.credential_id}
-                      </p>
+                      {!item.credential_id ? null : (
+                        <p className="third">
+                          <span className="second">{'id: '}</span>
+                          {item.credential_id}
+                        </p>
+                      )}
                       <p className="third">
                         <FontAwesomeIcon
                           icon={faCalendar}
