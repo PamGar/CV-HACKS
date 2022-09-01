@@ -239,6 +239,7 @@ const BoxColumnCV = styled(BoxColumn)`
 `;
 const BoxFlexCV = styled(BoxFlex)`
   justify-content: space-between;
+  align-items: flex-start;
 
   h2 {
     font-family: 'Poppins', sans-serif;
@@ -252,7 +253,7 @@ const BoxFlexCV = styled(BoxFlex)`
   }
 
   li {
-    margin: 10px;
+    margin-right: 10px;
   }
 
   .center {
@@ -719,6 +720,7 @@ const CV_preview = ({
               <BoxFlex
                 style={{
                   padding: `0`,
+                  justifyContent: 'space-around',
                 }}
               >
                 {userData.email ? (

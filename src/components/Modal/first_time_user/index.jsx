@@ -235,7 +235,7 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
     }
   };
 
-  console.log('user', user);
+  console.log('userFirst', user);
 
   /*Captar cambios al marcar el checkbox*/
   const handleCheck = (event) => {
