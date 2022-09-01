@@ -147,11 +147,11 @@ const EditCV = ({ editButton, cvId, refreshCvData, tagsData }) => {
           refreshCvData={refreshCvData}
           visible={visible.AwardEdit}
         />
-        <SkillsEdit
+        {/* <SkillsEdit
           cvId={cvId}
           refreshCvData={refreshCvData}
           visible={visible.SkillsEdit}
-        />
+        /> */}
         <InterestEdit
           cvId={cvId}
           refreshCvData={refreshCvData}
