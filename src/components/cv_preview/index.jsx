@@ -1,9 +1,9 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { useReactToPrint, generateAndSavePDF } from 'react-to-print';
+import React, { useRef } from 'react';
+import { useReactToPrint /* generateAndSavePDF */ } from 'react-to-print';
 import styled from 'styled-components';
-import html2canvas from 'html2canvas';
-import html2pdf from 'html2pdf.js';
-import { jsPDF } from 'jspdf';
+// import html2canvas from 'html2canvas';
+// import html2pdf from 'html2pdf.js';
+// import { jsPDF } from 'jspdf';
 import Button from '../Buttons/LoadingButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -168,7 +168,7 @@ const BoxColumn = styled.div`
 const BoxFlex = styled(BoxColumn)`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
 
   & > div {
     margin: 10px 0;
@@ -179,6 +179,7 @@ const Header = styled(BoxFlex)`
   align-items: center;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
 
   h1 {
     margin: 20px;
@@ -245,8 +246,13 @@ const BoxFlexCV = styled(BoxFlex)`
     margin-bottom: 10px;
   }
 
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
   li {
-    margin-top: 10px;
+    margin: 10px;
   }
 
   .center {
@@ -254,7 +260,7 @@ const BoxFlexCV = styled(BoxFlex)`
   }
 
   & > div {
-    width: 100%;
+    width: 45%;
   }
 `;
 
@@ -270,8 +276,8 @@ const CV_preview = ({
     content: () => componentRef.current,
   });
 
-  const printRef = useRef();
-  const [width, setWidth] = useState(0);
+  // const printRef = useRef();
+  // const [width, setWidth] = useState(0);
   const widthRef = useRef();
 
   const iconRedesSociales = (value) => {
@@ -373,7 +379,7 @@ const CV_preview = ({
                 </BoxColumn>
               </div>
               <div className="logoHackademy">
-                <img src={Logo} />
+                <img src={Logo} alt="logo" />
               </div>
             </HeaderCV>
             <BoxFlexCV>
@@ -530,7 +536,7 @@ const CV_preview = ({
               {cvData.organisations.filter((item) => item.public === true)
                 .length === 0 ? null : (
                 <div>
-                  <h2>Organizaciones</h2>
+                  <h2>Comunidades</h2>
                   {cvData.organisations
                     .sort((a, b) => {
                       return new Date(b.start_date) - new Date(a.start_date);
@@ -615,13 +621,15 @@ const CV_preview = ({
                             {' • '}
                             <span className="second">{item.subtitle}</span>
                           </p>
-                          <p className="third">
-                            <FontAwesomeIcon
-                              icon={faCalendar}
-                              className="calendar"
-                            />{' '}
-                            {item.date}
-                          </p>
+                          {!item.date ? null : (
+                            <p className="third">
+                              <FontAwesomeIcon
+                                icon={faCalendar}
+                                className="calendar"
+                              />{' '}
+                              {item.date}
+                            </p>
+                          )}
                         </div>
                       ) : null;
                     })}
@@ -655,23 +663,18 @@ const CV_preview = ({
                     })}
                 </div>
               )}
-            </BoxFlexCV>
-            <BoxFlexCV>
-              {cvData.skills.filter((item) => item.public === true).length ===
-              0 ? null : (
-                <div className="center">
-                  <h2>Skills</h2>
-                  <ul className="item">
-                    {cvData.skills.map((item) => {
-                      return item.public ? (
-                        <li key={item.id} className="second">
-                          {item.title}
-                        </li>
-                      ) : null;
-                    })}
-                  </ul>
-                </div>
-              )}
+              <div className="center">
+                <h2>Hard Skills</h2>
+                <ul className="item">
+                  {cvData.cv.tags.map((item) => {
+                    return (
+                      <li key={item.id} className="second">
+                        {item.name}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
               {cvData.intersts.filter((item) => item.public === true).length ===
               0 ? null : (
                 <div className="center">
@@ -754,7 +757,7 @@ const CV_preview = ({
         0 ? null : (
           <div>
             <h2>Redes sociales</h2>
-            <BoxFlex>
+            <BoxFlex style={{ justifyContent: 'space-evenly' }}>
               {cvData.urls.map((item) => {
                 return item.public ? (
                   <div key={item.id} className="center">
@@ -869,7 +872,7 @@ const CV_preview = ({
                   return item.public ? (
                     <div
                       key={item.id}
-                      style={{ width: '300px', textAlign: 'left' }}
+                      style={{ width: '45%', textAlign: 'left' }}
                     >
                       <p className="first">{item.name}</p>
                       <p className="third">{item.company}</p>
@@ -932,7 +935,7 @@ const CV_preview = ({
         {cvData.organisations.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Organizaciones</h2>
+            <h2>Comunidades</h2>
             <BoxColumn>
               {cvData.organisations
                 .sort((a, b) => {
@@ -1015,13 +1018,15 @@ const CV_preview = ({
                         <span className="third">{item.subtitle}</span>
                       </p>
                       <p className="second">{item.description}</p>
-                      <p className="third">
-                        <FontAwesomeIcon
-                          icon={faCalendar}
-                          className="calendar"
-                        />{' '}
-                        {item.date}
-                      </p>
+                      {!item.date ? null : (
+                        <p className="third">
+                          <FontAwesomeIcon
+                            icon={faCalendar}
+                            className="calendar"
+                          />{' '}
+                          {item.date}
+                        </p>
+                      )}
                     </div>
                   ) : null;
                 })}
@@ -1061,7 +1066,7 @@ const CV_preview = ({
             </BoxColumn>
           </div>
         )}
-        {cvData.skills.filter((item) => item.public === true).length ===
+        {/* {cvData.skills.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
             <h2>Skills</h2>
@@ -1076,7 +1081,7 @@ const CV_preview = ({
               })}
             </BoxColumn>
           </div>
-        )}
+        )} */}
         {cvData.intersts.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
