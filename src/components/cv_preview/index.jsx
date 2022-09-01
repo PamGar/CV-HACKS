@@ -231,6 +231,17 @@ const HeaderCV = styled(Header)`
 `;
 
 const BoxColumnCV = styled(BoxColumn)`
+  page-break-inside: avoid;
+
+  /* div:nth-child(1) {
+    page-break-after: avoid;
+  } */
+
+  /* div h2 {
+    background-color: grey;
+    page-break-after: avoid;
+  } */
+
   h2 {
     text-align: center;
     font-family: 'Poppins', sans-serif;
@@ -325,7 +336,7 @@ const CV_preview = ({
 
   return (
     <>
-      <Page style={{ display: 'none' }}>
+      <Page /* style={{ display: 'none' }} */>
         <div className="page_container" ref={widthRef}>
           <div className="page" ref={componentRef}>
             <style>{getPageMargins()}</style>
