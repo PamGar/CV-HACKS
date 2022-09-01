@@ -270,6 +270,7 @@ const CV_preview = ({
   cvData,
   userData,
   displayButtons,
+  downloadAdmin,
 }) => {
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
@@ -1100,9 +1101,11 @@ const CV_preview = ({
         )}
       </Wrapper>
       <ButtonBox style={{ display: displayButtons }}>
-        <Button type="button" onClick={editButton} disabled={dataLoaded}>
-          <FontAwesomeIcon icon={faPenToSquare} className="calendar" /> Editar
-        </Button>
+        {!downloadAdmin && (
+          <Button type="button" onClick={editButton} disabled={dataLoaded}>
+            <FontAwesomeIcon icon={faPenToSquare} className="calendar" /> Editar
+          </Button>
+        )}
         <Button
           type="button"
           /* onClick={handleDownloadPdf} */ onClick={handlePrint}
