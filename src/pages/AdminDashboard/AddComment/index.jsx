@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import MainContentWrapper from '../../../components/MainContentWrapper';
 import axios from 'axios';
@@ -11,6 +11,7 @@ import MainAndRightLayout from '../../../layouts/MainAndRightLayout';
 import { useNavigate, useParams } from 'react-router-dom';
 import SkeletonCommentCard from './SkeletonCommentCard';
 import UserResumeById from '../ResumeList/UserResumeById';
+import { ResumeContext } from '../ResumeContextProvider';
 
 const Textarea = styled.textarea`
   max-width: 100%;
@@ -102,6 +103,7 @@ const IconButton = styled.button`
 `;
 
 const AddComment = () => {
+  const { resumeData } = useContext(ResumeContext);
   const [comment, setComment] = useState({
     comment: '',
     description: 'Información Personal',
@@ -122,12 +124,12 @@ const AddComment = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const PAGE_SIZE = 4;
+  const PAGE_SIZE = 20;
   const WriteAComment = async () => {
     setLoading(true);
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${id}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${resumeData.cv.id}`,
         comment,
         { headers: { authorization: `Token ${token}` } }
       );
@@ -146,7 +148,9 @@ const AddComment = () => {
   const getListOfComments = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${id}?page_number=${pageCounter}&page_size=${PAGE_SIZE}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${
+          resumeData.cv.id
+        }?page_number=${1}&page_size=${PAGE_SIZE}`,
         { headers: { authorization: `Token ${token}` } }
       );
       setCommentList([...data.data]);
@@ -164,7 +168,7 @@ const AddComment = () => {
   const fetchMoreData = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${id}?page_number=${pageCounter}&page_size=${PAGE_SIZE}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/admin-cv-comments/${resumeData.cv.id}?page_number=${pageCounter}&page_size=${PAGE_SIZE}`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
@@ -298,7 +302,7 @@ const AddComment = () => {
               setOpenConfirmDeleteComentModal={setOpenConfirmDeleteComentModal}
               commentID={commentSelectedID}
               setCommentList={setCommentList}
-              userSelectedId={id}
+              userSelectedId={resumeData.cv.id}
             />
           )}
         </>
