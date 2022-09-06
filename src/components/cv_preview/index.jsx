@@ -676,18 +676,20 @@ const CV_preview = ({
                     })}
                 </div>
               )}
-              <div className="center">
-                <h2>Hard Skills</h2>
-                <ul className="item">
-                  {cvData.cv.tags.map((item) => {
-                    return (
-                      <li key={item.id} className="second">
-                        {item.name}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+              {!cvData.cv.tags ? null : (
+                <div className="center">
+                  <h2>Hard Skills</h2>
+                  <ul className="item">
+                    {cvData.cv.tags.map((item) => {
+                      return (
+                        <li key={item.id} className="second">
+                          {item.name}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
               {cvData.intersts.filter((item) => item.public === true).length ===
               0 ? null : (
                 <div className="center">
@@ -753,7 +755,7 @@ const CV_preview = ({
           </div>
         </Header>
         <BoxColumn>{userData.about_me}</BoxColumn>
-        {cvData.cv.tags.length === 0 ? null : (
+        {!cvData.cv.tags ? null : (
           <div>
             <h2>Tecnologías y herramientas que maneja</h2>
             <BoxFlex style={{ flexWrap: 'wrap' }}>
