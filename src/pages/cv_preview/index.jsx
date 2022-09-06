@@ -258,6 +258,8 @@ const CV_preview = (props) => {
     }
   };
 
+  console.log('cv', cvData);
+
   const refreshCvData = () => {
     getUserData();
     getCV();
