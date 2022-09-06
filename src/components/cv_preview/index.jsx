@@ -292,6 +292,7 @@ const CV_preview = ({
   // const printRef = useRef();
   // const [width, setWidth] = useState(0);
   const widthRef = useRef();
+  const userRole = localStorage.getItem('role');
 
   const iconRedesSociales = (value) => {
     switch (value) {
@@ -341,7 +342,7 @@ const CV_preview = ({
           <div className="page" ref={componentRef}>
             <style>{getPageMargins()}</style>
             <HeaderCV>
-              {userData.image !== '/media/default.jpg' ? (
+              {userData.image !== '/media/default.jpg' && userRole !== '2' ? (
                 <div className="profileImage">
                   <img
                     src={`${process.env.REACT_APP_BASE_URL}${userData.image}`}
@@ -364,7 +365,8 @@ const CV_preview = ({
                       marginBottom: '5px',
                     }}
                   >
-                    {userData.name} {userData.paternal_surname}
+                    {userRole === '2' ? null : userData.name}{' '}
+                    {userData.paternal_surname}
                   </h1>
                   <h2>{cvData.cv.area}</h2>
                   <BoxFlex
@@ -381,13 +383,15 @@ const CV_preview = ({
                       </span>
                     </p>
 
-                    {userData.email ? (
+                    {userData.email && userRole !== '2' ? (
                       userData.email.includes('hackademy.mx') ? null : (
                         <p>{userData.email}</p>
                       )
                     ) : null}
 
-                    {userData.phone ? <p>{userData.phone}</p> : null}
+                    {userData.phone && userRole !== '2' ? (
+                      <p>{userData.phone}</p>
+                    ) : null}
                   </BoxFlex>
                 </BoxColumn>
               </div>
