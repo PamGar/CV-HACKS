@@ -43,6 +43,7 @@ const ResumeList = () => {
   const [openModal, setOpenModal] = useState(false);
   const [search, setSearch] = useState('');
   const [totalCvCounter, setTotalCvCounter] = useState('');
+  const [searchCounter, setSearchCounter] = useState('');
   const [page, setPage] = useState(2);
 
   const PAGE_SIZE = 10;
@@ -80,7 +81,9 @@ const ResumeList = () => {
           },
         }
       );
+      setPage(2);
       setDataResumeList(data.data);
+      setSearchCounter(data.search_counter);
       /*setHasMoreResumeList(data.next_page);*/
       // setPageCounterResumeList(1);
     } catch (err) {
@@ -106,7 +109,7 @@ const ResumeList = () => {
       // setPageCounterResumeList((prev) => prev + 1);
       // setHasMoreResumeList(data.next_page);
     } catch (err) {
-      toast.error('Opps ha ocurrido un error, no se pudo actulizar la lista');
+      toast.warning('No hay mas resultados para esta busqueda');
     }
   };
 
@@ -154,6 +157,9 @@ const ResumeList = () => {
                 Puedes escribir varios criterios de busqueda separados por un
                 espacio
               </p>
+              {searchCounter !== totalCvCounter ? (
+                <p>Su busqueda ha arrojado {searchCounter} resultados</p>
+              ) : null}
             </div>
             {loadingResumeList && (
               <>
