@@ -57,7 +57,6 @@ const ResumeList = () => {
           },
         }
       );
-      console.log(data);
       setDataResumeList(data.data);
       setTotalCvCounter(data.total_counter);
       setHasMoreResumeList(1);
@@ -139,7 +138,7 @@ const ResumeList = () => {
           >
             <div>
               <h1>Listado de CVs</h1>
-              <p>{totalCvCounter}</p>
+              <p>Hay en total {totalCvCounter} CVs en la plataforma</p>
             </div>
             <div>
               <SearchUserInput
