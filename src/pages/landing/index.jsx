@@ -83,7 +83,7 @@ const Landing = () => {
           <NavLink to="/login" style={{ marginTop: '10px' }}>
             <Button>Ingresar</Button>
           </NavLink>
-          <p style={{ marginTop: '10px', fontSize: '14px' }}>
+          {/* <p style={{ marginTop: '10px', fontSize: '14px' }}>
             Si eres compañía ingresa{' '}
             <NavLink
               to="/login/company"
@@ -95,7 +95,7 @@ const Landing = () => {
             >
               aquí
             </NavLink>
-          </p>
+          </p> */}
         </div>
         <div>
           <img src={Coder} alt="" />

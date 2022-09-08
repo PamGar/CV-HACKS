@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Navigate } from 'react-router-dom';
+// import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
@@ -171,7 +171,7 @@ const Login = ({ company, setIsAuthenticated }) => {
     <Wrapper>
       <Container>
         <LoginForm onSubmit={handleSubmit}>
-          <img src={hackademyLogo} />
+          <img src={hackademyLogo} alt="" />
           <p className="platform">
             CV <span>Platform</span>
           </p>

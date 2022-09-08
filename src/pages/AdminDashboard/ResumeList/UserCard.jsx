@@ -1,18 +1,19 @@
-import { useContext, useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
-import AlertMessage from "../../../components/AlertMessage";
-import ConfirmChangeStatusModal from "../ConfirmChangeStatusModal";
-import { ResumeContext } from "../ResumeContextProvider";
-import Hacky from "../../../assets/images/Hacky.png";
+import { useContext, useEffect, useRef, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { format } from 'timeago.js';
+import styled from 'styled-components';
+import AlertMessage from '../../../components/AlertMessage';
+import ConfirmChangeStatusModal from '../ConfirmChangeStatusModal';
+import { ResumeContext } from '../ResumeContextProvider';
+import Hacky from '../../../assets/images/Hacky.png';
 
 const UserCardContainer = styled.div`
   padding: 10px 0 10px 10px;
   background-color: #f3f4f6;
-  background-color: ${(props) => (props.isSelected ? "#a0a0cc" : "#f3f4f6")};
+  background-color: ${(props) => (props.isSelected ? '#a0a0cc' : '#f3f4f6')};
   border-radius: 10px;
   display: grid;
-  grid-template-areas: "userPhoto name isHired";
+  grid-template-areas: 'userPhoto name isHired';
   grid-template-columns: 0.5fr 3fr 1fr;
   text-align: center;
   place-items: center;
@@ -55,12 +56,20 @@ const Name = styled.p`
   font-size: 1.2rem;
   justify-self: start;
   text-align: start;
-  color: ${(props) => (props.isSelected ? "#fff" : "#171717")};
+  color: ${(props) => (props.isSelected ? '#fff' : '#171717')};
 `;
 
 const Email = styled.p`
-  color: ${(props) => (props.isSelected ? "#cccccc" : "#7a7a7a")};
+  color: ${(props) => (props.isSelected ? '#cccccc' : '#7a7a7a')};
   text-align: start;
+`;
+
+const LastUpdateStyle = styled.p`
+  text-align: left;
+
+  span {
+    color: ${(props) => (props.isSelected ? '#fff' : '#B1B1B1')};
+  }
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -81,6 +90,7 @@ const UserCard = ({
   setData,
   userPhoto,
   email,
+  lastUpdate,
 }) => {
   const UserCardContainerRef = useRef();
   const { userSelectedId, setUserSelectedId } = useContext(ResumeContext);
@@ -104,7 +114,7 @@ const UserCard = ({
           <UserImage>
             <img
               src={
-                userPhoto === "/media/default.jpg"
+                userPhoto === '/media/default.jpg'
                   ? Hacky
                   : `https://apicv.hackademy.lat${userPhoto}`
               }
@@ -115,17 +125,20 @@ const UserCard = ({
               {name} {paternal_surname}
             </Name>
             <Email isSelected={userSelectedId === id}>{email}</Email>
+            <LastUpdateStyle isSelected={userSelectedId === id}>
+              Ultima actualización: <span>{format(lastUpdate)}</span>
+            </LastUpdateStyle>
           </NameEmailContainer>
 
           <div
             style={{
-              backgroundColor: isHired === "contratado" ? "#0bb484" : "#d1c36b",
-              color: "#fff",
-              padding: "5px",
-              borderRadius: "5px",
+              backgroundColor: isHired === 'contratado' ? '#0bb484' : '#d1c36b',
+              color: '#fff',
+              padding: '5px',
+              borderRadius: '5px',
             }}
           >
-            {isHired ? "contratado" : "En busqueda"}
+            {isHired ? 'contratado' : 'En busqueda'}
           </div>
         </UserCardContainer>
       </StyledNavLink>
