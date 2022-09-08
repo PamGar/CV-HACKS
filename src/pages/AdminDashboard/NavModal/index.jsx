@@ -6,6 +6,7 @@ import { useRef } from 'react';
 import {
   faPenToSquare,
   faPaperPlane,
+  faTrashCan,
 } from '@fortawesome/free-regular-svg-icons';
 
 const Box = styled.div`
@@ -34,7 +35,7 @@ const NavModal = ({ openModal, setOpenModal, userId }) => {
         >
           <Box>
             <NavDescriptionCard
-              description='Escribe algun comentario sobre el CV seleccionado'
+              description="Escribe algun comentario sobre el CV seleccionado"
               icon={faPenToSquare}
               path={`/resumes/${userId}/comments`}
               onClick={() => ModalLayoutRef.current.classList.add('fadeOut')}
@@ -49,12 +50,20 @@ const NavModal = ({ openModal, setOpenModal, userId }) => {
               Editar CV
             </NavDescriptionCard> */}
             <NavDescriptionCard
-              description='Compartir CVs a las empresas'
+              description="Compartir CVs a las empresas"
               icon={faPaperPlane}
               path={`/resumes/${userId}/share`}
               onClick={() => ModalLayoutRef.current.classList.add('fadeOut')}
             >
               Compartir
+            </NavDescriptionCard>
+            <NavDescriptionCard
+              description="Esta accion no puede revertirse"
+              icon={faTrashCan}
+              path={`/resumes/${userId}/delete-user`}
+              onClick={() => ModalLayoutRef.current.classList.add('fadeOut')}
+            >
+              Eliminar usuario
             </NavDescriptionCard>
           </Box>
         </ModalLayout>

@@ -350,51 +350,94 @@ const CV_preview = ({
                   />
                 </div>
               ) : null}
-              <div>
-                <BoxColumn
-                  style={{
-                    textAlign: 'center',
-                    padding: '0',
-                  }}
-                >
-                  <h1
+              {userRole === '2' ? (
+                <div>
+                  <BoxColumn
                     style={{
-                      fontFamily: 'Poppins',
-                      fontWeight: '700',
-                      lineHeight: '32px',
-                      marginBottom: '5px',
+                      textAlign: 'left',
+                      padding: '0',
                     }}
                   >
-                    {userRole === '2' ? null : userData.name}{' '}
-                    {userData.paternal_surname}
-                  </h1>
-                  <h2>{cvData.cv.area}</h2>
-                  <BoxFlex
+                    <h1
+                      style={{
+                        lineHeight: '32px',
+                        marginBottom: '5px',
+                        marginLeft: '0',
+                      }}
+                    >
+                      {userData.paternal_surname}
+                    </h1>
+                    <h2>{cvData.cv.area}</h2>
+                    <BoxFlex
+                      style={{
+                        textAlign: 'left',
+                        paddingTop: `5px`,
+                        paddingLeft: '0',
+                      }}
+                    >
+                      <p style={{ marginLeft: '0' }}>
+                        {userData.address?.state
+                          ? userData.address?.state
+                          : null}{' '}
+                        <span style={{ color: '#bfbfbf' }}>
+                          {userData.address?.country
+                            ? `(${userData.address?.country})`
+                            : null}
+                        </span>
+                      </p>
+                    </BoxFlex>
+                  </BoxColumn>
+                </div>
+              ) : (
+                <div>
+                  <BoxColumn
                     style={{
-                      paddingTop: `0`,
+                      textAlign: 'center',
+                      padding: '0',
                     }}
                   >
-                    <p>
-                      {userData.address?.state ? userData.address?.state : null}{' '}
-                      <span style={{ color: '#bfbfbf' }}>
-                        {userData.address?.country
-                          ? `(${userData.address?.country})`
-                          : null}
-                      </span>
-                    </p>
+                    <h1
+                      style={{
+                        fontFamily: 'Poppins',
+                        fontWeight: '700',
+                        lineHeight: '32px',
+                        marginBottom: '5px',
+                      }}
+                    >
+                      {userRole === '2' ? null : userData.name}{' '}
+                      {userData.paternal_surname}
+                    </h1>
+                    <h2>{cvData.cv.area}</h2>
+                    <BoxFlex
+                      style={{
+                        paddingTop: `5px`,
+                        justifyContent: 'space-evenly',
+                      }}
+                    >
+                      <p>
+                        {userData.address?.state
+                          ? userData.address?.state
+                          : null}{' '}
+                        <span style={{ color: '#bfbfbf' }}>
+                          {userData.address?.country
+                            ? `(${userData.address?.country})`
+                            : null}
+                        </span>
+                      </p>
 
-                    {userData.email && userRole !== '2' ? (
-                      userData.email.includes('hackademy.mx') ? null : (
-                        <p>{userData.email}</p>
-                      )
-                    ) : null}
+                      {userData.email && userRole !== '2' ? (
+                        userData.email.includes('hackademy.mx') ? null : (
+                          <p>{userData.email}</p>
+                        )
+                      ) : null}
 
-                    {userData.phone && userRole !== '2' ? (
-                      <p>{userData.phone}</p>
-                    ) : null}
-                  </BoxFlex>
-                </BoxColumn>
-              </div>
+                      {userData.phone && userRole !== '2' ? (
+                        <p>{userData.phone}</p>
+                      ) : null}
+                    </BoxFlex>
+                  </BoxColumn>
+                </div>
+              )}
               <div className="logoHackademy">
                 <img src={Logo} alt="logo" />
               </div>
@@ -762,10 +805,14 @@ const CV_preview = ({
         {!cvData.cv.tags ? null : (
           <div>
             <h2>Tecnologías y herramientas que maneja</h2>
-            <BoxFlex style={{ flexWrap: 'wrap' }}>
+            <BoxFlex style={{ flexWrap: 'wrap', justifyContent: 'left' }}>
               {cvData.cv.tags.map((item) => {
                 return (
-                  <div key={item.id} className="center">
+                  <div
+                    key={item.id}
+                    className="center"
+                    style={{ marginRight: '10px' }}
+                  >
                     <p className="tags">{item.name}</p>
                   </div>
                 );

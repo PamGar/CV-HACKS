@@ -1,14 +1,14 @@
-import { useState, useEffect, useContext } from "react";
-import UserCard from "./UserCard";
-import NavModal from "../NavModal";
-import styled from "styled-components";
-import axios from "axios";
-import MainContentWrapper from "../../../components/MainContentWrapper";
-import MainAndRightLayout from "../../../layouts/MainAndRightLayout";
-import { ResumeContext } from "../ResumeContextProvider";
-import SkeletonLoading from "../../../components/SkeletonLoading";
-import { Outlet } from "react-router-dom";
-import { toast } from "react-toastify";
+import { useState, useEffect, useContext } from 'react';
+import UserCard from './UserCard';
+import NavModal from '../NavModal';
+import styled from 'styled-components';
+import axios from 'axios';
+import MainContentWrapper from '../../../components/MainContentWrapper';
+import MainAndRightLayout from '../../../layouts/MainAndRightLayout';
+import { ResumeContext } from '../ResumeContextProvider';
+import SkeletonLoading from '../../../components/SkeletonLoading';
+import { Outlet } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export const Wrapper = styled.div`
   display: flex;
@@ -41,7 +41,8 @@ const ResumeList = () => {
   } = useContext(ResumeContext);
   const [disableButton, setDisableButton] = useState(!userSelectedId);
   const [openModal, setOpenModal] = useState(false);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState('');
+  const [totalCvCounter, setTotalCvCounter] = useState('');
   const [page, setPage] = useState(2);
 
   const PAGE_SIZE = 10;
@@ -52,15 +53,16 @@ const ResumeList = () => {
         `${process.env.REACT_APP_BASE_URL}/cv/s/?search=&page_number=1&page_size=10`,
         {
           headers: {
-            authorization: `Token ${localStorage.getItem("authToken")}`,
+            authorization: `Token ${localStorage.getItem('authToken')}`,
           },
         }
       );
       console.log(data);
-      setDataResumeList(data);
+      setDataResumeList(data.data);
+      setTotalCvCounter(data.total_counter);
       setHasMoreResumeList(1);
     } catch (err) {
-      toast.error("Opps ha ocurrido un error, no se pudo obtener los datos");
+      toast.error('Opps ha ocurrido un error, no se pudo obtener los datos');
     } finally {
       setLoadingResumeList(false);
     }
@@ -70,20 +72,20 @@ const ResumeList = () => {
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/cv/s/?search=${search.replace(
-          " ",
-          "+"
+          ' ',
+          '+'
         )}&page_number=1&page_size=${PAGE_SIZE}`,
         {
           headers: {
-            authorization: `Token ${localStorage.getItem("authToken")}`,
+            authorization: `Token ${localStorage.getItem('authToken')}`,
           },
         }
       );
-      setDataResumeList(data);
+      setDataResumeList(data.data);
       /*setHasMoreResumeList(data.next_page);*/
       // setPageCounterResumeList(1);
     } catch (err) {
-      toast.error("Opps ha ocurrido un error, no se pudo obtener los datos");
+      toast.error('Opps ha ocurrido un error, no se pudo obtener los datos');
     }
   };
 
@@ -91,21 +93,21 @@ const ResumeList = () => {
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/cv/s/?search=${search.replace(
-          " ",
-          "+"
+          ' ',
+          '+'
         )}&page_number=${page}&page_size=${PAGE_SIZE}`,
         {
           headers: {
-            authorization: `Token ${localStorage.getItem("authToken")}`,
+            authorization: `Token ${localStorage.getItem('authToken')}`,
           },
         }
       );
-      setDataResumeList((prev) => [...prev, ...data]);
+      setDataResumeList((prev) => [...prev, ...data.data]);
       setPage(page + 1);
       // setPageCounterResumeList((prev) => prev + 1);
       // setHasMoreResumeList(data.next_page);
     } catch (err) {
-      toast.error("Opps ha ocurrido un error, no se pudo actulizar la lista");
+      toast.error('Opps ha ocurrido un error, no se pudo actulizar la lista');
     }
   };
 
@@ -135,7 +137,10 @@ const ResumeList = () => {
             singleButton
             disableButton={disableButton}
           >
-            <h1>Listado de CVs</h1>
+            <div>
+              <h1>Listado de CVs</h1>
+              <p>{totalCvCounter}</p>
+            </div>
             <div>
               <SearchUserInput
                 type="text"
@@ -146,7 +151,7 @@ const ResumeList = () => {
                   searchCVlist();
                 }}
               />
-              <p style={{ color: "#b1b1b1", fontSize: "12px", margin: "10px" }}>
+              <p style={{ color: '#b1b1b1', fontSize: '12px', margin: '10px' }}>
                 Puedes escribir varios criterios de busqueda separados por un
                 espacio
               </p>
@@ -159,7 +164,7 @@ const ResumeList = () => {
                 <SkeletonLoading width="100%" height="78px" />
               </>
             )}
-            {dataResumeList.map(({ isHired, id, user }) => (
+            {dataResumeList.map(({ isHired, id, user, created_date }) => (
               <UserCard
                 name={user.name}
                 userPhoto={user.image}
@@ -172,6 +177,7 @@ const ResumeList = () => {
                 data={dataResumeList}
                 setData={setDataResumeList}
                 email={user.email}
+                lastUpdate={created_date}
               />
             ))}
             {openModal && (

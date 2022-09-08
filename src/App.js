@@ -15,6 +15,7 @@ import Profile from './pages/Profile';
 import ResumeContextProvider from './pages/AdminDashboard/ResumeContextProvider';
 import ResumeList from './pages/AdminDashboard/ResumeList';
 import AddComment from './pages/AdminDashboard/AddComment';
+import DeleteUser from './pages/AdminDashboard/DeleteUser';
 import ShareResume from './pages/AdminDashboard/ShareResume';
 import CandidatesCompany from './pages/CandidatesCompany';
 import JobOffersCompany from './pages/JobOffersCompany';
@@ -79,6 +80,10 @@ const App = () => {
                 </Route>
                 <Route path="/resumes/:id/comments" element={<AddComment />} />
                 <Route path="/resumes/:id/share" element={<ShareResume />} />
+                <Route
+                  path="/resumes/:id/delete-user"
+                  element={<DeleteUser />}
+                />
               </Route>
             )}
             {isAuthenticated.role == 2 && (
