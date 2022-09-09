@@ -27,6 +27,11 @@ const SearchUserInput = styled.input`
   }
 `;
 
+const Highlight = styled.span`
+  color: red;
+  font-weight: 700;
+`;
+
 const ResumeList = () => {
   const {
     userSelectedId,
@@ -42,9 +47,12 @@ const ResumeList = () => {
   const [disableButton, setDisableButton] = useState(!userSelectedId);
   const [openModal, setOpenModal] = useState(false);
   const [search, setSearch] = useState('');
-  const [totalCvCounter, setTotalCvCounter] = useState('');
-  const [searchCounter, setSearchCounter] = useState('');
+  const [totalCvCounter, setTotalCvCounter] = useState('0');
+  const [searchCounter, setSearchCounter] = useState('0');
   const [page, setPage] = useState(2);
+
+  console.log('search', searchCounter);
+  console.log('total', totalCvCounter);
 
   const PAGE_SIZE = 10;
 
@@ -60,6 +68,7 @@ const ResumeList = () => {
       );
       setDataResumeList(data.data);
       setTotalCvCounter(data.total_counter);
+      setSearchCounter(data.search_counter);
       setHasMoreResumeList(1);
     } catch (err) {
       toast.error('Opps ha ocurrido un error, no se pudo obtener los datos');
@@ -115,6 +124,7 @@ const ResumeList = () => {
 
   useEffect(() => {
     dataResumeList.length <= 0 && getCVlist();
+    getCVlist();
   }, []);
 
   return (
@@ -141,7 +151,10 @@ const ResumeList = () => {
           >
             <div>
               <h1>Listado de CVs</h1>
-              <p>Hay en total {totalCvCounter} CVs en la plataforma</p>
+              <p>
+                Hay en total <Highlight>{totalCvCounter}</Highlight> CVs en la
+                plataforma
+              </p>
             </div>
             <div>
               <SearchUserInput
@@ -158,7 +171,10 @@ const ResumeList = () => {
                 espacio
               </p>
               {searchCounter !== totalCvCounter ? (
-                <p>Su busqueda ha arrojado {searchCounter} resultados</p>
+                <p>
+                  Su busqueda ha arrojado <Highlight>{searchCounter}</Highlight>{' '}
+                  resultados
+                </p>
               ) : null}
             </div>
             {loadingResumeList && (

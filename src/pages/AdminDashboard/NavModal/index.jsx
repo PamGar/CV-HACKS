@@ -13,12 +13,18 @@ const Box = styled.div`
   width: 90vw;
   max-width: 900px;
   padding: clamp(10px, 5%, 30px);
-  border-radius: 3px;
+  border-radius: 15px;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
   gap: 30px;
   margin: 10px 0;
   background-color: rgb(238, 238, 255);
+`;
+
+const DeleteButton = styled.div`
+  & > div {
+    background-color: #ffcece;
+  }
 `;
 
 const NavModal = ({ openModal, setOpenModal, userId }) => {
@@ -57,14 +63,16 @@ const NavModal = ({ openModal, setOpenModal, userId }) => {
             >
               Compartir
             </NavDescriptionCard>
-            <NavDescriptionCard
-              description="Esta accion no puede revertirse"
-              icon={faTrashCan}
-              path={`/resumes/${userId}/delete-user`}
-              onClick={() => ModalLayoutRef.current.classList.add('fadeOut')}
-            >
-              Eliminar usuario
-            </NavDescriptionCard>
+            <DeleteButton>
+              <NavDescriptionCard
+                description="Esta accion no puede revertirse"
+                icon={faTrashCan}
+                path={`/resumes/${userId}/delete-user`}
+                onClick={() => ModalLayoutRef.current.classList.add('fadeOut')}
+              >
+                Eliminar usuario
+              </NavDescriptionCard>
+            </DeleteButton>
           </Box>
         </ModalLayout>
       }

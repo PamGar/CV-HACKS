@@ -5,9 +5,14 @@ import { ResumeContext } from '../ResumeContextProvider';
 import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   img {
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
   }
 `;
 
@@ -19,11 +24,7 @@ const ResumePlaceholder = () => {
     userSelectedId && navigate(`${userSelectedId}`);
   }, []);
 
-  return (
-    <Container>
-      {!userSelectedId && <img src={ResumeSVG} height='30' width='100%' />}
-    </Container>
-  );
+  return <Container>{!userSelectedId && <img src={ResumeSVG} />}</Container>;
 };
 
 export default ResumePlaceholder;
