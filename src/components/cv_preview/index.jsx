@@ -811,7 +811,7 @@ const CV_preview = ({
                   <div
                     key={item.id}
                     className="center"
-                    style={{ marginRight: '10px' }}
+                    style={{ margin: '0 10px 0 0 ' }}
                   >
                     <p className="tags">{item.name}</p>
                   </div>
