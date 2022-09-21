@@ -56,7 +56,7 @@ const AboutEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('No se pudo agregar la herramiena o tecnologia');
+      toast.error('No se pudo agregar la herramienta o tecnologia');
     }
   };
 

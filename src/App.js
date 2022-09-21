@@ -87,8 +87,11 @@ const App = () => {
             {isAuthenticated.role == 2 && (
               <Route element={<ResumeContextProvider />}>
                 <Route path="/resumes" element={<ResumeList />}>
-                  <Route index element={<ResumePlaceholder />} />
-                  <Route path=":id/:cvId" element={<UserResumeById />} />
+                  <Route
+                    path="/resumes/:id/:cvId"
+                    element={<UserResumeById />}
+                  />
+                  {/* <Route index element={<ResumePlaceholder />} /> */}
                 </Route>
                 <Route path="/resumes/:id/comments" element={<AddComment />} />
                 <Route path="/resumes/:id/share" element={<ShareResume />} />
