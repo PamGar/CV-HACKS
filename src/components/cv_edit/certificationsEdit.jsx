@@ -82,7 +82,7 @@ const CertificationsEdit = (props) => {
       }, 100);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo obtener tu lista de certificados');
     }
   };
 
@@ -116,7 +116,7 @@ const CertificationsEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo agregar el certificado');
     }
   };
 
@@ -137,7 +137,7 @@ const CertificationsEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo eliminar el certificado');
     }
   };
 
@@ -169,8 +169,7 @@ const CertificationsEdit = (props) => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudieron cargar los datos del certificado a editar');
     }
   };
 
@@ -206,7 +205,7 @@ const CertificationsEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo actualizar el certificado');
     }
   };
 

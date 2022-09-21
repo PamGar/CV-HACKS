@@ -91,7 +91,7 @@ const MultipleChoice = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo agregar la herramienta o tecnologia');
     }
   };
 
@@ -110,8 +110,7 @@ const MultipleChoice = (props) => {
       toast.success('Eliminado con éxito');
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo eliminar la herramienta o tecnologia');
     }
   };
 

@@ -82,8 +82,7 @@ const ProjectsEdit = (props) => {
         setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       }, 100);
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo obtener tu lista de proyectos');
     }
   };
 
@@ -113,8 +112,7 @@ const ProjectsEdit = (props) => {
       setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo agregar el proyecto');
     }
   };
 
@@ -131,8 +129,7 @@ const ProjectsEdit = (props) => {
       toast.success('Eliminado con éxito');
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo eliminar el proyecto');
     }
   };
 
@@ -161,8 +158,7 @@ const ProjectsEdit = (props) => {
       addButtonRef.current.classList.add('hide');
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudieron cargar los datos del proyecto a editar');
     }
   };
 
@@ -194,8 +190,7 @@ const ProjectsEdit = (props) => {
       setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo actualizar el proyecto');
     }
   };
 

@@ -71,8 +71,7 @@ const InterestEdit = (props) => {
         setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       }, 100);
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo obtener tu lista de intereses');
     }
   };
 
@@ -98,7 +97,7 @@ const InterestEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo agregar tu interes');
     }
   };
 
@@ -116,7 +115,7 @@ const InterestEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo eliminar tu interes');
     }
   };
 
@@ -143,7 +142,7 @@ const InterestEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudieron cargar los datos del interes a editar');
     }
   };
 
@@ -178,7 +177,7 @@ const InterestEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo actualizar el interes');
     }
   };
 

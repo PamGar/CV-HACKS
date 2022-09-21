@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { keyframes } from 'styled-components';
 import CVicon from '../../assets/icons/CV.svg';
@@ -94,7 +94,7 @@ const IconButton = styled.button`
   }
 `;
 
-const Notification = styled.div`
+/* const Notification = styled.div`
   background-color: #ff6666;
   color: #fff;
   font-weight: 700;
@@ -108,7 +108,7 @@ const Notification = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`;
+`; */
 
 const UserMenu = () => {
   const addAnim = (e) => {
@@ -128,7 +128,7 @@ const UserMenu = () => {
         </IconButton>
         MyCV
       </Button>
-      {role != 5 && (
+      {role !== 5 && (
         <Button onMouseOver={addAnim}>
           <IconButton bgcolor="#59F97E">
             <img src={InterIcon} alt="" />
@@ -136,7 +136,7 @@ const UserMenu = () => {
           Interviews
         </Button>
       )}
-      {role != 5 && (
+      {role !== 5 && (
         <Button onClick={() => navigate('/register-company')}>
           <IconButton>
             <FontAwesomeIcon
@@ -148,7 +148,7 @@ const UserMenu = () => {
           Dar de alta
         </Button>
       )}
-      {role != 5 && (
+      {role !== 5 && (
         <Button onClick={() => navigate('/job-offers')}>
           <IconButton>
             <FontAwesomeIcon

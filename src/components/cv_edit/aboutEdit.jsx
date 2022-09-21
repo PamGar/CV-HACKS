@@ -56,7 +56,7 @@ const AboutEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo agregar la herramiena o tecnologia');
     }
   };
 
@@ -90,7 +90,7 @@ const AboutEdit = (props) => {
       });
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
     } catch (error) {
-      console.error('error', error);
+      toast.error('No se pudieron obtener los datos de usuario');
     }
   };
 
@@ -192,7 +192,7 @@ const AboutEdit = (props) => {
       toggleAccordeonRef.current.classList.toggle('hide');
       props.refreshCvData();
     } catch (error) {
-      toast.error('Algo ocurrió, intenta de nuevo');
+      toast.error('No se pudieron actualizar los datos de perfil');
       console.log('errorAbout', error);
     }
   };

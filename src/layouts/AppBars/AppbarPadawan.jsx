@@ -44,21 +44,25 @@ const AppbarPadawan = () => {
     <>
       {clientWidth > 1000 && (
         <AppBarDesktop>
-          <StyledLink to='/'>
-            <img src={HackademyIcon} className='HackademyIcon' />
+          <StyledLink to="/">
+            <img src={HackademyIcon} className="HackademyIcon" alt="" />
           </StyledLink>
-          <StyledLink to='/resume'>
-            <FontAwesomeIcon icon={faIdCard} className='Icon' />
+          <StyledLink to="/resume">
+            <FontAwesomeIcon icon={faIdCard} className="Icon" />
             Mi CV
           </StyledLink>
-          <StyledLink to='/profile'>
-            <FontAwesomeIcon icon={faUser} className='Icon' />
+          {/* <StyledLink to="/my-resume-list">
+            <FontAwesomeIcon icon={faIdCard} className="Icon" />
+            Mis CV's
+          </StyledLink> */}
+          <StyledLink to="/profile">
+            <FontAwesomeIcon icon={faUser} className="Icon" />
             Mi perfil
           </StyledLink>
-          <StyledLink to='/send-error'>
-                <FontAwesomeIcon icon={faIdCard} className='Icon' />
-                Reportar error
-              </StyledLink>
+          <StyledLink to="/send-error">
+            <FontAwesomeIcon icon={faIdCard} className="Icon" />
+            Reportar error
+          </StyledLink>
         </AppBarDesktop>
       )}
       {clientWidth <= 1000 && (
@@ -66,21 +70,28 @@ const AppbarPadawan = () => {
           {clientWidth <= 800 && (
             <HamburgerIcon onClick={() => setOpenModal(true)} />
           )}
-          <StyledLink to='/'>
-            <img src={HackademyIcon} className='HackademyIcon' />
+          <StyledLink to="/">
+            <img src={HackademyIcon} className="HackademyIcon" alt="" />
           </StyledLink>
           {clientWidth > 800 && (
             <>
-            <StyledLink to='/send-error'>
-                <FontAwesomeIcon icon={faIdCard} className='Icon' />
+              <StyledLink to="/send-error">
+                <FontAwesomeIcon icon={faIdCard} className="Icon" />
                 Reportar error
               </StyledLink>
-              <StyledLink to='/resume'>
-                <FontAwesomeIcon icon={faIdCard} className='Icon' />
+              <StyledLink to="/resume">
+                <FontAwesomeIcon icon={faIdCard} className="Icon" />
                 Mi CV
               </StyledLink>
-              <StyledLink to='/profile'>
-                <FontAwesomeIcon icon={faUser} className='Icon' />
+              {/* <StyledLinkMobile
+                to="/my-resume-list"
+                onClick={handleClickDrawer}
+              >
+                <FontAwesomeIcon icon={faIdCard} className="Icon" />
+                Mis CV's
+              </StyledLinkMobile> */}
+              <StyledLink to="/profile">
+                <FontAwesomeIcon icon={faUser} className="Icon" />
                 Mi perfil
               </StyledLink>
             </>
@@ -95,18 +106,22 @@ const AppbarPadawan = () => {
             ref={DrawerRef}
             activeFade={activateFade}
           >
-            <StyledLinkMobile to='/resume' onClick={handleClickDrawer}>
-              <FontAwesomeIcon icon={faIdCard} className='Icon' />
+            <StyledLinkMobile to="/resume" onClick={handleClickDrawer}>
+              <FontAwesomeIcon icon={faIdCard} className="Icon" />
               Mi CV
             </StyledLinkMobile>
-            <StyledLinkMobile to='/profile' onClick={handleClickDrawer}>
-              <FontAwesomeIcon icon={faUser} className='Icon' />
+            {/* <StyledLinkMobile to="/my-resume-list" onClick={handleClickDrawer}>
+              <FontAwesomeIcon icon={faIdCard} className="Icon" />
+              Mis CV's
+            </StyledLinkMobile> */}
+            <StyledLinkMobile to="/profile" onClick={handleClickDrawer}>
+              <FontAwesomeIcon icon={faUser} className="Icon" />
               Mi perfil
             </StyledLinkMobile>
-            <StyledLinkMobile to='/send-error' onClick={handleClickDrawer}>
-                <FontAwesomeIcon icon={faIdCard} className='Icon' />
-                Reportar error
-              </StyledLinkMobile>
+            <StyledLinkMobile to="/send-error" onClick={handleClickDrawer}>
+              <FontAwesomeIcon icon={faIdCard} className="Icon" />
+              Reportar error
+            </StyledLinkMobile>
           </Drawer>
         }
       />

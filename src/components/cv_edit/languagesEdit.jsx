@@ -77,7 +77,7 @@ const LanguagesEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo agregar el lenguaje');
     }
   };
 
@@ -112,7 +112,7 @@ const LanguagesEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo eliminar el lenguaje');
     }
   };
 
@@ -136,7 +136,7 @@ const LanguagesEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudieron cargar los datos del lenguaje a editar');
     }
   };
 
@@ -172,7 +172,7 @@ const LanguagesEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo actualizar el lenguaje');
     }
   };
 
@@ -191,7 +191,7 @@ const LanguagesEdit = (props) => {
         setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       }, 100);
     } catch (error) {
-      console.error('error', error);
+      toast.error('No se pudo obtener tu lista de lenguajes');
     }
   };
 

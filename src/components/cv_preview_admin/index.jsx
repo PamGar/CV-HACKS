@@ -23,6 +23,11 @@ const Page = styled.div`
   width: 800px;
   padding: 20px;
 
+  .page_container {
+    background-color: #fff;
+    border-radius: 15px;
+  }
+
   .page {
     padding: 20px;
     box-sizing: border-box;
@@ -333,7 +338,7 @@ const CV_preview = ({
 
   return (
     <>
-      <Page style={{ display: 'none' }}>
+      <Page /* style={{ display: 'none' }} */>
         <div className="page_container" ref={widthRef}>
           <div className="page" ref={componentRef}>
             <style>{getPageMargins()}</style>
@@ -434,7 +439,7 @@ const CV_preview = ({
                   </BoxColumn>
                 </div>
               )}
-              <div className="logoHackademy">
+              <div className="logoHackademy printhide">
                 <img src={Logo} alt="logo" />
               </div>
             </HeaderCV>

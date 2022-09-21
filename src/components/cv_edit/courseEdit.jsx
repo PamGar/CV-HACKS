@@ -92,7 +92,7 @@ const CoursesEdit = (props) => {
       }, 100);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo obtener tu lista de cursos');
     }
   };
 
@@ -136,7 +136,7 @@ const CoursesEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo agregar el curso');
     }
   };
 
@@ -154,7 +154,7 @@ const CoursesEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo eliminar el curso');
     }
   };
 
@@ -196,8 +196,7 @@ const CoursesEdit = (props) => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudieron cargar los datos del curso a editar');
     }
   };
 
@@ -241,8 +240,7 @@ const CoursesEdit = (props) => {
       setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo actualizar el curso');
     }
   };
 

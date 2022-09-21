@@ -46,8 +46,7 @@ const SocialEdit = (props) => {
       });
       setItemsList(data.data);
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo obtener tu lista de redes sociales');
     }
   };
 
@@ -70,8 +69,7 @@ const SocialEdit = (props) => {
       props.refreshCvData();
       props.getHeight();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo agregar la red social');
     }
   };
 
@@ -89,8 +87,7 @@ const SocialEdit = (props) => {
       props.refreshCvData();
       props.getHeight();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo eliminar la red social');
     }
   };
 
@@ -112,8 +109,7 @@ const SocialEdit = (props) => {
       setEditItems(true);
       firstInputRef.current.focus();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudieron cargar los datos de la red social');
     }
   };
 
@@ -137,8 +133,7 @@ const SocialEdit = (props) => {
       toast.success('Actualizado con éxito');
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo actualizar la red social');
     }
   };
 

@@ -90,7 +90,7 @@ const JobEdit = (props) => {
       }, 100);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo obtener tu lista de experiencia');
     }
   };
 
@@ -134,8 +134,7 @@ const JobEdit = (props) => {
       setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo agregar la experiencia');
     }
   };
 
@@ -152,8 +151,7 @@ const JobEdit = (props) => {
       toast.success('Eliminado con éxito');
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo eliminar la experiencia');
     }
   };
 
@@ -197,8 +195,7 @@ const JobEdit = (props) => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudieron cargar los datos de la experiencia a editar');
     }
   };
 
@@ -243,8 +240,7 @@ const JobEdit = (props) => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo actualizar la experiencia');
     }
   };
 
