@@ -88,7 +88,7 @@ const App = () => {
               <Route element={<ResumeContextProvider />}>
                 <Route path="/resumes" element={<ResumeList />}>
                   <Route index element={<ResumePlaceholder />} />
-                  <Route path=":id" element={<UserResumeById />} />
+                  <Route path=":id/:cvId" element={<UserResumeById />} />
                 </Route>
                 <Route path="/resumes/:id/comments" element={<AddComment />} />
                 <Route path="/resumes/:id/share" element={<ShareResume />} />

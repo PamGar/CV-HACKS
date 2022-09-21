@@ -102,7 +102,7 @@ const UserCard = ({
 
   return (
     <>
-      <StyledNavLink to={`${id}`}>
+      <StyledNavLink to={`${id}/${cvId}`}>
         <UserCardContainer
           onClick={() => {
             setUserSelectedId(id);
