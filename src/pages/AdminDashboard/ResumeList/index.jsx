@@ -59,7 +59,7 @@ const ResumeList = () => {
   const getCVlist = async () => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/s/?search=&page_number=1&page_size=10`,
+        `${process.env.REACT_APP_BASE_URL}/cv/s/?search=&page_number=1&page_size=10&alpha=true`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
@@ -83,7 +83,7 @@ const ResumeList = () => {
         `${process.env.REACT_APP_BASE_URL}/cv/s/?search=${search.replace(
           ' ',
           '+'
-        )}&page_number=1&page_size=${PAGE_SIZE}`,
+        )}&page_number=1&page_size=${PAGE_SIZE}&alpha=true`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
@@ -106,7 +106,7 @@ const ResumeList = () => {
         `${process.env.REACT_APP_BASE_URL}/cv/s/?search=${search.replace(
           ' ',
           '+'
-        )}&page_number=${page}&page_size=${PAGE_SIZE}`,
+        )}&page_number=${page}&page_size=${PAGE_SIZE}&alpha=true`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
@@ -170,6 +170,10 @@ const ResumeList = () => {
                 Puedes escribir varios criterios de busqueda separados por un
                 espacio
               </p>
+              <div>
+                <input type="checkbox" name="" id="" />
+                <label htmlFor="">Realizar busqueda por orden alfabetico</label>
+              </div>
               {searchCounter !== totalCvCounter ? (
                 <p>
                   Su busqueda ha arrojado <Highlight>{searchCounter}</Highlight>{' '}

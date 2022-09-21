@@ -234,15 +234,6 @@ const HeaderCV = styled(Header)`
 const BoxColumnCV = styled(BoxColumn)`
   page-break-inside: avoid;
 
-  /* div:nth-child(1) {
-    page-break-after: avoid;
-  } */
-
-  /* div h2 {
-    background-color: grey;
-    page-break-after: avoid;
-  } */
-
   h2 {
     text-align: center;
     font-family: 'Poppins', sans-serif;
@@ -250,6 +241,7 @@ const BoxColumnCV = styled(BoxColumn)`
   }
 `;
 const BoxFlexCV = styled(BoxFlex)`
+  page-break-inside: avoid;
   justify-content: space-between;
   align-items: flex-start;
 
