@@ -69,7 +69,7 @@ const AwardEdit = (props) => {
         setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       }, 100);
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error('No se pudo obtener tu lista de premios');
     }
   };
 
@@ -95,7 +95,7 @@ const AwardEdit = (props) => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       props.refreshCvData();
     } catch (error) {
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo agregar el premio');
     }
   };
 
@@ -113,7 +113,7 @@ const AwardEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo eliminar el premio');
     }
   };
 
@@ -134,7 +134,7 @@ const AwardEdit = (props) => {
       firstInputRef.current.focus();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudieron cargar los datos del premio a editar');
     }
   };
 
@@ -172,6 +172,7 @@ const AwardEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
+      toast.error('No se pudo actualizar el premio');
     }
   };
 

@@ -182,6 +182,7 @@ const CV_preview = (props) => {
   const [dataNotLoaded, setDataNotLoaded] = useState(true);
   const [sidebarWidth, setSidebarWidth] = useState(-100);
   const [sidebarHelpWidth, setSidebarHelpWidth] = useState(-100);
+  const [cvId, setCvId] = useState();
 
   const handleEdit = () => {
     setIsEdit(!isEdit);
@@ -239,7 +240,7 @@ const CV_preview = (props) => {
     }
   };
 
-  const getCV = async () => {
+  /* const getFirstCvId = async () => {
     try {
       const { data } = await axios.get(
         `${process.env.REACT_APP_BASE_URL}/cv/`,
@@ -249,6 +250,52 @@ const CV_preview = (props) => {
           },
         }
       );
+      setCvId(data.data[0].id);
+      console.log(data.data[0].id);
+    } catch (error) {
+      console.error('errorData', error.message);
+      toast.error('No se pudo cargar el id del CV');
+    }
+  }; */
+
+  /* const getCV = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/cv/${cvId}`,
+        {
+          headers: {
+            Authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      setCvData(data);
+      // console.log('cv', data);
+      setDataNotLoaded(false);
+    } catch (error) {
+      console.error('errorData', error.message);
+      toast.error(error.response.data.message);
+    }
+  }; */
+
+  const getCV = async () => {
+    try {
+      const idCv = await axios.get(`${process.env.REACT_APP_BASE_URL}/cv/`, {
+        headers: {
+          Authorization: `Token ${myToken}`,
+        },
+      });
+
+      const cvID = idCv.data.data[0].id;
+
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/cv/${cvID}`,
+        {
+          headers: {
+            Authorization: `Token ${myToken}`,
+          },
+        }
+      );
+
       setCvData(data);
       // console.log('cv', data);
       setDataNotLoaded(false);

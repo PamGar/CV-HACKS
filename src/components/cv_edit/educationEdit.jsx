@@ -81,8 +81,7 @@ const EducationEdit = (props) => {
         setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       }, 100);
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo obtener tu lista de de estudios');
     }
   };
 
@@ -123,8 +122,7 @@ const EducationEdit = (props) => {
       /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
       props.refreshCvData();
     } catch (error) {
-      toast.error(error.response.data.message);
-      console.error('error', error.response);
+      toast.error('No se pudo agregar tu estudio');
     }
   };
 
@@ -142,8 +140,7 @@ const EducationEdit = (props) => {
       /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
       props.refreshCvData();
     } catch (error) {
-      toast.error('Oops, ocurrió algo inesperado');
-      console.error('error', error);
+      toast.error('No se pudo eliminar tu estudio');
     }
   };
 
@@ -186,8 +183,7 @@ const EducationEdit = (props) => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudieron cargar los datos del estudio a editar');
     }
   };
 
@@ -230,8 +226,7 @@ const EducationEdit = (props) => {
       /* setChildBodyHeight(getHeightRef.current.children[0].offsetHeight); */
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo actualizar el estudio');
     }
   };
 

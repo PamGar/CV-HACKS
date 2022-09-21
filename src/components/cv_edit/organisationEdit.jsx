@@ -91,7 +91,7 @@ const OrganisationEdit = (props) => {
       }, 100);
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo obtener tu lista de organizaciones');
     }
   };
 
@@ -132,8 +132,7 @@ const OrganisationEdit = (props) => {
       setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo agregar la organización');
     }
   };
 
@@ -151,7 +150,7 @@ const OrganisationEdit = (props) => {
       props.refreshCvData();
     } catch (error) {
       console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo eliminar la organización');
     }
   };
 
@@ -193,8 +192,9 @@ const OrganisationEdit = (props) => {
       setChildBodyHeight(getHeightRef.current.children[0].offsetHeight);
       firstInputRef.current.focus();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error(
+        'No se pudieron cargar los datos de la organización a editar'
+      );
     }
   };
 
@@ -238,8 +238,7 @@ const OrganisationEdit = (props) => {
       setDisabledEndDate(false);
       props.refreshCvData();
     } catch (error) {
-      console.error('error', error);
-      toast.error('Oops, ocurrió algo inesperado');
+      toast.error('No se pudo actualizar la organización');
     }
   };
 

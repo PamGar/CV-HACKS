@@ -1,10 +1,10 @@
-import { useEffect, useContext, useState } from "react";
-import { useParams } from "react-router-dom";
-import CV_preview from "../../../components/cv_preview";
-import axios from "axios";
-import ResumeSkeleton from "./ResumeSkeleton";
-import { toast } from "react-toastify";
-import { ResumeContext } from "../ResumeContextProvider";
+import { useEffect, useContext, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import CV_preview from '../../../components/cv_preview_admin';
+import axios from 'axios';
+import ResumeSkeleton from './ResumeSkeleton';
+import { toast } from 'react-toastify';
+import { ResumeContext } from '../ResumeContextProvider';
 
 const UserResumeById = () => {
   const { id } = useParams();
@@ -22,7 +22,7 @@ const UserResumeById = () => {
   const GetCV = () => {
     return axios.get(`${process.env.REACT_APP_BASE_URL}/cv/admin-cv/${id}`, {
       headers: {
-        authorization: `Token ${localStorage.getItem("authToken")}`,
+        authorization: `Token ${localStorage.getItem('authToken')}`,
       },
       signal: controller.signal,
     });
@@ -31,7 +31,7 @@ const UserResumeById = () => {
   const GetUserData = () => {
     return axios.get(`${process.env.REACT_APP_BASE_URL}/user/${id}`, {
       headers: {
-        authorization: `Token ${localStorage.getItem("authToken")}`,
+        authorization: `Token ${localStorage.getItem('authToken')}`,
       },
       signal: controller.signal,
     });
@@ -45,9 +45,9 @@ const UserResumeById = () => {
       setUserData(data[1].data);
       setLoadingResume(false);
     } catch (err) {
-      if (err.message !== "canceled") {
+      if (err.message !== 'canceled') {
         console.log(err);
-        toast.error("Oppp no se logró cargar el curriculum");
+        toast.error('Oppp no se logró cargar el curriculum');
         setLoadingResume(false);
       }
     }
