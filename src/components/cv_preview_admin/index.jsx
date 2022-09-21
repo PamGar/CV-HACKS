@@ -338,20 +338,12 @@ const CV_preview = ({
 
   return (
     <>
-      <Page /* style={{ display: 'none' }} */>
+      <Page style={{ display: 'none' }}>
         <div className="page_container" ref={widthRef}>
           <div className="page" ref={componentRef}>
             <style>{getPageMargins()}</style>
             <HeaderCV>
-              {userData.image !== '/media/default.jpg' && userRole !== '2' ? (
-                <div className="profileImage">
-                  <img
-                    src={`${process.env.REACT_APP_BASE_URL}${userData.image}`}
-                    alt=""
-                  />
-                </div>
-              ) : null}
-              {userRole === '2' ? (
+              {
                 <div>
                   <BoxColumn
                     style={{
@@ -359,15 +351,6 @@ const CV_preview = ({
                       padding: '0',
                     }}
                   >
-                    <h1
-                      style={{
-                        lineHeight: '32px',
-                        marginBottom: '5px',
-                        marginLeft: '0',
-                      }}
-                    >
-                      {userData.paternal_surname}
-                    </h1>
                     <h2>{cvData.cv.area}</h2>
                     <BoxFlex
                       style={{
@@ -389,56 +372,7 @@ const CV_preview = ({
                     </BoxFlex>
                   </BoxColumn>
                 </div>
-              ) : (
-                <div>
-                  <BoxColumn
-                    style={{
-                      textAlign: 'center',
-                      padding: '0',
-                    }}
-                  >
-                    <h1
-                      style={{
-                        fontFamily: 'Poppins',
-                        fontWeight: '700',
-                        lineHeight: '32px',
-                        marginBottom: '5px',
-                      }}
-                    >
-                      {userRole === '2' ? null : userData.name}{' '}
-                      {userData.paternal_surname}
-                    </h1>
-                    <h2>{cvData.cv.area}</h2>
-                    <BoxFlex
-                      style={{
-                        paddingTop: `5px`,
-                        justifyContent: 'space-evenly',
-                      }}
-                    >
-                      <p>
-                        {userData.address?.state
-                          ? userData.address?.state
-                          : null}{' '}
-                        <span style={{ color: '#bfbfbf' }}>
-                          {userData.address?.country
-                            ? `(${userData.address?.country})`
-                            : null}
-                        </span>
-                      </p>
-
-                      {userData.email && userRole !== '2' ? (
-                        userData.email.includes('hackademy.mx') ? null : (
-                          <p>{userData.email}</p>
-                        )
-                      ) : null}
-
-                      {userData.phone && userRole !== '2' ? (
-                        <p>{userData.phone}</p>
-                      ) : null}
-                    </BoxFlex>
-                  </BoxColumn>
-                </div>
-              )}
+              }
               <div className="logoHackademy printhide">
                 <img src={Logo} alt="logo" />
               </div>

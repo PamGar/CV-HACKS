@@ -8,6 +8,7 @@ import { ResumeContext } from '../ResumeContextProvider';
 
 const UserResumeById = () => {
   const { id } = useParams();
+  const { cvId } = useParams();
   const {
     userSelectedId,
     setUserSelectedId,
@@ -20,7 +21,7 @@ const UserResumeById = () => {
   let controller = new AbortController();
 
   const GetCV = () => {
-    return axios.get(`${process.env.REACT_APP_BASE_URL}/cv/admin-cv/${id}`, {
+    return axios.get(`${process.env.REACT_APP_BASE_URL}/cv/admin-cv/${cvId}`, {
       headers: {
         authorization: `Token ${localStorage.getItem('authToken')}`,
       },
