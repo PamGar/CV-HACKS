@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CV from '../../components/cv_preview';
 import EditCV from '../../components/cv_edit';
 import TasksTodo from '../../components/tasks_todo';
@@ -206,7 +206,6 @@ const CV_preview = (props) => {
 
   const myId = window.localStorage.getItem('id');
   const myToken = window.localStorage.getItem('authToken');
-  const { CVId } = useParams();
 
   const getUserData = async () => {
     try {
@@ -280,16 +279,16 @@ const CV_preview = (props) => {
 
   const getCV = async () => {
     try {
-      /* const idCv = await axios.get(`${process.env.REACT_APP_BASE_URL}/cv/${CVId}`, {
+      const idCv = await axios.get(`${process.env.REACT_APP_BASE_URL}/cv/`, {
         headers: {
           Authorization: `Token ${myToken}`,
         },
       });
 
-      const cvID = idCv.data.data[0].id; */
+      const cvID = idCv.data.data[0].id;
 
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/${CVId}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/${cvID}`,
         {
           headers: {
             Authorization: `Token ${myToken}`,

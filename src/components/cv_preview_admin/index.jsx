@@ -294,6 +294,7 @@ const CV_preview = ({
   // const [width, setWidth] = useState(0);
   const widthRef = useRef();
   const userRole = localStorage.getItem('role');
+  const cvLanguage = cvData.cv.cv_language?.id;
 
   const iconRedesSociales = (value) => {
     switch (value) {
