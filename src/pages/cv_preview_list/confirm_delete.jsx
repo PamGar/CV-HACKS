@@ -24,6 +24,7 @@ const ModalConfirmationDelete = ({
   const ModalLayoutRef = useRef();
   const myToken = localStorage.getItem('authToken');
 
+  //Remove
   const removeCV = async (event, id) => {
     event.preventDefault();
 
