@@ -47,14 +47,14 @@ const AppbarPadawan = () => {
           <StyledLink to="/">
             <img src={HackademyIcon} className="HackademyIcon" alt="" />
           </StyledLink>
-          <StyledLink to="/resume">
+          {/* <StyledLink to="/resume">
             <FontAwesomeIcon icon={faIdCard} className="Icon" />
             Mi CV
-          </StyledLink>
-          {/* <StyledLink to="/my-resume-list">
+          </StyledLink> */}
+          <StyledLink to="/my-resume-list">
             <FontAwesomeIcon icon={faIdCard} className="Icon" />
             Mis CV's
-          </StyledLink> */}
+          </StyledLink>
           <StyledLink to="/profile">
             <FontAwesomeIcon icon={faUser} className="Icon" />
             Mi perfil
@@ -79,17 +79,17 @@ const AppbarPadawan = () => {
                 <FontAwesomeIcon icon={faIdCard} className="Icon" />
                 Reportar error
               </StyledLink>
-              <StyledLink to="/resume">
+              {/* <StyledLink to="/resume">
                 <FontAwesomeIcon icon={faIdCard} className="Icon" />
                 Mi CV
-              </StyledLink>
-              {/* <StyledLinkMobile
+              </StyledLink> */}
+              <StyledLinkMobile
                 to="/my-resume-list"
                 onClick={handleClickDrawer}
               >
                 <FontAwesomeIcon icon={faIdCard} className="Icon" />
                 Mis CV's
-              </StyledLinkMobile> */}
+              </StyledLinkMobile>
               <StyledLink to="/profile">
                 <FontAwesomeIcon icon={faUser} className="Icon" />
                 Mi perfil
@@ -106,14 +106,14 @@ const AppbarPadawan = () => {
             ref={DrawerRef}
             activeFade={activateFade}
           >
-            <StyledLinkMobile to="/resume" onClick={handleClickDrawer}>
+            {/* <StyledLinkMobile to="/resume" onClick={handleClickDrawer}>
               <FontAwesomeIcon icon={faIdCard} className="Icon" />
               Mi CV
-            </StyledLinkMobile>
-            {/* <StyledLinkMobile to="/my-resume-list" onClick={handleClickDrawer}>
+            </StyledLinkMobile> */}
+            <StyledLinkMobile to="/my-resume-list" onClick={handleClickDrawer}>
               <FontAwesomeIcon icon={faIdCard} className="Icon" />
               Mis CV's
-            </StyledLinkMobile> */}
+            </StyledLinkMobile>
             <StyledLinkMobile to="/profile" onClick={handleClickDrawer}>
               <FontAwesomeIcon icon={faUser} className="Icon" />
               Mi perfil

@@ -51,9 +51,6 @@ const ResumeList = () => {
   const [searchCounter, setSearchCounter] = useState('0');
   const [page, setPage] = useState(2);
 
-  console.log('search', searchCounter);
-  console.log('total', totalCvCounter);
-
   const PAGE_SIZE = 10;
 
   const getCVlist = async () => {
