@@ -156,6 +156,8 @@ const UserCard = ({
                 color: '#fff',
                 padding: '5px',
                 borderRadius: '5px',
+                fontSize: '10px',
+                fontWeight: '700',
               }}
             >
               {isHired ? 'contratado' : 'En busqueda'}

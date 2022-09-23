@@ -95,7 +95,15 @@ const App = () => {
             )}
             {isAuthenticated.role == 2 && (
               <Route element={<ResumeContextProvider />}>
-                <Route path="/resumes" element={<ResumeList />}>
+                <Route
+                  path="/resumes"
+                  element={
+                    <ResumeList
+                      setAuth={setIsAuthenticated}
+                      authData={isAuthenticated}
+                    />
+                  }
+                >
                   <Route
                     path="/resumes/:id/:cvId"
                     element={<UserResumeById />}

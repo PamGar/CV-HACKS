@@ -7,7 +7,7 @@ import MainContentWrapper from '../../../components/MainContentWrapper';
 import MainAndRightLayout from '../../../layouts/MainAndRightLayout';
 import { ResumeContext } from '../ResumeContextProvider';
 import SkeletonLoading from '../../../components/SkeletonLoading';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 export const Wrapper = styled.div`
@@ -52,6 +52,7 @@ const ResumeList = () => {
   const [page, setPage] = useState(2);
   const alphabeticOrderRef = useRef();
   const [IsInalphabeticOrder, setIsInalphabeticOrder] = useState(true);
+  const navigate = useNavigate();
 
   const HandleCheckAlphabetic = () => {
     setIsInalphabeticOrder(alphabeticOrderRef.current.checked);
@@ -59,7 +60,7 @@ const ResumeList = () => {
 
   const PAGE_SIZE = 10;
 
-  const getCVlist = async () => {
+  const getCVlist = async (props) => {
     try {
       const { data } = await axios.get(
         `${
@@ -77,8 +78,20 @@ const ResumeList = () => {
       setTotalCvCounter(data.total_counter);
       setSearchCounter(data.search_counter);
       setHasMoreResumeList(1);
-    } catch (err) {
-      toast.error('Opps ha ocurrido un error, no se pudo obtener los datos');
+    } catch (error) {
+      const invalidToken = error.response.data.message;
+      if (invalidToken === 'Token invalido') {
+        toast.error(`${invalidToken}, Por favor refresca la pagina`);
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('id');
+        localStorage.removeItem('role');
+        props.setAuth({
+          ...props.authData,
+          isAuth: '',
+        });
+        navigate('/');
+      }
+      toast.error('Opps ha ocurrido un error, no se pudieron cargar los CV');
     } finally {
       setLoadingResumeList(false);
     }

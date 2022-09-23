@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import styled from 'styled-components';
@@ -106,7 +106,7 @@ const WrapperCardCV = styled.div`
   }
 `;
 
-const MyCvs = () => {
+const MyCvs = (props) => {
   const myToken = localStorage.getItem('authToken');
   const myId = localStorage.getItem('id');
   const [cvList, setCvList] = useState([]);
@@ -115,6 +115,7 @@ const MyCvs = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [infoToEdit, setInfoToEdit] = useState({});
   const [cvToDelete, setCvToDelete] = useState(null);
+  const navigate = useNavigate();
 
   const getCV = async () => {
     try {
@@ -128,7 +129,19 @@ const MyCvs = () => {
       );
       setCvList(data.data);
     } catch (error) {
-      console.error('errorData', error.message);
+      const invalidToken = error.response.data.message;
+      toast.error(`${invalidToken}, Por favor refresca la pagina`);
+      if (invalidToken === 'Token invalido') {
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('id');
+        localStorage.removeItem('role');
+        localStorage.removeItem('user');
+        props.setAuth({
+          ...props.authData,
+          isAuth: '',
+        });
+        navigate('/');
+      }
     }
   };
 
