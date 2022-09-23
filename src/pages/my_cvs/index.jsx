@@ -126,7 +126,6 @@ const MyCvs = () => {
           },
         }
       );
-
       setCvList(data.data);
     } catch (error) {
       console.error('errorData', error.message);
@@ -144,26 +143,6 @@ const MyCvs = () => {
     setEdit(true);
     setOpenModal(true);
   };
-
-  /* const removeCV = async (event, id) => {
-    event.preventDefault();
-
-    try {
-      const { data } = await axios.delete(
-        `${process.env.REACT_APP_BASE_URL}/cv/${id}`,
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      toast.success('CV eliminado con éxito');
-      getCV();
-    } catch (error) {
-      console.error('error', error);
-      toast.error('No se pudo eliminar el CV');
-    }
-  }; */
 
   useEffect(() => {
     getCV();

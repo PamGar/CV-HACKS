@@ -55,12 +55,12 @@ const UserResumeById = () => {
   };
   useEffect(() => {
     !resumeData && GetBoth();
-    resumeData && userData.id != id && GetBoth();
-    !userSelectedId && setUserSelectedId(+id);
+    resumeData && resumeData.cv.id != cvId && GetBoth();
+    !userSelectedId && setUserSelectedId(+cvId);
     return () => {
       controller.abort();
     };
-  }, [id]);
+  }, [cvId]);
 
   return (
     <>

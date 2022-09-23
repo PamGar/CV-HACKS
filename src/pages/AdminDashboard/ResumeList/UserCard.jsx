@@ -4,11 +4,13 @@ import { format } from 'timeago.js';
 import styled from 'styled-components';
 import AlertMessage from '../../../components/AlertMessage';
 import ConfirmChangeStatusModal from '../ConfirmChangeStatusModal';
+import English from '../../../assets/images/eeuu-flag.png';
+import Spanish from '../../../assets/images/spain-flag.png';
 import { ResumeContext } from '../ResumeContextProvider';
 import Hacky from '../../../assets/images/Hacky.png';
 
 const UserCardContainer = styled.div`
-  padding: 10px 0 10px 10px;
+  padding: 10px;
   background-color: #f3f4f6;
   background-color: ${(props) => (props.isSelected ? '#a0a0cc' : '#f3f4f6')};
   border-radius: 10px;
@@ -29,6 +31,15 @@ const UserCardContainer = styled.div`
   :hover {
     box-shadow: 0px 3px 1px -1px rgb(0 0 0 / 20%),
       0px 2px 4px 0px rgb(0 0 0 / 14%), 0px 1px 7px 0px rgb(0 0 0 / 12%);
+  }
+
+  .language {
+    width: 30px;
+    filter: opacity(50%);
+
+    img {
+      width: 100%;
+    }
   }
 `;
 
@@ -91,13 +102,14 @@ const UserCard = ({
   userPhoto,
   email,
   lastUpdate,
+  language,
 }) => {
   const UserCardContainerRef = useRef();
   const { userSelectedId, setUserSelectedId } = useContext(ResumeContext);
   const [openChangeStatusModal, setOpenChangeStatusModal] = useState(false);
 
   useEffect(() => {
-    userSelectedId === id && setDisableButton(false);
+    userSelectedId === cvId && setDisableButton(false);
   }, []);
 
   return (
@@ -105,10 +117,10 @@ const UserCard = ({
       <StyledNavLink to={`${id}/${cvId}`}>
         <UserCardContainer
           onClick={() => {
-            setUserSelectedId(id);
+            setUserSelectedId(cvId);
             setDisableButton(false);
           }}
-          isSelected={userSelectedId === id}
+          isSelected={userSelectedId === cvId}
           ref={UserCardContainerRef}
         >
           <UserImage>
@@ -121,24 +133,39 @@ const UserCard = ({
             />
           </UserImage>
           <NameEmailContainer>
-            <Name isSelected={userSelectedId === id}>
+            <Name isSelected={userSelectedId === cvId}>
               {name} {paternal_surname}
             </Name>
-            <Email isSelected={userSelectedId === id}>{email}</Email>
-            <LastUpdateStyle isSelected={userSelectedId === id}>
+            <Email isSelected={userSelectedId === cvId}>{email}</Email>
+            <LastUpdateStyle isSelected={userSelectedId === cvId}>
               Ultima actualización: <span>{format(lastUpdate)}</span>
             </LastUpdateStyle>
           </NameEmailContainer>
-
           <div
             style={{
-              backgroundColor: isHired === 'contratado' ? '#0bb484' : '#d1c36b',
-              color: '#fff',
-              padding: '5px',
-              borderRadius: '5px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '5px',
+              alignItems: 'flex-end',
             }}
           >
-            {isHired ? 'contratado' : 'En busqueda'}
+            <p
+              style={{
+                backgroundColor:
+                  isHired === 'contratado' ? '#0bb484' : '#d1c36b',
+                color: '#fff',
+                padding: '5px',
+                borderRadius: '5px',
+              }}
+            >
+              {isHired ? 'contratado' : 'En busqueda'}
+            </p>
+            <div className="language">
+              <img
+                src={language === 2 ? English : language === 1 ? Spanish : null}
+                alt=""
+              />
+            </div>
           </div>
         </UserCardContainer>
       </StyledNavLink>

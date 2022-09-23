@@ -373,7 +373,7 @@ const CV_preview = ({
             <BoxFlexCV>
               {userData.about_me && (
                 <div>
-                  <h2>Sobre mi</h2>
+                  <h2>{cvLanguage === 1 ? 'Acerca de mi' : 'About me'}</h2>
                   <p>{userData.about_me}</p>
                 </div>
               )}
@@ -381,7 +381,7 @@ const CV_preview = ({
               {cvData.educations.filter((item) => item.public === true)
                 .length === 0 ? null : (
                 <div>
-                  <h2>Estudios</h2>
+                  <h2>{cvLanguage === 1 ? 'Estudios' : 'Education'}</h2>
                   {cvData.educations
                     .sort((a, b) => {
                       return new Date(b.start_date) - new Date(a.start_date);
@@ -415,7 +415,7 @@ const CV_preview = ({
               {cvData.experiences.filter((item) => item.public === true)
                 .length === 0 ? null : (
                 <div>
-                  <h2>Experiencia</h2>
+                  <h2>{cvLanguage === 1 ? 'Experiencia' : 'Experience'}</h2>
                   {cvData.experiences
                     .sort((a, b) => {
                       return new Date(b.start_date) - new Date(a.start_date);
@@ -450,7 +450,7 @@ const CV_preview = ({
               {cvData.courses.filter((item) => item.public === true).length ===
               0 ? null : (
                 <div>
-                  <h2>Cursos</h2>
+                  <h2>{cvLanguage === 1 ? 'Cursos' : 'Courses'}</h2>
                   {cvData.courses
                     .sort((a, b) => {
                       return new Date(b.start_date) - new Date(a.start_date);
@@ -484,7 +484,9 @@ const CV_preview = ({
               {cvData.certifications.filter((item) => item.public === true)
                 .length === 0 ? null : (
                 <div>
-                  <h2>Certificaciones</h2>
+                  <h2>
+                    {cvLanguage === 1 ? 'Certificaciones' : 'Certifications'}
+                  </h2>
                   {cvData.certifications
                     .sort((a, b) => {
                       return (
@@ -524,7 +526,7 @@ const CV_preview = ({
               {cvData.organisations.filter((item) => item.public === true)
                 .length === 0 ? null : (
                 <div>
-                  <h2>Comunidades</h2>
+                  <h2>{cvLanguage === 1 ? 'Comunidades' : 'Communities'}</h2>
                   {cvData.organisations
                     .sort((a, b) => {
                       return new Date(b.start_date) - new Date(a.start_date);
@@ -559,7 +561,7 @@ const CV_preview = ({
               {cvData.projects.filter((item) => item.public === true).length ===
               0 ? null : (
                 <div>
-                  <h2>Proyectos</h2>
+                  <h2>{cvLanguage === 1 ? 'Proyectos' : 'Projects'}</h2>
                   {cvData.projects
                     .sort((a, b) => {
                       return new Date(b.start_date) - new Date(a.start_date);
@@ -596,7 +598,7 @@ const CV_preview = ({
               {cvData.publications.filter((item) => item.public === true)
                 .length === 0 ? null : (
                 <div className="center">
-                  <h2>Publicaciones</h2>
+                  <h2>{cvLanguage === 1 ? 'Publicaciones' : 'Publications'}</h2>
                   {cvData.publications
                     .sort((a, b) => {
                       return new Date(b.date) - new Date(a.date);
@@ -626,7 +628,7 @@ const CV_preview = ({
               {cvData.awards.filter((item) => item.public === true).length ===
               0 ? null : (
                 <div className="center">
-                  <h2>Premios</h2>
+                  <h2>{cvLanguage === 1 ? 'Premios' : 'Awards'}</h2>
                   {cvData.awards
                     .sort((a, b) => {
                       return new Date(b.date) - new Date(a.date);
@@ -668,7 +670,7 @@ const CV_preview = ({
               {cvData.intersts.filter((item) => item.public === true).length ===
               0 ? null : (
                 <div className="center">
-                  <h2>Intereses</h2>
+                  <h2>{cvLanguage === 1 ? 'Intereses' : 'Interests'}</h2>
                   <ul className="item">
                     {cvData.intersts.map((item) => {
                       return item.public ? (
@@ -732,7 +734,11 @@ const CV_preview = ({
         <BoxColumn>{userData.about_me}</BoxColumn>
         {!cvData.cv.tags ? null : (
           <div>
-            <h2>Tecnologías y herramientas que maneja</h2>
+            <h2>
+              {cvLanguage === 1
+                ? 'Tecnologías y herramientas que maneja'
+                : 'Technologies and tools'}
+            </h2>
             <BoxFlex style={{ flexWrap: 'wrap', justifyContent: 'left' }}>
               {cvData.cv.tags.map((item) => {
                 return (
@@ -751,7 +757,7 @@ const CV_preview = ({
         {cvData.urls.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Redes sociales</h2>
+            <h2>{cvLanguage === 1 ? 'Redes sociales' : 'Social media'}</h2>
             <BoxFlex style={{ justifyContent: 'space-evenly' }}>
               {cvData.urls.map((item) => {
                 return item.public ? (
@@ -770,7 +776,7 @@ const CV_preview = ({
         {cvData.educations.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Educación</h2>
+            <h2>{cvLanguage === 1 ? 'Educación' : 'Education'}</h2>
             <BoxColumn>
               {cvData.educations
                 .sort((a, b) => {
@@ -803,7 +809,7 @@ const CV_preview = ({
         {cvData.languages.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Lenguajes</h2>
+            <h2>{cvLanguage === 1 ? 'Lenguajes' : 'Languages'}</h2>
             <BoxFlex>
               {cvData.languages.map((item) => {
                 return item.public ? (
@@ -823,7 +829,7 @@ const CV_preview = ({
         {cvData.courses.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Cursos</h2>
+            <h2>{cvLanguage === 1 ? 'Cursos' : 'Courses'}</h2>
             <BoxColumn>
               {cvData.courses
                 .sort((a, b) => {
@@ -855,7 +861,7 @@ const CV_preview = ({
         {cvData.certifications.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Certificaciones</h2>
+            <h2>{cvLanguage === 1 ? 'Certificaciones' : 'Certifications'}</h2>
             <BoxFlex>
               {cvData.certifications
                 .sort((a, b) => {
@@ -897,7 +903,7 @@ const CV_preview = ({
         {cvData.experiences.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Experiencia</h2>
+            <h2>{cvLanguage === 1 ? 'Experiencia' : 'Experience'}</h2>
             <BoxColumn>
               {cvData.experiences
                 .sort((a, b) => {
@@ -930,7 +936,7 @@ const CV_preview = ({
         {cvData.organisations.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Comunidades</h2>
+            <h2>{cvLanguage === 1 ? 'Comunidades' : 'Communities'}</h2>
             <BoxColumn>
               {cvData.organisations
                 .sort((a, b) => {
@@ -963,7 +969,7 @@ const CV_preview = ({
         {cvData.projects.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Proyectos</h2>
+            <h2>{cvLanguage === 1 ? 'Proyectos' : 'Projects'}</h2>
             <BoxColumn>
               {cvData.projects
                 .sort((a, b) => {
@@ -998,7 +1004,7 @@ const CV_preview = ({
         {cvData.publications.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Publicaciones</h2>
+            <h2>{cvLanguage === 1 ? 'Publicaciones' : 'Publications'}</h2>
             <BoxColumn>
               {cvData.publications
                 .sort((a, b) => {
@@ -1031,7 +1037,7 @@ const CV_preview = ({
         {cvData.awards.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Premios</h2>
+            <h2>{cvLanguage === 1 ? 'Premios' : 'Awards'}</h2>
             <BoxColumn>
               {cvData.awards
                 .sort((a, b) => {
@@ -1080,7 +1086,7 @@ const CV_preview = ({
         {cvData.intersts.filter((item) => item.public === true).length ===
         0 ? null : (
           <div>
-            <h2>Intereses</h2>
+            <h2>{cvLanguage === 1 ? 'Intereses' : 'Interests'}</h2>
             <BoxColumn>
               {cvData.intersts.map((item) => {
                 return item.public ? (

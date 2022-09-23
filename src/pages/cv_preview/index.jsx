@@ -241,43 +241,6 @@ const CV_preview = (props) => {
     }
   };
 
-  /* const getFirstCvId = async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/`,
-        {
-          headers: {
-            Authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      setCvId(data.data[0].id);
-      console.log(data.data[0].id);
-    } catch (error) {
-      console.error('errorData', error.message);
-      toast.error('No se pudo cargar el id del CV');
-    }
-  }; */
-
-  /* const getCV = async () => {
-    try {
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/${cvId}`,
-        {
-          headers: {
-            Authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      setCvData(data);
-      // console.log('cv', data);
-      setDataNotLoaded(false);
-    } catch (error) {
-      console.error('errorData', error.message);
-      toast.error(error.response.data.message);
-    }
-  }; */
-
   const getCV = async () => {
     try {
       /* const idCv = await axios.get(`${process.env.REACT_APP_BASE_URL}/cv/${CVId}`, {
