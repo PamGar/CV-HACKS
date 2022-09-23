@@ -130,6 +130,7 @@ const UserCard = ({
                   ? Hacky
                   : `https://apicv.hackademy.lat${userPhoto}`
               }
+              alt=""
             />
           </UserImage>
           <NameEmailContainer>

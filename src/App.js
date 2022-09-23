@@ -24,6 +24,7 @@ import SendError from './pages/SendError';
 import CreateJobOfferCompany from './pages/CreateJobOfferCompany';
 import UserResumeById from './pages/AdminDashboard/ResumeList/UserResumeById';
 import ResumePlaceholder from './pages/AdminDashboard/ResumeList/ResumePlaceholder';
+import PublicCV from './pages/PublicCV';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState({
@@ -45,6 +46,7 @@ const App = () => {
       />
       <GlobalStyles />
       <Routes>
+        <Route path="/public/:cvId" element={<PublicCV />} />
         <Route
           element={
             <PublicRoute
