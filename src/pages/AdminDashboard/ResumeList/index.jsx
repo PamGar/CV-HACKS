@@ -63,13 +63,11 @@ const ResumeList = () => {
   const [onlyEnglish, setOnlyEnglish] = useState(false);
   const navigate = useNavigate();
 
-  console.log(search);
-
   const HandleCheckAlphabetic = async () => {
     setIsInalphabeticOrder(alphabeticOrderRef.current.checked);
-    setSearch('');
     setOnlyEnglish(false);
     setOnlySpanish(false);
+    setSearch('');
 
     try {
       const { data } = await axios.get(
@@ -77,7 +75,7 @@ const ResumeList = () => {
           process.env.REACT_APP_BASE_URL
         }/cv/s/?search=&page_number=1&page_size=${PAGE_SIZE}${
           alphabeticOrderRef.current.checked ? '&alpha=true' : ''
-        }${onlyEnglish ? '&lang=eng' : ''}${onlySpanish ? '&lang=esp' : ''}`,
+        }`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
@@ -96,9 +94,9 @@ const ResumeList = () => {
 
   const HandleOnlyEnglish = async () => {
     setOnlyEnglish(onlyEnglishRef.current.checked);
-    setSearch('');
     setIsInalphabeticOrder(false);
     setOnlySpanish(false);
+    setSearch('');
 
     try {
       const { data } = await axios.get(
@@ -125,9 +123,9 @@ const ResumeList = () => {
 
   const HandleOnlySpanish = async () => {
     setOnlySpanish(onlySpanishRef.current.checked);
-    setSearch('');
     setIsInalphabeticOrder(false);
     setOnlyEnglish(false);
+    setSearch('');
 
     try {
       const { data } = await axios.get(
@@ -213,10 +211,10 @@ const ResumeList = () => {
       setPage(2);
       setDataResumeList(data.data);
       setSearchCounter(data.search_counter);
-      /*setHasMoreResumeList(data.next_page);*/
+      setHasMoreResumeList(data.next_page);
       // setPageCounterResumeList(1);
     } catch (err) {
-      toast.error('Opps ha ocurrido un error, no se pudo obtener los datos');
+      toast.error('Ha ocurrido un error, no se pudieron obtener los datos');
     }
   };
 
@@ -238,8 +236,9 @@ const ResumeList = () => {
       setDataResumeList((prev) => [...prev, ...data.data]);
       setPage(page + 1);
       // setPageCounterResumeList((prev) => prev + 1);
-      // setHasMoreResumeList(data.next_page);
+      setHasMoreResumeList(data.next_page);
     } catch (err) {
+      setHasMoreResumeList(err.response.data.next_page);
       toast.warning('No hay mas resultados para esta busqueda');
     }
   };

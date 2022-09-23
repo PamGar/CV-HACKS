@@ -10,6 +10,7 @@ import {
   faCalendar,
   faPenToSquare,
   faFileArrowDown,
+  faCopy,
 } from '@fortawesome/free-solid-svg-icons';
 import Github from '../../assets/icons/Github.svg';
 import Gitlab from '../../assets/icons/Gitlab.svg';
@@ -285,8 +286,21 @@ const CV_preview = ({
   // const printRef = useRef();
   // const [width, setWidth] = useState(0);
   const widthRef = useRef();
-  const userRole = localStorage.getItem('role');
+  // const userRole = localStorage.getItem('role');
   const cvLanguage = cvData.cv.cv_language?.id;
+
+  const copyURL = () => {
+    /* Get the text field */
+    var copyText = window.location.host;
+
+    /* Copy the text to the clipboard */
+    navigator.clipboard.writeText(`${copyText}/public/${cvData.cv.id}`);
+
+    /* Alert the copied text */
+    alert(
+      `Enlace publico para este CV copiado, ten en cuanta que se ocultaran sus datos de contacto`
+    );
+  };
 
   const iconRedesSociales = (value) => {
     switch (value) {
@@ -1104,6 +1118,11 @@ const CV_preview = ({
         {!downloadAdmin && (
           <Button type="button" onClick={editButton} disabled={dataLoaded}>
             <FontAwesomeIcon icon={faPenToSquare} className="calendar" /> Editar
+          </Button>
+        )}
+        {downloadAdmin && (
+          <Button type="button" onClick={copyURL} disabled={dataLoaded}>
+            <FontAwesomeIcon icon={faCopy} className="calendar" /> Copiar URL
           </Button>
         )}
         <Button
