@@ -114,7 +114,8 @@ const LoginModal = ({ closeModal, isOpen, userEmail, setIsAuthenticated }) => {
       localStorage.setItem('role', data.user.role.id);
       localStorage.setItem('id', data.user.id);
       setIsAuthenticated({ isAuth: true, role: data.user.role.id });
-      if (data.user.role.id == 5 || data.user.role.id == 4) navigate('/resume');
+      if (data.user.role.id == 5 || data.user.role.id == 4)
+        navigate('/my-resume-list');
       if (data.user.role.id == 2) navigate('/resumes');
       if (data.user.role.id == 3) navigate('/candidates');
       // console.log(data);

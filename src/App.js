@@ -64,7 +64,7 @@ const App = () => {
           <Route element={<AppbarLayout role={isAuthenticated.role} />}>
             {(isAuthenticated.role == 5 || isAuthenticated.role == 4) && (
               <>
-                <Route
+                {/* <Route
                   path="/resume"
                   element={
                     <CVPreview
@@ -72,7 +72,7 @@ const App = () => {
                       authData={isAuthenticated}
                     />
                   }
-                />
+                /> */}
                 <Route
                   path="/my-resume-list"
                   element={
@@ -82,11 +82,28 @@ const App = () => {
                     />
                   }
                 />
+                <Route
+                  path="/my-resume-list/:CVId"
+                  element={
+                    <CVPreview
+                      setAuth={setIsAuthenticated}
+                      authData={isAuthenticated}
+                    />
+                  }
+                />
               </>
             )}
             {isAuthenticated.role == 2 && (
               <Route element={<ResumeContextProvider />}>
-                <Route path="/resumes" element={<ResumeList />}>
+                <Route
+                  path="/resumes"
+                  element={
+                    <ResumeList
+                      setAuth={setIsAuthenticated}
+                      authData={isAuthenticated}
+                    />
+                  }
+                >
                   <Route
                     path="/resumes/:id/:cvId"
                     element={<UserResumeById />}

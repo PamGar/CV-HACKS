@@ -251,7 +251,7 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
     });
   };
 
-  const postCV = async () => {
+  /* const postCV = async () => {
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/cv/`,
@@ -268,7 +268,7 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
     } catch (error) {
       console.error('error', error);
     }
-  };
+  }; */
 
   /*Manejar el envio del formulario*/
   const handleSubmit = (e) => {
@@ -290,7 +290,7 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
         console.error('error', error);
       }
     };
-    postCV();
+    //postCV();
     postData();
   };
 
@@ -380,7 +380,7 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
               required
             />
           </p>
-          <p>
+          {/* <p>
             <label htmlFor="user/area">
               <span>Area</span>
             </label>
@@ -402,7 +402,7 @@ const FirstTime = ({ closeModal, isOpen, refreshCvData }) => {
               <option value="Product owner"></option>
               <option value="Scrum Master"></option>
             </datalist>
-          </p>
+          </p> */}
           <fieldset>
             <h3>Dirección</h3>
             <div className="multiBox">

@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useRef } from 'react';
 import UserCard from './UserCard';
 import NavModal from '../NavModal';
 import styled from 'styled-components';
@@ -7,7 +7,7 @@ import MainContentWrapper from '../../../components/MainContentWrapper';
 import MainAndRightLayout from '../../../layouts/MainAndRightLayout';
 import { ResumeContext } from '../ResumeContextProvider';
 import SkeletonLoading from '../../../components/SkeletonLoading';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 export const Wrapper = styled.div`
@@ -50,16 +50,24 @@ const ResumeList = () => {
   const [totalCvCounter, setTotalCvCounter] = useState('0');
   const [searchCounter, setSearchCounter] = useState('0');
   const [page, setPage] = useState(2);
+  const alphabeticOrderRef = useRef();
+  const [IsInalphabeticOrder, setIsInalphabeticOrder] = useState(true);
+  const navigate = useNavigate();
 
-  console.log('search', searchCounter);
-  console.log('total', totalCvCounter);
+  const HandleCheckAlphabetic = () => {
+    setIsInalphabeticOrder(alphabeticOrderRef.current.checked);
+  };
 
   const PAGE_SIZE = 10;
 
-  const getCVlist = async () => {
+  const getCVlist = async (props) => {
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/s/?search=&page_number=1&page_size=10`,
+        `${
+          process.env.REACT_APP_BASE_URL
+        }/cv/s/?search=&page_number=1&page_size=10${
+          IsInalphabeticOrder ? '&alpha=true' : ''
+        }`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
@@ -70,8 +78,20 @@ const ResumeList = () => {
       setTotalCvCounter(data.total_counter);
       setSearchCounter(data.search_counter);
       setHasMoreResumeList(1);
-    } catch (err) {
-      toast.error('Opps ha ocurrido un error, no se pudo obtener los datos');
+    } catch (error) {
+      const invalidToken = error.response.data.message;
+      if (invalidToken === 'Token invalido') {
+        toast.error(`${invalidToken}, Por favor refresca la pagina`);
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('id');
+        localStorage.removeItem('role');
+        props.setAuth({
+          ...props.authData,
+          isAuth: '',
+        });
+        navigate('/');
+      }
+      toast.error('Opps ha ocurrido un error, no se pudieron cargar los CV');
     } finally {
       setLoadingResumeList(false);
     }
@@ -83,7 +103,9 @@ const ResumeList = () => {
         `${process.env.REACT_APP_BASE_URL}/cv/s/?search=${search.replace(
           ' ',
           '+'
-        )}&page_number=1&page_size=${PAGE_SIZE}`,
+        )}&page_number=1&page_size=${PAGE_SIZE}${
+          IsInalphabeticOrder ? '&alpha=true' : ''
+        }`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
@@ -106,7 +128,9 @@ const ResumeList = () => {
         `${process.env.REACT_APP_BASE_URL}/cv/s/?search=${search.replace(
           ' ',
           '+'
-        )}&page_number=${page}&page_size=${PAGE_SIZE}`,
+        )}&page_number=${page}&page_size=${PAGE_SIZE}${
+          IsInalphabeticOrder ? '&alpha=true' : ''
+        }`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
@@ -156,7 +180,19 @@ const ResumeList = () => {
                 plataforma
               </p>
             </div>
-            <div>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '10px',
+              }}
+            >
+              <p
+                style={{ color: '#b1b1b1', fontSize: '12px', margin: '0 10px' }}
+              >
+                Puedes escribir varios criterios de busqueda separados por un
+                espacio
+              </p>
               <SearchUserInput
                 type="text"
                 placeholder="Busca por nombre, area, o escribe una palabra clave"
@@ -166,12 +202,31 @@ const ResumeList = () => {
                   searchCVlist();
                 }}
               />
-              <p style={{ color: '#b1b1b1', fontSize: '12px', margin: '10px' }}>
-                Puedes escribir varios criterios de busqueda separados por un
-                espacio
-              </p>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  margin: '0 10px',
+                }}
+              >
+                <input
+                  type="checkbox"
+                  name="check"
+                  ref={alphabeticOrderRef}
+                  onChange={HandleCheckAlphabetic}
+                  checked={IsInalphabeticOrder}
+                />{' '}
+                <label htmlFor="check">
+                  Realizar busqueda por orden alfabetico
+                </label>
+              </div>
               {searchCounter !== totalCvCounter ? (
-                <p>
+                <p
+                  style={{
+                    margin: '0 10px',
+                  }}
+                >
                   Su busqueda ha arrojado <Highlight>{searchCounter}</Highlight>{' '}
                   resultados
                 </p>
@@ -185,22 +240,25 @@ const ResumeList = () => {
                 <SkeletonLoading width="100%" height="78px" />
               </>
             )}
-            {dataResumeList.map(({ isHired, id, user, created_date }) => (
-              <UserCard
-                name={user.name}
-                userPhoto={user.image}
-                paternal_surname={user.paternal_surname}
-                isHired={isHired}
-                setDisableButton={setDisableButton}
-                id={user.id}
-                key={id}
-                cvId={id}
-                data={dataResumeList}
-                setData={setDataResumeList}
-                email={user.email}
-                lastUpdate={created_date}
-              />
-            ))}
+            {dataResumeList.map(
+              ({ isHired, id, user, created_date, cv_language }) => (
+                <UserCard
+                  name={user.name}
+                  userPhoto={user.image}
+                  paternal_surname={user.paternal_surname}
+                  isHired={isHired}
+                  setDisableButton={setDisableButton}
+                  id={user.id}
+                  key={id}
+                  cvId={id}
+                  data={dataResumeList}
+                  setData={setDataResumeList}
+                  email={user.email}
+                  lastUpdate={created_date}
+                  language={cv_language.id}
+                />
+              )
+            )}
             {openModal && (
               <NavModal
                 openModal={openModal}

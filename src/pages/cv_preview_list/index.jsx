@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CV from '../../components/cv_preview';
 import EditCV from '../../components/cv_edit';
 import TasksTodo from '../../components/tasks_todo';
@@ -8,8 +8,6 @@ import styled from 'styled-components';
 import Modal from '../../components/Modal';
 import FirstTime from '../../components/Modal/first_time_user';
 import axios from 'axios';
-import TasksButton from '../../assets/icons/task-list.svg';
-import HelpButton from '../../assets/icons/bulb.svg';
 import Close from '../../assets/icons/close.svg';
 import UserMenu from '../../layouts/navigation/userMenu';
 import MainAndRightLayout from '../../layouts/MainAndRightLayout';
@@ -206,7 +204,6 @@ const CV_preview = (props) => {
 
   const myId = window.localStorage.getItem('id');
   const myToken = window.localStorage.getItem('authToken');
-  const { CVId } = useParams();
 
   const getUserData = async () => {
     try {
@@ -241,18 +238,55 @@ const CV_preview = (props) => {
     }
   };
 
+  /* const getFirstCvId = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/cv/`,
+        {
+          headers: {
+            Authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      setCvId(data.data[0].id);
+      console.log(data.data[0].id);
+    } catch (error) {
+      console.error('errorData', error.message);
+      toast.error('No se pudo cargar el id del CV');
+    }
+  }; */
+
+  /* const getCV = async () => {
+    try {
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/cv/${cvId}`,
+        {
+          headers: {
+            Authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      setCvData(data);
+      // console.log('cv', data);
+      setDataNotLoaded(false);
+    } catch (error) {
+      console.error('errorData', error.message);
+      toast.error(error.response.data.message);
+    }
+  }; */
+
   const getCV = async () => {
     try {
-      /* const idCv = await axios.get(`${process.env.REACT_APP_BASE_URL}/cv/${CVId}`, {
+      const idCv = await axios.get(`${process.env.REACT_APP_BASE_URL}/cv/`, {
         headers: {
           Authorization: `Token ${myToken}`,
         },
       });
 
-      const cvID = idCv.data.data[0].id; */
+      const cvID = idCv.data.data[0].id;
 
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/${CVId}`,
+        `${process.env.REACT_APP_BASE_URL}/cv/${cvID}`,
         {
           headers: {
             Authorization: `Token ${myToken}`,
