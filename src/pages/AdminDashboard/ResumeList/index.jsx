@@ -32,6 +32,10 @@ const Highlight = styled.span`
   font-weight: 700;
 `;
 
+const Filters = styled.div`
+  display: flex;
+`;
+
 const ResumeList = () => {
   const {
     userSelectedId,
@@ -51,23 +55,111 @@ const ResumeList = () => {
   const [searchCounter, setSearchCounter] = useState('0');
   const [page, setPage] = useState(2);
   const alphabeticOrderRef = useRef();
-  const [IsInalphabeticOrder, setIsInalphabeticOrder] = useState(true);
+  const onlyEnglishRef = useRef();
+  const onlySpanishRef = useRef();
+  // const alphabeticOrderRef = useRef();
+  const [IsInalphabeticOrder, setIsInalphabeticOrder] = useState(false);
+  const [onlySpanish, setOnlySpanish] = useState(false);
+  const [onlyEnglish, setOnlyEnglish] = useState(false);
   const navigate = useNavigate();
 
-  const HandleCheckAlphabetic = () => {
+  console.log(search);
+
+  const HandleCheckAlphabetic = async () => {
     setIsInalphabeticOrder(alphabeticOrderRef.current.checked);
+    setSearch('');
+
+    try {
+      const { data } = await axios.get(
+        `${
+          process.env.REACT_APP_BASE_URL
+        }/cv/s/?search=&page_number=1&page_size=${PAGE_SIZE}${
+          alphabeticOrderRef.current.checked ? '&alpha=true' : ''
+        }${onlyEnglish ? '&lang=eng' : ''}${onlySpanish ? '&lang=esp' : ''}`,
+        {
+          headers: {
+            authorization: `Token ${localStorage.getItem('authToken')}`,
+          },
+        }
+      );
+      setPage(2);
+      setDataResumeList(data.data);
+      setTotalCvCounter(data.total_counter);
+      setSearchCounter(data.search_counter);
+      setHasMoreResumeList(1);
+    } catch (error) {
+      toast.error('Opps ha ocurrido un error, no se pudieron cargar los CV');
+    }
   };
 
-  const PAGE_SIZE = 10;
+  const HandleOnlyEnglish = async () => {
+    setOnlyEnglish(onlyEnglishRef.current.checked);
+    setSearch('');
+
+    try {
+      const { data } = await axios.get(
+        `${
+          process.env.REACT_APP_BASE_URL
+        }/cv/s/?search=&page_number=1&page_size=${PAGE_SIZE}${
+          IsInalphabeticOrder ? '&alpha=true' : ''
+        }${onlyEnglishRef.current.checked ? '&lang=eng' : ''}${
+          onlySpanish ? '&lang=esp' : ''
+        }`,
+        {
+          headers: {
+            authorization: `Token ${localStorage.getItem('authToken')}`,
+          },
+        }
+      );
+      setPage(2);
+      setDataResumeList(data.data);
+      setTotalCvCounter(data.total_counter);
+      setSearchCounter(data.search_counter);
+      setHasMoreResumeList(1);
+    } catch (error) {
+      toast.error('Opps ha ocurrido un error, no se pudieron cargar los CV');
+    }
+  };
+
+  const HandleOnlySpanish = async () => {
+    setOnlySpanish(onlySpanishRef.current.checked);
+    setSearch('');
+
+    try {
+      const { data } = await axios.get(
+        `${
+          process.env.REACT_APP_BASE_URL
+        }/cv/s/?search=&page_number=1&page_size=${PAGE_SIZE}${
+          IsInalphabeticOrder ? '&alpha=true' : ''
+        }${onlySpanishRef.current.checked ? '&lang=esp' : ''}${
+          onlyEnglish ? '&lang=eng' : ''
+        }`,
+        {
+          headers: {
+            authorization: `Token ${localStorage.getItem('authToken')}`,
+          },
+        }
+      );
+      setPage(2);
+      setDataResumeList(data.data);
+      setTotalCvCounter(data.total_counter);
+      setSearchCounter(data.search_counter);
+      setHasMoreResumeList(1);
+    } catch (error) {
+      toast.error('Opps ha ocurrido un error, no se pudieron cargar los CV');
+    }
+  };
+
+  const PAGE_SIZE = 11;
 
   const getCVlist = async (props) => {
     try {
       const { data } = await axios.get(
         `${
           process.env.REACT_APP_BASE_URL
-        }/cv/s/?search=&page_number=1&page_size=10${
+        }/cv/s/?search=&page_number=1&page_size=${PAGE_SIZE}${
           IsInalphabeticOrder ? '&alpha=true' : ''
-        }`,
+        }${onlyEnglish ? '&lang=eng' : ''}${onlySpanish ? '&lang=esp' : ''}`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
@@ -97,15 +189,19 @@ const ResumeList = () => {
     }
   };
 
-  const searchCVlist = async () => {
+  const searchCVlist = async (e) => {
+    setSearch(e.target.value);
+
     try {
       const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/cv/s/?search=${search.replace(
+        `${
+          process.env.REACT_APP_BASE_URL
+        }/cv/s/?search=${e.target.value.replace(
           ' ',
           '+'
         )}&page_number=1&page_size=${PAGE_SIZE}${
           IsInalphabeticOrder ? '&alpha=true' : ''
-        }`,
+        }${onlyEnglish ? '&lang=eng' : ''}${onlySpanish ? '&lang=esp' : ''}`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
@@ -130,7 +226,7 @@ const ResumeList = () => {
           '+'
         )}&page_number=${page}&page_size=${PAGE_SIZE}${
           IsInalphabeticOrder ? '&alpha=true' : ''
-        }`,
+        }${onlyEnglish ? '&lang=eng' : ''}${onlySpanish ? '&lang=esp' : ''}`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
@@ -147,7 +243,7 @@ const ResumeList = () => {
   };
 
   useEffect(() => {
-    dataResumeList.length <= 0 && getCVlist();
+    // dataResumeList.length <= 0 && getCVlist();
     getCVlist();
   }, []);
 
@@ -197,30 +293,61 @@ const ResumeList = () => {
                 type="text"
                 placeholder="Busca por nombre, area, o escribe una palabra clave"
                 value={search}
-                onChange={(e) => {
-                  setSearch(e.target.value);
-                  searchCVlist();
-                }}
+                onChange={searchCVlist}
               />
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '10px',
-                  margin: '0 10px',
-                }}
-              >
-                <input
-                  type="checkbox"
-                  name="check"
-                  ref={alphabeticOrderRef}
-                  onChange={HandleCheckAlphabetic}
-                  checked={IsInalphabeticOrder}
-                />{' '}
-                <label htmlFor="check">
-                  Realizar busqueda por orden alfabetico
-                </label>
-              </div>
+              <Filters>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    margin: '0 10px',
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    name="check"
+                    ref={alphabeticOrderRef}
+                    onChange={HandleCheckAlphabetic}
+                    checked={IsInalphabeticOrder}
+                  />{' '}
+                  <label htmlFor="check">Ordenar alfabeticamente</label>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    margin: '0 10px',
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    name="check"
+                    ref={onlyEnglishRef}
+                    onChange={HandleOnlyEnglish}
+                    checked={onlyEnglish}
+                  />{' '}
+                  <label htmlFor="check">Solo Ingles</label>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    margin: '0 10px',
+                  }}
+                >
+                  <input
+                    type="checkbox"
+                    name="check"
+                    ref={onlySpanishRef}
+                    onChange={HandleOnlySpanish}
+                    checked={onlySpanish}
+                  />{' '}
+                  <label htmlFor="check">Solo Español</label>
+                </div>
+              </Filters>
               {searchCounter !== totalCvCounter ? (
                 <p
                   style={{
@@ -255,7 +382,7 @@ const ResumeList = () => {
                   setData={setDataResumeList}
                   email={user.email}
                   lastUpdate={created_date}
-                  language={cv_language.id}
+                  language={cv_language?.id}
                 />
               )
             )}
