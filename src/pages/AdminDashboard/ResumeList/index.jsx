@@ -68,6 +68,8 @@ const ResumeList = () => {
   const HandleCheckAlphabetic = async () => {
     setIsInalphabeticOrder(alphabeticOrderRef.current.checked);
     setSearch('');
+    setOnlyEnglish(false);
+    setOnlySpanish(false);
 
     try {
       const { data } = await axios.get(
@@ -95,15 +97,15 @@ const ResumeList = () => {
   const HandleOnlyEnglish = async () => {
     setOnlyEnglish(onlyEnglishRef.current.checked);
     setSearch('');
+    setIsInalphabeticOrder(false);
+    setOnlySpanish(false);
 
     try {
       const { data } = await axios.get(
         `${
           process.env.REACT_APP_BASE_URL
         }/cv/s/?search=&page_number=1&page_size=${PAGE_SIZE}${
-          IsInalphabeticOrder ? '&alpha=true' : ''
-        }${onlyEnglishRef.current.checked ? '&lang=eng' : ''}${
-          onlySpanish ? '&lang=esp' : ''
+          onlyEnglishRef.current.checked ? '&lang=eng' : ''
         }`,
         {
           headers: {
@@ -124,15 +126,15 @@ const ResumeList = () => {
   const HandleOnlySpanish = async () => {
     setOnlySpanish(onlySpanishRef.current.checked);
     setSearch('');
+    setIsInalphabeticOrder(false);
+    setOnlyEnglish(false);
 
     try {
       const { data } = await axios.get(
         `${
           process.env.REACT_APP_BASE_URL
         }/cv/s/?search=&page_number=1&page_size=${PAGE_SIZE}${
-          IsInalphabeticOrder ? '&alpha=true' : ''
-        }${onlySpanishRef.current.checked ? '&lang=esp' : ''}${
-          onlyEnglish ? '&lang=eng' : ''
+          onlySpanishRef.current.checked ? '&lang=esp' : ''
         }`,
         {
           headers: {
@@ -158,8 +160,8 @@ const ResumeList = () => {
         `${
           process.env.REACT_APP_BASE_URL
         }/cv/s/?search=&page_number=1&page_size=${PAGE_SIZE}${
-          IsInalphabeticOrder ? '&alpha=true' : ''
-        }${onlyEnglish ? '&lang=eng' : ''}${onlySpanish ? '&lang=esp' : ''}`,
+          onlyEnglish ? '&lang=eng' : ''
+        }${onlySpanish ? '&lang=esp' : ''}`,
         {
           headers: {
             authorization: `Token ${localStorage.getItem('authToken')}`,
