@@ -6,6 +6,7 @@ import AlertMessage from '../../../components/AlertMessage';
 import ConfirmChangeStatusModal from '../ConfirmChangeStatusModal';
 import English from '../../../assets/images/eeuu-flag.png';
 import Spanish from '../../../assets/images/spain-flag.png';
+import Mexico from '../../../assets/images/mexico-flag.png';
 import { ResumeContext } from '../ResumeContextProvider';
 import Hacky from '../../../assets/images/Hacky.png';
 
@@ -107,6 +108,9 @@ const UserCard = ({
   const UserCardContainerRef = useRef();
   const { userSelectedId, setUserSelectedId } = useContext(ResumeContext);
   const [openChangeStatusModal, setOpenChangeStatusModal] = useState(false);
+  const myId = localStorage.getItem('id');
+
+  console.log(myId);
 
   useEffect(() => {
     userSelectedId === cvId && setDisableButton(false);
@@ -165,7 +169,15 @@ const UserCard = ({
             </p>
             <div className="language">
               <img
-                src={language === 2 ? English : language === 1 ? Spanish : null}
+                src={
+                  language === 2
+                    ? English
+                    : language === 1
+                    ? myId == 26 /* Solo para Sonia */
+                      ? Mexico
+                      : Spanish
+                    : null
+                }
                 alt=""
               />
             </div>
