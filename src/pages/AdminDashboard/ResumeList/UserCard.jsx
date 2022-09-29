@@ -110,8 +110,6 @@ const UserCard = ({
   const [openChangeStatusModal, setOpenChangeStatusModal] = useState(false);
   const myId = localStorage.getItem('id');
 
-  console.log(myId);
-
   useEffect(() => {
     userSelectedId === cvId && setDisableButton(false);
   }, []);

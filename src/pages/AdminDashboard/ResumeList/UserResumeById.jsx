@@ -39,17 +39,14 @@ const UserResumeById = () => {
   };
 
   const GetBoth = async () => {
-    setLoadingResume(true);
     try {
       const data = await Promise.all([GetCV(), GetUserData()]);
       setResumeData(data[0].data);
       setUserData(data[1].data);
-      setLoadingResume(false);
     } catch (err) {
       if (err.message !== 'canceled') {
         console.log(err);
         toast.error('Oppp no se logró cargar el curriculum');
-        setLoadingResume(false);
       }
     }
   };
@@ -64,12 +61,13 @@ const UserResumeById = () => {
 
   return (
     <>
-      {loadingResume && <ResumeSkeleton />}
+      {/* {loadingResume && <ResumeSkeleton />} */}
       {resumeData && (
         <CV_preview
           userData={userData}
           cvData={resumeData}
           downloadAdmin={true}
+          refreshCV={GetBoth}
         />
       )}
     </>

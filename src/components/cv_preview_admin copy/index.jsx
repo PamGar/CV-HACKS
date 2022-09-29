@@ -19,8 +19,6 @@ import LinkedIn from '../../assets/icons/LinkedIn.svg';
 import Twitter from '../../assets/icons/Twitter.svg';
 import Stackoverflow from '../../assets/icons/Stackoverflow.svg';
 import Logo from '../../assets/images/logo_color.png';
-import axios from 'axios';
-import { toast } from 'react-toastify';
 
 const Page = styled.div`
   width: 800px;
@@ -272,24 +270,6 @@ const BoxFlexCV = styled(BoxFlex)`
   }
 `;
 
-const ButtonAdminHide = styled.div`
-  display: flex;
-  justify-content: right;
-
-  button {
-    background-color: #0babb480;
-    padding: 5px 10px;
-    border-radius: 5px;
-    font-weight: 700;
-    color: #fff;
-    cursor: pointer;
-
-    &:hover {
-      filter: opacity(50%);
-    }
-  }
-`;
-
 const CV_preview = ({
   editButton,
   dataLoaded,
@@ -297,10 +277,7 @@ const CV_preview = ({
   userData,
   displayButtons,
   downloadAdmin,
-  refreshCV,
 }) => {
-  const baseURL = `${process.env.REACT_APP_BASE_URL}`;
-  const myToken = window.localStorage.getItem('authToken');
   const componentRef = useRef();
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -347,27 +324,6 @@ const CV_preview = ({
         break;
       default:
         break;
-    }
-  };
-
-  const adminHide = async (event, URL, id, value) => {
-    event.preventDefault();
-
-    try {
-      const { data } = await axios.put(
-        `${baseURL}/${URL}${cvData.cv.id}/${id}`,
-        { admin_public: !value },
-        {
-          headers: {
-            authorization: `Token ${myToken}`,
-          },
-        }
-      );
-      console.log(data);
-      refreshCV();
-      toast.success('Actualizado con éxito');
-    } catch (error) {
-      toast.error('No se pudo actualizar el estudio');
     }
   };
 
@@ -441,7 +397,6 @@ const CV_preview = ({
                 <div>
                   <h2>{cvLanguage === 1 ? 'Estudios' : 'Education'}</h2>
                   {cvData.educations
-                    .filter((item) => item.admin_public === true)
                     .sort((a, b) => {
                       return new Date(b.start_date) - new Date(a.start_date);
                     })
@@ -471,12 +426,11 @@ const CV_preview = ({
               )}
             </BoxFlexCV>
             <BoxColumnCV>
-              {cvData.experiences.filter((item) => item.admin_public === true)
+              {cvData.experiences.filter((item) => item.public === true)
                 .length === 0 ? null : (
                 <div>
                   <h2>{cvLanguage === 1 ? 'Experiencia' : 'Experience'}</h2>
                   {cvData.experiences
-                    .filter((item) => item.admin_public === true)
                     .sort((a, b) => {
                       return new Date(b.start_date) - new Date(a.start_date);
                     })
@@ -512,7 +466,6 @@ const CV_preview = ({
                 <div>
                   <h2>{cvLanguage === 1 ? 'Cursos' : 'Courses'}</h2>
                   {cvData.courses
-                    .filter((item) => item.admin_public === true)
                     .sort((a, b) => {
                       return new Date(b.start_date) - new Date(a.start_date);
                     })
@@ -549,7 +502,6 @@ const CV_preview = ({
                     {cvLanguage === 1 ? 'Certificaciones' : 'Certifications'}
                   </h2>
                   {cvData.certifications
-                    .filter((item) => item.admin_public === true)
                     .sort((a, b) => {
                       return (
                         new Date(b.expedition_date) -
@@ -590,7 +542,6 @@ const CV_preview = ({
                 <div>
                   <h2>{cvLanguage === 1 ? 'Comunidades' : 'Communities'}</h2>
                   {cvData.organisations
-                    .filter((item) => item.admin_public === true)
                     .sort((a, b) => {
                       return new Date(b.start_date) - new Date(a.start_date);
                     })
@@ -626,7 +577,6 @@ const CV_preview = ({
                 <div>
                   <h2>{cvLanguage === 1 ? 'Proyectos' : 'Projects'}</h2>
                   {cvData.projects
-                    .filter((item) => item.admin_public === true)
                     .sort((a, b) => {
                       return new Date(b.start_date) - new Date(a.start_date);
                     })
@@ -664,7 +614,6 @@ const CV_preview = ({
                 <div className="center">
                   <h2>{cvLanguage === 1 ? 'Publicaciones' : 'Publications'}</h2>
                   {cvData.publications
-                    .filter((item) => item.admin_public === true)
                     .sort((a, b) => {
                       return new Date(b.date) - new Date(a.date);
                     })
@@ -695,7 +644,6 @@ const CV_preview = ({
                 <div className="center">
                   <h2>{cvLanguage === 1 ? 'Premios' : 'Awards'}</h2>
                   {cvData.awards
-                    .filter((item) => item.admin_public === true)
                     .sort((a, b) => {
                       return new Date(b.date) - new Date(a.date);
                     })
@@ -738,15 +686,13 @@ const CV_preview = ({
                 <div className="center">
                   <h2>{cvLanguage === 1 ? 'Intereses' : 'Interests'}</h2>
                   <ul className="item">
-                    {cvData.intersts
-                      .filter((item) => item.admin_public === true)
-                      .map((item) => {
-                        return item.public ? (
-                          <li key={item.id} className="second">
-                            {item.title}
-                          </li>
-                        ) : null;
-                      })}
+                    {cvData.intersts.map((item) => {
+                      return item.public ? (
+                        <li key={item.id} className="second">
+                          {item.title}
+                        </li>
+                      ) : null;
+                    })}
                   </ul>
                 </div>
               )}
@@ -852,14 +798,7 @@ const CV_preview = ({
                 })
                 .map((item) => {
                   return item.public ? (
-                    <div
-                      key={item.id}
-                      style={{
-                        filter: item.admin_public
-                          ? 'opacity(100%)'
-                          : 'opacity(30%)',
-                      }}
-                    >
+                    <div key={item.id}>
                       <p className="first">
                         {item.major}
                         {' • '}
@@ -875,25 +814,6 @@ const CV_preview = ({
                         {' • '}
                         {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
-                      <ButtonAdminHide>
-                        <button
-                          style={{
-                            backgroundColor: item.admin_public
-                              ? '#ff6666'
-                              : '#00595a',
-                          }}
-                          onClick={(event) =>
-                            adminHide(
-                              event,
-                              'cv/educations/',
-                              item.id,
-                              item.admin_public
-                            )
-                          }
-                        >
-                          {item.admin_public ? 'Ocultar' : 'Mostrar'}
-                        </button>
-                      </ButtonAdminHide>
                     </div>
                   ) : null;
                 })}
@@ -907,40 +827,13 @@ const CV_preview = ({
             <BoxFlex>
               {cvData.languages.map((item) => {
                 return item.public ? (
-                  <div
-                    key={item.id}
-                    className="center"
-                    style={{
-                      filter: item.admin_public
-                        ? 'opacity(100%)'
-                        : 'opacity(30%)',
-                    }}
-                  >
+                  <div key={item.id} className="center">
                     <p className="first">
                       {item.title}
                       {' • '}
                       <span className="third">{item.level}</span>
                     </p>
                     <p className="second">{item.subtitle}</p>
-                    <ButtonAdminHide>
-                      <button
-                        style={{
-                          backgroundColor: item.admin_public
-                            ? '#ff6666'
-                            : '#00595a',
-                        }}
-                        onClick={(event) =>
-                          adminHide(
-                            event,
-                            'cv/admin-cv-formskills/',
-                            item.id,
-                            item.admin_public
-                          )
-                        }
-                      >
-                        {item.admin_public ? 'Ocultar' : 'Mostrar'}
-                      </button>
-                    </ButtonAdminHide>
                   </div>
                 ) : null;
               })}
@@ -958,14 +851,7 @@ const CV_preview = ({
                 })
                 .map((item) => {
                   return item.public ? (
-                    <div
-                      key={item.id}
-                      style={{
-                        filter: item.admin_public
-                          ? 'opacity(100%)'
-                          : 'opacity(30%)',
-                      }}
-                    >
+                    <div key={item.id}>
                       <p className="first">
                         {item.title}
                         {' • '}
@@ -980,25 +866,6 @@ const CV_preview = ({
                         {item.start_date} {' • '}{' '}
                         {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
-                      <ButtonAdminHide>
-                        <button
-                          style={{
-                            backgroundColor: item.admin_public
-                              ? '#ff6666'
-                              : '#00595a',
-                          }}
-                          onClick={(event) =>
-                            adminHide(
-                              event,
-                              'cv/formnormals/',
-                              item.id,
-                              item.admin_public
-                            )
-                          }
-                        >
-                          {item.admin_public ? 'Ocultar' : 'Mostrar'}
-                        </button>
-                      </ButtonAdminHide>
                     </div>
                   ) : null;
                 })}
@@ -1020,13 +887,7 @@ const CV_preview = ({
                   return item.public ? (
                     <div
                       key={item.id}
-                      style={{
-                        width: '45%',
-                        textAlign: 'left',
-                        filter: item.admin_public
-                          ? 'opacity(100%)'
-                          : 'opacity(30%)',
-                      }}
+                      style={{ width: '45%', textAlign: 'left' }}
                     >
                       <p className="first">{item.name}</p>
                       <p className="third">{item.company}</p>
@@ -1047,25 +908,6 @@ const CV_preview = ({
                           ? 'Actualmente'
                           : item.expiry_date}
                       </p>
-                      <ButtonAdminHide>
-                        <button
-                          style={{
-                            backgroundColor: item.admin_public
-                              ? '#ff6666'
-                              : '#00595a',
-                          }}
-                          onClick={(event) =>
-                            adminHide(
-                              event,
-                              'cv/admin-cv-certifications/',
-                              item.id,
-                              item.admin_public
-                            )
-                          }
-                        >
-                          {item.admin_public ? 'Ocultar' : 'Mostrar'}
-                        </button>
-                      </ButtonAdminHide>
                     </div>
                   ) : null;
                 })}
@@ -1083,14 +925,7 @@ const CV_preview = ({
                 })
                 .map((item) => {
                   return item.public ? (
-                    <div
-                      key={item.id}
-                      style={{
-                        filter: item.admin_public
-                          ? 'opacity(100%)'
-                          : 'opacity(30%)',
-                      }}
-                    >
+                    <div key={item.id}>
                       <p className="first">
                         {item.role}
                         {' • '}
@@ -1106,25 +941,6 @@ const CV_preview = ({
                         {' • '}
                         {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
-                      <ButtonAdminHide>
-                        <button
-                          style={{
-                            backgroundColor: item.admin_public
-                              ? '#ff6666'
-                              : '#00595a',
-                          }}
-                          onClick={(event) =>
-                            adminHide(
-                              event,
-                              'cv/experience/',
-                              item.id,
-                              item.admin_public
-                            )
-                          }
-                        >
-                          {item.admin_public ? 'Ocultar' : 'Mostrar'}
-                        </button>
-                      </ButtonAdminHide>
                     </div>
                   ) : null;
                 })}
@@ -1142,14 +958,7 @@ const CV_preview = ({
                 })
                 .map((item) => {
                   return item.public ? (
-                    <div
-                      key={item.id}
-                      style={{
-                        filter: item.admin_public
-                          ? 'opacity(100%)'
-                          : 'opacity(30%)',
-                      }}
-                    >
+                    <div key={item.id}>
                       <p className="first">
                         {item.title}
                         {' • '}
@@ -1165,25 +974,6 @@ const CV_preview = ({
                         {' • '}
                         {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
-                      <ButtonAdminHide>
-                        <button
-                          style={{
-                            backgroundColor: item.admin_public
-                              ? '#ff6666'
-                              : '#00595a',
-                          }}
-                          onClick={(event) =>
-                            adminHide(
-                              event,
-                              'cv/formnormals/',
-                              item.id,
-                              item.admin_public
-                            )
-                          }
-                        >
-                          {item.admin_public ? 'Ocultar' : 'Mostrar'}
-                        </button>
-                      </ButtonAdminHide>
                     </div>
                   ) : null;
                 })}
@@ -1201,14 +991,7 @@ const CV_preview = ({
                 })
                 .map((item) => {
                   return item.public ? (
-                    <div
-                      key={item.id}
-                      style={{
-                        filter: item.admin_public
-                          ? 'opacity(100%)'
-                          : 'opacity(30%)',
-                      }}
-                    >
+                    <div key={item.id}>
                       <p className="first">
                         {item.title}
                         {' • '}
@@ -1226,25 +1009,6 @@ const CV_preview = ({
                         {' • '}
                         {item.end_date === null ? 'Actualmente' : item.end_date}
                       </p>
-                      <ButtonAdminHide>
-                        <button
-                          style={{
-                            backgroundColor: item.admin_public
-                              ? '#ff6666'
-                              : '#00595a',
-                          }}
-                          onClick={(event) =>
-                            adminHide(
-                              event,
-                              'cv/projects/',
-                              item.id,
-                              item.admin_public
-                            )
-                          }
-                        >
-                          {item.admin_public ? 'Ocultar' : 'Mostrar'}
-                        </button>
-                      </ButtonAdminHide>
                     </div>
                   ) : null;
                 })}
@@ -1262,14 +1026,7 @@ const CV_preview = ({
                 })
                 .map((item) => {
                   return item.public ? (
-                    <div
-                      key={item.id}
-                      style={{
-                        filter: item.admin_public
-                          ? 'opacity(100%)'
-                          : 'opacity(30%)',
-                      }}
-                    >
+                    <div key={item.id}>
                       <p className="first">
                         {item.title}
                         {' • '}
@@ -1285,25 +1042,6 @@ const CV_preview = ({
                           {item.date}
                         </p>
                       )}
-                      <ButtonAdminHide>
-                        <button
-                          style={{
-                            backgroundColor: item.admin_public
-                              ? '#ff6666'
-                              : '#00595a',
-                          }}
-                          onClick={(event) =>
-                            adminHide(
-                              event,
-                              'cv/admin-cv-formworks/',
-                              item.id,
-                              item.admin_public
-                            )
-                          }
-                        >
-                          {item.admin_public ? 'Ocultar' : 'Mostrar'}
-                        </button>
-                      </ButtonAdminHide>
                     </div>
                   ) : null;
                 })}
@@ -1321,15 +1059,7 @@ const CV_preview = ({
                 })
                 .map((item) => {
                   return item.public ? (
-                    <div
-                      key={item.id}
-                      className="item"
-                      style={{
-                        filter: item.admin_public
-                          ? 'opacity(100%)'
-                          : 'opacity(30%)',
-                      }}
-                    >
+                    <div key={item.id} className="item">
                       <div className="header">
                         <p className="first">
                           {item.title}
@@ -1345,25 +1075,6 @@ const CV_preview = ({
                         />{' '}
                         {item.date}
                       </p>
-                      <ButtonAdminHide>
-                        <button
-                          style={{
-                            backgroundColor: item.admin_public
-                              ? '#ff6666'
-                              : '#00595a',
-                          }}
-                          onClick={(event) =>
-                            adminHide(
-                              event,
-                              'cv/admin-cv-formworks/',
-                              item.id,
-                              item.admin_public
-                            )
-                          }
-                        >
-                          {item.admin_public ? 'Ocultar' : 'Mostrar'}
-                        </button>
-                      </ButtonAdminHide>
                     </div>
                   ) : null;
                 })}
@@ -1393,36 +1104,9 @@ const CV_preview = ({
             <BoxColumn>
               {cvData.intersts.map((item) => {
                 return item.public ? (
-                  <div
-                    key={item.id}
-                    className="item"
-                    style={{
-                      filter: item.admin_public
-                        ? 'opacity(100%)'
-                        : 'opacity(30%)',
-                    }}
-                  >
+                  <div key={item.id} className="item">
                     <p className="first">{item.title}</p>
                     <p className="second">{item.subtitle}</p>
-                    <ButtonAdminHide>
-                      <button
-                        style={{
-                          backgroundColor: item.admin_public
-                            ? '#ff6666'
-                            : '#00595a',
-                        }}
-                        onClick={(event) =>
-                          adminHide(
-                            event,
-                            'cv/admin-cv-formskills/',
-                            item.id,
-                            item.admin_public
-                          )
-                        }
-                      >
-                        {item.admin_public ? 'Ocultar' : 'Mostrar'}
-                      </button>
-                    </ButtonAdminHide>
                   </div>
                 ) : null;
               })}
@@ -1439,7 +1123,6 @@ const CV_preview = ({
         {downloadAdmin && (
           <Button type="button" onClick={copyURL} disabled={dataLoaded}>
             <FontAwesomeIcon icon={faCopy} className="calendar" /> Copiar URL
-            publica
           </Button>
         )}
         <Button
