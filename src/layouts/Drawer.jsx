@@ -31,7 +31,7 @@ const DrawerContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  background-color: rgb(238, 238, 255);
+  background-color: #fff;
   height: 100vh;
   width: 240px;
   box-shadow: rgb(0 0 0 / 20%) 0px 8px 10px -5px,
@@ -64,7 +64,7 @@ const Drawer = forwardRef(({ children, setOpenModal, activateFade }, ref) => {
   return (
     <DrawerWrapper>
       <div
-        className='background fade'
+        className="background fade"
         onClick={() => {
           backgroundRef.current.classList.add('fade');
           ref.current.classList.add('toggleDrawer');

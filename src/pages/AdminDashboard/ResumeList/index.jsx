@@ -2,6 +2,11 @@ import { useState, useEffect, useContext, useRef } from 'react';
 import UserCard from './UserCard';
 import NavModal from '../NavModal';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowDownAZ } from '@fortawesome/free-solid-svg-icons';
+import English from '../../../assets/images/eeuu-flag.png';
+import Spanish from '../../../assets/images/spain-flag.png';
+import Mexico from '../../../assets/images/mexico-flag.png';
 import axios from 'axios';
 import MainContentWrapper from '../../../components/MainContentWrapper';
 import MainAndRightLayout from '../../../layouts/MainAndRightLayout';
@@ -34,6 +39,19 @@ const Highlight = styled.span`
 
 const Filters = styled.div`
   display: flex;
+
+  svg {
+    font-size: 20px;
+  }
+
+  .language {
+    width: 25px;
+    display: flex;
+
+    img {
+      width: 100%;
+    }
+  }
 `;
 
 const ResumeList = () => {
@@ -62,6 +80,7 @@ const ResumeList = () => {
   const [onlySpanish, setOnlySpanish] = useState(false);
   const [onlyEnglish, setOnlyEnglish] = useState(false);
   const navigate = useNavigate();
+  const myId = localStorage.getItem('id');
 
   const HandleCheckAlphabetic = async () => {
     setIsInalphabeticOrder(alphabeticOrderRef.current.checked);
@@ -312,7 +331,9 @@ const ResumeList = () => {
                     onChange={HandleCheckAlphabetic}
                     checked={IsInalphabeticOrder}
                   />{' '}
-                  <label htmlFor="check">Ordenar alfabeticamente</label>
+                  <label htmlFor="check">
+                    <FontAwesomeIcon icon={faArrowDownAZ} />
+                  </label>
                 </div>
                 <div
                   style={{
@@ -329,7 +350,11 @@ const ResumeList = () => {
                     onChange={HandleOnlyEnglish}
                     checked={onlyEnglish}
                   />{' '}
-                  <label htmlFor="check">Solo Ingles</label>
+                  <label htmlFor="check">
+                    <div className="language">
+                      <img src={English} alt="" />
+                    </div>
+                  </label>
                 </div>
                 <div
                   style={{
@@ -346,7 +371,16 @@ const ResumeList = () => {
                     onChange={HandleOnlySpanish}
                     checked={onlySpanish}
                   />{' '}
-                  <label htmlFor="check">Solo Español</label>
+                  <label htmlFor="check">
+                    <div className="language">
+                      <img
+                        src={
+                          myId == 26 /* Solo para Sonia */ ? Mexico : Spanish
+                        }
+                        alt=""
+                      />
+                    </div>
+                  </label>
                 </div>
               </Filters>
               {searchCounter !== totalCvCounter ? (

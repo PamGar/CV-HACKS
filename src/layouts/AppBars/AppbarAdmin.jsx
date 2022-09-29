@@ -150,14 +150,14 @@ const AppbarAdmin = () => {
             <FontAwesomeIcon icon={faIdCard} className="Icon" />
             Curriculums
           </StyledLink>
-          <StyledLink to="/job-offers">
+          {/* <StyledLink to="/job-offers">
             <FontAwesomeIcon icon={faFileLines} className="Icon" />
             Vacantes
           </StyledLink>
           <StyledLink to="/register-company">
             <FontAwesomeIcon icon={faBuilding} className="Icon" />
             Dar de alta
-          </StyledLink>
+          </StyledLink> */}
           <StyledLink to="/profile">
             <FontAwesomeIcon icon={faUser} className="Icon" />
             Mi perfil
@@ -178,14 +178,14 @@ const AppbarAdmin = () => {
                 <FontAwesomeIcon icon={faIdCard} className="Icon" />
                 Curriculums
               </StyledLink>
-              <StyledLink to="/job-offers">
+              {/* <StyledLink to="/job-offers">
                 <FontAwesomeIcon icon={faFileLines} className="Icon" />
                 Vacantes
               </StyledLink>
               <StyledLink to="/register-company">
                 <FontAwesomeIcon icon={faBuilding} className="Icon" />
                 Dar de alta
-              </StyledLink>
+              </StyledLink> */}
               <StyledLink to="/profile">
                 <FontAwesomeIcon icon={faUser} className="Icon" />
                 Mi perfil
@@ -206,7 +206,7 @@ const AppbarAdmin = () => {
               <FontAwesomeIcon icon={faIdCard} className="Icon" />
               Curriculums
             </StyledLinkMobile>
-            <StyledLinkMobile to="/job-offers" onClick={handleClickDrawer}>
+            {/* <StyledLinkMobile to="/job-offers" onClick={handleClickDrawer}>
               <FontAwesomeIcon icon={faFileLines} className="Icon" />
               Vacantes
             </StyledLinkMobile>
@@ -216,7 +216,7 @@ const AppbarAdmin = () => {
             >
               <FontAwesomeIcon icon={faBuilding} className="Icon" />
               Dar de alta
-            </StyledLinkMobile>
+            </StyledLinkMobile> */}
             <StyledLinkMobile to="/profile" onClick={handleClickDrawer}>
               <FontAwesomeIcon icon={faUser} className="Icon" />
               Mi perfil

@@ -281,6 +281,7 @@ const ButtonAdminHide = styled.div`
     padding: 5px 10px;
     border-radius: 5px;
     font-weight: 700;
+    font-size: 10px;
     color: #fff;
     cursor: pointer;
 
