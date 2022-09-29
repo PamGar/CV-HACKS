@@ -121,7 +121,7 @@ const PublicCvLoader = () => {
           <div class="spinner-ring"></div>
           <div class="spinner-ring"></div>
         </div> */}
-        <img src={Logo} alt="" />
+        <img src={Logo} alt="Logo hackademy" />
       </div>
     </Wrapper>
   );
