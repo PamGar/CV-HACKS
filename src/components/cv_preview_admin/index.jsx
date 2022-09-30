@@ -313,17 +313,31 @@ const CV_preview = ({
   // const userRole = localStorage.getItem('role');
   const cvLanguage = cvData.cv.cv_language?.id;
 
-  const copyURL = () => {
-    /* Get the text field */
-    var copyText = window.location.host;
+  const copyURL = async () => {
+    try {
+      const { data } = await axios.post(
+        `${baseURL}/cv/gen_shared/${cvData.cv.id}/`,
+        null,
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      console.log(data.cv_uuid);
+      /* Get the text field */
+      var copyText = window.location.host;
 
-    /* Copy the text to the clipboard */
-    navigator.clipboard.writeText(`${copyText}/public/${cvData.cv.id}`);
+      /* Copy the text to the clipboard */
+      navigator.clipboard.writeText(`${copyText}/public/${data.cv_uuid}`);
 
-    /* Alert the copied text */
-    alert(
-      `Enlace publico para este CV copiado, ten en cuanta que se ocultaran sus datos de contacto`
-    );
+      /* Alert the copied text */
+      alert(
+        `Enlace publico para este CV copiado, ten en cuanta que se ocultaran sus datos de contacto`
+      );
+    } catch (error) {
+      toast.error('No se pudo obtener tu lista de premios');
+    }
   };
 
   const iconRedesSociales = (value) => {

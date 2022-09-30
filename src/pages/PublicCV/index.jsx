@@ -57,7 +57,7 @@ const PublicCV = () => {
     <>
       {loadingResume && <PublicCvLoader />}
       <div>
-        <CV cvData={cvData} />
+        <CV cvData={cvData} cvUuId={cvId} />
       </div>
     </>
   );
