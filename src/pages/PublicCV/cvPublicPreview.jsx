@@ -10,6 +10,7 @@ import {
   faCalendar,
   faPenToSquare,
   faFileArrowDown,
+  faCopy,
 } from '@fortawesome/free-solid-svg-icons';
 import Github from '../../assets/icons/Github.svg';
 import Gitlab from '../../assets/icons/Gitlab.svg';
@@ -235,6 +236,20 @@ const HeaderCV = styled(Header)`
       object-fit: cover;
     }
   }
+
+  button {
+    background: transparent;
+    width: 30px;
+    cursor: pointer;
+
+    &:hover {
+      filter: opacity(50%);
+    }
+
+    svg {
+      font-size: 18px;
+    }
+  }
 `;
 
 const BoxColumnCV = styled(BoxColumn)`
@@ -282,8 +297,10 @@ const CV_preview = ({
   userData,
   displayButtons,
   downloadAdmin,
+  cvUuId,
 }) => {
   const componentRef = useRef();
+  const cvIdRef = useRef('');
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
@@ -293,6 +310,17 @@ const CV_preview = ({
 
   const getPageMargins = () => {
     return `@page { margin: ${'20px'} ${'50px'} ${'50px'} ${'50px'} !important; }`;
+  };
+
+  const copyInviteCode = () => {
+    /* Get the text field */
+    var copyText = cvIdRef.current.innerText;
+
+    /* Copy the text to the clipboard */
+    navigator.clipboard.writeText(copyText);
+
+    /* Alert the copied text */
+    alert('Codigo del CV copiado: ' + copyText);
   };
 
   return (
@@ -318,12 +346,10 @@ const CV_preview = ({
                         paddingLeft: '0',
                       }}
                     >
-                      <p style={{ marginLeft: '0' }}>
-                        <p style={{ textAlign: 'center' }}>
-                          {cvData.cv.user?.address
-                            ? cvData.cv.user?.address
-                            : null}{' '}
-                        </p>
+                      <p style={{ textAlign: 'center' }}>
+                        {cvData.cv.user?.address
+                          ? cvData.cv.user?.address
+                          : null}{' '}
                       </p>
                     </BoxFlex>
                   </BoxColumn>
@@ -671,22 +697,29 @@ const CV_preview = ({
                       padding: '0',
                     }}
                   >
-                    <h2>{cvData.cv.area}</h2>
-                    <BoxFlex
+                    <BoxFlexCV
                       style={{
-                        textAlign: 'left',
-                        paddingTop: `5px`,
-                        paddingLeft: '0',
+                        margin: '0',
+                        padding: '0',
+                        alignItems: 'baseline',
+                        justifyContent: 'flex-start',
+                        lineHeight: '20px',
                       }}
                     >
-                      <p style={{ marginLeft: '0' }}>
-                        <p style={{ textAlign: 'center' }}>
-                          {cvData.cv.user?.address
-                            ? cvData.cv.user?.address
-                            : null}{' '}
-                        </p>
+                      <h2>{cvData.cv.area}</h2>
+                      <p>
+                        {cvData.cv.user?.address
+                          ? cvData.cv.user?.address
+                          : null}{' '}
                       </p>
-                    </BoxFlex>
+                    </BoxFlexCV>
+
+                    <p ref={cvIdRef}>
+                      {cvUuId}
+                      <button onClick={copyInviteCode}>
+                        <FontAwesomeIcon icon={faCopy} className="calendar" />
+                      </button>
+                    </p>
                   </BoxColumn>
                 </div>
               }
