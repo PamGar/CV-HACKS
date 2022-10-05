@@ -74,6 +74,9 @@ const Landing = () => {
       style={{
         backgroundImage: ` linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.73)), url(${LandingImage})`,
         backgroundSize: 'cover ',
+        backgroundRepeat: 'no-repeat',
+            backgroundSize: 'cover',
+            backgroundPositionX: 'center',
       }}
     >
       <Nav>
