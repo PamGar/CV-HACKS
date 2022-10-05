@@ -7,6 +7,8 @@ import LandingImage from '../../assets/images/landing-image.jpg';
 
 const LandingBox = styled.div`
   height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 
   h1 {
     color: #fff;
@@ -27,7 +29,12 @@ const Button = styled.button`
   border-radius: 30px;
   font-weight: 700;
   font-size: 16px;
-  color: #fff
+  color: #fff;
+
+  &:hover {
+    background-color: #3f3f78;
+    cursor: pointer;
+  }
 `;
 
 const Nav = styled.div`
@@ -48,7 +55,6 @@ const Nav = styled.div`
 `;
 
 const Body = styled.div`
-  height: calc(100% - 100px);
   display: flex;
   justify-content: space-evenly;
   align-items: center;
@@ -72,14 +78,26 @@ const Body = styled.div`
   }
 `;
 
+const Footer = styled.div`
+  text-align: right;
+  color: #fff;
+  padding: 20px;
+
+  a {
+    color: #9797e5;
+    font-weight: 700;
+    font-size: 14px;
+  }
+`;
+
 const Landing = () => {
   return (
     <LandingBox
       style={{
         backgroundImage: ` linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.73)), url(${LandingImage})`,
         backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover',
-            backgroundPositionX: 'center',
+        backgroundSize: 'cover',
+        backgroundPositionX: 'center',
       }}
     >
       <Nav>
@@ -111,6 +129,13 @@ const Landing = () => {
           </NavLink>
         </div>
       </Body>
+      <Footer>
+        Copyright ©2022{' '}
+        <a href="https://hackademy.lat/" target="_blank">
+          Hackademy
+        </a>
+        . Todos los derechos reservados
+      </Footer>
     </LandingBox>
   );
 };
