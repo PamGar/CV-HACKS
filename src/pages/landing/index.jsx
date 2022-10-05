@@ -10,6 +10,10 @@ const LandingBox = styled.div`
 
   h1 {
     color: #fff;
+
+    @media (max-width: 800px) {
+      font-size: 24px;
+    }
   }
 
   a {
@@ -73,7 +77,6 @@ const Landing = () => {
     <LandingBox
       style={{
         backgroundImage: ` linear-gradient(to bottom, rgba(0, 0, 0, 0.52), rgba(0, 0, 0, 0.73)), url(${LandingImage})`,
-        backgroundSize: 'cover ',
         backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             backgroundPositionX: 'center',
