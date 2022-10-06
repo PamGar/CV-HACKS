@@ -15,16 +15,19 @@ const UserCardContainer = styled.div`
   background-color: #f3f4f6;
   background-color: ${(props) => (props.isSelected ? '#a0a0cc' : '#f3f4f6')};
   border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: grid;
+  grid-template-areas: 'userPhoto name isHired';
+  grid-template-columns: 0.5fr 3fr 1fr;
+  text-align: center;
+  place-items: center;
   color: #171717;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   cursor: pointer;
+  position: relative;
   transition: box-shadow 250ms ease;
   gap: 10px;
+  overflow: hidden;
   box-shadow: 0 12px 8px -8px #b9b9b9;
-  flex-wrap: wrap;
 
   :hover {
     box-shadow: 0px 3px 1px -1px rgb(0 0 0 / 20%),
@@ -32,8 +35,6 @@ const UserCardContainer = styled.div`
   }
 
   .language {
-    display: flex;
-    align-item: center;
     width: 30px;
     filter: opacity(50%);
 
@@ -41,24 +42,14 @@ const UserCardContainer = styled.div`
       width: 100%;
     }
   }
-
-  .statusCV {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    align-items: flex-end;
-
-    @media (max-width: 800px) {
-      width: 100%;
-      flex-direction: row;
-      justify-content: end;
-      align-items: center;
-    }
-  }
 `;
 
 const UserImage = styled.div`
+  grid-area: userPhoto;
+  width: 100%;
+  height: 100%;
   display: flex;
+  justify-content: center;
   align-items: center;
 
   img {
@@ -68,7 +59,10 @@ const UserImage = styled.div`
   }
 `;
 
-const NameEmailContainer = styled.div``;
+const NameEmailContainer = styled.div`
+  justify-self: start;
+  grid-area: name;
+`;
 
 const Name = styled.p`
   font-size: 1.2rem;
@@ -95,11 +89,6 @@ const StyledNavLink = styled(NavLink)`
   .active {
     color: #565696;
   }
-`;
-
-const DataContainer = styled.div`
-  display: flex;
-  gap: 10px;
 `;
 
 const UserCard = ({
@@ -136,28 +125,33 @@ const UserCard = ({
           isSelected={userSelectedId === cvId}
           ref={UserCardContainerRef}
         >
-          <DataContainer>
-            <UserImage>
-              <img
-                src={
-                  userPhoto === '/media/default.jpg'
-                    ? Hacky
-                    : `https://apicv.hackademy.lat${userPhoto}`
-                }
-                alt=""
-              />
-            </UserImage>
-            <NameEmailContainer>
-              <Name isSelected={userSelectedId === cvId}>
-                {name} {paternal_surname}
-              </Name>
-              <Email isSelected={userSelectedId === cvId}>{email}</Email>
-              <LastUpdateStyle isSelected={userSelectedId === cvId}>
-                Ultima actualización: <span>{format(lastUpdate)}</span>
-              </LastUpdateStyle>
-            </NameEmailContainer>
-          </DataContainer>
-          <div className="statusCV">
+          <UserImage>
+            <img
+              src={
+                userPhoto === '/media/default.jpg'
+                  ? Hacky
+                  : `https://apicv.hackademy.lat${userPhoto}`
+              }
+              alt=""
+            />
+          </UserImage>
+          <NameEmailContainer>
+            <Name isSelected={userSelectedId === cvId}>
+              {name} {paternal_surname}
+            </Name>
+            <Email isSelected={userSelectedId === cvId}>{email}</Email>
+            <LastUpdateStyle isSelected={userSelectedId === cvId}>
+              Ultima actualización: <span>{format(lastUpdate)}</span>
+            </LastUpdateStyle>
+          </NameEmailContainer>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '5px',
+              alignItems: 'flex-end',
+            }}
+          >
             <p
               style={{
                 backgroundColor:
