@@ -114,7 +114,6 @@ const Wrapper = styled.div`
 
   @media (max-width: 820px) {
     box-shadow: unset;
-    background-color: unset;
     padding: 10px;
   }
 `;

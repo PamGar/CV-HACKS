@@ -55,14 +55,14 @@ const NavModal = ({ openModal, setOpenModal, userId }) => {
             >
               Editar CV
             </NavDescriptionCard> */}
-            <NavDescriptionCard
+            {/* <NavDescriptionCard
               description="Compartir CVs a las empresas"
               icon={faPaperPlane}
               path={`/resumes/${userId}/share`}
               onClick={() => ModalLayoutRef.current.classList.add('fadeOut')}
             >
               Compartir
-            </NavDescriptionCard>
+            </NavDescriptionCard> */}
             <DeleteButton>
               <NavDescriptionCard
                 description="Esta accion no puede revertirse"
