@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import { useReactToPrint /* generateAndSavePDF */ } from 'react-to-print';
 import styled from 'styled-components';
+import copy from 'copy-to-clipboard';
 // import html2canvas from 'html2canvas';
 // import html2pdf from 'html2pdf.js';
 // import { jsPDF } from 'jspdf';
@@ -323,12 +324,11 @@ const CV_preview = ({
           },
         }
       );
-      console.log(data.cv_uuid);
       /* Get the text field */
       var copyText = window.location.host;
 
       /* Copy the text to the clipboard */
-      navigator.clipboard.writeText(`${copyText}/public/${data.cv_uuid}`);
+      copy(`${copyText}/public/${data.cv_uuid}`);
 
       /* Alert the copied text */
       alert(
