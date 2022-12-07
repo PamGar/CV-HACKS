@@ -11,6 +11,8 @@ import {
   faPenToSquare,
   faFileArrowDown,
   faCopy,
+  faEye,
+  faEyeSlash,
 } from '@fortawesome/free-solid-svg-icons';
 import Github from '../../assets/icons/Github.svg';
 import Gitlab from '../../assets/icons/Gitlab.svg';
