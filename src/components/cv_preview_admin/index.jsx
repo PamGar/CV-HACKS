@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useReactToPrint /* generateAndSavePDF */ } from 'react-to-print';
 import styled from 'styled-components';
 import copy from 'copy-to-clipboard';
@@ -12,6 +12,8 @@ import {
   faPenToSquare,
   faFileArrowDown,
   faCopy,
+  faEye,
+  faEyeSlash,
 } from '@fortawesome/free-solid-svg-icons';
 import Github from '../../assets/icons/Github.svg';
 import Gitlab from '../../assets/icons/Gitlab.svg';
@@ -235,7 +237,17 @@ const HeaderCV = styled(Header)`
 `;
 
 const BoxColumnCV = styled(BoxColumn)`
-  page-break-inside: avoid;
+  & > div > div {
+    page-break-inside: avoid;
+  }
+
+  & > div > h2 {
+    page-break-after: avoid;
+  }
+
+  & > div > p {
+    page-break-inside: auto;
+  }
 
   h2 {
     text-align: center;
@@ -244,7 +256,18 @@ const BoxColumnCV = styled(BoxColumn)`
   }
 `;
 const BoxFlexCV = styled(BoxFlex)`
-  page-break-inside: avoid;
+  & > div > div {
+    page-break-inside: avoid;
+  }
+
+  & > div > h2 {
+    page-break-after: avoid;
+  }
+
+  & > div > .text {
+    page-break-inside: auto;
+  }
+
   justify-content: space-between;
   align-items: flex-start;
 
@@ -291,6 +314,12 @@ const ButtonAdminHide = styled.div`
   }
 `;
 
+const ButtonAdminHideMini = styled(ButtonAdminHide)`
+  button {
+    padding: 5px;
+  }
+`;
+
 const CV_preview = ({
   editButton,
   dataLoaded,
@@ -306,11 +335,7 @@ const CV_preview = ({
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-
-  // const printRef = useRef();
-  // const [width, setWidth] = useState(0);
   const widthRef = useRef();
-  // const userRole = localStorage.getItem('role');
   const cvLanguage = cvData.cv.cv_language?.id;
 
   const copyURL = async () => {
@@ -377,11 +402,36 @@ const CV_preview = ({
           },
         }
       );
-      console.log(data);
       refreshCV();
       toast.success('Actualizado con éxito');
     } catch (error) {
       toast.error('No se pudo actualizar el estudio');
+    }
+  };
+
+  const userDataHide = async (event, value) => {
+    event.preventDefault();
+
+    try {
+      const { data } = await axios.patch(
+        `${baseURL}/user/${userData.id}/`,
+        {
+          hidden_fields: [value],
+        },
+        {
+          headers: {
+            authorization: `Token ${myToken}`,
+          },
+        }
+      );
+      refreshCV();
+      toast.success(
+        `${
+          data.hidden_fields.includes(value) ? 'Ocultado' : 'Mostrado'
+        } con exito`
+      );
+    } catch (error) {
+      toast.error('No se pudo ocultar el campo');
     }
   };
 
@@ -416,7 +466,15 @@ const CV_preview = ({
                       padding: '0',
                     }}
                   >
-                    <h2>{cvData.cv.area}</h2>
+                    <h2>
+                      {userData.hidden_fields.includes('name')
+                        ? userData.name
+                        : null}{' '}
+                      {userData.hidden_fields.includes('paternal_surname')
+                        ? userData.paternal_surname
+                        : null}
+                    </h2>
+                    <h3>{cvData.cv.area}</h3>
                     <BoxFlex
                       style={{
                         textAlign: 'left',
@@ -502,7 +560,9 @@ const CV_preview = ({
                             {' • '}
                             <span className="third">{item.company_name}</span>
                           </p>
-                          <p className="Second">{item.description}</p>
+                          <div className="text">
+                            <p className="Second">{item.description}</p>
+                          </div>
                           <p className="third">
                             <FontAwesomeIcon
                               icon={faCalendar}
@@ -785,9 +845,74 @@ const CV_preview = ({
                 padding: '0',
               }}
             >
-              <h1 style={{ margin: '0', lineHeight: '25px' }}>
-                {userData.name} {userData.paternal_surname}
-              </h1>
+              <div style={{ margin: '0', lineHeight: '25px' }}>
+                <span style={{ display: 'flex' }}>
+                  <h1
+                    style={{
+                      filter: `opacity(${
+                        userData.hidden_fields.includes('name') ? '20%' : '100%'
+                      })`,
+                    }}
+                  >
+                    {userData.name}
+                  </h1>
+                  <ButtonAdminHideMini
+                    style={{ justifyContent: 'center', margin: '5px' }}
+                  >
+                    <button
+                      style={{
+                        backgroundColor: !userData.hidden_fields.includes(
+                          'name'
+                        )
+                          ? '#ff6666'
+                          : '#00595a',
+                      }}
+                      onClick={(event) => userDataHide(event, 'name')}
+                    >
+                      {!userData.hidden_fields.includes('name') ? (
+                        <FontAwesomeIcon icon={faEye} />
+                      ) : (
+                        <FontAwesomeIcon icon={faEyeSlash} />
+                      )}
+                    </button>
+                  </ButtonAdminHideMini>
+                </span>
+                <span style={{ display: 'flex' }}>
+                  <h1
+                    style={{
+                      filter: `opacity(${
+                        userData.hidden_fields.includes('paternal_surname')
+                          ? '20%'
+                          : '100%'
+                      })`,
+                    }}
+                  >
+                    {userData.paternal_surname}
+                  </h1>
+                  <ButtonAdminHideMini
+                    style={{ justifyContent: 'center', margin: '5px' }}
+                  >
+                    <button
+                      style={{
+                        backgroundColor: !userData.hidden_fields.includes(
+                          'paternal_surname'
+                        )
+                          ? '#ff6666'
+                          : '#00595a',
+                      }}
+                      onClick={(event) =>
+                        userDataHide(event, 'paternal_surname')
+                      }
+                    >
+                      {!userData.hidden_fields.includes('paternal_surname') ? (
+                        <FontAwesomeIcon icon={faEye} />
+                      ) : (
+                        <FontAwesomeIcon icon={faEyeSlash} />
+                      )}
+                    </button>
+                  </ButtonAdminHideMini>
+                </span>
+              </div>
               <h3>{cvData.cv.area}</h3>
               <BoxFlex
                 style={{
